@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>树 | Trdthg&#39;s blog</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="logo.png">
+    <meta name="description" content="我的个人网站">
+    
+    <link rel="preload" href="/assets/css/0.styles.b0f0705a.css" as="style"><link rel="preload" href="/assets/js/app.598f1817.js" as="script"><link rel="preload" href="/assets/js/2.172056d9.js" as="script"><link rel="preload" href="/assets/js/10.d968349c.js" as="script"><link rel="prefetch" href="/assets/js/11.ca449ecd.js"><link rel="prefetch" href="/assets/js/12.26b2219e.js"><link rel="prefetch" href="/assets/js/13.c5e53960.js"><link rel="prefetch" href="/assets/js/14.bee74cf9.js"><link rel="prefetch" href="/assets/js/15.a030a50f.js"><link rel="prefetch" href="/assets/js/16.503f2313.js"><link rel="prefetch" href="/assets/js/17.cde8a679.js"><link rel="prefetch" href="/assets/js/18.d2f629b3.js"><link rel="prefetch" href="/assets/js/19.ab80f66f.js"><link rel="prefetch" href="/assets/js/3.cf4e8db5.js"><link rel="prefetch" href="/assets/js/4.d09cf736.js"><link rel="prefetch" href="/assets/js/5.3d818e50.js"><link rel="prefetch" href="/assets/js/6.9af58aed.js"><link rel="prefetch" href="/assets/js/7.9033bbfb.js"><link rel="prefetch" href="/assets/js/8.0026b58d.js"><link rel="prefetch" href="/assets/js/9.abf20612.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.b0f0705a.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Trdthg's blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/log.html" class="nav-link">
+  Log
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java Menu" class="dropdown-title"><span class="title">Java</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java Menu" class="mobile-dropdown-title"><span class="title">Java</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/java/java.html" class="nav-link">
+  java基础
+</a></li><li class="dropdown-item"><!----> <a href="/java/spring.html" class="nav-link">
+  spring
+</a></li><li class="dropdown-item"><!----> <a href="/java/springboot.html" class="nav-link">
+  springboot
+</a></li><li class="dropdown-item"><!----> <a href="/java/sourceread.html" class="nav-link">
+  sourceread
+</a></li><li class="dropdown-item"><!----> <a href="/java/stuffs.html" class="nav-link">
+  stuffs
+</a></li></ul></div></div><div class="nav-item"><a href="/javascript.html" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/python.html" class="nav-link">
+  Python
+</a></div><div class="nav-item"><a href="/script.html" class="nav-link">
+  Script
+</a></div><div class="nav-item"><a href="https://github.com/trdthg" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/log.html" class="nav-link">
+  Log
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java Menu" class="dropdown-title"><span class="title">Java</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java Menu" class="mobile-dropdown-title"><span class="title">Java</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/java/java.html" class="nav-link">
+  java基础
+</a></li><li class="dropdown-item"><!----> <a href="/java/spring.html" class="nav-link">
+  spring
+</a></li><li class="dropdown-item"><!----> <a href="/java/springboot.html" class="nav-link">
+  springboot
+</a></li><li class="dropdown-item"><!----> <a href="/java/sourceread.html" class="nav-link">
+  sourceread
+</a></li><li class="dropdown-item"><!----> <a href="/java/stuffs.html" class="nav-link">
+  stuffs
+</a></li></ul></div></div><div class="nav-item"><a href="/javascript.html" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/python.html" class="nav-link">
+  Python
+</a></div><div class="nav-item"><a href="/script.html" class="nav-link">
+  Script
+</a></div><div class="nav-item"><a href="https://github.com/trdthg" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>树</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/datastructure.html#二叉搜索树" class="sidebar-link">二叉搜索树</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/datastructure.html#初始化" class="sidebar-link">初始化</a></li><li class="sidebar-sub-header"><a href="/datastructure.html#遍历" class="sidebar-link">遍历</a></li><li class="sidebar-sub-header"><a href="/datastructure.html#crud" class="sidebar-link">CRUD</a></li><li class="sidebar-sub-header"><a href="/datastructure.html#示例" class="sidebar-link">示例</a></li></ul></li><li><a href="/datastructure.html#avl树-自平衡二叉搜索树" class="sidebar-link">AVL树(自平衡二叉搜索树)</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/datastructure.html#待续" class="sidebar-link">待续...</a><ul class="sidebar-sub-headers"></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="树"><a href="#树" class="header-anchor">#</a> 树</h1> <h2 id="二叉搜索树"><a href="#二叉搜索树" class="header-anchor">#</a> 二叉搜索树</h2> <h3 id="初始化"><a href="#初始化" class="header-anchor">#</a> 初始化</h3> <div class="language-c++ extra-class"><pre class="language-text"><code>typedef struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+} Node;
+
+typedef struct Tree {
+    int init;
+    int length;
+    Node* root;
+} Tree;
+
+Node* initNode() {
+    Node* p = (Node*)malloc(sizeof(Node));
+    p -&gt; left = NULL;
+    p -&gt; right = NULL;
+    p -&gt; data = 0;
+    return p;
+}
+
+Tree* initTree() {
+    Tree* p = (Tree*)malloc(sizeof(Tree));
+    p-&gt;root = initNode();    
+    p-&gt;init = 0;
+    return p;
+}
+
+</code></pre></div><h3 id="遍历"><a href="#遍历" class="header-anchor">#</a> 遍历</h3> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">void</span> <span class="token function">preorderTraversal</span><span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token operator">*</span> node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>node <span class="token operator">!=</span> NULL<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">&quot;%d &quot;</span><span class="token punctuation">,</span> node<span class="token operator">-&gt;</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">preorderTraversal</span><span class="token punctuation">(</span>node<span class="token operator">-&gt;</span>left<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">preorderTraversal</span><span class="token punctuation">(</span>node<span class="token operator">-&gt;</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">void</span> <span class="token function">inorderTraversal</span><span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token operator">*</span> node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>node <span class="token operator">!=</span> NULL<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">inorderTraversal</span><span class="token punctuation">(</span>node<span class="token operator">-&gt;</span>left<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">&quot;%d &quot;</span><span class="token punctuation">,</span> node<span class="token operator">-&gt;</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">inorderTraversal</span><span class="token punctuation">(</span>node<span class="token operator">-&gt;</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> 
+
+<span class="token keyword">void</span> <span class="token function">postorderTraversal</span><span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token operator">*</span> node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>node <span class="token operator">!=</span> NULL<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">postorderTraversal</span><span class="token punctuation">(</span>node<span class="token operator">-&gt;</span>left<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">postorderTraversal</span><span class="token punctuation">(</span>node<span class="token operator">-&gt;</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">&quot;%d &quot;</span><span class="token punctuation">,</span> node<span class="token operator">-&gt;</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">void</span> <span class="token function">levalorderTraversal</span><span class="token punctuation">(</span><span class="token class-name">Tree</span><span class="token operator">*</span> tree<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">&quot;%d\n&quot;</span><span class="token punctuation">,</span> tree<span class="token operator">-&gt;</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> arr<span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// i记录已经加入的元素数, j记录最后输出的节点</span>
+    <span class="token keyword">int</span> size <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// 记录实际元素个数</span>
+    <span class="token class-name">Node</span><span class="token operator">*</span> nodes<span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>NULL<span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token class-name">Node</span><span class="token operator">*</span> node <span class="token operator">=</span> tree<span class="token operator">-&gt;</span>root<span class="token punctuation">;</span>
+    nodes<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> node<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>size <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">&quot;%d &quot;</span><span class="token punctuation">,</span> nodes<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">-&gt;</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">&quot;%d  &quot;</span><span class="token punctuation">,</span> node<span class="token operator">-&gt;</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        j <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        size <span class="token operator">-=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token operator">-&gt;</span>left <span class="token operator">!=</span> NULL<span class="token punctuation">)</span>  <span class="token punctuation">{</span>
+            i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            nodes<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> node<span class="token operator">-&gt;</span>left<span class="token punctuation">;</span>
+            size <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token operator">-&gt;</span>right <span class="token operator">!=</span> NULL<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            nodes<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> node<span class="token operator">-&gt;</span>right<span class="token punctuation">;</span>
+            size <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        node <span class="token operator">=</span> nodes<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><h3 id="crud"><a href="#crud" class="header-anchor">#</a> CRUD</h3> <div class="language-c++ extra-class"><pre class="language-text"><code>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+
+Node* add(Tree* tree, int data) {
+    Node* current = tree-&gt;root;
+    Node* parent;
+    tree-&gt;length += 1;
+    if (tree-&gt;init == 0) {
+        tree-&gt;init = 1;
+        tree-&gt;root-&gt;data = data;
+    } else {
+        Node* node = initNode();
+        node-&gt;data = data;
+        while (1) {
+            parent = current;
+            if (data &lt;= current-&gt;data) {
+                current = current-&gt;left;
+                if (current == NULL) {
+                    parent-&gt;left = node;
+                    break;
+                }
+            } else {
+                current = current-&gt;right;
+                if (current == NULL) {
+                    parent-&gt;right = node;
+                    break;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+
+Node* findMax(Node* node) {
+    if (node-&gt;right != NULL) {
+        findMax(node-&gt;right);
+    } else {
+        return node;
+    }
+}
+
+
+Node* findMin(Node* node) {
+    if (node-&gt;left != NULL) {
+        findMax(node-&gt;left);
+    } else {
+        return node;
+    }
+}
+
+int find(Node* node, int data) {
+    if (node != NULL) {
+        if (node-&gt;data == data) return node-&gt;data;
+        else if (data &lt; node-&gt;data) find(node-&gt;left, data);
+        else find(node-&gt;right, data);
+    } else {
+        return -1;
+    }
+}
+
+int delete(Node* root, Node* node, int data) {
+    Node* parent = node;
+    // if (node == root &amp;&amp; data == root-&gt;data) {
+    //     return 0;
+    // }
+    if (node != NULL &amp;&amp; node != root) {
+        if (data &lt; node-&gt;data) {
+            node = node-&gt;left;
+        } else {
+            node = node-&gt;right;
+        }
+    }
+    if (data == node-&gt;data) {
+        if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL) {
+            if (data &lt;= parent-&gt;data) parent-&gt;left = NULL; else parent-&gt;right = NULL;
+        } else if (node-&gt;left == NULL) {
+            if (data &gt; parent-&gt;data) parent-&gt;right = node-&gt;right; else parent-&gt;left = node-&gt;right;
+        } else if (node-&gt;right == NULL) {
+            if (data &lt; parent-&gt;data) parent-&gt;left = node-&gt;left; else parent-&gt;right = node-&gt;left;
+        } else {
+            Node* innerparent = node;
+            Node* innernode = node-&gt;right;
+            while (innernode-&gt;left != NULL) {
+                innerparent = innernode;
+                innernode = node-&gt;left;
+            }
+            node-&gt;data = innernode-&gt;data;
+            if (innerparent == node) {
+                node-&gt;right = innernode-&gt;right;
+            } else {
+                innerparent-&gt;left = NULL;
+            }
+        }
+        return 1;
+    } else if (data &lt; node-&gt;data) {
+        delete(root, node, data);
+    } else {
+        delete(root, node, data);
+    }
+}
+</code></pre></div><h3 id="示例"><a href="#示例" class="header-anchor">#</a> 示例</h3> <div class="language-c++ extra-class"><pre class="language-text"><code>int main(void) {
+    Tree* tree = initTree();
+    add(tree, 8);
+    add(tree, 10);
+    add(tree, 5);
+    add(tree, 42);
+    add(tree, 6);
+    add(tree, 3);
+    add(tree, 2);
+    add(tree, 4);
+    add(tree, 7);
+    preorderTraversal(tree-&gt;root);
+    printf(&quot;\n&quot;);
+    inorderTraversal(tree-&gt;root);
+    printf(&quot;\n&quot;);
+    postorderTraversal(tree-&gt;root);
+    printf(&quot;\n&quot;);
+    levalorderTraversal(tree);
+    printf(&quot;\n&quot;);
+    printf(&quot;max: %d min: %d\n&quot;, findMax(tree-&gt;root)-&gt;data, findMin(tree-&gt;root)-&gt;data);
+    printf(&quot;find 3: %d \n&quot;, find(tree-&gt;root, 3));
+    printf(&quot;delete: %d \n&quot;, delete(tree-&gt;root, tree-&gt;root, 8));
+    preorderTraversal(tree-&gt;root);
+    return 0;
+}
+</code></pre></div><h2 id="avl树-自平衡二叉搜索树"><a href="#avl树-自平衡二叉搜索树" class="header-anchor">#</a> AVL树(自平衡二叉搜索树)</h2> <h2 id="待续"><a href="#待续" class="header-anchor">#</a> 待续...</h2></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.598f1817.js" defer></script><script src="/assets/js/2.172056d9.js" defer></script><script src="/assets/js/10.d968349c.js" defer></script>
+  </body>
+</html>
