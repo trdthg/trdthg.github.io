@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>使用VM搭建hadoop集群 | Trdthg&#39;s blog</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="logo.png">
+    <meta name="description" content="我的个人网站">
+    
+    <link rel="preload" href="/assets/css/0.styles.524a71a3.css" as="style"><link rel="preload" href="/assets/js/app.a6dde254.js" as="script"><link rel="preload" href="/assets/js/2.172056d9.js" as="script"><link rel="preload" href="/assets/js/18.39f2a5a5.js" as="script"><link rel="prefetch" href="/assets/js/10.19bad6a5.js"><link rel="prefetch" href="/assets/js/11.c8f3eac6.js"><link rel="prefetch" href="/assets/js/12.7186d349.js"><link rel="prefetch" href="/assets/js/13.87ee09ba.js"><link rel="prefetch" href="/assets/js/14.0d3303a5.js"><link rel="prefetch" href="/assets/js/15.80bb6ded.js"><link rel="prefetch" href="/assets/js/16.1dd12efb.js"><link rel="prefetch" href="/assets/js/17.5e5de43e.js"><link rel="prefetch" href="/assets/js/19.76b67ca2.js"><link rel="prefetch" href="/assets/js/20.864bd7cf.js"><link rel="prefetch" href="/assets/js/3.55211d2e.js"><link rel="prefetch" href="/assets/js/4.7d4f32e0.js"><link rel="prefetch" href="/assets/js/5.3d818e50.js"><link rel="prefetch" href="/assets/js/6.94c9cb90.js"><link rel="prefetch" href="/assets/js/7.5e85a1fd.js"><link rel="prefetch" href="/assets/js/8.0026b58d.js"><link rel="prefetch" href="/assets/js/9.aad92d99.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.524a71a3.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Trdthg's blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/log.html" class="nav-link">
+  Log
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java Menu" class="dropdown-title"><span class="title">Java</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java Menu" class="mobile-dropdown-title"><span class="title">Java</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/java/java.html" class="nav-link">
+  java基础
+</a></li><li class="dropdown-item"><!----> <a href="/java/spring.html" class="nav-link">
+  spring
+</a></li><li class="dropdown-item"><!----> <a href="/java/springboot.html" class="nav-link">
+  springboot
+</a></li><li class="dropdown-item"><!----> <a href="/java/sourceread.html" class="nav-link">
+  sourceread
+</a></li><li class="dropdown-item"><!----> <a href="/java/stuffs.html" class="nav-link">
+  stuffs
+</a></li></ul></div></div><div class="nav-item"><a href="/javascript.html" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/python.html" class="nav-link">
+  Python
+</a></div><div class="nav-item"><a href="/datastructure.html" class="nav-link">
+  数据结构
+</a></div><div class="nav-item"><a href="/script.html" class="nav-link">
+  脚本
+</a></div><div class="nav-item"><a href="/other.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  其他
+</a></div><div class="nav-item"><a href="https://github.com/trdthg" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/log.html" class="nav-link">
+  Log
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java Menu" class="dropdown-title"><span class="title">Java</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java Menu" class="mobile-dropdown-title"><span class="title">Java</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/java/java.html" class="nav-link">
+  java基础
+</a></li><li class="dropdown-item"><!----> <a href="/java/spring.html" class="nav-link">
+  spring
+</a></li><li class="dropdown-item"><!----> <a href="/java/springboot.html" class="nav-link">
+  springboot
+</a></li><li class="dropdown-item"><!----> <a href="/java/sourceread.html" class="nav-link">
+  sourceread
+</a></li><li class="dropdown-item"><!----> <a href="/java/stuffs.html" class="nav-link">
+  stuffs
+</a></li></ul></div></div><div class="nav-item"><a href="/javascript.html" class="nav-link">
+  JS
+</a></div><div class="nav-item"><a href="/python.html" class="nav-link">
+  Python
+</a></div><div class="nav-item"><a href="/datastructure.html" class="nav-link">
+  数据结构
+</a></div><div class="nav-item"><a href="/script.html" class="nav-link">
+  脚本
+</a></div><div class="nav-item"><a href="/other.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  其他
+</a></div><div class="nav-item"><a href="https://github.com/trdthg" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>使用VM搭建hadoop集群</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/other.html#_1-准备" class="sidebar-link">1. 准备</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/other.html#_2-安装hadoop101虚拟机" class="sidebar-link">2. 安装hadoop101虚拟机</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/other.html#_3-配置本机网络环境" class="sidebar-link">3. 配置本机网络环境</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/other.html#_4-配置虚拟机网络环境" class="sidebar-link">4. 配置虚拟机网络环境</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/other.html#_5-克隆前" class="sidebar-link">5. 克隆前</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/other.html#_6-克隆-完整克隆-后" class="sidebar-link">6. 克隆(完整克隆)后</a><ul class="sidebar-sub-headers"></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="使用vm搭建hadoop集群"><a href="#使用vm搭建hadoop集群" class="header-anchor">#</a> 使用VM搭建hadoop集群</h1> <h2 id="_1-准备"><a href="#_1-准备" class="header-anchor">#</a> 1. 准备</h2> <ul><li>centos7.5镜像</li> <li>JDK8</li> <li>Hadoop</li> <li><a href="https://www.cnblogs.com/aeolian/p/8882790.html" target="_blank" rel="noopener noreferrer">参考链接<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul> <h2 id="_2-安装hadoop101虚拟机"><a href="#_2-安装hadoop101虚拟机" class="header-anchor">#</a> 2. 安装hadoop101虚拟机</h2> <ul><li>软件选择: 最小安装是纯命令行</li> <li>安装位置: 选择手动和以自由配置盘符配置及大小, 设备类型(LVM相比于标准分区能自由扩缩容)</li> <li>KDUMP可以暂时不要</li> <li>设置用户名密码: 示例 username: hadoop101 password: 000000</li></ul> <h2 id="_3-配置本机网络环境"><a href="#_3-配置本机网络环境" class="header-anchor">#</a> 3. 配置本机网络环境</h2> <ol><li>关闭防火墙</li> <li>VM配置VMnet8<br>
+编辑 -&gt; 虚拟网络编辑器</li></ol> <ul><li><img src="otherhadoop1.png" alt="示例1"></li> <li><img src="otherhadoop2.png" alt="示例1"></li></ul> <ol start="3"><li>Windows配置VMnet8<br> <img src="otherhadoop3.png" alt="示例1"></li></ol> <h2 id="_4-配置虚拟机网络环境"><a href="#_4-配置虚拟机网络环境" class="header-anchor">#</a> 4. 配置虚拟机网络环境</h2> <ol><li>关闭虚拟机防火墙: <code>systemctl disable firewalld.service</code></li> <li>关闭NetworkManage:</li></ol> <ul><li><code>systemctl stop NetworkManager</code></li> <li><code>systemctl disable NetworkManager</code></li></ul> <ol start="3"><li>!!!修改网卡配置:</li></ol> <ul><li><code>vim /etc/sysconfig/network-scripts/ifcfg-ens33</code></li></ul> <div class="language- extra-class"><pre class="language-text"><code>BOOTPROTO=static  #启用静态IP地址 ,默认为dhcp
+IPADDR=192.168.182.3  #设置IP地址(这台虚拟机想要的ip) 
+NETMASK=255.255.225.0  #设置子网掩码 
+GATEWAY=192.168.182.2  #设置网关(和外部的网关相同)
+</code></pre></div><ol start="4"><li>重启网卡: <code>service network restart</code>
+可以通过<code>ping 8.8.8.8</code>检测是否通</li></ol> <h2 id="_5-克隆前"><a href="#_5-克隆前" class="header-anchor">#</a> 5. 克隆前</h2> <ol><li>安装辅助包管理器: <code>yum install -y epel-release</code></li> <li>未知: <code>kill -9 3030</code></li> <li>卸载系统自带JDK:</li></ol> <ul><li>查看: <code>rpm -qa | grep java</code></li> <li>卸载: <code>sudo yum remove packagename</code></li></ul> <ol start="4"><li>修改虚拟机host</li></ol> <ul><li>修改hostname如下: <code>nano /etc/hostname</code></li></ul> <div class="language- extra-class"><pre class="language-text"><code>hadoop101
+</code></pre></div><ul><li>修改hosts如下: <code>nano /etc/hosts</code></li></ul> <div class="language- extra-class"><pre class="language-text"><code>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+192.168.93.21 hadoop101
+192.168.93.22 hadoop102
+192.168.93.23 hadoop103
+</code></pre></div><h2 id="_6-克隆-完整克隆-后"><a href="#_6-克隆-完整克隆-后" class="header-anchor">#</a> 6. 克隆(完整克隆)后</h2> <ol><li>通过vmware进行clone出n台相同的虚拟机</li></ol> <ul><li>修改每台克隆出的网卡IPADDR: <code>vim /etc/sysconfig/network-scripts/ifcfg-ens33</code></li> <li>修改hostname: <code>nano /etc/hostname</code></li></ul></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.a6dde254.js" defer></script><script src="/assets/js/2.172056d9.js" defer></script><script src="/assets/js/18.39f2a5a5.js" defer></script>
+  </body>
+</html>
