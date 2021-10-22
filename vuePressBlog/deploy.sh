@@ -4,7 +4,7 @@
 
 # rm -rf docs/.vuepress/dist
 # 生成静态文件
-# yarn build
+yarn build
 
 # /* 会忽略.开头的文件   /. 不会
 # rm -r ../trdthg.github.io/*
