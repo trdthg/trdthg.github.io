@@ -1,0 +1,41 @@
+
+// $accentColor =blue//默认主题颜色
+// $textColor = #006400//默认字体颜色
+$textColor = #000//默认字体颜色
+$borderColor = #eaecef//默认边框颜色
+$codeBgColor = #282c34//默认背景颜色
+ 
+//示例修改相关样式f12找到需要修改的地方找到对应class类拿过来直接用就行了
+
+.sidebar-group.is-sub-group > .sidebar-heading:not(.clickable){
+  opacity :1
+}
+
+
+@media only screen and (min-width: 800px) {
+  
+  .theme-container {
+    background-image: url(https://www.10wallpaper.com/wallpaper/1920x1200/1909/2019_Red_Blue_Abstract_Design_Desktop_1920x1200.jpg);  
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+  }
+
+  .page {
+    padding-top: 5rem;  
+    padding-left: 10rem;
+    opacity:0.8;
+  }
+
+  .sidebar {
+    width: 15rem;
+    opacity:0.8;
+  }
+
+  .theme-default-content {
+    background-color: #FFFAFA;
+  }
+
+  .content__default {
+      border-radius: 10px;
+  }
+}
