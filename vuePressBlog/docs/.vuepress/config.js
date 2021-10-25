@@ -17,6 +17,7 @@ module.exports = {
         '/js/': ['js', 'vue'],
         '/python/': ['python'],
         '/rust/': ['wasm', 'rust', 'lists'],
+        '/ioclub/': ['oauth2', 'share_1', 'backend_1', 'backend_2', 'backend_3'],
         '/other/': ['script', 'other', 'datastructure'],
         '/': [''] //不能放在数组第一个，否则会导致右侧栏无法使用 
       }, // 侧边栏配置
@@ -25,9 +26,9 @@ module.exports = {
         {text: '前端', link: '/js/vue' },
         {text: 'Python', link: '/python/python'},
         {text: 'Rust', link: '/rust/wasm' },
+        {text: 'IO Club', link: '/ioclub/oauth2' },
         {text: '其他', link: '/other/other'},
         {text: 'Github', link: 'https://github.com/trdthg'}      
       ],
-      
     }
   };
