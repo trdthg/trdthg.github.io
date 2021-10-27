@@ -14,6 +14,8 @@ rm -r ../other
 rm -r ../js
 rm -r ../python
 rm -r ../rust
+rm -r ../ioclub
+rm -r ../magic
 rm ../*.html
 rm ../*.png
 rm ../*.jpg
