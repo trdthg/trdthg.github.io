@@ -152,7 +152,7 @@ SQL语句对关键字不区分大小写, 不过一般用大写
 
 ##### 2.3.1 创建数据库
 
-```sqlite
+```sql
 -- sqlite不用搞， 链接数据库时就会自动创建，例如
 -- import sqlite3
 -- conn = sqlite3.connect('test.db')

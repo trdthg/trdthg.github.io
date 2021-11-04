@@ -1,11 +1,11 @@
 
 # OAuth 2.0 Simplified
-https://www.oauth.com/
+![www.oauth.com](https://www.oauth.com/)
 ## 1. Getting ready 开始
 
 ### 1.1 Creating an Application(一般需要 sign up as a developer)
 
-user -> entering basic information such as the name, website, logo, etc.     
+user -> entering basic information such as the name, website, logo, etc.
 server -> return a **client_id** (and a **client_secret** in some cases)
 
 ### 1.2 Redirect URLs and State
@@ -181,26 +181,3 @@ sub是用户的标识符，与帐号绑定，即使更换邮箱也不会变
 - code(required):  will be in the query string parameter “code” in this request.
 - redirect_uri (possibly required)
 - Client Authentication (required): 一般是client_id和client_secret
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
