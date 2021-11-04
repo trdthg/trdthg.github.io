@@ -25,7 +25,7 @@ rm ../*.html
 mv docs/.vuepress/dist/* ../
 
 curDate=$(date "+%Y-%m-%d")
-curTime=$(date "+%H-%M-%S")
+curTime=$(date "+%H:%M:%S")
 # # git init
 cd ..
 git add .
