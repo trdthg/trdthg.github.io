@@ -28,7 +28,7 @@ app = flask.Flask(__name__)
 import time
 
 def get_time():
-    return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
+    return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 users = {
     "root": {
@@ -38,14 +38,14 @@ users = {
         'create_time': "2021-10-20 17:22:44"
     },
     'a': {
-        
+
     }
 }
 
 @app.route('/users')
 def index():
     return users
-    
+
 app.run(host='127.0.0.1', port=5000)
 
 
@@ -113,7 +113,7 @@ app = flask.Flask(__name__)
 import time
 
 def get_time():
-    return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
+    return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 users = {
     "root": {
@@ -203,7 +203,7 @@ cookie本身存储在请求头里，也是一个字段，不过cookie的不同�
 
 cookie本身和站点（服务器 / 域名）绑定
 
-![image-20211023220921260](/ioclub/image-20211023220921260.png)
+![image-20211023220921260](/assets/img/image-20211023220921260.png)
 
 关于cookie的更多信息在附录里
 
@@ -316,7 +316,7 @@ import time
 # 2.2 若校验失败， 让用户回到登录界面，这个跳转前后端都能做
 
 def get_time():
-    return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
+    return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 users = {
     "root": {
@@ -370,7 +370,7 @@ def login():
     if username and password:
         if username in users.keys() and users[username]['password'] == password:
             return '你已经登录了'
-    
+
     args = flask.request.args
     username = args['username']
     password = args['password']
@@ -415,7 +415,7 @@ app.run(host='127.0.0.1', port=5000)
 
 json库中有一些方便的函数能够处理 python中数据类型和字符串的转换
 
-- `json.dump()`: 把数据类型转换成字符串并存储在文件中  
+- `json.dump()`: 把数据类型转换成字符串并存储在文件中
 
 - `json.load()`: 把文件打开从字符串转换成数据类型
 
@@ -451,7 +451,7 @@ print(content)
 def save():
     username = flask.request.cookies.get("username", None)
     password = flask.request.cookies.get("password", None)
-    if username and password: 
+    if username and password:
         if username == 'root' and password == users[username]['password']:
             f = open('./users.json', 'w')
             json.dump(users, f)
@@ -526,7 +526,7 @@ def show_articles():
    ```python
    # 加到这行之后
    app = Flask(__name__)
-   
+
    # 这里是多加的内容
    from article import app2
    app.register_blueprint(app2)
@@ -552,34 +552,34 @@ app2 = Blueprint('article', __name__, url_prefix='/article')
    import time
    import json
    app = Flask(__name__)
-   
+
    from article import app2
    app.register_blueprint(app2)
-   
+
    def get_time():
-       return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
-   
+       return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
    f = open('./users.json', 'r')
    users = json.load(f)
    f.close()
-   
+
    @app.route('/save')
    def save():
        username = request.cookies.get("username", None)
        password = request.cookies.get("password", None)
-       if username and password: 
+       if username and password:
            if username == 'root' and password == users[username]['password']:
                f = open('./users.json', 'w')
                json.dump(users, f)
                f.close()
                return '写入成功'
        return '您尚未登录 或者 没有权限'
-   
+
    @app.route('/users')
    def index():
        print(time.localtime())
        return users
-   
+
    @app.route('/self')
    def self():
        username = request.cookies.get("username", None)
@@ -594,13 +594,13 @@ app2 = Blueprint('article', __name__, url_prefix='/article')
                return "没有该用户"
        else:
            return '您尚未登录'
-   
+
    @app.route('/register')
    def register():
        args = request.args
        username = args['username']
        password = args['password']
-   
+
        if username in users.keys():
            return "该用户名已经被注册"
        users[username] = {
@@ -610,7 +610,7 @@ app2 = Blueprint('article', __name__, url_prefix='/article')
            'create_time': get_time()
        }
        return "注册成功"
-   
+
    @app.route('/login')
    def login():
        username = request.cookies.get("username", None)
@@ -618,7 +618,7 @@ app2 = Blueprint('article', __name__, url_prefix='/article')
        if username and password:
            if username in users.keys() and users[username]['password'] == password:
                return '你已经登录了'
-       
+
        args = request.args
        username = args['username']
        password = args['password']
@@ -633,7 +633,7 @@ app2 = Blueprint('article', __name__, url_prefix='/article')
            return response
        else:
            return "没有该用户"
-   
+
    @app.route('/logout')
    def logout():
        username = request.cookies.get("username", None)
@@ -646,7 +646,7 @@ app2 = Blueprint('article', __name__, url_prefix='/article')
                resp.delete_cookie("password")
                return resp
        return "您尚未登录"
-   
+
    app.run(host='127.0.0.1', port=5000)
    ```
 
@@ -656,7 +656,7 @@ app2 = Blueprint('article', __name__, url_prefix='/article')
    from flask import Blueprint
    import json
    app2 = Blueprint('article', __name__, url_prefix='/article')
-   
+
    articles = {
        'root发布的1篇文章': {
            'title': 'root发布的1篇文章',
@@ -673,14 +673,14 @@ app2 = Blueprint('article', __name__, url_prefix='/article')
            'update_time': '2021-10-20 17:25:44',
        },
    }
-   
+
    @app2.route('/articles')
    def show_articles():
        res = json.dumps(articles)
        return res
    ```
 
-   
+
 
 ## 5. 附录
 
@@ -717,7 +717,7 @@ set_cookie(
     max_age=None, # 存活时间
     expires=None, # 过期时间
     path='/', # 让cookie在指定的path传递， 不是在访问所有路径时都传递
-    domain=None, # 
+    domain=None, #
     secure=False, # 只能通过HTTPS传递
     httponly=False, # 防止JS获取
     samesite=None # 防止外部请求发送cookie
@@ -743,9 +743,9 @@ set_cookie(
 
    ```python
    # 与两外两个的区别就是不会写入文件， 只是做了数据类型的转换
-   # loads把字符串转换成数据类型  
-   # dumps把数据类型转换成字符串 
-   
+   # loads把字符串转换成数据类型
+   # dumps把数据类型转换成字符串
+
    a = [1, 2, 3]
    b = json.dumps(a)
    print(a, b)

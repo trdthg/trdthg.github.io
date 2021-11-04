@@ -1,12 +1,12 @@
 <template>
     <div>
         <div id='logo' style='z-index:10;'>
-            <img id='logoleft' src='logo-left.png' style='width:120px;height:auto;'>
-            <img id='logoright' src='logo-right.png' style='width:120px;height:auto;'>
+            <img id='logoleft' src='/assets/img/logo-left.png' style='width:120px;height:auto;'>
+            <img id='logoright' src='/assets/img/logo-right.png' style='width:120px;height:auto;'>
         </div>
         <div id='texthidden'>
             我&nbsp;&nbsp;裂开了<br><br><br>
-            <img src='dog.jpg' style='width:70px;height:auto;'> 
+            <img src='/assets/img/dog.jpg' style='width:70px;height:auto;'>
         </div>
         <br>
     </div>
@@ -16,7 +16,7 @@
         transition: 1s;
         margin:0;
     }
-    
+
     #logo:hover > #logoleft{
         /* margin-right:100px; */
         transition: 1s;
@@ -26,7 +26,7 @@
     #logo:hover > #logoright{
         transition: 1s;
         /* margin-left:100px; */
-        transform: translate( 100%, 0);   
+        transform: translate( 100%, 0);
     }
     #texthidden{
         z-index:9;
@@ -38,7 +38,7 @@
     #logo:hover + #texthidden{
         opacity: 100;
         margin-top:-250px;
-        
+
         transition: 1s;
         /* color: rgba(255, 255, 255, 1); */
     }

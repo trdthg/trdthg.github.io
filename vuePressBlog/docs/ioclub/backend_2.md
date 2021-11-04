@@ -12,7 +12,7 @@
 #include<stdio.h>
 
 int main(void) {
-    
+
     // 1. 字符串
     int a = 0;
     char* b = "this is a sentence";
@@ -177,8 +177,8 @@ HTTP 协议定义了一组请求方法，以表明要对给定资源执行的操
 ```
 https://www.baidu.com/s?wd=hello?a=1&b=2
                      |--------URL-------|
-                       
-http://http://182.61.200.6:80/s?wd=hello   
+
+http://http://182.61.200.6:80/s?wd=hello
                              |---URL---|
 :80可以不带(dns服务器解析后会自动加上80)
 ```
@@ -189,8 +189,8 @@ http://http://182.61.200.6:80/s?wd=hello
   ```python
   from flask import Flask, request
   app = Flask("server name")
-  
-  # 把hello()函数 绑定到url /hello 上 
+
+  # 把hello()函数 绑定到url /hello 上
   # 并指定了访问这个url必须使用GET或者是POST方法
   @app.route("/hello", methods=["GET", "POST"])
   def hello():
@@ -198,11 +198,11 @@ http://http://182.61.200.6:80/s?wd=hello
           return "<h1>你发送了GET请求</h1>"
       else:
           return "<h1>你发送了POST请求</h1>"
-  
+
   app.run(host="127.0.0.1", port=5000)
   ```
 
-  当我在终端中输入`python server1.py `运行这个文件后出现![/ioclub/image-20211017114146285](/ioclub/image-20211017114146285.png)
+  当我在终端中输入`python server1.py `运行这个文件后出现![/assets/img/image-20211017114146285](/assets/img/image-20211017114146285.png)
 
   表示运行成功
 
@@ -210,42 +210,42 @@ http://http://182.61.200.6:80/s?wd=hello
 
   当我们在地址栏输入`http://localhost:5000/hello`后出现了
 
-  ![/ioclub/image-20211017114823081](/ioclub/image-20211017114823081.png)
+  ![/assets/img/image-20211017114823081](/assets/img/image-20211017114823081.png)
 
   原因是浏览器地址栏只能发送出GET请求, 所以我们的server返回了`<h1>你发送了POST请求</h1>`
 
   想要发送post请求, 这里我们使用requests库, 使用前类似与flask, 需要进行安装
 
   1. 安装requests: 在cmd 或者 powershell 输入
-  
+
      `pip install -i https://pypi.tuna.tsinghua.edu.cn/simple `
-  
+
      之后等待安装成功
-  
+
   2.  通过代码模拟浏览器发送请求
-  
+
      准备一个新的python文件（例如client1.py, 不要起成requests.py）
-  
+
      ```python
      import requests
      分别尝试向服务器发送url相同但method不同的请求
      # res = requests.get('http://localhost:5000/hello')
      res = requests.post('http://localhost:5000/hello')
      # res = requests.patch('http://localhost:5000/hello')
-     
+
      # 打印服务去返回的相应码
      print(res.status_code)
      # 打印服务器返回的信息
      print(res.text)
      ```
-  
+
      在终端下（cmd或者powershell里）使用python运行这个新的文件
-  
+
      输入`python client1.py`
-  
+
      下面是我的运行结果
-  
-     ![/ioclub/image-20211017120112170](/ioclub/image-20211017120112170.png)
+
+     ![/assets/img/image-20211017120112170](/assets/img/image-20211017120112170.png)
 
 ### 4.2 请求头(首部字段)
 
@@ -285,7 +285,7 @@ http://http://182.61.200.6:80/s?wd=hello
    ```python
    from flask import Flask, request
    app = Flask("server name")
-   
+
    @app.route("/hello", methods=["GET", "POST"])
    def hello():
        # 只有这里的代码和之前的不一样
@@ -300,7 +300,7 @@ http://http://182.61.200.6:80/s?wd=hello
 
 2. 我们从浏览器访问`http://localhost:5000/hello`
 
-   结果![/ioclub/image-20211017125042261](/ioclub/image-20211017125042261.png)
+   结果![/assets/img/image-20211017125042261](/assets/img/image-20211017125042261.png)
 
 3. 尝试用代码发送请求， 准备一个`client2.py`并复制下面的代码
 
@@ -314,7 +314,7 @@ http://http://182.61.200.6:80/s?wd=hello
    # 这个函数本身有很多参数， 我们可以通过`参数名=参数`手动制定每个参数的对应关系
    res = requests.get(import requests
    res = requests.get(
-       url='http://localhost:5000/hello', 
+       url='http://localhost:5000/hello',
        headers={
            "a": "aa",
            "b": "bb"
@@ -326,7 +326,7 @@ http://http://182.61.200.6:80/s?wd=hello
 
    在终端输入`python client2.py`
 
-   结果![/ioclub/image-20211017125630840](/ioclub/image-20211017125630840.png)
+   结果![/assets/img/image-20211017125630840](/assets/img/image-20211017125630840.png)
 
 
 
@@ -384,11 +384,11 @@ print(res.text)
 
 百度： 返回了200 和正常的html代码
 
-![/ioclub/image-20211017130015023](/ioclub/image-20211017130015023.png)
+![/assets/img/image-20211017130015023](/assets/img/image-20211017130015023.png)
 
 豆瓣： 418 以及 空（没有正常的html代码）
 
-![/ioclub/image-20211017130050841](/ioclub/image-20211017130050841.png)
+![/assets/img/image-20211017130050841](/assets/img/image-20211017130050841.png)
 
 **如何让豆瓣也能正常访问呢？**
 
@@ -456,7 +456,7 @@ app.run(host="127.0.0.1", port=5000)
 
 2.  通过浏览器访问，观察结果
 
-   ![/ioclub/image-20211017134914547](/ioclub/image-20211017134914547.png)
+   ![/assets/img/image-20211017134914547](/assets/img/image-20211017134914547.png)
 
 可以看到， 虽然返回的是404, 但是依然能够看到hello world， headers里的内容也成功修改
 
@@ -490,7 +490,7 @@ headers = request.headers
 
 form表单就是一堆输入框， 当点击按钮就会向服务器发送表单中的内容
 
-![/ioclub/image-20211017154841006](/ioclub/image-20211017154841006.png)
+![/assets/img/image-20211017154841006](/assets/img/image-20211017154841006.png)
 
 ##### 6.3.1 application/x-www-form-urlencoded (Form)
 
@@ -519,7 +519,7 @@ form表单就是一堆输入框， 当点击按钮就会向服务器发送表单
 
 1. 先准备一个`server5.py`， 同上启动
 
-   
+
 
 这里是一段HTML代码演示 form 和 multi/part两种格式
 
@@ -557,11 +557,11 @@ form表单就是一堆输入框， 当点击按钮就会向服务器发送表单
 
 用浏览器打开这个文件可以看到
 
-![/ioclub/image-20211017155748427](/ioclub/image-20211017155748427.png)
+![/assets/img/image-20211017155748427](/assets/img/image-20211017155748427.png)
 
 分别尝试填写两个表单并发送， 观察server在终端的输出结果
 
-![/ioclub/image-20211017161212682](/ioclub/image-20211017161212682.png)
+![/assets/img/image-20211017161212682](/assets/img/image-20211017161212682.png)
 
 #### 6.5 demo6
 
@@ -579,7 +579,7 @@ res = requests.post('http://localhost:5000/hello3', json={
 
 结果
 
-![/ioclub/image-20211017161715045](/ioclub/image-20211017161715045.png)
+![/assets/img/image-20211017161715045](/assets/img/image-20211017161715045.png)
 
 
 
@@ -636,18 +636,18 @@ HTTP 定义了一组请求方法，以表明要对给定资源执行的操作。
 - 400 Bad Request
   1、语义有误，当前请求无法被服务器理解。除非进行修改，否则客户端不应该重复提交这个请求。
   2、请求参数有误。
-  
+
 - 404 Not Found
   请求失败，请求所希望得到的资源未被在服务器上发现。没有信息能够告诉用户这个状况到底是暂时的还是永久的。假如服务器知道情况的话，应当使用410状态码来告知旧资源因为某些内部的配置机制问题，已经永久的不可用，而且没有任何可以跳转的地址。404这个状态码被广泛应用于当服务器不想揭示到底为何请求被拒绝或者没有其他适合的响应可用的情况下。
-  
+
 - 405 Method Not Allowed
   请求行中指定的请求方法不能被用于请求相应的资源。该响应必须返回一个Allow 头信息用以表示出当前资源能够接受的请求方法的列表。 鉴于 PUT，DELETE 方法会对服务器上的资源进行写操作，因而绝大部分的网页服务器都不支持或者在默认配置下不允许上述请求方法，对于此类请求均会返回405错误。
-  
+
 - 408 Request Timeout
   请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
-  
+
 - 418 I'm a teapot
-  
+
   本操作码是在1998年作为[IETF](https://zh.wikipedia.org/wiki/IETF)的传统[愚人节笑话](https://zh.wikipedia.org/wiki/惡搞RFC), 在RFC 2324[超文本咖啡壶控制协议](https://zh.wikipedia.org/wiki/超文本咖啡壶控制协议)'中定义的，并不需要在真实的HTTP服务器中定义。当一个控制茶壶的[HTCPCP](https://zh.wikipedia.org/wiki/HTCPCP)收到BREW或POST指令要求其煮咖啡时应当回传此错误。[[48\]](https://zh.wikipedia.org/wiki/HTTP状态码#cite_note-48)这个HTTP状态码在某些网站（包括Google.com）与项目（如[Node.js](https://zh.wikipedia.org/wiki/Node.js)、[ASP.NET](https://zh.wikipedia.org/wiki/ASP.NET)和[Go语言](https://zh.wikipedia.org/wiki/Go语言)）中用作[彩蛋](https://zh.wikipedia.org/wiki/彩蛋_(媒体))。[[49\]](https://zh.wikipedia.org/wiki/HTTP状态码#cite_note-49)
 
 #### 服务器错误 (500–599)
@@ -688,7 +688,7 @@ application/octet-stream
 
 ```
 * multipart/form-data
-multipart/byteranges 	
+multipart/byteranges
 ```
 
 
@@ -726,4 +726,3 @@ print(response)
 ####  浏览器
 
 1. 浏览器的地址栏可以发送简单的get请求, 不过会附带很多的额外信息, 比如缓存之类
-

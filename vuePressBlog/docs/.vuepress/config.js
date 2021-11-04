@@ -17,10 +17,10 @@ module.exports = {
         '/js/': ['js', 'vue'],
         '/python/': ['python'],
         '/rust/': ['wasm', 'rust', 'lists'],
-		'/magic/': ['haskell'],
+		    '/magic/': ['haskell', 'fd'],
         '/ioclub/': ['oauth2', 'share_1', 'backend_1', 'backend_2', 'backend_3'],
         '/other/': ['script', 'other', 'datastructure'],
-        '/': [''] //不能放在数组第一个，否则会导致右侧栏无法使用 
+        '/': [''] //不能放在数组第一个，否则会导致右侧栏无法使用
       }, // 侧边栏配置
       nav:[ // 导航栏配置
         {text: 'Java',  link: '/java/java'},
@@ -30,7 +30,7 @@ module.exports = {
         {text: '魔法', link: '/magic/haskell' },
         {text: 'IO Club', link: '/ioclub/oauth2' },
         {text: '其他', link: '/other/other'},
-        {text: 'Github', link: 'https://github.com/trdthg'}      
+        {text: 'Github', link: 'https://github.com/trdthg'}
       ],
     }
   };
