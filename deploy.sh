@@ -1,13 +1,14 @@
 # rm -rf docs/.vuepress/dist
 cd vuePressBlog
 # 生成静态文件
-yarn build
+pnpm run build
 
 # 图片源修改
-rm docs/.vuepress/public/assets/img/*
-cp /home/trthg/.config/Typora/typora-user-images/* docs/.vuepress/public/assets/img/
+# rm docs/.vuepress/public/assets/img/*
+# cp /home/trthg/.config/Typora/typora-user-images/* docs/.vuepress/public/assets/img/
+
 # md引用图片路径修改
-sed -i "s/\/home\/trthg\/.config\/Typora\/typora-user-images/\/assets\/img/g" `grep -rl "/assets/img" ./`
+# sed -i "s/\/home\/trthg\/.config\/Typora\/typora-user-images/\/assets\/img/g" `grep -rl "/assets/img" ./`
 
 # # /* 会忽略.开头的文件   /. 不会
 rm -r ../assets

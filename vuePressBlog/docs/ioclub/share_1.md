@@ -49,16 +49,14 @@
 
   类似于excel表格, 所有数据以表格的形式按行或按列存储
 
-  ![/assets/img/image-20211016105023950](/assets/img/image-20211016105023950.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021248061.png)
 #### 非关系型数据库（[NoSQL](https://zh.wikipedia.org/wiki/NoSQL)）
 
 - [MongoDB](https://zh.wikipedia.org/wiki/MongoDB)
 
 - [Redis](https://zh.wikipedia.org/wiki/Redis)
 
-  ![/assets/img/image-20211016111830268](/assets/img/image-20211016111830268.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021249305.png)
 ## 如何实现一个数据库？
 
 ### 使用单文件存储的缺点
@@ -77,8 +75,7 @@
 
 ### 使用数组存储
 
-![???](/assets/img/image-20211016113618006.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021249677.png)
 **优点**
 
 1. 存储在内存中, 数据量少的时候尚且可以,
@@ -88,20 +85,18 @@
 
 1. 当每个元素变大时, 这种方式就会占用较大的内存
 
-   ![/assets/img/image-20211016113852497](/assets/img/image-20211016113852497.png)(依次为 学号, 姓名, 成绩, 按照学号排序)
+   (依次为 学号, 姓名, 成绩, 按照学号排序)
 
 **优化**
 
 结合之前二分的方法, 我们尝试将数组中学号最小, 最大, 和位于中间的元素提取出来
 
-![???](/assets/img/image-20211016114554370.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021250084.png)
 当我们需要查询学号为3的学生时, 我们只需要先读取上一层的3个元素, 在 知道 1 < 3 < 5后就只需要在数组索引从1到5中查询学号为3的元素了
 
 **更大更多**
 
-![/assets/img/image-20211016114702349](/assets/img/image-20211016114702349.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021252950.png)
 这是一种实现思路, 不过不是我们讲的重点, 只是为了拓展一下大家的事业
 
 (这个东西叫跳表, 可以实现对链表的二分, 感兴趣的自己可以去查, 我没亲手实现过)
@@ -114,8 +109,7 @@
 
 #### 二叉树
 
-![???](/assets/img/image-20211016115601473.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021252234.png)
 树的任意节点的左子树的节点对应的值都比右子树的值小, 二叉查找树相比于其他数据结构的优势在于查找、插入的[时间复杂度](https://zh.wikipedia.org/wiki/时间复杂度)较低。二叉查找树是基础性数据结构，用于构建更为抽象的数据结构，如[集合](https://zh.wikipedia.org/wiki/集合_(计算机科学))、[多重集](https://zh.wikipedia.org/wiki/多重集)、[关联数组](https://zh.wikipedia.org/wiki/关联数组)等。
 
 我们分析一下对于使用二叉树进行查询需要的次数
@@ -161,13 +155,11 @@
 #### 多叉树
 
 ##### B树
-
-![???](/assets/img/image-20211016131222003.png)
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021253576.png)
 
 假如我们一个节点可以存储更多分支, 我们就能用更少的次数查到相应的数据节点, 这本身是一种很好的结构, 已经能够解决一些问题, PostgreSql就提供了B树作为存储结构
 
-![???](/assets/img/image-20211016132013794.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021254278.png)
 现在每个节点存储了多个元素数据, 每个元素中都包含了一个学生的信息,
 
 每次查询时, 如果学号匹配我们就直接返回结果, 如果不匹配, 就继续深入下一层
@@ -181,16 +173,14 @@
 ##### B+树
 
 为了能够让一个节点存储更多的元素, 我们决定抛弃节点中存储的无用的信息, 之保留学号这一项数据, 然后之在叶子节点(就是最后一层的节点)存储完整的节点
-
-![/assets/img/image-20211016133802998](/assets/img/image-20211016133802998.png)
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021254900.png)
 
 现在我们得到最好的结构了, 我们可以一次加载一个节点, 每个节点可能有几百几千个学号, 假如有100个分支, 两层数据就能够存储 100 * 100 = 10_000个数据, 在10000个人中只用两次就能查到我们需要的数据, 想对于二叉树2**13 = 8192需要大概13次, 我们现在磁盘只需要旋转2 + 1次就能读到数据, 这是一个飞跃.
 
 **小问题**
 
 学号为10, 20, 30的学生的数据去哪了?  没了?
-
-![/assets/img/image-20211016134216131](/assets/img/image-20211016134216131.png)
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021254452.png)
 
 比如我们现在需要查询学号为10的学生的数据, 我们在在查询第一层时已经找到了10, 但是依然不能停, 需要继续想下查找, 知道找到最后一层节点为止
 
@@ -198,11 +188,10 @@
 
 把最后一层的数据串起来, 我们就能实现区间查询, 比如查询学好为12到22的所有学生的数据
 
-![/assets/img/image-20211016134554386](/assets/img/image-20211016134554386.png)
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021255491.png)
 
 **一个demo**
-
-![/assets/img/image-20211016134837351](/assets/img/image-20211016134837351.png)
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021255706.png)
 
 **快要忘记的固态硬盘**
 

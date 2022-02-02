@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Linux IO 多路复用 | Trdthg&#39;s blog</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="logo.png">
+    <meta name="description" content="我的个人网站">
+    
+    <link rel="preload" href="/assets/css/0.styles.cd4198cc.css" as="style"><link rel="preload" href="/assets/js/app.2c224476.js" as="script"><link rel="preload" href="/assets/js/2.8e748a32.js" as="script"><link rel="preload" href="/assets/js/27.28561eb7.js" as="script"><link rel="prefetch" href="/assets/js/10.da4c0d66.js"><link rel="prefetch" href="/assets/js/11.151c900c.js"><link rel="prefetch" href="/assets/js/12.f749247f.js"><link rel="prefetch" href="/assets/js/13.055a50a4.js"><link rel="prefetch" href="/assets/js/14.4b560188.js"><link rel="prefetch" href="/assets/js/15.3f51f422.js"><link rel="prefetch" href="/assets/js/16.df5ead6d.js"><link rel="prefetch" href="/assets/js/17.56201c0f.js"><link rel="prefetch" href="/assets/js/18.986a6399.js"><link rel="prefetch" href="/assets/js/19.7a4189b1.js"><link rel="prefetch" href="/assets/js/20.2ec18c91.js"><link rel="prefetch" href="/assets/js/21.f1cfc916.js"><link rel="prefetch" href="/assets/js/22.5b790db6.js"><link rel="prefetch" href="/assets/js/23.dc2915c6.js"><link rel="prefetch" href="/assets/js/24.087acdc6.js"><link rel="prefetch" href="/assets/js/25.35dd058d.js"><link rel="prefetch" href="/assets/js/26.6fb066e5.js"><link rel="prefetch" href="/assets/js/28.4173ce23.js"><link rel="prefetch" href="/assets/js/29.e09d92de.js"><link rel="prefetch" href="/assets/js/3.3ec313a7.js"><link rel="prefetch" href="/assets/js/30.02d80a0c.js"><link rel="prefetch" href="/assets/js/31.4c05aedb.js"><link rel="prefetch" href="/assets/js/32.21d714c9.js"><link rel="prefetch" href="/assets/js/33.123fca7a.js"><link rel="prefetch" href="/assets/js/34.deaa6889.js"><link rel="prefetch" href="/assets/js/35.7fb7cee9.js"><link rel="prefetch" href="/assets/js/36.564faecb.js"><link rel="prefetch" href="/assets/js/4.29554731.js"><link rel="prefetch" href="/assets/js/5.617dcac1.js"><link rel="prefetch" href="/assets/js/6.7fd21c66.js"><link rel="prefetch" href="/assets/js/7.9a186dae.js"><link rel="prefetch" href="/assets/js/8.e550dfbf.js"><link rel="prefetch" href="/assets/js/9.ca89ae3f.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.cd4198cc.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Trdthg's blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/java/java.html" class="nav-link">
+  Java
+</a></div><div class="nav-item"><a href="/js/vue.html" class="nav-link">
+  前端
+</a></div><div class="nav-item"><a href="/python/python.html" class="nav-link">
+  Python
+</a></div><div class="nav-item"><a href="/rust/wasm.html" class="nav-link">
+  Rust
+</a></div><div class="nav-item"><a href="/magic/haskell.html" class="nav-link">
+  魔法
+</a></div><div class="nav-item"><a href="/ioclub/oauth2.html" class="nav-link">
+  IO Club
+</a></div><div class="nav-item"><a href="/other/other.html" class="nav-link">
+  其他
+</a></div><div class="nav-item"><a href="https://github.com/trdthg" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/java/java.html" class="nav-link">
+  Java
+</a></div><div class="nav-item"><a href="/js/vue.html" class="nav-link">
+  前端
+</a></div><div class="nav-item"><a href="/python/python.html" class="nav-link">
+  Python
+</a></div><div class="nav-item"><a href="/rust/wasm.html" class="nav-link">
+  Rust
+</a></div><div class="nav-item"><a href="/magic/haskell.html" class="nav-link">
+  魔法
+</a></div><div class="nav-item"><a href="/ioclub/oauth2.html" class="nav-link">
+  IO Club
+</a></div><div class="nav-item"><a href="/other/other.html" class="nav-link">
+  其他
+</a></div><div class="nav-item"><a href="https://github.com/trdthg" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/magic/haskell.html" class="sidebar-link">Haskell 学习</a></li><li><a href="/magic/fd.html" class="sidebar-link">文件系统</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="linux-io-多路复用"><a href="#linux-io-多路复用" class="header-anchor">#</a> Linux IO 多路复用</h1> <h2 id="_1-errno-h"><a href="#_1-errno-h" class="header-anchor">#</a> 1. errno.h</h2> <p><strong>1. 定义</strong></p> <p>该头文件定义了一个int类型的左值，errno，包含了任何函数使用errno功能时会产生的错误码</p> <ul><li>EINTR： 表示被中断的系统调用</li></ul> <p><strong>2. 修改errno的值</strong></p> <p>errno的默认值为0, 当	调用系统调用时，可能会接受到某个信号导致调用退出，并返回一个错误码，并修改errno的值，可以通过errno判断系统调用是否失败，</p> <p><strong>3. 错误码对不同函数有不同意义</strong></p> <ul><li><p>write: 由于信号中断，没写成功任何数据。</p> <blockquote><p>The call was interrupted by a signal before any data was written.</p></blockquote></li> <li><p>read: 由于信号中断，没读到任何数据。</p> <blockquote><p>The call was interrupted by a signal before any data was read.</p></blockquote></li> <li><p>sem_wait: 函数调用被信号处理函数中断</p> <blockquote><p>The call was interrupted by a signal handler.</p></blockquote></li> <li><p>recv: 由于信号中断返回，没有任何数据可用。</p> <blockquote><p>function was interrupted by a signal that was caught, before any data was available.</p></blockquote></li></ul> <p><strong>4. 如何应对</strong></p> <p>当碰到EINTR错误的时候，可以采取有一些可以重启的系统调用要进行重启，而对于有一些系统调用是不能够重启的。例如：accept、read、write、select、和open之类的函数来说，是可以进行重启的。不过对于套接字编程中的connect函数我们是不能重启的，若connect函数返回一个EINTR错误的时候，我们不能再次调用它，否则将立即返回一个错误。针对connect不能重启的处理方法是，必须调用select来等待连接完成。</p> <p>系统中断不一定被当作错误</p> <ul><li><p>如果错误码为EINTR则 <strong>重新调用系统调用</strong> ,例如Postgresql中有一段代码:</p> <div class="language-c extra-class"><pre class="language-c"><code>retry1<span class="token operator">:</span> 
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">send</span><span class="token punctuation">(</span>port<span class="token operator">-&gt;</span>sock<span class="token punctuation">,</span> <span class="token operator">&amp;</span>SSLok<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">1</span><span class="token punctuation">)</span> 
+<span class="token punctuation">{</span> 
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>errno <span class="token operator">==</span> EINTR<span class="token punctuation">)</span> 
+        <span class="token keyword">goto</span> retry1<span class="token punctuation">;</span> <span class="token comment">/* if interrupted, just retry */</span> 
+<span class="token punctuation">}</span>
+</code></pre></div></li> <li><p><strong>重新定义系统调用</strong>,忽略错误码为EINTR的情况.例如,Cherokee中的一段代码:</p> <div class="language-c extra-class"><pre class="language-c"><code><span class="token keyword">int</span> <span class="token function">cherokee_stat</span> <span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>restrict path<span class="token punctuation">,</span> <span class="token keyword">struct</span> <span class="token class-name">stat</span> <span class="token operator">*</span>buf<span class="token punctuation">)</span> 
+<span class="token punctuation">{</span> 
+  <span class="token keyword">int</span> re<span class="token punctuation">;</span> 
+  <span class="token keyword">do</span> <span class="token punctuation">{</span> 
+     re <span class="token operator">=</span> <span class="token function">stat</span> <span class="token punctuation">(</span>path<span class="token punctuation">,</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+  <span class="token punctuation">}</span> <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>re <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>errno <span class="token operator">==</span> EINTR<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+  <span class="token keyword">return</span> re<span class="token punctuation">;</span> 
+<span class="token punctuation">}</span> 
+</code></pre></div></li></ul> <p><strong>5. 如何保证线/进程安全</strong></p> <blockquote><p>一般而言，编译器会自动保证 errno 的安全性，但是为了妥善期间，我们希望在写 makefile 的时 候把 _LIBC_REENTRANT 宏定义，比 如我们在检查 &lt;bits/errno.h&gt; 文件中发现如下的定义：</p></blockquote> <div class="language-c extra-class"><pre class="language-c"><code><span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">ifndef</span> <span class="token expression">__ASSEMBLER__ </span></span>
+<span class="token comment">/* Function to get address of global `errno' variable. */</span> 
+<span class="token keyword">extern</span> <span class="token keyword">int</span> <span class="token operator">*</span><span class="token function">__errno_location</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> __THROW <span class="token keyword">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>__const__<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+ 
+ 
+<span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">if</span> <span class="token expression"><span class="token operator">!</span>defined _LIBC <span class="token operator">||</span> defined _LIBC_REENTRANT </span></span>
+<span class="token comment">/* When using threads, errno is a per-thread value. */</span> 
+<span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">define</span> <span class="token macro-name">errno</span> <span class="token expression"><span class="token punctuation">(</span><span class="token operator">*</span><span class="token function">__errno_location</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> </span></span>
+<span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">endif</span> </span>
+<span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">endif</span> <span class="token comment">/* !__ASSEMBLER__ */</span> </span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span> <span class="token comment">/* _ERRNO_H */</span> </span>
+</code></pre></div><blockquote><p>也就是说，在没有定义 __LIBC 或者定义 _LIBC_REENTRANT 的时候， errno 是多线程 / 进程安全的。
+一般而言， <strong>ASSEMBLER</strong>, _LIBC 和 _LIBC_REENTRANT 都不会被编译器定义，但是如果我们定义 _LIBC_REENTRANT 一次又何妨那？
+为了检测一下你编译器是否定义上述变量，不妨使用下面一个简单程序。</p></blockquote> <p>希望读者在进行移植的时候，读一下相关的 unix 版本的 &lt;bits/errno.h&gt; 文 件，来确定应该定义什么宏。不同的 unix 版本可能存在着一些小的差别！</p> <div class="language-c extra-class"><pre class="language-c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h&gt;</span> </span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;errno.h&gt;</span> </span>
+ 
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span> <span class="token keyword">void</span> <span class="token punctuation">)</span> 
+<span class="token punctuation">{</span> 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">__ASSEMBLER__ </span></span>
+<span class="token function">printf</span><span class="token punctuation">(</span> <span class="token string">&quot;Undefine __ASSEMBLER__\n&quot;</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">else</span> </span>
+<span class="token function">printf</span><span class="token punctuation">(</span> <span class="token string">&quot;define __ASSEMBLER__\n&quot;</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span> </span>
+ 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">__LIBC </span></span>
+<span class="token function">printf</span><span class="token punctuation">(</span> <span class="token string">&quot;Undefine __LIBC\n&quot;</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">else</span> </span>
+<span class="token function">printf</span><span class="token punctuation">(</span> <span class="token string">&quot;define __LIBC\n&quot;</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span> </span>
+ 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">_LIBC_REENTRANT </span></span>
+<span class="token function">printf</span><span class="token punctuation">(</span> <span class="token string">&quot;Undefine _LIBC_REENTRANT\n&quot;</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">else</span> </span>
+<span class="token function">printf</span><span class="token punctuation">(</span> <span class="token string">&quot;define _LIBC_REENTRANT\n&quot;</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span> </span>
+ 
+<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span> 
+<span class="token punctuation">}</span> 
+</code></pre></div><p>参考：https://blog.csdn.net/hnlyyk/article/details/51444617</p> <h2 id="_2"><a href="#_2" class="header-anchor">#</a> 2.</h2></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">12/4/2021, 11:29:48 PM</span></div></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.2c224476.js" defer></script><script src="/assets/js/2.8e748a32.js" defer></script><script src="/assets/js/27.28561eb7.js" defer></script>
+  </body>
+</html>

@@ -37,7 +37,6 @@
   - demo 是其中一个数据库
   - user 是demo数据库中的一张表
 
-  ![image-20211016105023950](/home/trthg/.config/Typora/typora-user-images/image-20211016105023950.png)
 
 2. 非关系型数据库（[NoSQL](https://zh.wikipedia.org/wiki/NoSQL)）
 
@@ -59,21 +58,18 @@
     我们用一行命令通过 redis 的客户端连接到了服务端，可以看到目前在操作的是运行在本机 (127.0.0.1)6379端口上的redis数据库的服务端，使用set命令设置了 a 对应的值为 111, 又用get命令获取了 a 的值
 
     这些命令实际上会被发送到服务端，在由服务端执行
-
-    ![image-20211029125251451](/home/trthg/.config/Typora/typora-user-images/image-20211029125251451.png)
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021313036.png)
 
 - Sqlite 数据库没有服务端，操作的就是一个数据文件
 
     下面我们进入sqlite的命令行，直接创建了一个名为 test.db 数据库, 再次查看该文件夹，多了一个文件
-
-    ![image-20211029131322103](/home/trthg/.config/Typora/typora-user-images/image-20211029131322103.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021314920.png)
 ##### 1.6.2 通过cmd操作数据库
 
 下面是一些常规操作，通过在运行sqlite3时加上数据库文件名，就能连接到数据库
 
-![image-20211029132249607](/home/trthg/.config/Typora/typora-user-images/image-20211029132249607.png)
 
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021315179.png)
 分别执行了
 
 - 创建数据表

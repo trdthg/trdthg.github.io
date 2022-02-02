@@ -202,15 +202,14 @@ http://http://182.61.200.6:80/s?wd=hello
   app.run(host="127.0.0.1", port=5000)
   ```
 
-  当我在终端中输入`python server1.py `运行这个文件后出现![/assets/img/image-20211017114146285](/assets/img/image-20211017114146285.png)
-
+  当我在终端中输入`python server1.py `运行这个文件后出现![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021220636.png)
   表示运行成功
 
 - 现在我们尝试发送请求
 
   当我们在地址栏输入`http://localhost:5000/hello`后出现了
 
-  ![/assets/img/image-20211017114823081](/assets/img/image-20211017114823081.png)
+  ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021235357.png)
 
   原因是浏览器地址栏只能发送出GET请求, 所以我们的server返回了`<h1>你发送了POST请求</h1>`
 
@@ -245,8 +244,7 @@ http://http://182.61.200.6:80/s?wd=hello
 
      下面是我的运行结果
 
-     ![/assets/img/image-20211017120112170](/assets/img/image-20211017120112170.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021238570.png)
 ### 4.2 请求头(首部字段)
 
 #### 4.2.1 常见的字段
@@ -300,8 +298,7 @@ http://http://182.61.200.6:80/s?wd=hello
 
 2. 我们从浏览器访问`http://localhost:5000/hello`
 
-   结果![/assets/img/image-20211017125042261](/assets/img/image-20211017125042261.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021238807.png)
 3. 尝试用代码发送请求， 准备一个`client2.py`并复制下面的代码
 
    这次我们主动向发出的请求头中加入了两个我们自定义的两个字段
@@ -326,8 +323,7 @@ http://http://182.61.200.6:80/s?wd=hello
 
    在终端输入`python client2.py`
 
-   结果![/assets/img/image-20211017125630840](/assets/img/image-20211017125630840.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021239864.png)
 
 
 ## 5. 响应信息
@@ -384,12 +380,10 @@ print(res.text)
 
 百度： 返回了200 和正常的html代码
 
-![/assets/img/image-20211017130015023](/assets/img/image-20211017130015023.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021241859.png)
 豆瓣： 418 以及 空（没有正常的html代码）
 
-![/assets/img/image-20211017130050841](/assets/img/image-20211017130050841.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021241951.png)
 **如何让豆瓣也能正常访问呢？**
 
 下面的代码手动想请求头（header）中加入了一项新的信息
@@ -456,8 +450,7 @@ app.run(host="127.0.0.1", port=5000)
 
 2.  通过浏览器访问，观察结果
 
-   ![/assets/img/image-20211017134914547](/assets/img/image-20211017134914547.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021243581.png)
 可以看到， 虽然返回的是404, 但是依然能够看到hello world， headers里的内容也成功修改
 
 ## 6. 最关注的
@@ -490,8 +483,7 @@ headers = request.headers
 
 form表单就是一堆输入框， 当点击按钮就会向服务器发送表单中的内容
 
-![/assets/img/image-20211017154841006](/assets/img/image-20211017154841006.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021244391.png)
 ##### 6.3.1 application/x-www-form-urlencoded (Form)
 
 这个格式对应的是前端通过form表单传递的body格式
@@ -557,12 +549,10 @@ form表单就是一堆输入框， 当点击按钮就会向服务器发送表单
 
 用浏览器打开这个文件可以看到
 
-![/assets/img/image-20211017155748427](/assets/img/image-20211017155748427.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021245078.png)
 分别尝试填写两个表单并发送， 观察server在终端的输出结果
 
-![/assets/img/image-20211017161212682](/assets/img/image-20211017161212682.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021245783.png)
 #### 6.5 demo6
 
 发送json
@@ -579,8 +569,7 @@ res = requests.post('http://localhost:5000/hello3', json={
 
 结果
 
-![/assets/img/image-20211017161715045](/assets/img/image-20211017161715045.png)
-
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021246520.png)
 
 
 ## 7. 附录

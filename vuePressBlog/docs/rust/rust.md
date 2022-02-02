@@ -94,11 +94,11 @@ print!("{}", a.to_string())
          print!("{}", s);
      }
      take_str(&s);
-     
+
      #[stable(feature = "rust1", since = "1.0.0")]
      impl ops::Deref for String {
          type Target = str;
-     
+
          #[inline]
          fn deref(&self) -> &str {
              unsafe { str::from_utf8_unchecked(&self.vec) }
@@ -106,7 +106,7 @@ print!("{}", a.to_string())
      }
      ```
 
-     
+
 
 2. 自动化管理内存(drop, 作用域外自动释放内存)
 
@@ -197,4 +197,119 @@ let b2: Ref<u32> = Ref::map(b1, |t| &t.0);
 assert_eq!(*b2, 5)
 ```
 
-## 
+## 3. 常用 Trait
+
+### 3.1 Read
+
+Read Trait的功能是：从数据源拉取(Pull)一定数据到指定的缓冲区，返回读取的字节数。
+
+**关于阻塞：**
+read函数不保证Read是否会处于阻塞状态，如果一个read过程阻塞了而且等待失败，那他就会返回一个 [`Err`] 标记。
+
+**关于返回值：**
+如果`read()`返回的是 [`OK(n)`] , 它的实现就必须保证`0 <- n < buf.len()`。
+如果`n == 0`，那可能有两种情况：
+1. reader已经到达了`the end of file`，而且这个`file`可能不会在产生新数据。
+注意，这里只是likely，比如：在linux系统中，read可能对一个 [`TcpStream`] 调用了`recv`系统调用，0代表这个连接已经被成功关闭，如果是对 [`File`] , 那就可能意味着确实读取到了文件的末尾，但是如果有更多的数据被追加(append)到文件末尾，那么未来的read操作依然能够正常返回被追加的数据
+2. 缓冲区(buffer)大小确实就是0
+
+`n` 只要小于缓冲区的长度一般就不是个错误，即使文件还没有被读取完，这种情况可能会发生在，当前只有一部分数据是可用的，或者是read操作被一个信号打断了
+
+**关于安全性：**
+- 因为实现这个Trait是安全的，调用者不能用 `n < buf.len()` 去确保安全，使用unsafe是更要小心确保诸如越界问题是否会发生。
+- read不保证buf里的数据是对的，所以不推荐读取缓冲区里的数据，只推荐向缓冲区里写入数据
+
+- 相应的，调用者不能有任何假设，这个buf会被read怎么使用，read函数也可能会从中读取内容。所以我们需要保证在调用read前，这个buf已经被初始化过了，调用没有被初始化的buf是不安全的，可能会导致未定义的行为
+
+***关于错误：**
+如果遇到了Error，那就必须保证没有读取过任何字节，如果遇到了`ErrorKind::Interrupted`，而且不能作别的事时, 读取过程就必须被回滚
+
+下面是一个来自doc的例子
+```rust
+use std::io;
+use std::io::prelude::*;
+use std::fs::File;
+fn main() -> io::Result<()> {
+    let mut f = File::open("foo.txt")?;
+    let mut buffer = [0; 10];
+    // read up to 10 bytes
+    let n = f.read(&mut buffer[..])?;
+    println!("The bytes: {:?}", &buffer[..n]);
+    Ok(())
+}
+```
+
+### 3.2 Write
+
+Write的基本功能就是向writer中写入一段buf，返回写入的字节数
+**关于阻塞：**
+write会尝试向writer中写入整个buf里的内容，但是写入可能不成功，或者写入时产生了一个错误，调用一次write意味着最多一次尝试写入
+write函数同样不保证Write是否处于阻塞状态以等待数据被写入，如果一次写入阻塞了，他可能会返回一个 [`Err`]。
+
+**关于返回值：**
+如果`write()`返回的是 [`OK(n)`] , 它的实现就必须保证`0 <- n < buf.len()`。
+如果`n == 0`，那可能有两种情况：
+1. 被写入的东西已经不会接受新数据了，之后也不一定会
+2. 缓冲区(buffer)大小确实就是0
+
+`n` 只要小于缓冲区的长度一般就不是个错误，即使文件还没有被读取完，这种情况可能会发生在，当前只有一部分数据是可用的，或者是read操作被一个信号打断了
+
+***关于错误：**
+如果遇到了Error，那就必须保证没有任何字节被成功写入
+返回值小于buf的长度不被当成是错误
+如果遇到了`ErrorKind::Interrupted`，而且不能作别的事时, 写入过程就必须被回滚
+
+同样是官方的demo
+```rust
+use std::io::prelude::*;
+use std::fs::File;
+fn main() -> std::io::Result<()> {
+    let mut buffer = File::create("foo.txt")?;
+    // Writes some prefix of the byte string, not necessarily all of it.
+    buffer.write(b"some bytes")?;
+    Ok(())
+}
+```
+
+### 3.3 Seek & BufReader & BufWriter
+
+[`Read`]和[`Write`]是最重要的两个Trait，除此之外还有两个重要的Trait[`Seek`]和[`BufRead`], 这两个都建立在reader只上，用来控制read的过程。
+
+[`Seek`]让你控制下一个字节将要读取的来自哪里
+```rust
+use std::io;
+use std::io::prelude::*;
+use std::io::SeekFrom;
+use std::fs::File;
+fn main() -> io::Result<()> {
+    let mut f = File::open("foo.txt")?;
+    let mut buffer = [0; 10];
+    // skip to the last 10 bytes of the file
+    f.seek(SeekFrom::End(-10))?;
+    // read up to 10 bytes
+    let n = f.read(&mut buffer)?;
+    println!("The bytes: {:?}", &buffer[..n]);
+    Ok(())
+}
+```
+
+基于byte的接口性能不佳，所以提供了很多基于buffer的接口
+[`BufRead`]就提供了更多Read相关的API
+```rust
+let f = File::open("foo.txt")?;
+let mut reader = BufReader::new(f);
+let mut buffer = String::new();
+// read a line into buffer
+reader.read_line(&mut buffer)?;
+```
+[`BufWriter`]没有提供更多写入的方法，他只是缓冲了每次调用
+```rust
+let f = File::create("foo.txt")?;
+{
+    let mut writer = BufWriter::new(f);
+
+    // write a byte to the buffer
+    writer.write(&[42])?;
+
+} // the buffer is flushed once writer goes out of scope
+```
