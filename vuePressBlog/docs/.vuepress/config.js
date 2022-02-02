@@ -17,7 +17,7 @@ module.exports = {
         '/js/': ['js', 'vue'],
         '/python/': ['python'],
         '/rust/': ['wasm', 'rust', 'lists'],
-		    '/magic/': ['fd', 'haskell', 'docker', 'linuxIO', 'vim'],
+		    '/magic/': ['memory_ordering', 'fd', 'haskell', 'docker', 'linuxIO', 'vim'],
         '/ioclub/': ['oauth2', 'share_1', 'backend_1', 'backend_2', 'backend_3', 'backend_4'],
         '/other/': ['script', 'hadoop', 'datastructure'],
         '/': [''] //不能放在数组第一个，否则会导致右侧栏无法使用
