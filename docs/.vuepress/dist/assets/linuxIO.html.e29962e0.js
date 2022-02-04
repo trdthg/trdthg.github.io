@@ -1,0 +1,1 @@
+const e={key:"v-07cf384c",path:"/magic/linuxIO.html",title:"Linux IO \u591A\u8DEF\u590D\u7528",lang:"en-US",frontmatter:{},excerpt:"",headers:[{level:2,title:"1. errno.h",slug:"_1-errno-h",children:[]},{level:2,title:"2.",slug:"_2",children:[]}],git:{},filePathRelative:"magic/linuxIO.md"};export{e as data};
