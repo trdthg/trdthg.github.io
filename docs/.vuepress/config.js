@@ -53,6 +53,7 @@ module.exports = {
           {text: '脚本', link: '/other/script'},
           {text: '数据结构', link: '/other/datastructure'},
           {text: 'vim', link: '/other/vim'},
+          {text: 'git', link: '/other/git'},
           {text: 'docker', link: '/other/docker'},
           {text: 'oauth2学习', link: '/other/oauth2'},
         ]},
