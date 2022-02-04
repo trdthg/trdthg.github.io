@@ -38,7 +38,7 @@ jobs:
           # 的main分支
           publish_branch: main
           # 要发布的文件夹
-          publish_dir: ./docs/.vuepress/disk
+          publish_dir: ./docs/.vuepress/dist
 
   # deploy:
   #   runs-on: ubuntu-latest
