@@ -87,6 +87,30 @@ git tag -d v1.4-lw
 ```
 
 ## git hook
+git hook的所有类型都在`.git/hooks`文件夹下
+```
+applypatch-msg.sample      post-update.sample     pre-merge-commit.sample    pre-rebase.sample        update.sample
+commit-msg.sample          pre-applypatch.sample  prepare-commit-msg.sample  pre-receive.sample
+fsmonitor-watchman.sample  pre-commit.sample      pre-push.sample            push-to-checkout.sample
+```
+不过一般可以使用 [husky](https://github.com/typicode/husky) 这个插件去具体使用
+### 安装
+npm install husky -D
+### 生成 ./husky配置文件夹
+```
+npm set-script prepare "husky install"
+npm run prepare
+```
+### Add a hook:
+下面可以直接把要执行的脚本写在 `./husky/pre-commit` 中
+```
+npx husky add .husky/pre-commit "npm test"
+git add .husky/pre-commit
+```
+### 测试:
+```
+git commit -m "Keep calm and commi
+```
 
 ## 其他
 

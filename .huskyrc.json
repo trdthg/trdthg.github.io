@@ -1,5 +1,0 @@
-{
-  "hooks": {
-    "pre-commit": "rm -rf docs/.vuepress/dist"
-  }
-}
