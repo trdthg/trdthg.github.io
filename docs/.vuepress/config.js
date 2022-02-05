@@ -36,6 +36,7 @@ module.exports = {
           {text: '文件描述符', link: '/magic/fd'},
           {text: 'IO 多路复用', link: '/magic/linuxIO'},
           {text: '原子操作/内存顺序', link: '/magic/memory_ordering'},
+          {text: '软件架构', link: '/magic/software_arch'},
         ]},
         {text: 'IO Club ⚽', children: [
           {text: '分享', children: [
@@ -58,11 +59,11 @@ module.exports = {
           {text: 'oauth2学习', link: '/other/oauth2'},
         ]},
       ],
-      // darkMode: true,
-      // logoDark: 'https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202201292325599.png',
-      // toggleDarkMode: '切换夜间',
-      // repo: 'https://github.com/trdthg',
-      // lastUpdated: true,
-      // sidebarDepth: 3, // 侧边栏显示2级
+      darkMode: true,
+      logoDark: 'https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202201292325599.png',
+      toggleDarkMode: '切换夜间',
+      repo: 'https://github.com/trdthg',
+      lastUpdated: true,
+      sidebarDepth: 3, // 侧边栏显示2级
     }
   };
