@@ -37,6 +37,7 @@ module.exports = {
           {text: 'IO 多路复用', link: '/magic/linuxIO'},
           {text: '原子操作/内存顺序', link: '/magic/memory_ordering'},
           {text: '软件架构', link: '/magic/software_arch'},
+          {text: 'CI/CD', link: '/magic/github_action'},
         ]},
         {text: 'IO Club ⚽', children: [
           {text: '分享', children: [
