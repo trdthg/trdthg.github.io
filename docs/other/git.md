@@ -112,6 +112,43 @@ git add .husky/pre-commit
 git commit -m "Keep calm and commi
 ```
 
+## .gitignore
+
+### 基本规则
+```
+.idea/          # 忽略仓库中所有.idea (目录)
+/.idea/         # 忽略仓库中 (根) 目录下的.idea (目录)
+/.settings      # 忽略仓库中 (根) 目录下的 .settings (文件或目录)
+~'$'*.docx      # office 打开时生成的 (临时文件)
+
+!etc/eclipse/.checkstyle    # (不忽略) .checkstyle 文件或目录
+```
+
+### glob模式(正则)
+```
+doc/*.txt           # 忽略 doc 目录下一级的所有 (以 `.txt` 结尾) 的 (文件或目录)
+doc/**/*.pdf        # 忽略 doc (目录下所有的) .pdf 文件或目录
+
+debug?.log          # 忽略 debug?.log 文件或目录，其中 ? 为任意一个字符
+
+debug[0-9].log      # 忽略 debug0.log、debug2.log 等，但不忽略 debuga.log 文件
+debug[01].log       # 仅忽略 debug0.log、debug1.log
+debug[!01].log      # 不忽略 debug0.log、debug1.log
+```
+### 特性
+- 从上到下，后面覆盖前面的
+- 以上规则仅适用于未被缓存或加入版本控制的文件
+    如果忽略失效，可以尝试
+    ```
+    .gitignore 只能忽略那些原来没有被track的文件，如果某些文件已经被纳入了版本管理中，则修改.gitignore是无效的。
+    那么解决方法就是先把本地缓存删除（改变成未track状态），然后再提交。
+
+    git rm -r --cached .
+
+    git add .
+    git commit -m 'update .gitignore'
+    ```
+
 ## 其他
 
 ### pull
