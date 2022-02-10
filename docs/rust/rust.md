@@ -1,6 +1,6 @@
 # Rust
 
-## 1. lifetime
+## 1. 生命周期
 
 ### 自动处理生命周期
 ```rust
@@ -19,7 +19,7 @@ fn foo<'a, 'b, 'c>(&'a self, &'b B, &'c C) -> &'a D;
 
 ## 2. 智能指针
 
-### 1.什么是智能指针
+### 基本概念
 
 实现了Deref Trait 和 Drop Trait的就是智能指针
 
@@ -38,7 +38,7 @@ impl<T: ?Sized, A: Allocator> Deref for Box<T, A> {
     }
 }
 ```
-
+### 简单实现
 我们实现一个智能指针（只实现了Deref Trait）
 
 ```rust
@@ -69,56 +69,43 @@ assert_eq!(x, *b);
 print!("{}", a.to_string())
 ```
 
-### 2. 智能指针的优点
+### 自动解引用的时机
 
-1. 自动解引用，提升开发体验(deref)
+- 遇到*运算符自动接引用
+    ```rust
+    assert_eq!(x, *a.deref());
+    assert_eq!(x, *a);
+    ```
 
-   - 遇到*运算符自动接引用
+- 遇到 . 运算符接引用调用方法
+    ```rust
+    print!("{}", a.to_string())
+    ```
 
-     ```rust
-     assert_eq!(x, *a.deref());
-     assert_eq!(x, *a);
-     ```
+- 参数传递自动解引用
+    ```rust
+    let s = String::from("aaaa");
+    fn take_str(s: &str) {
+        print!("{}", s);
+    }
+    take_str(&s);
 
-   - 遇到 . 运算符接引用调用方法
+    #[stable(feature = "rust1", since = "1.0.0")]
+    impl ops::Deref for String {
+        type Target = str;
 
-     ```rust
-     print!("{}", a.to_string())
-     ```
+        #[inline]
+        fn deref(&self) -> &str {
+            unsafe { str::from_utf8_unchecked(&self.vec) }
+        }
+    }
+    ```
+### 自动管理内存
+自动化管理内存(drop, 作用域外自动释放内存)
 
-   - 参数传递自动解引用
+##  2. Rc & Arc
 
-     ```rust
-     let s = String::from("aaaa");
-     fn take_str(s: &str) {
-         print!("{}", s);
-     }
-     take_str(&s);
-
-     #[stable(feature = "rust1", since = "1.0.0")]
-     impl ops::Deref for String {
-         type Target = str;
-
-         #[inline]
-         fn deref(&self) -> &str {
-             unsafe { str::from_utf8_unchecked(&self.vec) }
-         }
-     }
-     ```
-
-
-
-2. 自动化管理内存(drop, 作用域外自动释放内存)
-
-
-
-
-
-
-
-###  2. Rc & Arc
-
-#### Introduce
+### 介绍
 
 > The key to our design is the RefCell type. The heart of RefCell is a pair of methods:
 
@@ -146,14 +133,14 @@ fn main() {
 
 > Note that this example uses Rc and not Arc. RefCells are for single-threaded scenarios. Consider using Mutex if you need shared mutability in a multi-threaded situation
 
-####  try_unwrap()
+### try_unwrap()
 
 > Get T from Rc&lt;T&gt; try to use `try_unwrap()`, which moves out the contents of an Rc if its refcount is 1
 ::: warning
 unwrap on Result requires that you can debug-print the error case. RefCell only implements Debug if T does. Node doesn't implement Debug. try: Rc::try_unwrap(old_head).ok().unwrap().into_inner().elem
 :::
 
-### 4. Cell & RefCell
+## 4. Cell & RefCell
 
 > Shareable mutable containers.
 >
@@ -163,9 +150,9 @@ unwrap on Result requires that you can debug-print the error case. RefCell only 
 >
 > RefCell uses Rust's lifetimes to implement 'dynamic borrowing', a process whereby one can claim temporary, exclusive, mutable access to the inner value. Borrows for RefCells are tracked 'at runtime', unlike Rust's native reference types which are entirely tracked statically, at compile time. Because RefCell borrows are dynamic it is possible to attempt to borrow a value that is already mutably borrowed; when this happens it results in thread panic.
 
-### 5. Ref & RefMut
+## 5. Ref & RefMut
 
-#### Ref::map()
+### Ref::map()
 
 1. example1
 

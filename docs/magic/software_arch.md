@@ -4,9 +4,20 @@
 - [Uncle Bob 原文](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 文章不太长，
 - 很好的翻译 + 总结
+### 干净架构
 [干净架构最佳实践](https://blog.jaggerwang.net/clean-architecture-in-practice/)
-
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202061150405.png)
+
+### 分层架构
+起始和上面的差不多，思路都一样，三层架构基本对应
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202061222034.png)
+- User Interface层 ： 系统对外暴露的接口层(API)层。主要功能是接收外部的调用，调用底层的服务，然后将底层服务返回的数据返回给调用者。这一层只包含对外的DTO对象的声明，接口声明，DTO对象转换，日志打印等。不能包含因为逻辑。
+- Application层：对应到系统用例层。它描述了整个系统的全部功能，它是对底层领域层对象的组织和编排，通过对领域层对象的编排，实现了用例。Application层不实现业务逻辑，它只对底层的领域对象进行编排以实现用例。一般在这一层里使用仓储对数据进行读取和保存。事务处理一般也在这一层。这一层主要包括Service，用来调用Domain层的对象完成一个业务。访问第三方的远程调用一般也是在这一层。
+- Domain层：核心业务逻辑层。包含实体、值对象和领域服务等领域对象等。实现所有的业务逻辑。业务逻辑就是存在于问题域即业务领域中的实体、概念、规则和策略等，与具体的实现技术无关，主要包含：1）业务实体（领域对象）。2）业务规则：例如借记卡取款数额不得超过账户余额等等。3)业务策略: 例如机票预订的超订策略等。4)完整性约束: 例如账户的账号不得为空。5）业务流程：比如，”下单“是一个业务流程，它包括“用户登录-选择商品-结算-下订单-付款”这一系列的动作。
+Infrastructure层：负责所有的对外的交互。比如数据库访问层实现，RPC接口，MQ等。
+
+
 ### 目录结构
 下面是一个实例目录(较上面的结构有修改)
 ```
@@ -19,7 +30,7 @@
 │   ├── gui # 图形交互接口，将用例适配为图形界面操作
 ├── entity # 实体层
 │   ├── ...
-│   └── user # 用户实体                                    # model
+│   └── user # 用户实体                                           # model/do
 └── usecase # 用例层
     ├── ...
     ├── UserUsecases.java # 用户模块相关用例                       # usecase | dao
@@ -67,11 +78,11 @@ POJO（Plain Ordinary Java Object）：在本规约中，POJO 专指只有 sette
 - PO/DO: 跟数据库表是一一对应的，一个 PO/DO 数据是表的一条记录。PO / DO 只是数据的对象，不包含任何的操作。举个例子，学生表是 StudentDO，对学生表的增删改查等操作就是 StudentDAO。
 
 - DTO：
-    - 在分布式系统中，系统之间可以通过 DTO 进行数据传输；
+    - 在分布式系统中，系统之间可以通过 DTO 进行数据传输；https://www.google.com/search?q=&oq=DDD+%E5%92%8C+%E5%B9%B2%E5%87%80%E6%9E%B6%E6%9E%84%E7%9A%84%E5%8C%BA%E5%88%AB&aqs=chrome..69i57.9554j0j1&sourceid=chrome&ie=UTF-8
     - DTO 也可以在应用内部，核心层和应用层之间传递数据，DTO 只是简单的数据传输，没有业务逻辑的处理；
     - 有的场景，比如数据库表有 10 个字段，id(唯一 id)、version(版本号)，gmt_create(记录创建时间) 这些字段不需要对外提供，所以 DTO 可以只取有含义的业务字段，DO 是和数据库记录的一一映射，但是 DTO 只需要按照业务需要定义需要的字段。
 
-- BO: 包含 PO/DO 和 DAO，有点类似于 domain(entity, usecase)的概念, BO 主要作用是把业务逻辑封装为一个对象。这个对象可以包括一个或多个其它的对象.
+- BO: 包含 PO/DO 和 DAO，有点类似于 domain(entity, usecase)的概念, BO 主要作用是把业务逻辑封装为一个对象。这个对象可以包括一个或多个其它的对象，还能够完成 DO - DTO 之间的转换
 
 - VO: 对应页面显示（web 页面/移动端 H5/Native 视图）的数据对象。
 举个例子，DTO 中时间 Date 格式，或者是 yyyyMMddHHmmss 的字符串，但是 VO 需要的是前端展示的格式，需要转成”yyyy 年 MM 月 dd 月"；
