@@ -1,0 +1,1 @@
+const t={key:"v-32e5b8a1",path:"/js/http_cache.html",title:"HTTP \u7F13\u5B58\u7B56\u7565",lang:"en-US",frontmatter:{},excerpt:"",headers:[],git:{updatedTime:1644565677e3,contributors:[{name:"trdthg",email:"trdthg@outlook.com",commits:1}]},filePathRelative:"js/http_cache.md"};export{t as data};
