@@ -13,7 +13,10 @@ module.exports = {
       navbar:[ // 导航栏配置
         {text: '学习笔记 📚', children: [
           {text: '前端相关', children: [
+            {text: '虚拟DOM', link: '/js/vdom'},
+            {text: '资料', link: '/js/list'},
             {text: 'vue', link: '/js/vue'},
+            {text: 'http', link: '/js/http_cache'},
           ]},
           {text: 'python相关', children: [
             {text: '总览', link: '/other/python'}
@@ -27,9 +30,10 @@ module.exports = {
         ]},
         {text: '小项目 💪', link: '/projects/demo1' },
         {text: 'Rust 🦀', children: [
+          {text: '语言特性', link: '/rust/rust'},
+          {text: 'dioxus前端', link: '/rust/dioxus'},
           {text: 'Wasm 体验', link: '/rust/wasm'},
           {text: '实现链表', link: '/rust/lists'},
-          {text: '语言特性', link: '/rust/rust'},
         ] },
         {text: '魔法 🔮', children: [
           {text: 'haskell学习笔记', link: '/magic/haskell'},
