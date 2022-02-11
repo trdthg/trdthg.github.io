@@ -14,6 +14,7 @@ module.exports = {
         {text: '学习笔记 📚', children: [
           {text: '前端相关', children: [
             {text: '虚拟DOM', link: '/js/vdom'},
+            {text: 'js进阶', link: '/js/js_advanced'},
             {text: '资料', link: '/js/list'},
             {text: 'vue', link: '/js/vue'},
             {text: 'http', link: '/js/http_cache'},
@@ -28,7 +29,10 @@ module.exports = {
             {text: '常用工具', link: '/java/springboot'},
           ]},
         ]},
-        {text: '小项目 💪', link: '/projects/demo1' },
+        {text: '小项目 💪', children: [
+          {text: 'mini-vue', link: '/projects/mini_vue'},
+          {text: '语言特性', link: '/projects/mini_bundle'},
+        ] },
         {text: 'Rust 🦀', children: [
           {text: '语言特性', link: '/rust/rust'},
           {text: 'dioxus前端', link: '/rust/dioxus'},
