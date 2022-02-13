@@ -17,7 +17,7 @@ module.exports = {
             {text: 'js进阶', link: '/js/js_advanced'},
             {text: '资料', link: '/js/list'},
             {text: 'vue', link: '/js/vue'},
-            {text: 'http', link: '/js/http_cache'},
+            {text: 'HTTP相关', link: '/js/http'},
           ]},
           {text: 'python相关', children: [
             {text: '总览', link: '/other/python'}
