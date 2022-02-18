@@ -1,1 +1,0 @@
-const t={key:"v-784bd9a4",path:"/js/list.html",title:"\u9762\u8BD5\u9898",lang:"en-US",frontmatter:{},excerpt:"",headers:[{level:2,title:"\u672A\u6574\u7406",slug:"\u672A\u6574\u7406",children:[]}],git:{updatedTime:1644724302e3,contributors:[{name:"trdthg",email:"trdthg@outlook.com",commits:1}]},filePathRelative:"js/list.md"};export{t as data};
