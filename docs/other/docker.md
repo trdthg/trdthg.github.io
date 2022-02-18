@@ -36,7 +36,7 @@
 
 ### 2.1 启动容器
 
-新建容器： `docker run -d -it ubuntu:18.04 /bin/bash` 
+新建容器： `docker run -d -it ubuntu:18.04 /bin/bash`
 
 ### 2.2 重启容器
 
@@ -70,7 +70,7 @@
 
 这里会将一个Dockerfile的构建过程
 
-### 3.0 格式
+### 格式
 
 1. 指定基础镜像
 
@@ -81,13 +81,32 @@
    ```
 
 2. RUN 执行命令
-	格式：`RUN <命令>`，就像直接在命令行中输入的命令一样。刚才写的 Dockerfile 中的 `RUN` 指令就是这种格式。
+    格式：`RUN <命令>`，就像直接在命令行中输入的命令一样。刚才写的 Dockerfile 中的 `RUN` 指令就是这种格式。
 
+3. ENTRYPOINT 添加prefix
+    从外部运行`docker run myip -i`，就相当于`docker run myip curl -s http://myip.ipip.net -i`
+    `ENTRYPOINT [ "curl", "-s", "http://myip.ipip.net" ]`
 
+### build
+```sh
+docker build -t xxx .
+```
 
 ## 4 实践
 
-```dockerfile
+### curl自动查询ip
+```sh
+FROM ubuntu:18.04
+
+RUN apt-get update \
+    && apt-get install -y curl \
+    && rm -rf /var/lib/apt/lists/*
+
+CMD ["curl", "-s", "http://"]
+
+```
+### redis镜像
+```sh
 FROM alpine:latest
 
 COPY ./cargo-config /cargo-config
@@ -145,3 +164,23 @@ CMD ["redis-server", "--loadmodule", "/opt/redis-modules/librejson.so", "--loadm
 
 ```
 
+## 5 其他
+
+### 重命名
+```
+           镜像id   名称  tag(可省略)
+docker tag e49db activemp:1.5.5
+```
+
+### 推送到dockerhub
+1. 登陆
+```
+docker login -u xxx
+Password: 输入token
+```
+
+2. 推送
+注意：需要修改image名称为 `{username}/{image-name}:{tag}`
+```
+docker push `{username}/{image-name}:{tag}`
+```

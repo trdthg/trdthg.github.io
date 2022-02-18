@@ -13,11 +13,12 @@ module.exports = {
       navbar:[ // 导航栏配置
         {text: '学习笔记 📚', children: [
           {text: '前端相关', children: [
-            {text: '虚拟DOM', link: '/js/vdom'},
-            {text: 'js进阶', link: '/js/js_advanced'},
-            {text: '资料', link: '/js/list'},
-            {text: 'vue', link: '/js/vue'},
-            {text: 'HTTP相关', link: '/js/http'},
+            {text: '虚拟DOM', link: '/frontend/vdom'},
+            {text: 'js进阶', link: '/frontend/js_advanced'},
+            {text: '资料', link: '/frontend/list'},
+            {text: 'vue', link: '/frontend/vue'},
+            {text: 'HTTP相关', link: '/frontend/http'},
+            {text: 'Flutter', link: '/frontend/flutter'},
           ]},
           {text: 'python相关', children: [
             {text: '总览', link: '/other/python'}

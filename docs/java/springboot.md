@@ -1,5 +1,14 @@
 # SprintBoot
 
+## 统一参数校验
+
+### 增加对枚举的校验规则
+[springboot validator枚举值校验功能实现](https://www.zhangshengrong.com/p/zAaOQQOrXd/)
+
+### 全局处理校验失败
+
+[全局处理响应数据](https://bbs.huaweicloud.com/blogs/188118)
+
 ## MybatisPlus
 
 ### 1. 配置引入
