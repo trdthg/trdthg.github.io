@@ -32,7 +32,8 @@ module.exports = {
         ]},
         {text: '小项目 💪', children: [
           {text: 'mini-vue', link: '/projects/mini_vue'},
-          {text: '语言特性', link: '/projects/mini_bundle'},
+          {text: '打包器', link: '/projects/mini_bundle'},
+          {text: '异步运行时', link: '/projects/mini_tokio'},
         ] },
         {text: 'Rust 🦀', children: [
           {text: '语言特性', link: '/rust/rust'},
