@@ -10,8 +10,6 @@ mv oldname newname # 重命名
 cd - # 返回上次工作目录
 ```
 
-
-
 ### CodeRunner For C
 ```json
 "code-runner.runInTerminal": true,
