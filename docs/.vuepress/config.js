@@ -68,7 +68,7 @@ module.exports = {
           {text: 'git', link: '/other/git'},
           {text: 'docker', link: '/other/docker'},
           {text: 'OCI规范', link: '/other/oci'},
-          {text: 'oauth2学习', link: '/other/oauth2'},
+          {text: 'OAuth2.0', link: '/other/oauth2'},
         ]},
       ],
       darkMode: true,
@@ -76,6 +76,6 @@ module.exports = {
       toggleDarkMode: '切换夜间',
       repo: 'https://github.com/trdthg',
       lastUpdated: true,
-      sidebarDepth: 3, // 侧边栏显示2级
+      sidebarDepth: 4, // 侧边栏显示2级
     }
   };
