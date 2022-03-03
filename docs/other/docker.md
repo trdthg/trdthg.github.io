@@ -62,9 +62,9 @@
 
 ### 2.6 删除容器
 
-删除已经关闭的一个容器： `docker container rm`
+- 删除已经关闭的一个容器： `docker container rm`
 
-删除所有已经关闭的容器：`docker container prune`
+- 删除所有已经关闭的容器：`docker container prune`
 
 ## 3 Dockerfile
 
@@ -165,6 +165,15 @@ CMD ["redis-server", "--loadmodule", "/opt/redis-modules/librejson.so", "--loadm
 ```
 
 ## 5 其他
+
+### 正则匹配用法
+- 删除容器
+
+    `sudo docker ps -a | awk '{print $1, $2}' | grep "jdk" | xargs -t sudo docker rm`
+- 删除镜像
+    `sudo docker images | awk '{print $1, $2}' | grep "jdk" | awk '{print $1}' | xargs -t sudo docker rmi`
+
+    awk能够且分为一行，print能选择字段
 
 ### 重命名
 ```
