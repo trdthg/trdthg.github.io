@@ -37,9 +37,9 @@ module.exports = {
         ] },
         {text: 'Rust 🦀', children: [
           {text: '语言特性', link: '/rust/rust'},
-          {text: 'dioxus前端', link: '/rust/dioxus'},
           {text: 'Wasm 体验', link: '/rust/wasm'},
-          {text: '实现链表', link: '/rust/lists'},
+          {text: 'rust链表', link: '/rust/lists'},
+          {text: 'go学习笔记', link: '/rust/go'},
         ] },
         {text: '魔法 🔮', children: [
           {text: 'haskell学习笔记', link: '/magic/haskell'},
