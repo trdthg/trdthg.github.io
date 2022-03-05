@@ -349,7 +349,7 @@ type C interface {
 - channel必须有发送端和接收端，否则就panic
 - make(chan int, n) n表示缓冲区大小, 可以省略, 默认为0
     - 如果超过缓冲区大小, 就会panic, 超过缓冲区大小的数据必须在其他的协程中处理
-    - 对于rust,如果超出缓冲区大小就会send失败
+    - 对于rust,如果超出缓冲区大小send就会阻塞，发不出去
 - 缓冲区也有len 和 cap的概念
 ```go
 func sendData(sendch chan<- int) {
@@ -400,5 +400,412 @@ func main() {
         }
         fmt.Println("Received ", v, ok)
     }
+}
+```
+
+#### waitGroup
+等待一群协程结束
+
+注意一定要使用指针
+
+#### 工作池
+```go
+// 模拟耗时的计算
+func calculate(number int) int {
+	time.Sleep(2 * time.Second)
+	return number
+}
+
+// 生产者，分发工作
+func produceJobs(jobs chan<- Job, n int) {
+	for i := 0; i < n; i++ {
+		// fmt.Printf("sending %d \n", i)
+		jobs <- Job{
+			id:     i,
+			number: i,
+		}
+	}
+	close(jobs)
+}
+
+// 消费者，接受工作，干完活就通知以下管理员
+func consumeFunc(jobs <-chan Job, results chan<- int, wg *sync.WaitGroup) {
+	// 每个worker都在抢工作，真积极啊
+	for job := range jobs {
+		// fmt.Printf("id: %d\n", job.id)
+		results <- calculate(job.number)
+	}
+	wg.Done()
+}
+
+// 管理员，等待所有工人都通知他，每次被通知，计数器就减1, 当计数器为0是就不再阻塞
+func consumeJobs(jobs <-chan Job, results chan<- int, worker_number int) {
+	// 等待一批goroutine结束，类似于join
+	var wg sync.WaitGroup
+	// 为每一个工作开启一个goroutine
+	for i := 0; i < worker_number; i++ {
+		wg.Add(1)
+		go consumeFunc(jobs, results, &wg)
+	}
+	wg.Wait() // 阻塞当前goroutine直到计数器归0, 所有job都应该做完了，result应该也都发送出去了
+	close(results)
+}
+
+type Job struct {
+	id     int
+	number int
+}
+
+func main() {
+	startTime := time.Now()
+
+	jobs := make(chan Job, 10)
+	results := make(chan int, 10)
+
+	// 发送work, jobs send
+	go produceJobs(jobs, 100)
+	// jobs recv | results send
+	go consumeJobs(jobs, results, 50)
+	// results recv
+	a := 0
+	for res := range results {
+		a += res
+	}
+	fmt.Print("res: ", a)
+
+	endTime := time.Now()
+	diff := endTime.Sub(startTime)
+	fmt.Println("total time taken ", diff.Seconds(), "seconds")
+
+}
+```
+
+#### select
+
+用法挺普通
+
+- 如果有多个channel准备就绪, 就随机选择一个执行
+- 死锁与默认情况: ch并没有send任何东西, 如果没有default就会触发死锁, 导致panic, 空select一样也会导致panic
+```go
+func main() {
+    ch := make(chan string)
+    select {
+    case <-ch:
+    default:
+        fmt.Println("default case executed")
+    }
+}
+```
+
+### 并发
+goroutine不能保证并发安全, 下面是一些解决方法
+
+- 总体说来，当 Go 协程需要与其他协程通信时，可以使用channel。而当只允许一个协程访问临界区时，可以使用 Mutex。
+- 就我们上面解决的问题而言，我更倾向于使用 Mutex，因为该问题并不需要协程间的通信。所以 Mutex 是很自然的选择。
+
+
+#### mutex
+```go
+func aa(wg *sync.WaitGroup, m *sync.Mutex) {
+	m.Lock()
+	x += 1
+	m.Unlock()
+	wg.Done()
+}
+
+func main() {
+    var wg sync.WaitGroup
+    var m sync.Mutex
+    for i := 0; i < 1000; i++ {
+        wg.Add(1)
+        go aa(&wg, &m)
+    }
+    wg.Wait()
+    fmt.Print(x)
+}
+```
+
+#### channel
+使用缓冲为1的channel实现
+```go
+func aa(wg *sync.WaitGroup, ch chan bool) {
+	ch <- true
+	x += 1
+	<-ch
+	wg.Done()
+}
+
+func main() {
+	startTime := time.Now()
+	var wg sync.WaitGroup
+	var ch = make(chan bool, 1)
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go aa(&wg, ch)
+	}
+	wg.Wait()
+	fmt.Print(x)
+}
+```
+
+### defer
+
+#### 实参求值
+当执行 defer 语句的时候，就会对延迟函数的实参进行求值。
+```go
+func printA(a int) {
+    fmt.Println("value of a in deferred function", a)
+}
+func main() {
+    a := 5
+    defer printA(a)
+    a = 10
+}
+// value of a in deferred function 5
+```
+
+#### defer栈
+当一个函数内多次调用 defer 时，Go 会把 defer 调用放入到一个栈中，随后按照后进先出（Last In First Out, LIFO）的顺序执行。
+
+下面的程序，使用 defer 栈，将一个字符串逆序打印。
+```go
+func main() {
+    name := "Naveen"
+    for _, v := range []rune(name) {
+        defer fmt.Printf("%c", v)
+    }
+}
+// 倒叙输出: neevaN
+```
+
+#### 使用场景
+```go
+func (r rect) area(wg *sync.WaitGroup) {
+    // defer wg.Done() // 代替下面的3个return中的wg.Done()
+    if r.length < 0 {
+        fmt.Printf("rect %v's length should be greater than zero\n", r)
+        wg.Done()
+        return
+    }
+    if r.width < 0 {
+        fmt.Printf("rect %v's width should be greater than zero\n", r)
+        wg.Done()
+        return
+    }
+    area := r.length * r.width
+    fmt.Printf("rect %v's area %d\n", r, area)
+    wg.Done()
+}
+```
+
+### 错误处理
+
+#### 错误接口
+在标准库里的定义
+```go
+type error interface {
+    Error() string
+}
+```
+
+open函数的设计
+```go
+type PathError struct {
+    Op   string
+    Path string
+    Err  error
+}
+
+func (e *PathError) Error() string { return e.Op + " " + e.Path + ": " + e.Err.Error() }
+```
+
+#### 错误类型断言
+
+通过类型断言拿到错误信息
+```go
+func main() {
+    f, err := os.Open("/test.txt")
+    if err, ok := err.(*os.PathError); ok {
+        fmt.Println("File at path", err.Path, "failed to open")
+        return
+    }
+    fmt.Println(f.Name(), "opened successfully")
+}
+```
+
+#### 子错误类型
+```go
+type DNSError struct {
+    ...
+}
+
+func (e *DNSError) Error() string {
+    ...
+}
+func (e *DNSError) Timeout() bool {
+    ...
+}
+func (e *DNSError) Temporary() bool {
+    ...
+}
+
+func main() {
+    addr, err := net.LookupHost("golangbot123.com")
+    if err, ok := err.(*net.DNSError); ok {
+        if err.Timeout() {
+            fmt.Println("operation timed out")
+        } else if err.Temporary() {
+            fmt.Println("temporary error")
+        } else {
+            fmt.Println("generic error: ", err)
+        }
+        return
+    }
+    fmt.Println(addr)
+}
+```
+
+#### panic和recover
+
+下面使用recover去恢复panic
+- 注意: Go 协程中调用 recover 才管用。recover 不能恢复一个不同协程的 panic。
+```go
+func recoverName() {
+    if r := recover(); r!= nil {
+        fmt.Println("recovered from ", r)
+    }
+}
+
+func fullName(firstName *string, lastName *string) {
+    defer recoverName()
+    if firstName == nil {
+        panic("runtime error: first name cannot be nil")
+    }
+    if lastName == nil {
+        panic("runtime error: last name cannot be nil")
+    }
+    fmt.Printf("%s %s\n", *firstName, *lastName)
+    fmt.Println("returned normally from fullName")
+}
+```
+#### 恢复后获得堆栈
+```go
+import (
+    "runtime/debug"
+)
+
+func r() {
+    if r := recover(); r != nil {
+        fmt.Println("Recovered", r)
+        debug.PrintStack()
+    }
+}
+```
+
+### 更多函数
+
+#### 匿名函数
+```go
+func main() {
+    func(n string) {
+        fmt.Println("Welcome", n)
+    }("Gophers")
+}
+```
+
+#### 自定义函数类型
+```go
+type add func(a int, b int) int
+
+func main() {
+    var a add = func(a int, b int) int {
+        return a + b
+    }
+    s := a(5, 6)
+    fmt.Println("Sum", s)
+}
+```
+
+#### 高阶函数
+```go
+// 接受函数
+func simple(a func(a, b int) int) {
+    fmt.Println(a(60, 7))
+}
+
+// 返回函数
+func simple() func(a, b int) int {
+    f := func(a, b int) int {
+        return a + b
+    }
+    return f
+}
+
+```
+
+### 反射
+没什么好说的
+```go
+type order struct {
+	ordId      int
+	customerId int
+}
+
+func play(q interface{}) {
+	t := reflect.TypeOf(q)
+	k := t.Kind()
+
+	v := reflect.ValueOf(q)
+	fieldsNum := v.NumField()
+	fmt.Println("Type: ", t, "Kind: ", k)
+	fmt.Println("Value: ", v, "FieldNum: ", fieldsNum)
+	for i := 0; i < fieldsNum; i++ {
+		fmt.Println(t.Field(i).Name, v.Field(i).Type(), v.Field(i))
+	}
+}
+
+func createQuery(q interface{}) {
+	if reflect.TypeOf(q).Kind() != reflect.Struct {
+		return
+	}
+	t := reflect.TypeOf(q).Name()
+	query := fmt.Sprintf("insert into %s values(", t)
+	v := reflect.ValueOf(q)
+	for i := 0; i < v.NumField(); i++ {
+		switch v.Field(i).Kind() {
+		case reflect.Int:
+			if i == 0 {
+				query = fmt.Sprintf("%s%d", query, v.Field(i).Int())
+			} else {
+				query = fmt.Sprintf("%s, %d", query, v.Field(i).Int())
+			}
+		case reflect.String:
+			if i == 0 {
+				query = fmt.Sprintf("%s\"%s\"", query, v.Field(i).String())
+			} else {
+				query = fmt.Sprintf("%s, \"%s\"", query, v.Field(i).String())
+			}
+		default:
+			fmt.Println("unsupported field type")
+			return
+		}
+	}
+	query = fmt.Sprintf("%s)", query)
+	fmt.Println(query)
+	return
+}
+
+func main() {
+	o := order{
+		ordId:      456,
+		customerId: 56,
+	}
+	play(o)
+	println("----------------------------------------")
+	createQuery(o)
+
+	var a int = 1
+	b := reflect.ValueOf(a).String()
+	fmt.Println(reflect.TypeOf(b))
 }
 ```
