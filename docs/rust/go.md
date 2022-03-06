@@ -111,6 +111,7 @@ for i := 0; i < len(name_); i++ {
 }
 ```
 
+当对切片调用`append(slice, ...elems)`是, 如果超出切片的cap,就会重新分配内存空间,因此必须需要用变量接受返回值
 ```go
 //关于切片
 // a[x] 是 (*a)[x] 的简写形式
@@ -257,6 +258,8 @@ func main() {
 }
 ```
 - switch type
+注意: 把变量传递到函数中后会自动转换类型到interface, 因此调用函数能行, 但是下面直接switch就不行
+- 回报错: a (variable of type int) is not an interface
 ```go
 func findType(i interface{}) {
     switch i.(type) {
@@ -269,6 +272,19 @@ func findType(i interface{}) {
     }
 }
 
+func main() {
+	a := 1
+	findType(a)
+
+	switch interface{}(a).(type) {
+	case string:
+		fmt.Printf("I am a string and my value is %s\n", interface{}(a).(string))
+	case int:
+		fmt.Printf("I am an int and my value is %d\n", interface{}(a).(int))
+	default:
+		fmt.Printf("Unknown type\n")
+	}
+}
 ```
 
 ### 接口2
@@ -342,15 +358,44 @@ type C interface {
 #### 接口的零值
 接口的零值是nil，同时其底层值（Underlying Value）和具体类型（Concrete Type）都为 nil。调用方法会panic
 
+#### 接口的坑
+- 不能把interface赋值为别的类型
+    ```go
+    func main() {
+        // 声明a变量, 类型int, 初始值为1
+        var a int = 1
+
+        // 声明i变量, 类型为interface{}, 初始值为a, 此时i的值变为1
+        var i interface{} = a
+
+        // 声明b变量, 尝试赋值i
+        var b int = i
+    }
+    ```
+- 切片也不能再分
+    ```go
+    func main() {
+        sli := []int{2, 3, 5, 7, 11, 13}
+
+        var i interface{}
+        i = sli
+
+        g := i[1:3]
+        fmt.Println(g)
+    }
+    ```
+
 ### channel
 
 #### 特性
 - go的channel默认是双向的，既可以send，也可以recv
 - channel必须有发送端和接收端，否则就panic
 - make(chan int, n) n表示缓冲区大小, 可以省略, 默认为0
-    - 如果超过缓冲区大小, 就会panic, 超过缓冲区大小的数据必须在其他的协程中处理
-    - 对于rust,如果超出缓冲区大小send就会阻塞，发不出去
+    - 而对于无缓冲channel，接受和发送都要在不同携程之间, 不让两个人互相阻塞
+    - 对于有缓冲区channel, 在缓冲区大小内, 两个不会互相阻塞, 可以在同一协程内
+    - 如果超过缓冲区大小, 就会panic, 所以超过缓冲区大小的还是必须在其他的协程中处理
 - 缓冲区也有len 和 cap的概念
+- 对于rust,如果超出缓冲区大小send就会返回Error
 ```go
 func sendData(sendch chan<- int) {
     sendch <- 10
@@ -380,6 +425,7 @@ func main() {
 ```
 
 #### 关闭channel
+不能一直send或者一直recv, 处理完及时把一端close了
 ```go
 func producer(chnl chan int) {
     for i := 0; i < 10; i++ {
@@ -484,8 +530,10 @@ func main() {
 
 用法挺普通
 
+- channel不限制send/recv, 只要是对channel的操作就行
 - 如果有多个channel准备就绪, 就随机选择一个执行
-- 死锁与默认情况: ch并没有send任何东西, 如果没有default就会触发死锁, 导致panic, 空select一样也会导致panic
+- 死锁与默认情况: 如果select一直没有命中, 就会触发死锁, 导致panic, 空select一样也会导致panic
+- 可以准备一个timeout chan, 到时间就send作为超时信号
 ```go
 func main() {
     ch := make(chan string)
@@ -744,7 +792,7 @@ func simple() func(a, b int) int {
 ```
 
 ### 反射
-没什么好说的
+**基础**
 ```go
 type order struct {
 	ordId      int
@@ -765,13 +813,18 @@ func play(q interface{}) {
 }
 
 func createQuery(q interface{}) {
-	if reflect.TypeOf(q).Kind() != reflect.Struct {
+    // 拿到类型
+    if reflect.TypeOf(q).Kind() != reflect.Struct {
 		return
 	}
+    // 拿到类型名称
 	t := reflect.TypeOf(q).Name()
 	query := fmt.Sprintf("insert into %s values(", t)
+    // 拿到值
 	v := reflect.ValueOf(q)
+    // 拿到字段数量
 	for i := 0; i < v.NumField(); i++ {
+        // 拿到字段类型，字段名称，字段值
 		switch v.Field(i).Kind() {
 		case reflect.Int:
 			if i == 0 {
@@ -809,3 +862,306 @@ func main() {
 	fmt.Println(reflect.TypeOf(b))
 }
 ```
+**修改类型**
+```go
+func main() {
+    var age interface{} = 25
+    v := reflect.ValueOf(age)
+    // 从反射对象到接口变量
+    i := v.Interface().(int)
+}
+```
+**可写性**
+```go
+func main() {
+    var name string = "Go编程时光"
+    v1 := reflect.ValueOf(&name)
+    fmt.Println("v1 可写性为:", v1.CanSet())
+
+    v2 := v1.Elem()
+    fmt.Println("v2 可写性为:", v2.CanSet())
+}
+```
+
+## 进阶
+
+### 变量
+
+#### make
+make 函数创建 slice、map 或 chan 类型变量
+
+**和new的区别**
+- new：为所有的类型分配内存，并初始化为零值，返回指针。
+- make：只能为 slice，map，chan 分配内存，并初始化，返回的是类型(指针)。因为这三个本身就是引用类型
+
+- slice、map 和 chan 是 Go 中的引用类型，它们的创建和初始化，一般使用 make。特别的，chan 只能用 make。slice 和 map 还可以简单的方式：
+```go
+slice := []int{0, 0}
+m := map[string]int{}
+```
+#### 匿名变量
+- 不分配内存，不占用内存空间
+
+#### 浮点数
+浮点数转二进制时丢失了精度，计算完再转回十进制时和理论结果不同。
+- f32: 1 8
+- f64: 1 11
+
+### defer
+
+defer在return后执行
+```go
+import "fmt"
+
+var name string = "go"
+
+func myfunc() string {
+    defer func() {
+        name = "python"
+    }()
+
+    fmt.Printf("myfunc 函数里的name：%s\n", name) // go
+    return name
+}
+
+func main() {
+    myname := myfunc()
+    fmt.Printf("main 函数里的name: %s\n", name) // python
+    fmt.Println("main 函数里的myname: ", myname) // go
+}
+```
+
+#### 作用域
+
+**分类**
+- 内置作用域：不需要自己声明，所有的关键字和内置类型、函数都拥有全局作用域
+- 包级作用域：必須函数外声明，在该包内的所有文件都可以访问
+- 文件级作用域：不需要声明，导入即可。一个文件中通过import导入的包名，只在该文件内可用
+- 局部作用域：在自己的语句块内声明，包括函数，for、if 等语句块，或自定义的 {} 语句块形成的作用域，只在自己的局部作用域内可用
+
+**作用规则**
+- 低层作用域，可以访问高层作用域
+- 同一层级的作用域，是相互隔离的
+- 低层作用域里声明的变量，会覆盖高层作用域里声明的变量
+
+**动态作用域**
+
+下面的bash脚本中, func02在func01内部可以访问到value, 但在func01外面不能, 属于动态作用域
+```shell
+#!/bin/bash
+func01() {
+    local value=1
+    func02
+}
+func02() {
+    echo "func02 sees value as ${value}"
+}
+
+# 执行函数
+func01
+func02
+```
+
+### 结构体Tag
+
+**格式**
+空格分割的键值对
+
+**使用**
+示例: json库能够反序列化结构体
+- 如果加上omitepty, 当结构体为空是就会被忽略
+- 如果不加, 为空的字段会被解析为空字符串""
+```go
+type Person struct {
+    Name string `json:"name"`
+	Age  int    `json:"age"`
+	Addr string `json:"addr"` // ,omitempty
+}
+
+func main() {
+    p1 := Person{
+		Name: "Jack",
+		Age:  22,
+	}
+	data1, _ := json.Marshal(p1)
+	fmt.Printf("%s\n", data1)
+}
+```
+
+**可以通过反射读取tag**
+```go
+// 三种获取 field
+field := reflect.TypeOf(obj).FieldByName("Name")
+field := reflect.ValueOf(obj).Type().Field(i)  // i 表示第几个字段
+field := reflect.ValueOf(&obj).Elem().Type().Field(i)  // i 表示第几个字段
+
+// 获取 Tag
+tag := field.Tag
+
+// 获取键值对
+labelValue := tag.Get("label")  // 获取不到就会返回 ""
+labelValue,ok := tag.Lookup("label")
+```
+- 获取键值对，有Get 和 Lookup 两种方法，但其实 Get 只是对 Lookup 函数的简单封装而已，当没有获取到对应 tag 的内容，会返回空字符串。
+    ```go
+    func (tag StructTag) Get(key string) string {
+        v, _ := tag.Lookup(key)
+        return v
+    }
+    ```
+- 空 Tag 和不设置 Tag 效果是一样的
+
+### 协程池
+```go
+
+type Pool struct {
+	work chan func()   // 任务
+	sem  chan struct{} // 使用缓冲区大小控制工人数量
+}
+
+func New(size int) *Pool {
+	return &Pool{
+		work: make(chan func()),
+		sem:  make(chan struct{}, size),
+	}
+}
+func (p *Pool) worker(task func()) {
+	defer func() { <-p.sem }()
+	for {
+		task()
+		task = <-p.work
+	}
+}
+func (p *Pool) NewTask(task func()) {
+	// 第一次加新任务时，work缓冲区大小为0, 发出去也没人接受，所以一定会走第二个
+	// 相当于找到了第一个工人处理任务，worker本身是个for循环，它处理完第一个任务后会继续接受新任务
+	// 第二次加入时，就被第一个工人处理了，
+	// 如果第三个加入，因为sem缓冲区大小的限制，不会继续产生新的worker
+	select {
+	case p.work <- task:
+	case p.sem <- struct{}{}:
+		go p.worker(task)
+	}
+}
+func main() {
+	pool := New(2)
+	for i := 0; i < 5; i++ {
+		pool.NewTask(func() {
+			time.Sleep(1 * time.Second)
+			fmt.Println(time.Now())
+		})
+	}
+	time.Sleep(4 * time.Second)
+}
+```
+
+### 动态类型
+
+接口分为两种`iface`和`eface`
+
+所有的变量都实现了空接口(eface)
+```go
+// 定义静态类型
+i := (int)(25)
+i = "Go编程时光" // 会报错
+
+// 定义动态类型
+i := (interface{})(25)
+var i interface{}
+i = 18
+
+i = "Go编程时光" // 上面三种都行，不会报错
+```
+```go
+var reader io.Reader
+
+tty, err := os.OpenFile("/dev/tty", os.O_RDWR, 0)
+if err != nil {
+    return nil, err
+}
+
+reader = tty
+```
+第一行代码结束后，reader的静态类型为`io.Reader`还没有动态类型
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203060928375.png)
+被赋值为tty后，reader的动态类型变为`*os.File`
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203060936153.png)
+
+
+```go
+//不带函数的interface
+var empty interface{}
+
+tty, err := os.OpenFile("/dev/tty", os.O_RDWR, 0)
+if err != nil {
+    return nil, err
+}
+
+empty = tty
+```
+刚开始empty是eface，`_type`为nil
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203060938295.png)
+被赋值后，`_type`的**静态类型**为`*os.File`
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203060938635.png)
+
+### 导入
+
+导入方式:
+- 绝对导入：从 `$GOPATH/src` 或 **`$GOROOT`** 或者 `$GOPATH/pkg/mod` 目录下搜索包并导入
+- 相对导入：从当前目录中搜索包并开始导入。就像下面这样
+
+注意:
+- 导入时，是按照目录导入。导入目录后，可以使用这个目录下的所有包。
+- 只要不是`.`或`..`开头，全都是绝对路径
+
+### context
+当一个goutine开启后，只能通过channel的通知实现管理，使用context更方便了
+
+当你把 Context 传递给多个 goroutine 使用时，只要执行一次 cancel 操作，所有的 goroutine 就可以收到 取消的信号，Context 是线程安全的，可以放心地在多个 goroutine 中使用。
+
+context创建依赖于4个函数
+- withCancel最普通，只能使用cancel去结束
+- withDeadline和WithDeadline会在超时后自动cancel，传递的是绝对时间和相对时间
+- withValue能够携带一些键值对(键应该是可比的，值必须是线程安全的)
+```go
+func WithCancel(parent Context) (ctx Context, cancel CancelFunc)
+func WithDeadline(parent Context, deadline time.Time) (Context, CancelFunc)
+func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
+func WithValue(parent Context, key, val interface{}) Context
+```
+```go
+func monitor(ctx context.Context, number int)  {
+    for {
+        select {
+        case <- ctx.Done():
+            fmt.Printf("监控器%v，监控结束。\n", number)
+            return
+        default:
+            fmt.Printf("监控器%v，正在监控中...\n", number)
+            time.Sleep(2 * time.Second)
+        }
+    }
+}
+
+func main() {
+    ctx01, cancel := context.WithCancel(context.Background())
+    ctx02, cancel := context.WithDeadline(ctx01, time.Now().Add(1 * time.Second))
+
+    defer cancel()
+
+    for i :=1 ; i <= 5; i++ {
+        go monitor(ctx02, i)
+    }
+
+    time.Sleep(5  * time.Second)
+    if ctx02.Err() != nil {
+        fmt.Println("监控器取消的原因: ", ctx02.Err())
+    }
+
+    fmt.Println("主程序退出！！")
+}
+```
+
+## 参考
+- [2020重学Go系列：34. 图解静态类型与动态类型](https://mp.weixin.qq.com/s?__biz=MzAxMTA4Njc0OQ==&mid=2651439981&idx=4&sn=b1ad1fd6e9ddf4618b0db904b067f7f6&scene=19#wechat_redirect)
+- []()
