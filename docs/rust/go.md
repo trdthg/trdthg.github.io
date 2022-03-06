@@ -1,11 +1,11 @@
-# 一些特殊点
-## 基础
-### 格式化
+# go语言
+###./ 基础
+#### 格式化
 ```go
 fmt.Printf("type %T value %v \n", a, a)
 ```
 
-### 循环
+#### 循环
 ```go
 if num := 10; num > 0 {
     fmt.Println(num)
@@ -38,7 +38,7 @@ case dd > -1:
 }
 ```
 
-### 数组
+#### 数组
 
 数组有固定大小，数组的大小是类型的一部分，因此[5]int 和 [25]int是不同类型
 ```go
@@ -65,7 +65,7 @@ change(nums...)
 pln(nums...)
 ```
 
-### map
+#### map
 ```go
 // map的零值为nil, 必须使用make初始化
 // map是 引用类型，当map被赋值给另一个变量是后，他们共享一个
@@ -93,7 +93,7 @@ if v, ok := mmm["aa"]; ok == true {
 }
 ```
 
-### 字符串 与 切片
+#### 字符串 与 切片
 ```go
 // 字符串
 name := "Señor"
@@ -141,6 +141,8 @@ func pln(elems ...int) {
 ```
 
 ### 结构体
+- 结构体是值类型。如果它的每一个字段都是可比较的，则该结构体也是可比较的。如果两个结构体变量的对应字段相等，则这两个变量也是相等的。
+- 如果结构体包含不可比较的字段，则结构体变量也不可比较。
 
 #### 书写
 - 匿名结构体: string,int就是字段名，字段不能重复
@@ -168,11 +170,57 @@ func pln(elems ...int) {
     fmt.Print(group.string, group.string)
     ```
 
-#### 比较
-- 结构体是值类型。如果它的每一个字段都是可比较的，则该结构体也是可比较的。如果两个结构体变量的对应字段相等，则这两个变量也是相等的。
-- 如果结构体包含不可比较的字段，则结构体变量也不可比较。
 
-### 方法
+#### 结构体Tag
+
+**格式**
+空格分割的键值对
+
+**使用**
+示例: json库能够反序列化结构体
+- 如果加上omitepty, 当结构体为空是就会被忽略
+- 如果不加, 为空的字段会被解析为空字符串""
+```go
+type Person struct {
+    Name string `json:"name"`
+	Age  int    `json:"age"`
+	Addr string `json:"addr"` // ,omitempty
+}
+
+func main() {
+    p1 := Person{
+		Name: "Jack",
+		Age:  22,
+	}
+	data1, _ := json.Marshal(p1)
+	fmt.Printf("%s\n", data1)
+}
+```
+
+**可以通过反射读取tag**
+```go
+// 三种获取 field
+field := reflect.TypeOf(obj).FieldByName("Name")
+field := reflect.ValueOf(obj).Type().Field(i)  // i 表示第几个字段
+field := reflect.ValueOf(&obj).Elem().Type().Field(i)  // i 表示第几个字段
+
+// 获取 Tag
+tag := field.Tag
+
+// 获取键值对
+labelValue := tag.Get("label")  // 获取不到就会返回 ""
+labelValue,ok := tag.Lookup("label")
+```
+- 获取键值对，有Get 和 Lookup 两种方法，但其实 Get 只是对 Lookup 函数的简单封装而已，当没有获取到对应 tag 的内容，会返回空字符串。
+    ```go
+    func (tag StructTag) Get(key string) string {
+        v, _ := tag.Lookup(key)
+        return v
+    }
+    ```
+- 空 Tag 和不设置 Tag 效果是一样的
+
+### 方法 & 函数
 
 #### 结构体上的方法
 - 结构体方法: 不管是一个值，还是一个可以解引用的指针，调用这样的方法都是合法的。
@@ -227,6 +275,48 @@ func (a myInt) add(b myInt) myInt {
 ```
 - wrapper包装
 
+
+#### 函数
+
+**匿名函数**
+```go
+func main() {
+    func(n string) {
+        fmt.Println("Welcome", n)
+    }("Gophers")
+}
+```
+
+**自定义函数类型**
+```go
+type add func(a int, b int) int
+
+func main() {
+    var a add = func(a int, b int) int {
+        return a + b
+    }
+    s := a(5, 6)
+    fmt.Println("Sum", s)
+}
+```
+
+**高阶函数**
+```go
+// 接受函数
+func simple(a func(a, b int) int) {
+    fmt.Println(a(60, 7))
+}
+
+// 返回函数
+func simple() func(a, b int) int {
+    f := func(a, b int) int {
+        return a + b
+    }
+    return f
+}
+
+```
+
 ### 接口
 类似于dyn Train
 ```go
@@ -236,13 +326,7 @@ type SalaryCalculator interface {
 employees := []SalaryCalculator{pemp1, pemp2, cemp1}
 ```
 
-#### 接口的内部表示
-可以把接口看作内部的一个元组 (type, value)。 type 是接口底层的具体类型（Concrete Type），而 value 是具体类型的值。
-
-#### 空接口
-没有包含方法的接口称为空接口。空接口表示为 interface{}。由于空接口没有方法，因此所有类型都实现了空接口。
-
-#### 接口的具体类型
+#### 接口的断言
 - 类型断言
 ```go
 func assert(i interface{}) {
@@ -286,8 +370,6 @@ func main() {
 	}
 }
 ```
-
-### 接口2
 
 #### 接口类型变量
 声明一个变量是接口类型，那么这个变量可以被赋值为，任何实现了接口的类型
@@ -551,7 +633,6 @@ goroutine不能保证并发安全, 下面是一些解决方法
 - 总体说来，当 Go 协程需要与其他协程通信时，可以使用channel。而当只允许一个协程访问临界区时，可以使用 Mutex。
 - 就我们上面解决的问题而言，我更倾向于使用 Mutex，因为该问题并不需要协程间的通信。所以 Mutex 是很自然的选择。
 
-
 #### mutex
 ```go
 func aa(wg *sync.WaitGroup, m *sync.Mutex) {
@@ -624,6 +705,29 @@ func main() {
     }
 }
 // 倒叙输出: neevaN
+```
+
+#### defer在return后执行
+
+```go
+import "fmt"
+
+var name string = "go"
+
+func myfunc() string {
+    defer func() {
+        name = "python"
+    }()
+
+    fmt.Printf("myfunc 函数里的name：%s\n", name) // go
+    return name
+}
+
+func main() {
+    myname := myfunc()
+    fmt.Printf("main 函数里的name: %s\n", name) // python
+    fmt.Println("main 函数里的myname: ", myname) // go
+}
 ```
 
 #### 使用场景
@@ -750,47 +854,6 @@ func r() {
 }
 ```
 
-### 更多函数
-
-#### 匿名函数
-```go
-func main() {
-    func(n string) {
-        fmt.Println("Welcome", n)
-    }("Gophers")
-}
-```
-
-#### 自定义函数类型
-```go
-type add func(a int, b int) int
-
-func main() {
-    var a add = func(a int, b int) int {
-        return a + b
-    }
-    s := a(5, 6)
-    fmt.Println("Sum", s)
-}
-```
-
-#### 高阶函数
-```go
-// 接受函数
-func simple(a func(a, b int) int) {
-    fmt.Println(a(60, 7))
-}
-
-// 返回函数
-func simple() func(a, b int) int {
-    f := func(a, b int) int {
-        return a + b
-    }
-    return f
-}
-
-```
-
 ### 反射
 **基础**
 ```go
@@ -907,30 +970,6 @@ m := map[string]int{}
 - f32: 1 8
 - f64: 1 11
 
-### defer
-
-defer在return后执行
-```go
-import "fmt"
-
-var name string = "go"
-
-func myfunc() string {
-    defer func() {
-        name = "python"
-    }()
-
-    fmt.Printf("myfunc 函数里的name：%s\n", name) // go
-    return name
-}
-
-func main() {
-    myname := myfunc()
-    fmt.Printf("main 函数里的name: %s\n", name) // python
-    fmt.Println("main 函数里的myname: ", myname) // go
-}
-```
-
 #### 作用域
 
 **分类**
@@ -962,54 +1001,6 @@ func01
 func02
 ```
 
-### 结构体Tag
-
-**格式**
-空格分割的键值对
-
-**使用**
-示例: json库能够反序列化结构体
-- 如果加上omitepty, 当结构体为空是就会被忽略
-- 如果不加, 为空的字段会被解析为空字符串""
-```go
-type Person struct {
-    Name string `json:"name"`
-	Age  int    `json:"age"`
-	Addr string `json:"addr"` // ,omitempty
-}
-
-func main() {
-    p1 := Person{
-		Name: "Jack",
-		Age:  22,
-	}
-	data1, _ := json.Marshal(p1)
-	fmt.Printf("%s\n", data1)
-}
-```
-
-**可以通过反射读取tag**
-```go
-// 三种获取 field
-field := reflect.TypeOf(obj).FieldByName("Name")
-field := reflect.ValueOf(obj).Type().Field(i)  // i 表示第几个字段
-field := reflect.ValueOf(&obj).Elem().Type().Field(i)  // i 表示第几个字段
-
-// 获取 Tag
-tag := field.Tag
-
-// 获取键值对
-labelValue := tag.Get("label")  // 获取不到就会返回 ""
-labelValue,ok := tag.Lookup("label")
-```
-- 获取键值对，有Get 和 Lookup 两种方法，但其实 Get 只是对 Lookup 函数的简单封装而已，当没有获取到对应 tag 的内容，会返回空字符串。
-    ```go
-    func (tag StructTag) Get(key string) string {
-        v, _ := tag.Lookup(key)
-        return v
-    }
-    ```
-- 空 Tag 和不设置 Tag 效果是一样的
 
 ### 协程池
 ```go

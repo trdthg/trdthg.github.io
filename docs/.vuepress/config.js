@@ -30,7 +30,7 @@ module.exports = {
             {text: '常用工具', link: '/java/springboot'},
           ]},
         ]},
-        {text: '小项目 💪', children: [
+        {text: '小玩具 🎮', children: [
           {text: 'mini-vue', link: '/projects/mini_vue'},
           {text: '打包器', link: '/projects/mini_bundle'},
           {text: '异步运行时', link: '/projects/mini_tokio'},
