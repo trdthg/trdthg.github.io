@@ -70,6 +70,71 @@
 
 这里会将一个Dockerfile的构建过程
 
+### ADD & COPY
+
+COPY
+- 支持通配符
+- 可以改变用户和组
+```dockerfile
+COPY package.json /usr/src/app/
+COPY hom* /mydir/
+COPY hom?.txt /mydir/
+COPY --chown=55:mygroup files* /mydir/
+```
+ADD
+- 源路经是URL会尝试下载
+- 源路径是压缩文件(gzip, bzip2 以及 xz), 会自动解压
+
+### EXPOSE
+指定容器向外部暴露的端口，但并不会自动映射到宿主机，使用`-P`后会将这些端口随机映射到宿主机
+```dockerfile
+EXPOSE 8080
+EXPOSE 7000-8000
+```
+
+### RUN
+```dockerfile
+RUN cd /app
+RUN echo "hello" > world.txt
+```
+上面的两个`RUN`并不是在同一个环境下运行的，他们不是一个容器，他们的工作目录当然也不一样
+
+可以通过`WORKDIR`去同步不同命令的工作目录
+```dockerfile
+WORKDIR /app
+RUN echo "hello" > world.txt
+```
+多个`WORKDIR`之间是有联系的
+```dockerfile
+WORKDIR /a
+WORKDIR b
+WORKDIR c
+
+RUN pwd
+# /a/b/c
+```
+
+### VOLUME
+挂载主机目录 / 挂载数据卷
+```dockerfile
+VOLUME: HostPath:ContainerPath
+```
+挂载匿名卷, 匿名卷中的数据不会持久化
+```dockerfile
+VOLUME /data
+```
+
+命令行挂载
+```
+--mount type=bind,source=/src/webapp,target=/usr/share/nginx/html,readonly \
+```
+|key| value |
+|---|-------------------------|
+|type|	bind, volume, or tmpfs|
+|source/src	|Docker Host上的一个目录或者文件|
+|destination/dst/target	|被挂载容器上的一个目录或者文件|
+|readonly|	挂载为只读|
+
 ### 格式
 
 1. 指定基础镜像
@@ -84,8 +149,11 @@
     格式：`RUN <命令>`，就像直接在命令行中输入的命令一样。刚才写的 Dockerfile 中的 `RUN` 指令就是这种格式。
 
 3. ENTRYPOINT 添加prefix
-    从外部运行`docker run myip -i`，就相当于`docker run myip curl -s http://myip.ipip.net -i`
+
     `ENTRYPOINT [ "curl", "-s", "http://myip.ipip.net" ]`
+
+    从外部运行`docker run myip -i`，就相当于`docker run myip curl -s http://myip.ipip.net -i`
+
 
 ### build
 ```sh
@@ -165,6 +233,17 @@ CMD ["redis-server", "--loadmodule", "/opt/redis-modules/librejson.so", "--loadm
 ```
 
 ## 5 其他
+
+### 端口映射
+
+- 一对一指定: ` -p <宿主端口>:<容器端口>`
+- 一对一随机:
+    - `-P 80` 把容器的80端口随机映射宿主机上
+- 多对多指定:
+    - `-p 1000-2000:1000-2000` 容器的1000-2000的所有端口，映射到宿主机端口1000-2000
+- 多对多随机:
+    - `docker run --expose=1000-2000` 容器的1000-2000的所有端口，随机映射到宿主机
+    - `docker run -P` 把容器暴露的所有端口都随机映射宿主机上
 
 ### 正则匹配用法
 - 删除容器
