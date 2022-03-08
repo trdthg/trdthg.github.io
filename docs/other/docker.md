@@ -160,44 +160,9 @@ VOLUME /data
 docker build -t xxx .
 ```
 
-## 4 实践
+### 例子
 
-## 5 自动化
-
-### pass凭证管理
-
-- pass
-- docker-credential-pass
-
-![Docker Login 登录凭证安全存储](https://blog.csdn.net/Rambo_Yang/article/details/108294632)
-
-### 坑
-
-gpg2一定不要使用sudo执行，
-docker也要加到group里
-
-- 注意`docker login`登陆的url是什么，这个url需要时jib白名单里有的
-
-    `docker login`默认登陆的url是`index.docker.io/v1`
-
-    如果jib无法识别, 可以尝试使用 `docker login registry.hub.docker.com`
-
-    现在有的凭证可以通过`docker-credential-pass list`查看
-    ```
-    »»»» docker-credential-pass list
-    {"https://index.docker.io/v1/":"trdthg","registry.hub.docker.com":"trdthg"}
-    ```
-- jib自动push需要从白名单url中一个个尝试，`docker login`
-
-### jib
-![Jib](https://github.com/GoogleContainerTools/jib)
-
-登陆成功会有下面的提示
-`  0|10:19:46``
-[INFO] Using credentials from Docker config (/home/trdthg/.docker/config.json) for adoptopenjdk/openjdk8
-```
-
-### curl自动查询ip
+#### curl自动查询ip
 ```sh
 FROM ubuntu:18.04
 
@@ -208,7 +173,7 @@ RUN apt-get update \
 CMD ["curl", "-s", "http://"]
 
 ```
-### redis镜像
+#### redis + redis-json + redis-search
 ```sh
 FROM alpine:latest
 
@@ -265,6 +230,110 @@ WORKDIR /home/admin
 EXPOSE 6379
 CMD ["redis-server", "--loadmodule", "/opt/redis-modules/librejson.so", "--loadmodule", "/opt/redis-modules/redisearch.so"]
 
+```
+
+
+## 4 自动化
+
+### pass凭证管理
+
+- pass
+- docker-credential-pass
+
+![Docker Login 登录凭证安全存储](https://blog.csdn.net/Rambo_Yang/article/details/108294632)
+
+### 坑
+
+gpg2一定不要使用sudo执行，
+docker也要加到group里
+
+- 注意`docker login`登陆的url是什么，这个url需要时jib白名单里有的
+
+    `docker login`默认登陆的url是`index.docker.io/v1`
+
+    如果jib无法识别, 可以尝试使用 `docker login registry.hub.docker.com`
+
+    现在有的凭证可以通过`docker-credential-pass list`查看
+    ```
+    »»»» docker-credential-pass list
+    {"https://index.docker.io/v1/":"trdthg","registry.hub.docker.com":"trdthg"}
+    ```
+- jib自动push需要从白名单url中一个个尝试，`docker login`
+
+### jib
+![Jib](https://github.com/GoogleContainerTools/jib)
+
+登陆成功会有下面的提示
+```
+[INFO] Using credentials from Docker config (/home/trdthg/.docker/config.json) for adoptopenjdk/openjdk8
+```
+
+## 5 docker-compose
+
+### spring-boot + mysql
+
+#### doocker-compose.yml
+网络:
+- 如果不特殊指明,所有的service都会自动加入default网络里
+- host会被service的名称代替 `tguio.club => mysql`
+- 端口号会被容器暴露的端口代替 `4205 => 3306`
+
+- 容器之间可以通过自己暴露的端口互相访问
+- 宿主机还是需要通过绑定到宿主机上的端口访问
+
+```yml
+services:
+  web:
+    build: .
+    ports:
+      - "8848:8848"
+    depends_on:
+      - mysql
+      - redis
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: dev
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: 2022A22db
+    ports:
+      - "4205:3306"
+    restart: always
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "5470:6379"
+
+```
+
+```yml
+server:
+  port: 8848
+spring:
+  datasource:
+#    url: jdbc:mysql://tguio.club:4205/dev?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://mysql:3306/dev?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    username: admin
+    password: admin
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+#        show_sql: true
+        hbm2ddl:
+          auto: update
+  redis:
+#    host: tguio.club
+    host: redis
+    port: 5470
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 4
+      min-idle: 1
+#    timeout: 5
 ```
 
 ## 5 其他
