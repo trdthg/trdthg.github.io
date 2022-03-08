@@ -162,6 +162,41 @@ docker build -t xxx .
 
 ## 4 实践
 
+## 5 自动化
+
+### pass凭证管理
+
+- pass
+- docker-credential-pass
+
+![Docker Login 登录凭证安全存储](https://blog.csdn.net/Rambo_Yang/article/details/108294632)
+
+### 坑
+
+gpg2一定不要使用sudo执行，
+docker也要加到group里
+
+- 注意`docker login`登陆的url是什么，这个url需要时jib白名单里有的
+
+    `docker login`默认登陆的url是`index.docker.io/v1`
+
+    如果jib无法识别, 可以尝试使用 `docker login registry.hub.docker.com`
+
+    现在有的凭证可以通过`docker-credential-pass list`查看
+    ```
+    »»»» docker-credential-pass list
+    {"https://index.docker.io/v1/":"trdthg","registry.hub.docker.com":"trdthg"}
+    ```
+- jib自动push需要从白名单url中一个个尝试，`docker login`
+
+### jib
+![Jib](https://github.com/GoogleContainerTools/jib)
+
+登陆成功会有下面的提示
+`  0|10:19:46``
+[INFO] Using credentials from Docker config (/home/trdthg/.docker/config.json) for adoptopenjdk/openjdk8
+```
+
 ### curl自动查询ip
 ```sh
 FROM ubuntu:18.04
@@ -258,6 +293,18 @@ CMD ["redis-server", "--loadmodule", "/opt/redis-modules/librejson.so", "--loadm
 ```
            镜像id   名称  tag(可省略)
 docker tag e49db activemp:1.5.5
+```
+
+### 添加`sudo`权限
+```shell
+# 如果 docker 组不存在，则添加之：
+sudo groupadd docker
+
+# 将当前用户添加到 docker 组
+sudo gpasswd -a trdthg docker
+
+# 添加访问和执行权限
+sudo chmod a+rw /var/run/docker.sock
 ```
 
 ### 推送到dockerhub
