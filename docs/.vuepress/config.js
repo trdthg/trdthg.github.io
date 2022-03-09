@@ -67,6 +67,7 @@ module.exports = {
           {text: 'vim', link: '/other/vim'},
           {text: 'git', link: '/other/git'},
           {text: 'docker', link: '/other/docker'},
+          {text: '监测工具', link: '/other/analyze'},
           {text: 'OCI规范', link: '/other/oci'},
           {text: 'OAuth2.0', link: '/other/oauth2'},
         ]},
