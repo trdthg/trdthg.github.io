@@ -2,7 +2,7 @@
 
 ## 全连路追踪
 
-### 使用skywalking监测java
+### skywalking
 
 这里使用探针实现信息收集，使用默认的H2存储
 
@@ -239,3 +239,6 @@ public class IndexController {@GetMapping("/")
     由图可以明细的看出来，index方法中timeHandler事件采样占比最高，即timeHandler方法占用线程耗时时间最高。如果因为index方法耗时较长，需要进行优化，那么通过该火焰图很容易分析出来需要对timeHandler方法优化来降低线程耗时时间
 
 直接观察"平顶"（plateaus）往往不能快速定位性能问题，因为顶部记录的多半是对底层库函数的调用情况。我认为，要快速定位性能问题，首先应该观察的是业务函数在火焰图中的宽度，然后在往顶部找到第一个库函数来缩小范围，而不是直接就看平顶。
+
+## 参考
+- [使用 docker 部署 spring boot 并接入 skywalking](https://segmentfault.com/a/1190000039836624)
