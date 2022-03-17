@@ -270,6 +270,21 @@ docker也要加到group里
 
 ## 5 docker-compose
 
+### 限制资源
+```yml
+redis:
+  image: redis:alpine
+  container_name: redis
+  deploy:
+    resources:
+      limits:
+        cpus: '0.50'
+        memory: 50M
+```
+`--compatibility`: 以兼容模式运行, 将 v3 的语法转化为 v2 的语法, 而不需要将 compose 文件改为 v2 的版本
+```shell
+docker-compose --compatibility up -d
+```
 ### 完整配置参考
 ```yml
 version: "3"  # 指定docker-compose语法版本

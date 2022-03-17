@@ -1,4 +1,4 @@
-# 性能优化分析工具
+# 性能监测工具
 
 ## 全连路追踪
 
@@ -131,6 +131,9 @@ services:
       driver: "none"
 ```
 
+#### 参考
+
+- [使用 docker 部署 spring boot 并接入 skywalking](https://segmentfault.com/a/1190000039836624)
 
 ## 火焰图
 
@@ -240,5 +243,199 @@ public class IndexController {@GetMapping("/")
 
 直接观察"平顶"（plateaus）往往不能快速定位性能问题，因为顶部记录的多半是对底层库函数的调用情况。我认为，要快速定位性能问题，首先应该观察的是业务函数在火焰图中的宽度，然后在往顶部找到第一个库函数来缩小范围，而不是直接就看平顶。
 
-## 参考
-- [使用 docker 部署 spring boot 并接入 skywalking](https://segmentfault.com/a/1190000039836624)
+## prometheus
+
+被监控的进程需要向`prometheus`发送固定格式的信息，因为格式固定，可以根据`prometheus`的查询语句去筛选数据，并导出图标
+
+### PromQL
+
+一条完整的查询语句主要有
+- 匹配数据源
+- 运算
+- 函数
+这三部分组成
+
+1. 查询内存占用
+
+数据源:
+```
+# HELP node_memory_MemFree_bytes Memory information field MemFree_bytes.
+# TYPE node_memory_MemFree_bytes gauge
+node_memory_MemFree_bytes 4.85957632e+08
+# HELP node_memory_MemTotal_bytes Memory information field MemTotal_bytes.
+# TYPE node_memory_MemTotal_bytes gauge
+node_memory_MemTotal_bytes 1.6170528768e+10
+```
+
+计算: (总内存 - 空闲内存) / 总内存 * 100
+```
+(
+  (
+    node_memory_MemTotal_bytes{instance="$node",job="$job"}
+    - node_memory_MemFree_bytes{instance="$node",job="$job"}
+  ) / (node_memory_MemTotal_bytes{instance="$node",job="$job"} )) * 100
+```
+
+
+2. 查询cpu总占用
+
+各个内核的数据
+```
+# HELP node_cpu_seconds_total Seconds the CPUs spent in each mode.
+# TYPE node_cpu_seconds_total counter
+node_cpu_seconds_total{cpu="0",mode="idle"} 134248.98
+node_cpu_seconds_total{cpu="0",mode="iowait"} 94.73
+node_cpu_seconds_total{cpu="0",mode="irq"} 0
+node_cpu_seconds_total{cpu="0",mode="nice"} 2.6
+node_cpu_seconds_total{cpu="0",mode="softirq"} 4554.64
+node_cpu_seconds_total{cpu="0",mode="steal"} 0
+node_cpu_seconds_total{cpu="0",mode="system"} 3190.14
+node_cpu_seconds_total{cpu="0",mode="user"} 6843.42
+
+node_cpu_seconds_total{cpu="1",mode="idle"} 12962.19
+node_cpu_seconds_total{cpu="1",mode="iowait"} 12.3
+node_cpu_seconds_total{cpu="1",mode="irq"} 0
+node_cpu_seconds_total{cpu="1",mode="nice"} 2.05
+node_cpu_seconds_total{cpu="1",mode="softirq"} 464.51
+node_cpu_seconds_total{cpu="1",mode="steal"} 0
+node_cpu_seconds_total{cpu="1",mode="system"} 2174.27
+node_cpu_seconds_total{cpu="1",mode="user"} 5931.27
+
+node_cpu_seconds_total{cpu="10",mode="idle"} 12798.81
+node_cpu_seconds_total{cpu="10",mode="iowait"} 16.9
+node_cpu_seconds_total{cpu="10",mode="irq"} 0
+node_cpu_seconds_total{cpu="10",mode="nice"} 2.27
+node_cpu_seconds_total{cpu="10",mode="softirq"} 39.99
+node_cpu_seconds_total{cpu="10",mode="steal"} 0
+node_cpu_seconds_total{cpu="10",mode="system"} 2554.07
+
+100 - (
+  # 取平均值
+  avg(
+    # rate函数能够求counter类型数据的增长率，类似于加速度，能够反映变化的剧烈程度
+    rate(
+      # 只匹配 mode为idle的行，
+      node_cpu_seconds_total{instance=~"$node",mode="idle"}[$interval])
+  ) * 100
+)
+```
+
+### 配置文件
+```yml
+global:
+  scrape_interval: 15s # 全局默认刷新时间
+  external_labels:
+    monitor: 'codelab-monitor'
+
+scrape_configs:
+  - job_name: 'service1' # 一个job可以监控多个实例，实例可以分组
+    scrape_interval: 5s
+    static_configs:
+      # - targets: ['localhost:8080', 'localhost:8081']
+      #   labels:
+      #     group: 'production'
+
+      - targets: ["service1:9100"]
+        labels:
+          group: 'node'
+
+  - job_name: 'jmeter' # jmeter运行过程中会在9270端口，可以监控
+    scrape_interval: 5s
+    static_configs:
+      - targets: ["jmeter:9270"]
+        labels:
+          group: 'jmeter'
+```
+
+
+### 监测springboot
+
+## jmeter
+
+### 运行测试
+```
+JVM_ARGS="-Xms1g -Xmx1g" jmeter.sh -n -t benchmark.jmx
+```
+
+### 参数
+```
+-n 命令行模式
+
+-t 指定jmx脚本地址（地址可以是相对路径，可以是绝对路径）
+
+-h 查看帮助
+-v 查看版本
+-p 指定读取jmeter属性文件，比如jmeter.properties文件中设置的
+-l 记录测试结果的文件，通常结果文件为jtl格式（文件可以是相对路径，可以是绝对路径）
+-s 以服务器方式运行（也是远程方式，启动Agent）
+-H 设置代理，一般填写代理IP
+-P 设置代理端口
+-u 代理账号
+-a 代理口令
+-J 定义jmeter属性，等同于在jmeter.properties中进行设置
+-G 定义jmeter全局属性，等同于在Global.properties中进行设置，线程间可以共享）
+-D 定义系统属性，等同于在system.properties中进行设置
+-S 加载系统属性文件，可以通过此参数指定加载一个系统属性文件，此文件可以用户自己定义
+-L 定义jmeter日志级别，如debug、info、error等
+-j 制定执行日志路径。（参数为日志路径，不存在不会自动创建，将日志输出到命行控制台）
+-r 开启远程负载机，远程机器列表在jmeter.properties中指定
+-R 开启远程负载机，可以指定负载机IP，会覆盖jmeter.properties中remote_hosts的设置
+-d 指定Jmeter Home目录
+-X 停止远程执行
+-g 指定测试结果文件路径，仅用于生成测试报表，参数是csv结果文件
+-e 设置测试完成后生成测试报表
+-o 指定测试报告生成文件夹（文件夹必须存在且为空文件夹）
+```
+
+
+### 插件
+
+下载后放到`lib/ext`目录下即可
+
+- [prometheus](https://github.com/johrstrom/jmeter-prometheus-plugin/releases)
+
+### 导入influxdb2.0
+1. 配置influxdb
+
+新建账号，配置token
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203172000131.png)
+
+2. 配置jmeter
+
+在线程组内添加一个后端控制器
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203171959109.png)
+
+3. 在influxdb UI查看结果
+
+可以通过途中的可视化界面选择，也可以转换为Flux查询语句
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203171957424.png)
+
+## gafana
+
+### 连接prometheus
+1. 配置数据源
+2. 添加查询语句(promQL)
+3. 选择合适的图标类型，定制一些图标的样式
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203172108901.png)
+
+### 连接influxdb
+
+1. 配置数据源
+注意url，这个url需要是docker的，不是本机的`http://172.20.0.5:8086`
+```
+docker container inspect f65 | grep -i ipaddress
+```
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203172005301.png)
+
+2. 导入查询语句(Flux)
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203172003871.png)
+
+### 参考
+
+- [Use Grafana with InfluxDB OSS](https://docs.influxdata.com/influxdb/v2.1/tools/grafana/)
+- [jmeter + influxdb + grafuna](https://qainsights.com/jmeter-integration-with-influxdb-2-0/#Grafana_Integration)
