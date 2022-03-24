@@ -1,4 +1,4 @@
-# 技术
+# 大数据
 
 ## 使用VM搭建hadoop集群
 
@@ -199,6 +199,103 @@ ssh-copy-id hadoop103
 
 ### 9
 
-### 待续
+## HDFS
 
-## 待续
+日志型，只允许追加
+
+## HBase
+
+基于HDFS，不会将旧数据删除
+
+### 数据模型
+
+HBase是一个稀疏的(不同时间没有数据)，多维度(4个维度在能限定到一个单元格)的，排序的映射表
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241641728.png)
+
+#### 概念视图
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241634039.png)
+不同时间可能没有数据，体现了HBase是稀疏表
+
+#### 物理视图
+列标识并没有区分
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241635344.png)
+
+#### 按行按列的区分
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241637049.png)
+
+按行:
+- 不便于读取某一列数据, 必须扫描所有行，并把每行的某个字段取出来
+
+按列:
+
+- 压缩性能好，按列存，数据类型相同，能够更好的压缩
+
+### 实现原理
+
+#### 服务器划分
+- master服务器负责管理写请求，负载均衡等
+- 客户端并不依赖master服务去找到数据位置
+- 用户直接访问的是region服务器
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241654144.png)
+
+#### 物理存储
+- 不同的region不许存储在同一个服务器上，一个服务器可以存储多个region(1-2G, 10-1000个)
+- region太大了就会垂直分裂(操作指针，速度较快)，分裂时用户读取的依然是之前的region，当服务器经过合并，写入新的文件之后，新来的用户彩绘访问新的region
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241657033.png)
+
+#### 索引结构
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241701862.png)
+各个层次的作用
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241702112.png)
+3层结构完全足够使用，对于经常访问的可以增加缓存
+- 如何解决缓存失效，缓存失效的话数据就找不到了
+
+### 运行架构
+
+#### 架构图
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241709216.png)
+master:
+- 对数据表进行增删改查
+- 负载均衡，把负载大的服务器上的region表拿到其他负载小的服务器上
+- 管理region的分裂合并操作之后的发布
+- 重新分配故障服务器上的region
+
+#### region写入HDFS
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241715580.png)
+对于单个region服务器，上面存储了多个region块，每个列族被划分为一个store
+
+锁与resion块共用一个Hlog文件
+
+region将数据写入HDFS会线写入memStore中(缓存)，缓存满了之后，刷入StoreFile中，StoreFile就是HFile, HDFS中的数据格式
+
+#### 用户写入Region
+用户写入请求被分配给region
+- 写入缓存
+- 写入日志(Hlog), 必须写入磁盘才算成功
+- 系统将缓存周期性刷入磁盘，并在Hlog写入标记
+- 每次刷写都会生成一个StoreFile
+- 多个StoreFile会合并为大文件，太大就会引发StoreFile的分裂，region就分裂了
+
+
+zookeeper监听Region服务器，如果Region服务器发生故障，就会通知Master服务武器，Master服务器将Region服务器上的Hlog文件拉取过来，并根据日志文件将所有Region分配到其他可用的Region服务器
+
+### 优化存储
+
+- 时间靠近的数据存在一起:
+
+   用`Long.Max_VALUE - timestamp`作为行键，最新的数据能够快速命中
+
+- 提升读写性能
+
+   设置`HColumnDescriptor.setlnMemory = true`, 将Region服务器的Region放入缓存中
+
+- 删除旧版本数据
+   设置`HColumnDescriptr.setMaxVersionsMaxVersions = true`， 只会保留最新版本
+
+- 过期自动清除
+   设置`setTimeToLive(2 * 24 * 60 * 60)`超过两天就自动清除
+
+### 二级索引
+Hindex: 依赖触发器在插入数据后同时插入索引表
+HBase + Redis: 将索引暂时存入redis，之后在刷入HBase
+Solr + HBase: 高性能全文索引，由Solr构建索引得到数据的RowKey
