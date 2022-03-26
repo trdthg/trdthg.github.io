@@ -46,6 +46,7 @@ module.exports = {
           {text: '文件描述符', link: '/magic/fd'},
           {text: 'IO 多路复用', link: '/magic/linuxIO'},
           {text: '原子操作/内存顺序', link: '/magic/memory_ordering'},
+          {text: '协程异步思考', link: '/magic/async'},
           {text: '软件架构', link: '/magic/software_arch'},
           {text: 'CI/CD', link: '/magic/cicd'},
         ]},
