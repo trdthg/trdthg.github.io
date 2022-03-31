@@ -19,8 +19,7 @@
 ### 3. 配置本机网络环境
 
 1. 关闭防火墙
-2. VM配置VMnet8
-   编辑 -> 虚拟网络编辑器
+2. VM配置VMnet8 编辑 -> 虚拟网络编辑器
 3. Windows配置VMnet8
 
 ### 4. 配置虚拟机网络环境
@@ -42,8 +41,7 @@ NETMASK=255.255.225.0  #设置子网掩码
 GATEWAY=192.168.182.2  #设置网关(和外部的网关相同)
 ```
 
-4. 重启网卡: `service  network restart`
-   可以通过 `ping 8.8.8.8`检测是否通
+4. 重启网卡: `service  network restart` 可以通过 `ping 8.8.8.8`检测是否通
 
 ### 5. 克隆前
 
@@ -82,17 +80,14 @@ hadoop101
 
 ### 7. 安装及配置环境变量
 
-1. 安装软件
-   为了方便统一管理
+1. 安装软件 为了方便统一管理
 
 - 压缩包目录: `/opt/software`
-- 解压目录: `/opt/module`
-  解压:
+- 解压目录: `/opt/module` 解压:
 - 给权限: `chmod 777 /opt/software`
 - 解压(-C指定解压目录): `tar -zxvf jdk-8u212-linux-x64.tar.gz -C /opt/module/`
 
-2. 修改环境变量
-   为了永久修改环境变量: 修改文件 `sudo nano /etc/profile.d/users.sh`如下
+2. 修改环境变量 为了永久修改环境变量: 修改文件 `sudo nano /etc/profile.d/users.sh`如下
 
 ```shell
 #JAVA
@@ -104,10 +99,7 @@ export PATH=$PATH:$HADOOP_HOME/bin
 export PATH=$PATH:$HADOOP_HOME/sbin
 ```
 
-3. 重置
-   `source /etc/profile`
-   ::: warning
-   使用 `export PATH=$PATH:xxxxx`会在终端关闭后失效
+3. 重置 `source /etc/profile` ::: warning 使用 `export PATH=$PATH:xxxxx`会在终端关闭后失效
    :::
 
 ### 8. 配置集群分发脚本和免密登录
@@ -170,13 +162,10 @@ done
 
 ::: danger
 
-> 空格必须加: `if [ -e $file ]`
-> 等号两边的空格必不能加: `pdir=$(cd -P $(dirname $file); pwd)`
-> $@返回所有命令行参数, 所以可以一次同步多个文件(夹)
-> :::
+> 空格必须加: `if [ -e $file ]` 等号两边的空格必不能加: `pdir=$(cd -P $(dirname $file); pwd)`
+> $@返回所有命令行参数, 所以可以一次同步多个文件(夹) :::
 
-4. 后续处理
-   文件创建在/bin/下: `/bin/xsync`方便直接调用
+4. 后续处理 文件创建在/bin/下: `/bin/xsync`方便直接调用
 
 ```shell
 # 给运行权限
@@ -213,17 +202,21 @@ HBase是一个稀疏的(不同时间没有数据)，多维度(4个维度在能�
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241641728.png)
 
 #### 概念视图
+
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241634039.png)
 不同时间可能没有数据，体现了HBase是稀疏表
 
 #### 物理视图
+
 列标识并没有区分
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241635344.png)
 
 #### 按行按列的区分
+
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241637049.png)
 
 按行:
+
 - 不便于读取某一列数据, 必须扫描所有行，并把每行的某个字段取出来
 
 按列:
@@ -233,49 +226,58 @@ HBase是一个稀疏的(不同时间没有数据)，多维度(4个维度在能�
 ### 实现原理
 
 #### 服务器划分
+
 - master服务器负责管理写请求，负载均衡等
 - 客户端并不依赖master服务去找到数据位置
 - 用户直接访问的是region服务器
-![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241654144.png)
+  ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241654144.png)
 
 #### 物理存储
+
 - 不同的region不许存储在同一个服务器上，一个服务器可以存储多个region(1-2G, 10-1000个)
 - region太大了就会垂直分裂(操作指针，速度较快)，分裂时用户读取的依然是之前的region，当服务器经过合并，写入新的文件之后，新来的用户彩绘访问新的region
-![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241657033.png)
+  ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241657033.png)
 
 #### 索引结构
+
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241701862.png)
 各个层次的作用
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241702112.png)
 3层结构完全足够使用，对于经常访问的可以增加缓存
+
 - 如何解决缓存失效，缓存失效的话数据就找不到了
 
 ### 运行架构
 
 #### 架构图
+
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241709216.png)
 master:
+
 - 对数据表进行增删改查
 - 负载均衡，把负载大的服务器上的region表拿到其他负载小的服务器上
 - 管理region的分裂合并操作之后的发布
 - 重新分配故障服务器上的region
 
 #### region写入HDFS
+
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241715580.png)
 对于单个region服务器，上面存储了多个region块，每个列族被划分为一个store
 
 锁与resion块共用一个Hlog文件
 
-region将数据写入HDFS会线写入memStore中(缓存)，缓存满了之后，刷入StoreFile中，StoreFile就是HFile, HDFS中的数据格式
+region将数据写入HDFS会线写入memStore中(缓存)，缓存满了之后，刷入StoreFile中，StoreFile就是HFile,
+HDFS中的数据格式
 
 #### 用户写入Region
+
 用户写入请求被分配给region
+
 - 写入缓存
 - 写入日志(Hlog), 必须写入磁盘才算成功
 - 系统将缓存周期性刷入磁盘，并在Hlog写入标记
 - 每次刷写都会生成一个StoreFile
 - 多个StoreFile会合并为大文件，太大就会引发StoreFile的分裂，region就分裂了
-
 
 zookeeper监听Region服务器，如果Region服务器发生故障，就会通知Master服务武器，Master服务器将Region服务器上的Hlog文件拉取过来，并根据日志文件将所有Region分配到其他可用的Region服务器
 
@@ -283,19 +285,33 @@ zookeeper监听Region服务器，如果Region服务器发生故障，就会通�
 
 - 时间靠近的数据存在一起:
 
-   用`Long.Max_VALUE - timestamp`作为行键，最新的数据能够快速命中
+  用`Long.Max_VALUE - timestamp`作为行键，最新的数据能够快速命中
 
 - 提升读写性能
 
-   设置`HColumnDescriptor.setlnMemory = true`, 将Region服务器的Region放入缓存中
+  设置`HColumnDescriptor.setlnMemory = true`, 将Region服务器的Region放入缓存中
 
-- 删除旧版本数据
-   设置`HColumnDescriptr.setMaxVersionsMaxVersions = true`， 只会保留最新版本
+- 删除旧版本数据 设置`HColumnDescriptr.setMaxVersionsMaxVersions = true`， 只会保留最新版本
 
-- 过期自动清除
-   设置`setTimeToLive(2 * 24 * 60 * 60)`超过两天就自动清除
+- 过期自动清除 设置`setTimeToLive(2 * 24 * 60 * 60)`超过两天就自动清除
 
 ### 二级索引
-Hindex: 依赖触发器在插入数据后同时插入索引表
-HBase + Redis: 将索引暂时存入redis，之后在刷入HBase
-Solr + HBase: 高性能全文索引，由Solr构建索引得到数据的RowKey
+
+Hindex: 依赖触发器在插入数据后同时插入索引表 HBase + Redis: 将索引暂时存入redis，之后在刷入HBase Solr + HBase:
+高性能全文索引，由Solr构建索引得到数据的RowKey
+
+## NoSQL
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203311248917.png)
+
+### 键值数据库
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203311253870.png)
+
+### 列族数据库
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203311257861.png)
+
+### 文档数据库
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203311302289.png)
