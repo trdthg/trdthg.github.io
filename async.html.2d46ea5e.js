@@ -1,1 +1,0 @@
-const t={key:"v-1882d310",path:"/magic/async.html",title:"\u534F\u7A0B\u4E0E\u5F02\u6B65",lang:"en-US",frontmatter:{},excerpt:"",headers:[{level:2,title:"\u534F\u7A0B",slug:"\u534F\u7A0B",children:[]}],git:{updatedTime:1649154646e3,contributors:[{name:"trdthg",email:"trdthg@outlook.com",commits:1}]},filePathRelative:"magic/async.md"};export{t as data};
