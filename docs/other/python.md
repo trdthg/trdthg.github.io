@@ -9,7 +9,8 @@
 1. 准备项目
 
 - 下载 win10usb-series 的驱动[个人用]()
-- 下载基于 ESP8266 的 MicroPython 固件[MicroPython 的官网](https://micropython.org/download/#esp8266)
+- 下载基于 ESP8266 的 MicroPython
+  固件[MicroPython 的官网](https://micropython.org/download/#esp8266)
 - 下载串口工具[Putty](https://www.putty.org/)
 - 下载[烧录工具](https://www.espressif.com/en/support/download/other-tools)
 - 下载[webrepl 客户端](https://github.com/micropython/webrepl)
@@ -41,8 +42,8 @@ sta_if.connect("<wifiname>", "<password>") # Connect to an AP
 sta_if.isconnected()                      # Check for successful connection
 ```
 
-- 设置上电自动连接
-  MicroPython 初始化后都会自动执行 main.py 文件，所以我们只需要设置该文件即可上电自动连接 WiFi。打开自己常用的编辑器，输入下面代码，并保存为 main.py 文件：
+- 设置上电自动连接 MicroPython 初始化后都会自动执行 main.py 文件，所以我们只需要设置该文件即可上电自动连接
+  WiFi。打开自己常用的编辑器，输入下面代码，并保存为 main.py 文件：
 
 ```python
 # main.py
@@ -68,7 +69,7 @@ def do_connect():
             break
 
     if wlan.isconnected():
-        print("successfully connected！")
+        print("successfully connected!")
         print('network config:', wlan.ifconfig())
 
 def main():
@@ -95,9 +96,10 @@ webrepl.start()
 
 3. 连接 (webrepl 客户端)
 
-- ESP8266 连接好 WiFi 后，输入 sta_if.ifconfig() 查看连接信息，返回的元组第一个 IP 就是无线路由器分配给 ESP8266 的 IP。
-- 如果你的电脑和 ESP8266 在同一个局域网，修改 WebREPL 要连接的地址为 ESP8266 的 IP，点击「Connect」，返回「Welcome to
-  MicroPython!」说明连接成功，根据提示输入密码（密码默认不显示）。回车后显示「WebREPL connected」表示登录成功。
+- ESP8266 连接好 WiFi 后，输入 sta_if.ifconfig() 查看连接信息，返回的元组第一个 IP 就是无线路由器分配给 ESP8266
+  的 IP。
+- 如果你的电脑和 ESP8266 在同一个局域网，修改 WebREPL 要连接的地址为 ESP8266 的 IP，点击「Connect」，返回「Welcome
+  to MicroPython!」说明连接成功，根据提示输入密码（密码默认不显示）。回车后显示「WebREPL connected」表示登录成功。
 - 之后就可以用这个客户端上传下载文件了。
 
 #### 待续...

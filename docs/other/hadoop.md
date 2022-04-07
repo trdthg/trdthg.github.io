@@ -237,7 +237,8 @@ HBase 是一个稀疏的 (不同时间没有数据)，多维度 (4 个维度在�
 #### 物理存储
 
 - 不同的 region 不许存储在同一个服务器上，一个服务器可以存储多个 region(1-2G, 10-1000 个)
-- region 太大了就会垂直分裂 (操作指针，速度较快)，分裂时用户读取的依然是之前的 region，当服务器经过合并，写入新的文件之后，新来的用户彩绘访问新的 region
+- region 太大了就会垂直分裂 (操作指针，速度较快)，分裂时用户读取的依然是之前的
+  region，当服务器经过合并，写入新的文件之后，新来的用户彩绘访问新的 region
   ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241657033.png)
 
 #### 索引结构
@@ -281,7 +282,8 @@ HDFS 中的数据格式
 - 每次刷写都会生成一个 StoreFile
 - 多个 StoreFile 会合并为大文件，太大就会引发 StoreFile 的分裂，region 就分裂了
 
-zookeeper 监听 Region 服务器，如果 Region 服务器发生故障，就会通知 Master 服务武器，Master 服务器将 Region 服务器上的 Hlog 文件拉取过来，并根据日志文件将所有 Region 分配到其他可用的 Region 服务器
+zookeeper 监听 Region 服务器，如果 Region 服务器发生故障，就会通知 Master 服务武器，Master 服务器将 Region
+服务器上的 Hlog 文件拉取过来，并根据日志文件将所有 Region 分配到其他可用的 Region 服务器
 
 ### 优化存储
 
@@ -299,8 +301,8 @@ zookeeper 监听 Region 服务器，如果 Region 服务器发生故障，就会
 
 ### 二级索引
 
-Hindex: 依赖触发器在插入数据后同时插入索引表 HBase + Redis: 将索引暂时存入 redis，之后在刷入 HBase Solr + HBase:
-高性能全文索引，由 Solr 构建索引得到数据的 RowKey
+Hindex: 依赖触发器在插入数据后同时插入索引表 HBase + Redis: 将索引暂时存入 redis，之后在刷入 HBase Solr +
+HBase: 高性能全文索引，由 Solr 构建索引得到数据的 RowKey
 
 ## NoSQL
 
@@ -317,3 +319,47 @@ Hindex: 依赖触发器在插入数据后同时插入索引表 HBase + Redis: �
 ### 文档数据库
 
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203311302289.png)
+
+## MapReduce
+
+分布式并行编程模型，相比与传统的并行编程框架的区别
+
+### 模型简介
+
+<table>
+  <tr>
+    <td>
+      传统的计算方法是数据向计算靠拢
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202204070954311.png)
+
+</td>
+<td> MapReduce 计算项数据靠拢
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202204070954635.png)
+
+</td>
+
+</tr>
+</table>
+
+### 体系结构
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202204071239586.png)
+
+#### Client
+
+- 用户将编写的程序提交到 Client
+- 通过 Client 提供的借口查看作业的运行状态
+
+#### JobTracker
+
+- 负责资源监控
+- 负责作业调度 (依靠 TaskSchedular 决定任务应该分发给那个 Taskracker)
+- 监测底层其他 Taskracker 以及当前运行的 Job 的状况
+- 如果检测到失败，需要把 Job 转移到其他节点，并继续追踪
+
+#### TaskTracker
+
+- 执行具体的相关任务，一般是 JobTracker 发来的命令
+- 把自己的资源使用情况，任务运行进度通过心跳的方式发送给 JobTracker
