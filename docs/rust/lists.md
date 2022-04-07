@@ -1,11 +1,13 @@
 # Too-Many-Lists
 
-## 1. A Bad Stack 
+## 1. A Bad Stack
 
 ### 引例
-- 用这种方式会有标签带来的额外开销, 属于函数式编程语言的默认方法  
-- 所以用下面的C-like结构体形式占用空间更小,  
-- 而且单个节点能承载更多内容  
+
+- 用这种方式会有标签带来的额外开销，属于函数式编程语言的默认方法
+- 所以用下面的 C-like 结构体形式占用空间更小，
+- 而且单个节点能承载更多内容
+
 ```rust
 #[derive(Debug)]
 pub enum List<T> {
@@ -15,6 +17,7 @@ pub enum List<T> {
 ```
 
 ### 完整案例
+
 ```rust
 // 2.1. Layout
 pub struct List {
@@ -38,13 +41,13 @@ impl List {
     }
     // 2.4. Push
     pub fn push(&mut self, elem: i32) {
-        let new_node = Box::new(Node { 
-            elem, 
-            next: mem::replace(&mut self.head, Link::Empty), 
+        let new_node = Box::new(Node {
+            elem,
+            next: mem::replace(&mut self.head, Link::Empty),
         });
         self.head = Link::More(new_node)
     }
-    // 2.5. Pop 
+    // 2.5. Pop
     // 相比于上一个更常用而且更简洁的写法
     pub fn pop(&mut self) -> Option<i32> {
         match mem::replace(&mut self.head, Link::Empty) {
@@ -99,8 +102,10 @@ mod test {
 }
 ```
 
-### Drop的手动编写  
-尝试根据尾递归写出drop函数, 失败
+### Drop 的手动编写
+
+尝试根据尾递归写出 drop 函数，失败
+
 ```rust
 // 2.7. Drop
 impl Drop for List {
@@ -130,15 +135,16 @@ impl Drop for Node {
     }
 }
 ```
-::: danger
->We can't drop the contents of the Box after deallocating, so there's no way to drop in a tail-recursive manner! 
->Instead we're going to have to manually write an iterative drop for List that hoists nodes out of their boxes.
-:::
-So, the next is the real way to write drop ourselfs
+
+::: danger >We can't drop the contents of the Box after deallocating, so there's
+no way to drop in a tail-recursive manner! >Instead we're going to have to
+manually write an iterative drop for List that hoists nodes out of their boxes.
+::: So, the next is the real way to write drop ourselfs
+
 ```rust
 impl Drop for List {
     fn drop(&mut self) {
-        println!("开始drop");
+        println!("开始 drop");
         let mut cur_link = mem::replace(&mut self.head, Link::Empty);
         while let Link::More(mut boxed_node) = cur_link {
             println!("{}", boxed_node.elem);
@@ -149,7 +155,9 @@ impl Drop for List {
 ```
 
 ### unimplemented!
+
 ::: warning
+
 ```rust
 // 返回 unimplemented!()
 impl List {
@@ -166,33 +174,46 @@ impl List {
     }
 }
 ```
+
 :::
 
 ## 2. An Ok Singly-Linked Stack
 
 ### 优化目标
+
 1. 3.1: Option 简化语法
- - use Option to replace our own Enum
- - use Option.take() to replace mem::replace(&self, None)
- - use option.take().map(|elem {}|) to replace match option { None => None, Some(x) => Some(y) }
+
+- use Option to replace our own Enum
+- use Option.take() to replace mem::replace(&self, None)
+- use option.take().map(|elem {}|) to replace match option { None => None,
+  Some(x) => Some(y) }
+
 2. 3.2 Generic 通用性
- - just use T to replace i32
-3. 3.3 Peek(偷看) 实现peek
- - 
- - 注意3者的区别
- - self.head.take()    -> self       -> Option(T)
- - self.head.as_ref()  -> &self      -> Option(&T)
- - self.head.as_mut()  -> &mut self  -> Option(&mut T)
+
+- just use T to replace i32
+
+3. 3.3 Peek(偷看) 实现 peek
+
+-
+- 注意 3 者的区别
+- self.head.take() -> self -> Option(T)
+- self.head.as_ref() -> &self -> Option(&T)
+- self.head.as_mut() -> &mut self -> Option(&mut T)
+
 4. 3.4 - 3.6 三种迭代器
- - IntoIter - T
- - IterMut - &mut T
- - Iter - &T   
-> map(): Maps an Option&lt;T&gt; to Option&lt;U&gt; by applying a function to a contained value.
-> as_ref()->&self: Converts from &Option&lt;T&gt; to Option&lt;&T&gt;.
-> as_mut()->&mut self: Converts from &mut Option&lt;T&gt; to Option&lt;&mut T&gt;.
-> take()->&mut self: Takes the value out of the option, leaving a [None] in its place
+
+- IntoIter - T
+- IterMut - &mut T
+- Iter - &T
+
+> map(): Maps an Option&lt;T&gt; to Option&lt;U&gt; by applying a function to a
+> contained value. as_ref()->&self: Converts from &Option&lt;T&gt; to
+> Option&lt;&T&gt;. as_mut()->&mut self: Converts from &mut Option&lt;T&gt; to
+> Option&lt;&mut T&gt;. take()->&mut self: Takes the value out of the option,
+> leaving a [None] in its place
 
 ### Option & Generic
+
 ```rust
 use std::mem;
 
@@ -216,25 +237,26 @@ impl<T> List<T> {
     }
     // 2.4. Push
     pub fn push(&mut self, elem: T) {
-        let new_node = Box::new(Node { 
-            elem, 
-            // next: mem::replace(&mut self.head, None), 
-            next: self.head.take(), 
+        let new_node = Box::new(Node {
+            elem,
+            // next: mem::replace(&mut self.head, None),
+            next: self.head.take(),
         });
         self.head = Some(new_node);
     }
-    // 2.5. Pop 
+    // 2.5. Pop
     pub fn pop(&mut self) -> Option<T> {
         self.head.take().map(|node| {
             self.head = node.next;
             node.elem  //  node.elem not need to be wrapped by Some()
         })
     }
-    
+
 }
 ```
 
 ### Peek
+
 ```rust
 impl<T> List<T> {
     /-
@@ -247,7 +269,7 @@ impl<T> List<T> {
 
         // Converts from &Option<T> to Option<&T>.
 
-        // self             -> &List  
+        // self             -> &List
         // self.head        -> &Option< Box<Node<T>>>
         // self.head.as_ref ->  Option<&Box<Node<T>>>
         // map(node)        ->         &Box<Node<T>>
@@ -261,7 +283,7 @@ impl<T> List<T> {
     pub fn peek_mut(&mut self) -> Option<&mut T> {
         // Converts from &mut Option<T> to Option<&mut T>.
 
-        // self             -> &mut List  
+        // self             -> &mut List
         // self.head        -> &mut Option<     Box<Node<T>>>
         // self.head.as_mut ->      Option<&mut Box<Node<T>>>
         // map(node)        ->             &mut Box<Node<T>>
@@ -276,7 +298,7 @@ impl<T> List<T> {
         // warning(not sure): mut_only_in_this_fu_but_only_read_after_read
         // Takes the value out of the option, leaving a [None] in its place
 
-        // self             -> &mut List  
+        // self             -> &mut List
         // self.head        -> &mut Option<     Box<Node<T>>>
         // self.head.take   ->      Option<&mut Box<Node<T>>>
 
@@ -290,7 +312,7 @@ impl<T> List<T> {
             node.elem
         })
     }
-    
+
 }
 
 #[test]
@@ -324,6 +346,7 @@ fn peek() {
 ```
 
 ### IntoIter
+
 ```rust
 // 3.4 IntoIter------------------------------------------------------------------------------
 
@@ -352,10 +375,10 @@ fn into_iter_test() {
     assert_eq!(iter.next(), Some(3));
     assert_eq!(iter.next(), Some(2));
 }
-
 ```
 
 ### Iter
+
 ```rust
 // 3.5 Iter------------------------------------------------------------------------------
 pub struct Iter<'a, T> {
@@ -369,9 +392,9 @@ impl<T> List<T> {
     // pub fn iter(&self) -> Iter<T> {
     // 3. Or, if you're not comfortable "hiding" that a struct contains a lifetime, you can use the Rust 2018 "explicitly elided lifetime" syntax, '_:
     pub fn iter(&self) -> Iter<'_, T> {
-        
-        // self             -> &List                    | self                -> &List  
-        // self.head        -> &Option< Box<Node<T>>>   | self.head           -> &Option< Box<Node<T>>> 
+
+        // self             -> &List                    | self                -> &List
+        // self.head        -> &Option< Box<Node<T>>>   | self.head           -> &Option< Box<Node<T>>>
         // self.head.as_ref ->  Option<&Box<Node<T>>>   | self.head.as_deref  -> &Option<     Node<T> >
         // map(node)        ->         &Box<Node<T>>    |
         // -node            ->          Box<Node<T>>    |
@@ -394,11 +417,11 @@ impl<'a, T> Iterator for Iter<'a, T> {
     type Item = &'a T;
     fn next(&mut self) -> Option<Self::Item> {
 
-        // self                  -> &mut Iter                           | self                   -> &mut Iter  
-        // self.next             -> &mut Option<         &Node<T> >     | self.next              -> &mut Option<         &Node<T>>  
+        // self                  -> &mut Iter                           | self                   -> &mut Iter
+        // self.next             -> &mut Option<         &Node<T> >     | self.next              -> &mut Option<         &Node<T>>
         // map(node)             -> &mut                 &Node<T>       | map(node)              -> &mut                 &Node<T>
         //     node.next         -> &mut Option<         &Node<T> >     |     node.next          -> &mut Option<     Box< Node<T>>>
-        //     node.next.as_ref  ->      Option<&mut Box< Node<T>>>     |     node.next.as_deref -> &mut Option<          Node<T> > 
+        //     node.next.as_ref  ->      Option<&mut Box< Node<T>>>     |     node.next.as_deref -> &mut Option<          Node<T> >
         //     map(inner_node)   ->             &mut Box< Node<T>>      |
         //     -inner_node       ->                  Box< Node<T>>      |
         //     --inner_node      ->                       Node<T>       |
@@ -434,6 +457,7 @@ fn iter() {
 ## 3. A Persistent Stack
 
 ### 实现目标
+
 ```
 list1 = A -> B -> C -> D
 list2 = tail(list1) = B -> C -> D
@@ -451,7 +475,6 @@ list3 -> X ---+
 ### Basic
 
 ```rust
-
 use std::rc::Rc;
 // basic -------------------------------------------------------------------
 pub struct List<T> {
@@ -479,10 +502,10 @@ impl<T> List<T> {
         self.head.as_ref().map(|node| &node.elem)
     }
 }
-
 ```
 
 ### Iter
+
 ```rust
 // Iter ------------------------------------------------------------------
 pub struct Iter<'a, T> {
@@ -502,11 +525,12 @@ impl<T> List<T> {
         Iter { next: self.head.as_ref().map(|node| &--node) }
     }
 }
-
 ```
 
 ### Drop
-多了判断ref count的过程
+
+多了判断 ref count 的过程
+
 ```rust
 // drop ------------------------------------------------------------
 impl<T> Drop for List<T> {
@@ -521,10 +545,10 @@ impl<T> Drop for List<T> {
         }
     }
 }
-
 ```
 
 ### Test
+
 ```rust
 #[cfg(Test)]
 mod test {
@@ -533,7 +557,7 @@ mod test {
     fn basics_test() {
         let list = List::new();
         list.prepend(1).prepend(2).prepend(3);
-        
+
         assert_eq!(list.head(), Some(&3));
         let list = list.tail();
         assert_eq!(list.head(), Some(&2));
@@ -555,12 +579,11 @@ mod test {
     }
 
 }
-
 ```
 
 ## 4. A Bad Safe Deque
 
-加入了Rc和RefCell
+加入了 Rc 和 RefCell
 
 ### Layout
 
@@ -579,7 +602,7 @@ struct Node<T> {
     elem: T,
     next: Link<T>,
     prev: Link<T>,
-} 
+}
 ```
 
 ### Basic
@@ -589,7 +612,7 @@ impl<T> List<T> {
     pub fn new() -> List<T> {
         List { head: None, tail: None }
     }
-    // 5.2 Building下`
+    // 5.2 Building 下`
     pub fn push_front(&mut self, elem: T) {
         let new_head = Node::new(elem);
         match self.head.take() {
@@ -607,7 +630,7 @@ impl<T> List<T> {
     // 5.3 Breaking
     pub fn pop_front(&mut self) -> Option<T> {
         self.head.take().map(|old_head| {
-            // 临时借用old_head, 并take了next的ownership
+            // 临时借用 old_head，并 take 了 next 的 ownership
             match old_head.borrow_mut().next.take() {
                 Some(new_head) => {
                     new_head.borrow_mut().prev = None;
@@ -662,7 +685,7 @@ impl<T> List<T> {
                 None => {
                     self.head = None;
                 }
-            } 
+            }
             Rc::try_unwrap(old_tail).ok().unwrap().into_inner().elem
         })
     }
@@ -695,15 +718,14 @@ impl<T> Node<T> {
 impl<T> Drop for List<T> {
     fn drop(&mut self) {
         while self.pop_front().is_some() {}
-    } 
+    }
 }
-
 ```
 
 ### Iterator
 
 ```rust
-// 另一个方向直接实现DoubleEndedIterator Trait就行
+// 另一个方向直接实现 DoubleEndedIterator Trait 就行
 // IntoIter
 pub struct IntoIter<T>(List<T>);
 
@@ -726,14 +748,13 @@ impl<T> DoubleEndedIterator for IntoIter<T> {
         self.0.pop_back()
     }
 }
-
 ```
 
-###  Iter(danger)
+### Iter(danger)
 
 :::warning
 
-无法实现而且根本看不懂, 一头雾水
+无法实现而且根本看不懂，一头雾水
 
 :::
 
@@ -754,21 +775,20 @@ impl<'a, T> Iterator for Iter<'a, T> {
     fn next(&mut self) -> Option<Ref<'a, T>> {
         self.0.take().map(|node_ref| {
             // self.0 = node_ref.next.as_ref().map(|head| {head.borrow()});
-            // // node_ref在闭包内被借用
+            // // node_ref 在闭包内被借用
             // Ref::map(node_ref, |node| &node.elem)
-            // // node_ref在闭包外再次被借用
+            // // node_ref 在闭包外再次被借用
             let (next, elem) = Ref::map_split(node_ref, |node| {
                 (&node.next, &node.elem)
             });
             self.0 = next.as_ref().map(|head| head.borrow());
             elem
         })
-    }   
+    }
 }
-
 ```
 
-##  5. An Unsafe Queue
+## 5. An Unsafe Queue
 
 ### 5.1 Safe Rust
 
@@ -831,7 +851,11 @@ impl<'a, T> List<'a, T> {
 }
 ```
 
->However pop is another story. If they're popping elements outside of our range, it should still be fine. We can't see those nodes so nothing will happen. However if they try to pop off the node we're pointing at... >everything will blow up! In particular when they go to unwrap the result of the try_unwrap, it will actually fail, and the whole program will panic.
+> However pop is another story. If they're popping elements outside of our
+> range, it should still be fine. We can't see those nodes so nothing will
+> happen. However if they try to pop off the node we're pointing at...
+> >everything will blow up! In particular when they go to unwrap the result of
+> the try_unwrap, it will actually fail, and the whole program will panic.
 
 ```rust
 pub fn pop(&mut self) -> Option<T> {
@@ -895,7 +919,7 @@ impl<T> List<T> {
             head.elem
         })
     }
-} 
+}
 ```
 
 #### Extras
@@ -1029,4 +1053,3 @@ mod test {
     }
 }
 ```
-

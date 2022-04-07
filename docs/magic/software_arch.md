@@ -23,7 +23,7 @@ Trait，以及一些 DTO 组成
 当任何外部设备 (比如：WEB，APP，终端，测试...)
 想要访问输入端口时，首先这个输入会被该设备对应的输入适配器，转化为符合要求的可用的方法调用，或者是消息，然后再传递给我们的应用程序。
 
-当我们的应用程序需要向外发送数据时，首先它会把数据通过输出端口传递给输出适配器，然后再传递给输出对象(比如: 数据库，mock，API，邮件，消息队列...)
+当我们的应用程序需要向外发送数据时，首先它会把数据通过输出端口传递给输出适配器，然后再传递给输出对象 (比如：数据库，mock，API，邮件，消息队列...)
 
 因此我们的应用程序外部是完全隔离的。
 
@@ -64,17 +64,17 @@ _The Clean Architecture_
 
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202061222034.png)
 
-- User Interface层 ：
-  系统对外暴露的接口层(API)层。主要功能是接收外部的调用，调用底层的服务，然后将底层服务返回的数据返回给调用者。这一层只包含对外的DTO对象的声明，接口声明，DTO对象转换，日志打印等。不能包含因为逻辑。
-- Application层：对应到系统用例层。它描述了整个系统的全部功能，它是对底层领域层对象的组织和编排，通过对领域层对象的编排，实现了用例。Application层不实现业务逻辑，它只对底层的领域对象进行编排以实现用例。一般在这一层里使用仓储对数据进行读取和保存。事务处理一般也在这一层。这一层主要包括Service，用来调用Domain层的对象完成一个业务。访问第三方的远程调用一般也是在这一层。
-- Domain层：核心业务逻辑层。包含实体、值对象和领域服务等领域对象等。实现所有的业务逻辑。业务逻辑就是存在于问题域即业务领域中的实体、概念、规则和策略等，与具体的实现技术无关，主要包含：1）业务实体（领域对象）。2）业务规则：例如借记卡取款数额不得超过账户余额等等。3)业务策略:
-  例如机票预订的超订策略等。4)完整性约束:
-  例如账户的账号不得为空。5）业务流程：比如，”下单“是一个业务流程，它包括“用户登录-选择商品-结算-下订单-付款”这一系列的动作。
-  Infrastructure层：负责所有的对外的交互。比如数据库访问层实现，RPC接口，MQ等。
+- User Interface 层 ：
+  系统对外暴露的接口层 (API) 层。主要功能是接收外部的调用，调用底层的服务，然后将底层服务返回的数据返回给调用者。这一层只包含对外的 DTO 对象的声明，接口声明，DTO 对象转换，日志打印等。不能包含因为逻辑。
+- Application 层：对应到系统用例层。它描述了整个系统的全部功能，它是对底层领域层对象的组织和编排，通过对领域层对象的编排，实现了用例。Application 层不实现业务逻辑，它只对底层的领域对象进行编排以实现用例。一般在这一层里使用仓储对数据进行读取和保存。事务处理一般也在这一层。这一层主要包括 Service，用来调用 Domain 层的对象完成一个业务。访问第三方的远程调用一般也是在这一层。
+- Domain 层：核心业务逻辑层。包含实体、值对象和领域服务等领域对象等。实现所有的业务逻辑。业务逻辑就是存在于问题域即业务领域中的实体、概念、规则和策略等，与具体的实现技术无关，主要包含：1）业务实体（领域对象）。2）业务规则：例如借记卡取款数额不得超过账户余额等等。3) 业务策略：
+  例如机票预订的超订策略等。4) 完整性约束：
+  例如账户的账号不得为空。5）业务流程：比如，”下单“是一个业务流程，它包括“用户登录 - 选择商品 - 结算 - 下订单 - 付款”这一系列的动作。
+  Infrastructure 层：负责所有的对外的交互。比如数据库访问层实现，RPC 接口，MQ 等。
 
 ### 目录结构
 
-下面是一个实例目录(较上面的结构有修改)
+下面是一个实例目录 (较上面的结构有修改)
 
 ```
 .
@@ -94,14 +94,14 @@ _The Clean Architecture_
     └── port # 用例层依赖的外部服务接口定义
 ```
 
-或者抽出一个domain代替entity和usecase
+或者抽出一个 domain 代替 entity 和 usecase
 
 ```
 .
 ├── api
-│   ├── user # 包含controller，实现了dao和usecase
+│   ├── user # 包含 controller，实现了 dao 和 usecase
 │   │   ├── usecase
-│   │   ├── dao # 可替换，例如提供mysql，postgra等不同实现
+│   │   ├── dao # 可替换，例如提供 mysql，postgra 等不同实现
 │   │   └── handler
 │   └── article
 │
@@ -114,17 +114,17 @@ _The Clean Architecture_
 
 - [干净架构最佳实践](https://blog.jaggerwang.net/clean-architecture-in-practice/)
 - [go-clean-arch](https://github.com/bxcodec/go-clean-arch)
-- [Go工程化(二) 项目目录结构](https://lailin.xyz/post/go-training-week4-project-layout.html)
-- [Go工程化 - Project Layout 最佳实践](https://go-kratos.dev/blog/go-project-layout/)
+- [Go 工程化 (二) 项目目录结构](https://lailin.xyz/post/go-training-week4-project-layout.html)
+- [Go 工程化 - Project Layout 最佳实践](https://go-kratos.dev/blog/go-project-layout/)
 
-## 关于 DO，DTO，BO等对象的关系图解
+## 关于 DO，DTO，BO 等对象的关系图解
 
 ### 概念
 
 POJO（Plain Ordinary Java Object）：在本规约中，POJO 专指只有 setter/getter/toString 的简单类，包括
 DO/DTO/BO/VO 等。
 
-> 【参考】分层领域模型规约：—《阿里巴巴 Java 开发规约》
+>【参考】分层领域模型规约：—《阿里巴巴 Java 开发规约》
 
 - DO（Data Object）：与数据库表结构一一对应，通过 DAO 层向上传输数据源对象。
 - DTO（Data Transfer Object）：数据传输对象，Service 或 Manager 向外传输的对象。
@@ -146,7 +146,7 @@ DO/DTO/BO/VO 等。
   - 有的场景，比如数据库表有 10 个字段，id(唯一 id)、version(版本号)，gmt_create(记录创建时间) 这些字段不需要对外提供，所以
     DTO 可以只取有含义的业务字段，DO 是和数据库记录的一一映射，但是 DTO 只需要按照业务需要定义需要的字段。
 
-- BO: 包含 PO/DO 和 DAO，有点类似于 domain(entity, usecase)的概念, BO
+- BO: 包含 PO/DO 和 DAO，有点类似于 domain(entity, usecase) 的概念，BO
   主要作用是把业务逻辑封装为一个对象。这个对象可以包括一个或多个其它的对象，还能够完成 DO - DTO 之间的转换
 
 - VO: 对应页面显示（web 页面/移动端 H5/Native 视图）的数据对象。 举个例子，DTO 中时间 Date 格式，或者是

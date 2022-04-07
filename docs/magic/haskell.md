@@ -7,7 +7,7 @@
 1. > We usually use ' to either denote a strict  version of a function (one that isn't lazy) or a slightly modified  version of a function or a variable. Because ' is a valid character in functions, we can make a function like this.
    >
 
-   `‘` 在haskell中是声明的合法字符， 一般中加 `’` 的函数代表一个函数的修改版本或者严格版本
+   `‘` 在 haskell 中是声明的合法字符， 一般中加 `’` 的函数代表一个函数的修改版本或者严格版本
 
 ## 1. 开始
 
@@ -15,9 +15,9 @@
 
 ### 1.1 基本函数
 
-- 最小值:  `min 1 3`
-- 最大值:  `max 1 3`
-- 加一:  `succ 1`
+- 最小值：`min 1 3`
+- 最大值：`max 1 3`
+- 加一：`succ 1`
 
 ### 1.2 列表
 
@@ -27,15 +27,15 @@
 
   > [1,2,3] is actually just syntactic sugar for 1:2:3:[].
   >
-- 取表头: `head [1, 2, 3, 4, 5]`
-- 取表尾: `tail [1, 2, 3, 4, 5] `
-- 取最后一个元素: `last [1, 2, 3, 4, 5]`
+- 取表头：`head [1, 2, 3, 4, 5]`
+- 取表尾：`tail [1, 2, 3, 4, 5] `
+- 取最后一个元素：`last [1, 2, 3, 4, 5]`
 - 取除了最后一个元素： `init [1, 2, 3, 4, 5]`
 - 长度： `length [5,4,3,2,1] `
 - 是否为空： `null [1,2,3] `
 - 反转列表： `reverse [5,4,3,2,1] `
-- 取前n个： `take 3 [5,4,3,2,1] `
-- 从第n个开始向后取： `drop 3 [8,4,2,1,5,6] `
+- 取前 n 个： `take 3 [5,4,3,2,1] `
+- 从第 n 个开始向后取： `drop 3 [8,4,2,1,5,6] `
 - 最大元素： `maximum [1,9,2,3,4] `
 - 最小元素： `minimum [8,4,2,1,5,6]`
 - 加： `sum [5,2,1,6,3,2,5,7] `
@@ -71,7 +71,7 @@
 
 ### 2.1 查看类型
 
-ghci查看
+ghci 查看
 
 ```haskell
 ：t (1, "qqq")
@@ -79,7 +79,7 @@ ghci查看
 
 ### 2.2 Typeclasses 101
 
-所有的 `== + - * / ` 都是function
+所有的 `== + - * / ` 都是 function
 
 ```haskell
 ghci> :t (==)
@@ -97,25 +97,25 @@ ghci> :t head
 head :: [a] -> a
 ```
 
-a 就是类型变量， 但是由于a不是某一个特定的类型， 所以我们称 head 多态函数
+a 就是类型变量， 但是由于 a 不是某一个特定的类型， 所以我们称 head 多态函数
 
 > Functions that have type variables are called **polymorphic functions**.
 
 **Typeclasses** 就是类型约束
 
-下面举出了一系列常用的Typeclasses
+下面举出了一系列常用的 Typeclasses
 
 #### 2.2.1 Eq
 
 > The Eq typeclass provides an interface for  testing for equality. Any type where it makes sense to test for equality between two values of that type should be a member of the Eq class. All standard Haskell types except for IO (the type for dealing with input and output) and functions are a part of the Eq typeclass.
 
-Eq提供了一个比较的接口， 任何能够比较该类型的两个值之间相等性的都应该是Eq类的成员
+Eq 提供了一个比较的接口， 任何能够比较该类型的两个值之间相等性的都应该是 Eq 类的成员
 
 #### 2.2.2 Ord
 
 > All the types we covered so far except for functions are part of Ord. Ord covers all the standard comparing functions such as >, <, >= and <=. The compare function takes two Ord members of the same type and returns an ordering. Ordering is a type that can be GT, LT or EQ, meaning *greater than*, *lesser than* and *equal*, respectively.
 
-Ord包含了所有标准的比较函数， 例如 > < >= <=, 比较函数接受两个类型相同的Ord成员，并返回一个排序，排序是GT， LT， EQ，分别表示大于，小于，等于
+Ord 包含了所有标准的比较函数， 例如 > < >= <=, 比较函数接受两个类型相同的 Ord 成员，并返回一个排序，排序是 GT， LT， EQ，分别表示大于，小于，等于
 
 ```haskell
 ghci> "Abrakadabra" < "Zebra"
@@ -132,9 +132,9 @@ GT
 
 > Members of Show can be presented as strings. All types covered so far except for functions are a part of Show. The most used function that deals with the Show typeclass is show. It takes a value whose type is a member of Show and presents it to us as a string.
 
-Show的成员可以被打印为字符串，到目前为止，除了函数之外的所有类型都是 Show 的一部分。
+Show 的成员可以被打印为字符串，到目前为止，除了函数之外的所有类型都是 Show 的一部分。
 
-show函数接受一个类型为Show成员的值，并将其作为字符串呈现
+show 函数接受一个类型为 Show 成员的值，并将其作为字符串呈现
 
 ```haskell
 ghci> :t read
@@ -145,7 +145,7 @@ read :: (Read a) => String -> a
 
 > Read is sort of the opposite typeclass of Show. The read function takes a string and returns a type which is a member of Read.
 
-read函数接受一个String，并返回一个Read的成员的类型
+read 函数接受一个 String，并返回一个 Read 的成员的类型
 
 **问题**
 
@@ -157,7 +157,7 @@ ghci> read "4"
         Probable fix: add a type signature that fixes these type variable(s)
 ```
 
-**指定return类型**
+**指定 return 类型**
 
 ```haskell
 ghci> read "5" :: Int
@@ -195,7 +195,7 @@ ghci> succ 'B'
 
 > Bounded members have an upper and a lower bound.
 
-Bounded类型有上界和下界
+Bounded 类型有上界和下界
 
 ```haskell
 ghci> minBound :: Int
@@ -212,7 +212,7 @@ False
 
 他们是多态性常量，见下文
 
-如果元组的元素也在元组中，那么这个元组也是Bounded的成员。
+如果元组的元素也在元组中，那么这个元组也是 Bounded 的成员。
 
 ```haskell
 ghci> maxBound :: (Bool, Int, Char)
@@ -221,7 +221,7 @@ ghci> maxBound :: (Bool, Int, Char)
 
 #### 2.2.7 Num
 
-Num也是一个多态性常量，他能表现的向任何Num类的成员（包括 Int, Integer, Float, Double）
+Num 也是一个多态性常量，他能表现的向任何 Num 类的成员（包括 Int, Integer, Float, Double）
 
 ```haskell
 ghci> :t 20
@@ -257,7 +257,7 @@ fromIntegral (length [1,2,3,4]) + 3.2
 
 **Syntax in Functions**
 
-### 3.1 Match表达式
+### 3.1 Match 表达式
 
 **Pattern marching**
 
@@ -316,7 +316,7 @@ fromIntegral (length [1,2,3,4]) + 3.2
 
 ### 3.3 where
 
-1. 作用在guard上
+1. 作用在 guard 上
 
    ```haskell
        bmiTell :: (RealFloat a) => a -> a -> String
@@ -365,7 +365,7 @@ fromIntegral (length [1,2,3,4]) + 3.2
 
 > The difference is that *let* bindings are expressions themselves. *where* bindings are just syntactic constructs.
 
-Let 把绑定放在前面，where 把绑定放在后面， 但是 Let 是一个表达式， Where只是个语法结构
+Let 把绑定放在前面，where 把绑定放在后面， 但是 Let 是一个表达式， Where 只是个语法结构
 
 ### 3.5 Case Expression
 
@@ -456,19 +456,19 @@ quicksort (x:xs) = quicksort [a | a <- xs, a <= x] ++ [x] ++ quicksort [a | a <-
 
 *Higher order functions*
 
-能够以函数作为参数, 或者返回一个函数的函数都是高阶函数, 告诫函数就是Haskell的体验
+能够以函数作为参数，或者返回一个函数的函数都是高阶函数，告诫函数就是 Haskell 的体验
 
 ### 5.1 Curried functions
 
 ```haskell
 ghci> max 4 5
 5
--- max本身可以这样写
+-- max 本身可以这样写
 ghci> (max 4) 5
 5
 ```
 
-让我们看看max的类型
+让我们看看 max 的类型
 
 ```haskell
 max :: (Ord a) => a -> a -> a.
@@ -476,7 +476,7 @@ max :: (Ord a) => a -> a -> a.
 max :: (Ord a) => a -> (a -> a).
 ```
 
-所以max这个函数能够返回一个函数
+所以 max 这个函数能够返回一个函数
 
 同时
 
@@ -529,7 +529,7 @@ flip' f y x = f x y
 
 ### 5.5 takeWhile
 
-take直到限制条件到
+take 直到限制条件到
 
 ```haskell
 sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
@@ -568,7 +568,7 @@ ghci> (listOfFuns !! 4) 5
 
 ### 5.8 Lambdas
 
-语法: 一般以小括号阔起来, 以 `\` 开头
+语法：一般以小括号阔起来，以 `\` 开头
 
 ```haskell
 numLongChains :: Int
@@ -593,9 +593,9 @@ ghci> sum' [3,5,2,1]
 11
 ```
 
-1. **foldl** 接受2个参数, 分别是函数和一个初始值(或者说累加器), acc开始为0, 之后依次加 3, 5, 2, 1
+1. **foldl** 接受 2 个参数，分别是函数和一个初始值 (或者说累加器), acc 开始为 0，之后依次加 3, 5, 2, 1
 
-函数的第一个参数是累加器, 第二个是当前的值
+函数的第一个参数是累加器，第二个是当前的值
 
 ```haskell
 -- 再次实现 elem
@@ -603,8 +603,8 @@ elem' :: (Eq a) => a -> [a] -> Bool
 elem' x xs = foldl (\acc el -> if el == x then True else acc) False xs
 ```
 
-2. **foldr** 与 foldl 相似, 不过是从右侧开始遍历元素, 其中, foldr的第一个参数是当前元素, 第二个元素是 acc 累加器
-3. **两种map的实现**
+2. **foldr** 与 foldl 相似，不过是从右侧开始遍历元素，其中，foldr 的第一个参数是当前元素，第二个元素是 acc 累加器
+3. **两种 map 的实现**
 
    ```haskell
    -- foldr
@@ -614,9 +614,9 @@ elem' x xs = foldl (\acc el -> if el == x then True else acc) False xs
    map' f xs = foldl (\acc x -> acc ++ [f x]) [] xs
    ```
 
-   在上面的案例中,  `foldr` 实现的更好, 因为 `:` 的开销比 `++` 小的多
-4. 要注意的是 foldr 可以作用在无线列表上, foldl 不能
-5. **foldl1** 和 **foldr1** 使用第一个或者最后一个作为初值, 不需要那个参数了
+   在上面的案例中，`foldr` 实现的更好，因为 `:` 的开销比 `++` 小的多
+4. 要注意的是 foldr 可以作用在无线列表上，foldl 不能
+5. **foldl1** 和 **foldr1** 使用第一个或者最后一个作为初值，不需要那个参数了
 
    ```haskell
    -- 这里是一堆例子
@@ -638,7 +638,7 @@ elem' x xs = foldl (\acc el -> if el == x then True else acc) False xs
    last' :: [a] -> a
    last' = foldl1 (\_ x -> x)
    ```
-6. **scanl** 和 **scanr** 和fold类似, 不过会把中间的状态保留, 并返回一个列表
+6. **scanl** 和 **scanr** 和 fold 类似，不过会把中间的状态保留，并返回一个列表
 
    ```haskell
    ghci> scanl (+) 0 [3,5,2,1]
@@ -655,15 +655,15 @@ elem' x xs = foldl (\acc el -> if el == x then True else acc) False xs
 
 > Whereas normal function application (putting a space between two things) has a really high precedence, the $ function has the lowest precedence. Function application with a space is left-associative (so f a b c is the same as ((f a) b) c)), function application with $ is right-associative.
 
-空格具有较高的优先级, 但是 `$` 具有最低的优先级
+空格具有较高的优先级，但是 `$` 具有最低的优先级
 
-使用空格分割的是左关联的, 而使用 `$` 分割的是右关联的
+使用空格分割的是左关联的，而使用 `$` 分割的是右关联的
 
-有什么用?
+有什么用？
 
 1. 少些括号
 
-   `sum (map sqrt [1..130])` 可以用 `sum $ map sqrt [1..130]` 代替, `sqrt 3 + 4 + 9`是13+根号3, 但是 `sqrt $ 3 + 4 + 9` 就正常
+   `sum (map sqrt [1..130])` 可以用 `sum $ map sqrt [1..130]` 代替，`sqrt 3 + 4 + 9`是 13+ 根号 3，但是 `sqrt $ 3 + 4 + 9` 就正常
 
    []:
 
@@ -730,7 +730,7 @@ import qualified Data.Map as M
 
 1. intersperse
 
-   向List中填充元素*, 类似与python中的 join
+   向 List 中填充元素*, 类似与 python 中的 join
 
    ```haskell
    ghci> intersperse '.' "MONKEY"
@@ -740,7 +740,7 @@ import qualified Data.Map as M
    ```
 2. intercalate
 
-   join后进行concat, 填充后合并返回,
+   join 后进行 concat，填充后合并返回，
 
    ```haskell
    ghci> intersperse '.' "MONKEY"
@@ -778,12 +778,12 @@ import qualified Data.Map as M
    **concatMap == concat map**
 6. and & or
 
-   需要配合map使用
+   需要配合 map 使用
 
    > and takes a list of boolean values and returns True only if all the values in the list are True.
    >
 
-   全为真返回True
+   全为真返回 True
 
    ```haskell
    ghci> and $ map (>4) [5,6,7,8]
@@ -795,7 +795,7 @@ import qualified Data.Map as M
    > or is like and, only it returns True if any of the boolean values in a list is True.
    >
 
-   有真就返回True
+   有真就返回 True
 
    ```haskell
    ghci> or $ map (==4) [2,3,4,5,6,1]
@@ -843,7 +843,7 @@ import qualified Data.Map as M
    ```
 10. takeWhile & dropWhile
 
-    根据条件 take或drop
+    根据条件 take 或 drop
 
     ```haskell
     ghci> takeWhile (>3) [6,5,4,3,2,1,2,3,4,5,4,3,2,1]
@@ -858,7 +858,7 @@ import qualified Data.Map as M
     ```
 11. break & span
 
-    就是把takeWhile的后半部分也返回了
+    就是把 takeWhile 的后半部分也返回了
 
     ```haskell
     ghci> break (==4) [1,2,3,4,5,6,7]
@@ -898,7 +898,7 @@ import qualified Data.Map as M
     ```
 15. isInfixOf & isPrefixOf & isSuffixOf
 
-    是否是sublist, 是否在开头, 是否在结尾
+    是否是 sublist，是否在开头，是否在结尾
 
     ```haskell
     ghci> "cat" `isInfixOf` "im a cat burglar"
@@ -920,7 +920,7 @@ import qualified Data.Map as M
 16. elem & notElem & partition
 
 ```
-判断是否是, 分为两组
+判断是否是，分为两组
 
 ```haskell
 ghci> partition (`elem` ['A'..'Z']) "BOBsidneyMORGANeddy"
@@ -933,7 +933,7 @@ ghci> partition (`elem` ['A'..'Z']) "BOBsidneyMORGANeddy"
 
 ```
 
-find返回第一个符合的元素
+find 返回第一个符合的元素
 
 ```haskell
 ghci> find (>4) [1,2,3,4,5,6]
@@ -955,7 +955,7 @@ ghci> findIndices (`elem` ['A'..'Z']) "Where Are The Caps?"
 
 18. elemIndex  & elemIndIces
 
-    返回元素的index
+    返回元素的 index
 
     ```haskell
     ghci> :t elemIndex
@@ -970,7 +970,7 @@ ghci> findIndices (`elem` ['A'..'Z']) "Where Are The Caps?"
     ```
 19. more zip
 
-    一直提供到7
+    一直提供到 7
 
     ```haskell
     ghci> zipWith3 (\x y z -> x + y + z) [1,2,3] [4,5,2,2] [2,2,3]
@@ -980,7 +980,7 @@ ghci> findIndices (`elem` ['A'..'Z']) "Where Are The Caps?"
     ```
 20. line & word
 
-    line 切出没一行, word切出每个单词
+    line 切出没一行，word 切出每个单词
 
     ```haskell
     ghci> lines "first line\nsecond line\nthird line"
@@ -1084,7 +1084,7 @@ ghci> "Im a big baby" \\ "big"
 
     on 需要从 Data.Function 导入
 
-    on接受两个参数，第二个会对参数做的运算， 第一个是函数会比较两个运算后结果
+    on 接受两个参数，第二个会对参数做的运算， 第一个是函数会比较两个运算后结果
 
     ```haskell
     on :: (b -> b -> c) -> (a -> b) -> a -> a -> c
@@ -1160,21 +1160,21 @@ Data.Char 提供了一系列处理字符的函数，配合 map 和 filter 使用
 
 ### 6.4 Data.Map
 
-下面给出了几种写map的方法
+下面给出了几种写 map 的方法
 
 ```haskell
--- 第一种 filter实现
+-- 第一种 filter 实现
 findKey :: (Eq k) => k -> [(k, v)] -> v
 findKey key xs = (snd . head . filter (\ (k, v) -> key == k)) xs
 
--- 第二种 Maybe非空校验
+-- 第二种 Maybe 非空校验
 findKey :: (Eq k) => k -> [(k, v)] -> Maybe v
 findKey _ [] = Nothing
 findKey key ((k, v):xs) = if k == key
                                                         then Just v
                                                         else findKey key xs
 
--- 第三种 使用foldr而非递归，因为比递归的可读性更好
+-- 第三种 使用 foldr 而非递归，因为比递归的可读性更好
 -- Note: It's usually better to use folds for this standard list recursion pattern instead of explicitly writing the recursion because they're easier to read and identify. Everyone knows it's a fold when they see the foldr call, but it takes some more thinking to read explicit recursion.
 findKey :: (Eq k) => k -> [(k,v)] -> Maybe v
 findKey key xs = foldr (\(k,v) acc -> if key == k then Just v else acc) Nothing xs
@@ -1193,7 +1193,7 @@ main = do
 
 1. fromList
 
-   创建一个Map
+   创建一个 Map
 
    ```haskell
    ghci> Map.fromList [("betty","555-2938"),("bonnie","452-2928"),("lucille","205-2928")]
@@ -1212,7 +1212,7 @@ main = do
    ```
 2. empty
 
-   返回一个空Map
+   返回一个空 Map
 
    ```haskell
    ghci> Map.empty 
@@ -1220,7 +1220,7 @@ main = do
    ```
 3. insert
 
-   插入一对k， v
+   插入一对 k， v
 
    ```haskell
    ghci> Map.empty
@@ -1244,7 +1244,7 @@ main = do
    ```
 5. size
 
-   返回map的大小
+   返回 map 的大小
 
    ```haskell
    ghci> Map.size Map.empty
@@ -1254,7 +1254,7 @@ main = do
    ```
 6. singleton
 
-   重建只有一对kv的Map
+   重建只有一对 kv 的 Map
 
    ```haskell
    ghci> Map.singleton 3 9
@@ -1264,7 +1264,7 @@ main = do
    ```
 7. lookup
 
-   就是get
+   就是 get
 
    ```haskell
    Prelude Map> Map.lookup 4 a
@@ -1272,7 +1272,7 @@ main = do
    ```
 8. member
 
-   就是in
+   就是 in
 
    ```haskell
    ghci> Map.member 3 $ Map.fromList [(3,6),(4,3),(6,9)]
@@ -1303,7 +1303,7 @@ main = do
     返回 keys 和 values
 12. fromListWith
 
-    类似与fromList， 不过有一个函数决定重复的key应该怎么办
+    类似与 fromList， 不过有一个函数决定重复的 key 应该怎么办
 
     ```haskell
     -- 有重复的键
@@ -1414,7 +1414,7 @@ data Int = -2147483648 | -2147483647 | ... | -1 | 0 | 1 | 2 | ... | 2147483647
 
 下面让我们进行一个形状的定义
 
-一个圆的定义可能需要三个参数， 前两个是圆的坐标，第三个参数是半径， 所以我们可以想 `(43.1, 55.0, 10.4)`这样定义一个圆， 但是这三个参数也能表示一个 3D vector或者是别的什么东西， 所以我们最好定义一个叫做 Shape 的新类型
+一个圆的定义可能需要三个参数， 前两个是圆的坐标，第三个参数是半径， 所以我们可以想 `(43.1, 55.0, 10.4)`这样定义一个圆， 但是这三个参数也能表示一个 3D vector 或者是别的什么东西， 所以我们最好定义一个叫做 Shape 的新类型
 
 ```haskell
 data Shape = Circle Float Float Float | Rectangle Float Float Float Float
@@ -1436,7 +1436,7 @@ Rectangle 50.0 230.0 60.0 90.0
 
 type name 和 value constructor 首字母需要大写
 
-下面定义了一个完整的Shape模块
+下面定义了一个完整的 Shape 模块
 
 ```haskell
 -- Shape(..) 会将所有的构造器暴露给外部
@@ -1450,7 +1450,7 @@ module Shapes
 , baseRect
 ) where
 
--- deriving (Show) 自动实现Show
+-- deriving (Show) 自动实现 Show
 data Point = Point Float Float deriving (Show)
 data Shape = Circle Point Float | Rectangle Point Point deriving (Show)
 surface :: Shape -> Float
@@ -1468,7 +1468,7 @@ baseRect :: Float -> Float -> Shape
 baseRect width height = Rectangle (Point 0 0) (Point width height)
 ```
 
-我们也可以不暴露Shape，让用户只能通过 baseCircle， baseRect 构造，让我们的接口更加抽象
+我们也可以不暴露 Shape，让用户只能通过 baseCircle， baseRect 构造，让我们的接口更加抽象
 
 ### 7.2 record syntax 定义类型
 
@@ -1495,7 +1495,7 @@ flavor :: Person -> String
 flavor (Person _ _ _ _ _ flavor) = flavor
 ```
 
-使用 record syntax 定义Person
+使用 record syntax 定义 Person
 
 ```haskell
 data Person = Person { firstName :: String
@@ -1507,7 +1507,7 @@ data Person = Person { firstName :: String
                      } deriving (Show)
 ```
 
-haskell会自动生成上面的函数
+haskell 会自动生成上面的函数
 
 ```haskell
 ghci> :t flavor
@@ -1533,7 +1533,7 @@ data Maybe a = Nothing | Just a
 
 **类型构造器**
 
-a 是一个类型参数， 因为这个类型 a， 所以我们称 Maybe是一个 type constructor（类型构造器）（注意：和之前的 value constructor 不一样）， 所以 Maybe 不是一个类型
+a 是一个类型参数， 因为这个类型 a， 所以我们称 Maybe 是一个 type constructor（类型构造器）（注意：和之前的 value constructor 不一样）， 所以 Maybe 不是一个类型
 
 我们能够传入 Char 或者 Int， 就能的到一个 Maybe Char 或者 Maybe Int 类型
 
@@ -1561,7 +1561,7 @@ tellCar :: Car -> String
 tellCar (Car {company = c, model = m, year = y}) = "This " ++ c ++ " " ++ m ++ " was made in " ++ show y
 ```
 
-我们之前也见过一个使用类型参数的例子，就是 Map， k， v 分别是key和value的类型
+我们之前也见过一个使用类型参数的例子，就是 Map， k， v 分别是 key 和 value 的类型
 
 ```haskell
 data (Ord k) => Map k v = ...
@@ -1590,7 +1590,7 @@ Typeclasses 更像是接口， 我们使用 `derive` 关键字可以自动派生
                          } deriving (Eq, Show, Read)
 ```
 
-该类型派生自Eq，所以实现了 `==` 和 `/=`, 还能够应用在任何在类型签名上具有 `Eq a` 的函数
+该类型派生自 Eq，所以实现了 `==` 和 `/=`, 还能够应用在任何在类型签名上具有 `Eq a` 的函数
 
 ```haskell
 ghci> let mikeD = Person {firstName = "Michael", lastName = "Diamond", age = 43}
@@ -1602,7 +1602,7 @@ ghci> mikeD == Person {firstName = "Michael", lastName = "Diamond", age = 43}
 True
 ```
 
-Read 和 Show能实现类型和字符串间的相互转化， 当我们使用 Read 时，需要指定结果的类型
+Read 和 Show 能实现类型和字符串间的相互转化， 当我们使用 Read 时，需要指定结果的类型
 
 ```haskell
 ghci> read "Person {firstName =\"Michael\", lastName =\"Diamond\", age = 43}" :: Person
@@ -1618,9 +1618,9 @@ read "Just 't'" :: Maybe a
 read "Just 't'" :: Maybe Char
 ```
 
-#### 7.4.2 实现一些Typeclasses
+#### 7.4.2 实现一些 Typeclasses
 
-1. Ord 的比较规则，在前面的比较小，与Char比较无关
+1. Ord 的比较规则，在前面的比较小，与 Char 比较无关
 
    ```haskell
    data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday deriving (Eq, Ord, Show, Read, Bounded, Enum)
@@ -1636,7 +1636,7 @@ read "Just 't'" :: Maybe Char
 就是换个名而已
 
 ```haskell
--- 下面是String的定义
+-- 下面是 String 的定义
 type String = [Char]
 
 type IntMap v = Map Int v
@@ -1687,12 +1687,12 @@ main = do
 
 #### 7.4.5 递归
 
-下面的例子实现了一个List 和一个 Tree
+下面的例子实现了一个 List 和一个 Tree
 
 ```haskell
 infixr 5 :-:
 data List a = Empty | a :-: (List a) deriving (Show, Read, Ord, Eq)
--- 或者是record syntex
+-- 或者是 record syntex
 -- data Lsit = Empty | Cons {listHead :: a, listTail :: List a} deriving (Show, Read, Eq, Ord)
 
 -- infixr 5 ++
@@ -1742,10 +1742,10 @@ main = do
 
 > A quick recap on typeclasses: typeclasses are like interfaces. A  typeclass defines some behavior (like comparing for equality, comparing  for ordering, enumeration) and then types that can behave in that way  are made instances of that typeclass. The behavior of typeclasses is  achieved by defining functions or just type declarations that we then  implement. So when we say that a type is an instance of a typeclass, we  mean that we can use the functions that the typeclass defines with that  type.
 
-对typeclasses的简要回顾：typeclasses就像接口。一个typeclasses定义了一些行为（比如比较，排序），可以实现这些行为的类型就是这些typeclass的实例，通过定义函数或者声明去实现这些行为，因此，当我们说类型是类型的一个类型的实例时，我们的意思是我们可以使用TypeClass定义该类型的函数。
+对 typeclasses 的简要回顾：typeclasses 就像接口。一个 typeclasses 定义了一些行为（比如比较，排序），可以实现这些行为的类型就是这些 typeclass 的实例，通过定义函数或者声明去实现这些行为，因此，当我们说类型是类型的一个类型的实例时，我们的意思是我们可以使用 TypeClass 定义该类型的函数。
 
 ```haskell
--- 使用 :info Num 可以查看 typeclass定义
+-- 使用 :info Num 可以查看 typeclass 定义
 Prelude> :info Num
 type Num :: * -> Constraint
 class Num a where
@@ -1766,9 +1766,9 @@ instance Num Double -- Defined in ‘GHC.Float’
 
 ```
 
-**1. 定义typeclasses**
+**1. 定义 typeclasses**
 
-下面是Eq在标准库的定义
+下面是 Eq 在标准库的定义
 
 ```haskell
 class Eq a where
@@ -1778,9 +1778,9 @@ class Eq a where
     x /= y = not (x == y)
 ```
 
-class定义了一个typeclass， Eq是名字， a是实例，a只要是一个小写的单词就行
+class 定义了一个 typeclass， Eq 是名字， a 是实例，a 只要是一个小写的单词就行
 
-接着我们定义了一些函数，在class里实现函数不是强制的，只需要一个定义就够了
+接着我们定义了一些函数，在 class 里实现函数不是强制的，只需要一个定义就够了
 
 > Some people might understand this better if we wrote class Eq equatable where and then specified the type declarations like `(==) :: equatable -> equatable -> Bool`.
 >
@@ -1788,7 +1788,7 @@ class定义了一个typeclass， Eq是名字， a是实例，a只要是一个小
 
 > If we have say class Eq a where and then define a type declaration within that class like (==) :: a -> -a -> Bool, then when we examine the type of that function later on, it will have the type of `(Eq a) => a -> a -> Bool`.
 >
-> 当我们在class中定义这个函数后，在查看这个函数的类型时，就会显示出typeclasses
+> 当我们在 class 中定义这个函数后，在查看这个函数的类型时，就会显示出 typeclasses
 
 **2. 实现 typeclass**
 
@@ -1821,7 +1821,7 @@ main = do
 class (Eq a) => Num a where
 ```
 
-在实现Num前，必须保证 a 实现了 Eq
+在实现 Num 前，必须保证 a 实现了 Eq
 
 **对于多态类型**
 
@@ -1842,13 +1842,13 @@ instance (Eq m) => Eq (Maybe m) where
 	_ == _ = False
 ```
 
-这次我们增加了一个类型限定，我们限定了所有Maybe m类型都是Eq，除非 m 也是 Eq
+这次我们增加了一个类型限定，我们限定了所有 Maybe m 类型都是 Eq，除非 m 也是 Eq
 
 🍏
 
 > Take into account that the type you're trying to make an instance of will replace the parameter in the *class* declaration. The a from class Eq a where will be replaced with a real type when you make an instance, so try  mentally putting your type into the function type declarations as well. (==) :: Maybe -> Maybe -> Bool doesn't make much sense but (==) :: (Eq m) => Maybe m -> Maybe m -> Bool does. But this is just something to think about, because == will always have a type of (==) :: (Eq a) => a -> a -> Bool, no matter what instances we make.
 >
-> 一定要 注意 'a' 在实现时需要被替换为concrete type
+> 一定要 注意 'a' 在实现时需要被替换为 concrete type
 
 **4. 实现一个玩具**
 
@@ -1881,7 +1881,7 @@ instance YesNo [a] where
 instance YesNo Bool where
     yesno = id
 
--- 因为我们并不关心Maybe 包含什么类型，只要他有东西就行了，所以没有加类型限定
+-- 因为我们并不关心 Maybe 包含什么类型，只要他有东西就行了，所以没有加类型限定
 instance YesNo (Maybe a) where
     yesno (Just _) = True
     yesno Nothing = False
@@ -1907,7 +1907,7 @@ main = do
 
 > We used :k on a type to get its kind, just like we can use :t on a value to get its type. Like we said, types are the labels of  values and kinds are the labels of types and there are parallels between the two.
 
-我们能用 `:t` 查看一个值(value)的类型(type)
+我们能用 `:t` 查看一个值 (value) 的类型 (type)
 
 ```haskell
 -- '=>'是类型限定 !!!
@@ -1921,7 +1921,7 @@ Prelude> :t Just 1
 Just 1 :: Num a => Maybe a
 ```
 
-也能用 `:k` 查看一个类型(type)的Kind
+也能用 `:k` 查看一个类型 (type) 的 Kind
 
 ```haskell
 Prelude> :k Int
@@ -1944,41 +1944,41 @@ Functor :: (* -> *) -> Constraint
 
 > A * means that the type is a concrete type. A concrete type is a type that doesn't take any type parameters and  values can only have types that are concrete types. If I had to read * out loud (I haven't had to do that so far), I'd say *star* or just *type*.
 
-`*` 就是一个固定的类型, 不能携带Type parameter
+`*` 就是一个固定的类型，不能携带 Type parameter
 
-`* -> *` 就是接受一个type parameter, 返回一个类型, 比如 Maybe 和 Maybe Int
+`* -> *` 就是接受一个 type parameter，返回一个类型，比如 Maybe 和 Maybe Int
 
 `* -> * -> *` 同理
 
-所以Functor的类型就好理解了
+所以 Functor 的类型就好理解了
 
 ```haskell
 class Functor f where
     fmap :: (a -> b) -> f a -> f b
 ```
 
-**2. 什么是Functor**
+**2. 什么是 Functor**
 
-看一眼fmap的定义, 实现了Functor的类型,fmap 能够把这些类型*里面*的东西转换到另一种东西, 就是说fmap只作用于box里面的东西
+看一眼 fmap 的定义，实现了 Functor 的类型，fmap 能够把这些类型*里面*的东西转换到另一种东西，就是说 fmap 只作用于 box 里面的东西
 
 ```haskell
 class Functor f where
     fmap :: (a -> b) -> f a -> f b
 ```
 
-这个是map的定义
+这个是 map 的定义
 
 ```haskell
 map :: (a -> b) -> [a] -> [b]
 ```
 
-map就是特殊化的 fmap ,只能用于 [],不能用于 Maybe, Ehther等类型
+map 就是特殊化的 fmap ,只能用于 [],不能用于 Maybe, Ehther 等类型
 
 > anything like a box that can hold something can impl Functor, lsuch as Maybe, [], Tree = Empty | Tree a left rght, Either
 
-所有能够承载其他类型的东西都能实现Functor,比如Maybe, [], Tree, Either
+所有能够承载其他类型的东西都能实现 Functor，比如 Maybe, [], Tree, Either
 
-下面是关于Either的Functor实现
+下面是关于 Either 的 Functor 实现
 
 ```haskell
 instance Functor (Either a) where
@@ -1995,7 +1995,7 @@ instance Functor (Either a) where
 > -- we can't make sure f can handle both type a and type b
 > -- Another example is Map.Map, where fmap just map a function v -> v' over a Map k v, and return Map k v'
 
-在这个例子里,我们只map了Either的右值,因为不能保证Either a b的类型相同, Map.Map也是,只有value改变
+在这个例子里，我们只 map 了 Either 的右值，因为不能保证 Either a b 的类型相同，Map.Map 也是，只有 value 改变
 
 **3. 实现一个 Tofu**
 
@@ -2062,7 +2062,7 @@ main = do
    ```
 2. 文件交互
 
-- openFile (fileName, openMode): 打开文件返回handle对象
+- openFile (fileName, openMode): 打开文件返回 handle 对象
 - hGetContents (handle)：读取文件内容
 - with 语法
 - appendFile(fileName, content)：追加内容
@@ -2271,7 +2271,7 @@ handler e
 
 ## 9. Solve Some Problems
 
-### 9.1计算后缀表达式
+### 9.1 计算后缀表达式
 
 ```haskell
 import Data.List
@@ -2404,7 +2404,7 @@ half x = if even x
            then Just (x `div` 2)
            else Nothing
 ```
-加入x现在是一个wrapped的比如说Maybe, 这里引入一个新的操作符 `>>=`
+加入 x 现在是一个 wrapped 的比如说 Maybe，这里引入一个新的操作符 `>>=`
 ```haskell
 > Just 3 >>= half
 Nothing
@@ -2413,7 +2413,7 @@ Just 2
 > Nothing >>= half
 Nothing
 ```
-之所以能像上面一样操作是因为，Maybe是个Monad
+之所以能像上面一样操作是因为，Maybe 是个 Monad
 ```haskell
 instance Monad Maybe where
     Nothing >>= func = Nothing

@@ -1,6 +1,7 @@
-# 常用css
+# 常用 css
 
 - 使用伪类扩大可点击区域
+
 ```css
 #btn::before {
   content: "";
@@ -16,6 +17,7 @@
 - user-select: all | 选择所有文本
 - Text Overflow | ...代替多的文本
 - object-fit: cover | 保持长宽比
+
 ```css
 img {
   width: 128px;
@@ -23,7 +25,9 @@ img {
   object-fit: cover;
 }
 ```
-- onerror | 无图片404
+
+- onerror | 无图片 404
+
 ```css
 img.error {
     display: inline-block;
@@ -57,5 +61,5 @@ img.error::after {
     text-overflow: ellipsis;
 }
 ```
-Image
-无图片
+
+Image 无图片

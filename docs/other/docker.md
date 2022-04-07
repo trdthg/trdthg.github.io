@@ -24,7 +24,7 @@
 
 2. 删除所有虚悬镜像： `docker image prune`
 
-3. 删除所有仓库名为redis的镜像：`docker image rm $(docker image ls -q redis)`
+3. 删除所有仓库名为 redis 的镜像：`docker image rm $(docker image ls -q redis)`
 
 ## 2 容器
 
@@ -44,7 +44,7 @@
 
 ### 2.3 终止容器
 
-`docker container stop `
+`docker container stop`
 
 `docker container restart`
 
@@ -68,43 +68,54 @@
 
 ## 3 Dockerfile
 
-这里会将一个Dockerfile的构建过程
+这里会将一个 Dockerfile 的构建过程
 
 ### ADD & COPY
 
 COPY
+
 - 支持通配符
 - 可以改变用户和组
+
 ```dockerfile
 COPY package.json /usr/src/app/
 COPY hom* /mydir/
 COPY hom?.txt /mydir/
 COPY --chown=55:mygroup files* /mydir/
 ```
+
 ADD
-- 源路经是URL会尝试下载
-- 源路径是压缩文件(gzip, bzip2 以及 xz), 会自动解压
+
+- 源路经是 URL 会尝试下载
+- 源路径是压缩文件 (gzip, bzip2 以及 xz), 会自动解压
 
 ### EXPOSE
+
 指定容器向外部暴露的端口，但并不会自动映射到宿主机，使用`-P`后会将这些端口随机映射到宿主机
+
 ```dockerfile
 EXPOSE 8080
 EXPOSE 7000-8000
 ```
 
 ### RUN
+
 ```dockerfile
 RUN cd /app
 RUN echo "hello" > world.txt
 ```
+
 上面的两个`RUN`并不是在同一个环境下运行的，他们不是一个容器，他们的工作目录当然也不一样
 
 可以通过`WORKDIR`去同步不同命令的工作目录
+
 ```dockerfile
 WORKDIR /app
 RUN echo "hello" > world.txt
 ```
+
 多个`WORKDIR`之间是有联系的
+
 ```dockerfile
 WORKDIR /a
 WORKDIR b
@@ -115,25 +126,31 @@ RUN pwd
 ```
 
 ### VOLUME
+
 挂载主机目录 / 挂载数据卷
+
 ```dockerfile
 VOLUME: HostPath:ContainerPath
 ```
-挂载匿名卷, 匿名卷中的数据不会持久化
+
+挂载匿名卷，匿名卷中的数据不会持久化
+
 ```dockerfile
 VOLUME /data
 ```
 
 命令行挂载
+
 ```
 --mount type=bind,source=/src/webapp,target=/usr/share/nginx/html,readonly \
 ```
-|key| value |
-|---|-------------------------|
-|type|	bind, volume, or tmpfs|
-|source/src	|Docker Host上的一个目录或者文件|
-|destination/dst/target	|被挂载容器上的一个目录或者文件|
-|readonly|	挂载为只读|
+
+| key                    | value                  |
+| ---------------------- | ---------------------- |
+| type                   | bind, volume, or tmpfs |
+| source/src             | Docker Host 上的一个目录或者文件  |
+| destination/dst/target | 被挂载容器上的一个目录或者文件        |
+| readonly               | 挂载为只读                  |
 
 ### 格式
 
@@ -145,24 +162,24 @@ VOLUME /data
    FROM alpine:latest
    ```
 
-2. RUN 执行命令
-    格式：`RUN <命令>`，就像直接在命令行中输入的命令一样。刚才写的 Dockerfile 中的 `RUN` 指令就是这种格式。
+2. RUN 执行命令 格式：`RUN <命令>`，就像直接在命令行中输入的命令一样。刚才写的 Dockerfile 中的 `RUN` 指令就是这种格式。
 
-3. ENTRYPOINT 添加prefix
+3. ENTRYPOINT 添加 prefix
 
-    `ENTRYPOINT [ "curl", "-s", "http://myip.ipip.net" ]`
+   `ENTRYPOINT [ "curl", "-s", "http://myip.ipip.net" ]`
 
-    从外部运行`docker run myip -i`，就相当于`docker run myip curl -s http://myip.ipip.net -i`
-
+   从外部运行`docker run myip -i`，就相当于`docker run myip curl -s http://myip.ipip.net -i`
 
 ### build
+
 ```sh
 docker build -t xxx .
 ```
 
 ### 例子
 
-#### curl自动查询ip
+#### curl 自动查询 ip
+
 ```sh
 FROM ubuntu:18.04
 
@@ -171,9 +188,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 CMD ["curl", "-s", "http://"]
-
 ```
+
 #### redis + redis-json + redis-search
+
 ```sh
 FROM alpine:latest
 
@@ -229,13 +247,11 @@ VOLUME ["/home/admin"]
 WORKDIR /home/admin
 EXPOSE 6379
 CMD ["redis-server", "--loadmodule", "/opt/redis-modules/librejson.so", "--loadmodule", "/opt/redis-modules/redisearch.so"]
-
 ```
-
 
 ## 4 自动化
 
-### pass凭证管理
+### pass 凭证管理
 
 - pass
 - docker-credential-pass
@@ -244,26 +260,27 @@ CMD ["redis-server", "--loadmodule", "/opt/redis-modules/librejson.so", "--loadm
 
 ### 坑
 
-gpg2一定不要使用sudo执行，
-docker也要加到group里
+gpg2 一定不要使用 sudo 执行， docker 也要加到 group 里
 
-- 注意`docker login`登陆的url是什么，这个url需要时jib白名单里有的
+- 注意`docker login`登陆的 url 是什么，这个 url 需要时 jib 白名单里有的
 
-    `docker login`默认登陆的url是`index.docker.io/v1`
+  `docker login`默认登陆的 url 是`index.docker.io/v1`
 
-    如果jib无法识别, 可以尝试使用 `docker login registry.hub.docker.com`
+  如果 jib 无法识别，可以尝试使用 `docker login registry.hub.docker.com`
 
-    现在有的凭证可以通过`docker-credential-pass list`查看
-    ```
-    »»»» docker-credential-pass list
-    {"https://index.docker.io/v1/":"trdthg","registry.hub.docker.com":"trdthg"}
-    ```
-- jib自动push需要从白名单url中一个个尝试，`docker login`
+  现在有的凭证可以通过`docker-credential-pass list`查看
+  ```
+  »»»» docker-credential-pass list
+  {"https://index.docker.io/v1/":"trdthg","registry.hub.docker.com":"trdthg"}
+  ```
+- jib 自动 push 需要从白名单 url 中一个个尝试，`docker login`
 
 ### jib
+
 ![Jib](https://github.com/GoogleContainerTools/jib)
 
 登陆成功会有下面的提示
+
 ```
 [INFO] Using credentials from Docker config (/home/trdthg/.docker/config.json) for adoptopenjdk/openjdk8
 ```
@@ -271,6 +288,7 @@ docker也要加到group里
 ## 5 docker-compose
 
 ### 限制资源
+
 ```yml
 redis:
   image: redis:alpine
@@ -281,55 +299,59 @@ redis:
         cpus: '0.50'
         memory: 50M
 ```
-`--compatibility`: 以兼容模式运行, 将 v3 的语法转化为 v2 的语法, 而不需要将 compose 文件改为 v2 的版本
+
+`--compatibility`: 以兼容模式运行，将 v3 的语法转化为 v2 的语法，而不需要将 compose 文件改为 v2 的版本
+
 ```shell
 docker-compose --compatibility up -d
 ```
+
 ### 完整配置参考
+
 ```yml
-version: "3"  # 指定docker-compose语法版本
+version: "3"  # 指定 docker-compose 语法版本
 services:    # 从以下定义服务配置列表
-  server_name:   # 可将server_name替换为自定义的名字，如mysql/php都可以
-    container_name: container_name  # 指定实例化后的容器名，可将container_name替换为自定义名
+  server_name:   # 可将 server_name 替换为自定义的名字，如 mysql/php 都可以
+    container_name: container_name  # 指定实例化后的容器名，可将 container_name 替换为自定义名
     image: xxx:latest # 指定使用的镜像名及标签
     build:  # 如果没有现成的镜像，需要自己构建使用这个选项
       context: /xxx/xxx/Dockerfile  # 指定构建镜像文件的路径
-      dockerfile: ....     # 指定Dockerfile文件名，上一条指定，这一条就不要了
+      dockerfile: ....     # 指定 Dockerfile 文件名，上一条指定，这一条就不要了
     ports:
-      - "00:00"  # 容器内的映射端口，本地端口:容器内端口
+      - "00:00"  # 容器内的映射端口，本地端口：容器内端口
       - "00:00"  # 可指定多个
     volumes:
-      - test1:/xx/xx  # 这里使用managed volume的方法，将容器内的目录映射到物理机，方便管理
-      - test2:/xx/xx  # 前者是volumes目录下的名字，后者是容器内目录
-      - test3:/xx/xx  # 在文件的最后还要使用volumes指定这几个tests
+      - test1:/xx/xx  # 这里使用 managed volume 的方法，将容器内的目录映射到物理机，方便管理
+      - test2:/xx/xx  # 前者是 volumes 目录下的名字，后者是容器内目录
+      - test3:/xx/xx  # 在文件的最后还要使用 volumes 指定这几个 tests
     volumes_from:  # 指定卷容器
        - volume_container_name  # 卷容器名
     restarts: always  # 设置无论遇到什么错，重启容器
     depends_on:       # 用来解决依赖关系，如这个服务的启动，必须在哪个服务启动之后
-      - server_name   # 这个是名字其他服务在这个文件中的server_name
+      - server_name   # 这个是名字其他服务在这个文件中的 server_name
       - server_name1  # 按照先后顺序启动
-    links:  # 与depend_on相对应，上面控制容器启动，这个控制容器连接
-      - mysql  # 值可以是- 服务名，比较复杂，可以在该服务中使用links中mysql代替这个mysql的ip
+    links:  # 与 depend_on 相对应，上面控制容器启动，这个控制容器连接
+      - mysql  # 值可以是- 服务名，比较复杂，可以在该服务中使用 links 中 mysql 代替这个 mysql 的 ip
     networks: # 加入指定的网络，与之前的添加网卡名类似
-      - my_net  # bridge类型的网卡名
-      - myapp_net # 如果没有网卡会被创建,建议使用时先创建号，在指定
-    environment: # 定义变量，类似dockerfile中的ENV
-      - TZ=Asia/Shanghai  # 这里设置容器的时区为亚洲上海，也就解决了容器通过compose编排启动的 时区问题！！！！解决了容器的时区问题！！！
-      变量值: 变量名   # 这些变量将会被直接写到镜像中的/etc/profile
+      - my_net  # bridge 类型的网卡名
+      - myapp_net # 如果没有网卡会被创建，建议使用时先创建号，在指定
+    environment: # 定义变量，类似 dockerfile 中的 ENV
+      - TZ=Asia/Shanghai  # 这里设置容器的时区为亚洲上海，也就解决了容器通过 compose 编排启动的 时区问题！！！！解决了容器的时区问题！！！
+      变量值：变量名   # 这些变量将会被直接写到镜像中的/etc/profile
     command: [                        #使用 command 可以覆盖容器启动后默认执行的命令
             '--character-set-server=utf8mb4',            #设置数据库表的数据集
             '--collation-server=utf8mb4_unicode_ci',    #设置数据库表的数据集
-            '--default-time-zone=+8:00'                    #设置mysql数据库的 时区问题！！！！ 而不是设置容器的时区问题！！！！
+            '--default-time-zone=+8:00'                    #设置 mysql 数据库的 时区问题！！！！ 而不是设置容器的时区问题！！！！
     ]
   server_name2:  # 开始第二个容器
     server_name:
-      stdin_open: true # 类似于docker run -d
-      tty: true  # 类似于docker run -t
-volumes:   # 以上每个服务中挂载映射的目录都在这里写入一次,也叫作声明volume
+      stdin_open: true # 类似于 docker run -d
+      tty: true  # 类似于 docker run -t
+volumes:   # 以上每个服务中挂载映射的目录都在这里写入一次，也叫作声明 volume
   test1:
   test2:
   test3:
-networks:  # 如果要指定ip网段，还是创建好在使用即可，声明networks
+networks:  # 如果要指定 ip 网段，还是创建好在使用即可，声明 networks
   my_net:
     driver: bridge  # 指定网卡类型
   myapp_net:
@@ -339,9 +361,11 @@ networks:  # 如果要指定ip网段，还是创建好在使用即可，声明ne
 ### spring-boot + mysql
 
 #### doocker-compose.yml
-网络:
-- 如果不特殊指明,所有的service都会自动加入default网络里
-- host会被service的名称代替 `tguio.club => mysql`
+
+网络：
+
+- 如果不特殊指明，所有的 service 都会自动加入 default 网络里
+- host 会被 service 的名称代替 `tguio.club => mysql`
 - 端口号会被容器暴露的端口代替 `4205 => 3306`
 
 - 容器之间可以通过自己暴露的端口互相访问
@@ -371,7 +395,6 @@ services:
     image: "redis:alpine"
     ports:
       - "5470:6379"
-
 ```
 
 ```yml
@@ -406,31 +429,34 @@ spring:
 
 ### 端口映射
 
-- 一对一指定: ` -p <宿主端口>:<容器端口>`
-- 一对一随机:
-    - `-P 80` 把容器的80端口随机映射宿主机上
-- 多对多指定:
-    - `-p 1000-2000:1000-2000` 容器的1000-2000的所有端口，映射到宿主机端口1000-2000
-- 多对多随机:
-    - `docker run --expose=1000-2000` 容器的1000-2000的所有端口，随机映射到宿主机
-    - `docker run -P` 把容器暴露的所有端口都随机映射宿主机上
+- 一对一指定：`-p <宿主端口>:<容器端口>`
+- 一对一随机：
+  - `-P 80` 把容器的 80 端口随机映射宿主机上
+- 多对多指定：
+  - `-p 1000-2000:1000-2000` 容器的 1000-2000 的所有端口，映射到宿主机端口 1000-2000
+- 多对多随机：
+  - `docker run --expose=1000-2000` 容器的 1000-2000 的所有端口，随机映射到宿主机
+  - `docker run -P` 把容器暴露的所有端口都随机映射宿主机上
 
 ### 正则匹配用法
+
 - 删除容器
 
-    `sudo docker ps -a | awk '{print $1, $2}' | grep "jdk" | xargs -t sudo docker rm`
+  `sudo docker ps -a | awk '{print $1, $2}' | grep "jdk" | xargs -t sudo docker rm`
 - 删除镜像
-    `sudo docker images | awk '{print $1, $2}' | grep "jdk" | awk '{print $1}' | xargs -t sudo docker rmi`
+  `sudo docker images | awk '{print $1, $2}' | grep "jdk" | awk '{print $1}' | xargs -t sudo docker rmi`
 
-    awk能够且分为一行，print能选择字段
+  awk 能够且分为一行，print 能选择字段
 
 ### 重命名
+
 ```
-           镜像id   名称  tag(可省略)
+           镜像 id   名称  tag(可省略)
 docker tag e49db activemp:1.5.5
 ```
 
 ### 添加`sudo`权限
+
 ```shell
 # 如果 docker 组不存在，则添加之：
 sudo groupadd docker
@@ -442,15 +468,17 @@ sudo gpasswd -a trdthg docker
 sudo chmod a+rw /var/run/docker.sock
 ```
 
-### 推送到dockerhub
+### 推送到 dockerhub
+
 1. 登陆
+
 ```
 docker login -u xxx
-Password: 输入token
+Password: 输入 token
 ```
 
-2. 推送
-注意：需要修改image名称为 `{username}/{image-name}:{tag}`
+2. 推送 注意：需要修改 image 名称为 `{username}/{image-name}:{tag}`
+
 ```
 docker push `{username}/{image-name}:{tag}`
 ```

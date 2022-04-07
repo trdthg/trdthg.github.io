@@ -1,20 +1,28 @@
 # flutter
 
 ## 无线调试
-> 老连根线是真的不爽，usb接口不稳定老是端开连接🔗，这下就好了
+
+> 老连根线是真的不爽，usb 接口不稳定老是端开连接🔗，这下就好了
+
 1. 查看连接设备
+
 ```
 »»»» adb devices
 List of devices attached
 LGV358fbccb96	device
 ```
+
 2. 设置监听端口
+
 ```
 »»»» adb tcpip 1583
 restarting in TCP mode port: 1583
 ```
+
 3. 局域网内连接到手机
-> 手机ip一般在wifi设置里可以查到
+
+> 手机 ip 一般在 wifi 设置里可以查到
+
 ```
 »»»» adb connect 192.168.31.176:1583
 connected to 192.168.31.176:1583
@@ -23,11 +31,10 @@ connected to 192.168.31.176:1583
 ## 路由系统
 
 ### 两个关联的页面
-HOME(FirstRoute) -> SecondRoute
-HOME(FirstRoute) <- SecondRoute
+
+HOME(FirstRoute) -> SecondRoute HOME(FirstRoute) <- SecondRoute
 
 ```dart
-
 class FirstRoute extends StatelessWidget {
   const FirstRoute({Key? key}) : super(key: key);
 
@@ -69,7 +76,9 @@ class SecondRoute extends StatelessWidget {
 ```
 
 ### 定义路由
+
 1. 常规的方法
+
 ```dart
 // 定义路由
 initialRoute: '/random-words',
@@ -81,11 +90,10 @@ routes: {
 
 Navigator.pushNamed(context, '/second');
 ```
-::: warn
-注意：home 与 initialRoute冲突
-:::
-2. 使用常量定义在组件内部定义路由
-``` dart
+
+::: warn 注意：home 与 initialRoute 冲突 ::: 2. 使用常量定义在组件内部定义路由
+
+```dart
 class RandomWords extends StatefulWidget {
   const RandomWords({Key? key}) : super(key: key);
 
@@ -96,19 +104,21 @@ class RandomWords extends StatefulWidget {
   _RandomWordsState createState() => _RandomWordsState();
 }
 
-// 使用1
+// 使用 1
 initialRoute: HomePage.routeName,
 routes: {
     FirstRoute.routeName: (context) => const FirstRoute(),
 },
 
-// 使用2
+// 使用 2
 final result = await Navigator.pushNamed(context, SecondRoute.routeName);
 ```
 
 ### 返回数据到老页面
-- pop方法有第二个参数，可以返回一些东西
-- push方法有返回值，可以接收pop的值，不过是Future类型，需要用async和await处理
+
+- pop 方法有第二个参数，可以返回一些东西
+- push 方法有返回值，可以接收 pop 的值，不过是 Future 类型，需要用 async 和 await 处理
+
 ```dart
 // First Route
 ElevatedButton(
@@ -137,18 +147,19 @@ ElevatedButton(
 ```
 
 ### 传递数据到新页面
+
 1. 通过构造函数指定参数
 
-只能在定义路由时: `const XXXScreen(args)`传递参数
-这种方法只适用于直接navigate到新页面时使用
+只能在定义路由时：`const XXXScreen(args)`传递参数 这种方法只适用于直接 navigate 到新页面时使用
+
 ```dart
 class TodoDetailScreen extends StatelessWidget {
   const TodoDetailScreen({Key? key, required this.todo}) : super(key: key);
 
   final Todo todo;
-
 ```
-2. 在build函数内指定参数
+
+2. 在 build 函数内指定参数
 
 通过`ModalRoute.of`函数拿到参数
 
@@ -182,7 +193,7 @@ class PassArguementScreen extends StatelessWidget {
 
   static const routeName = "/navigator-3-passArguements";
 
-  // 这里和1一样
+  // 这里和 1 一样
   final ScreenArguments args;
 
   @override
@@ -196,7 +207,7 @@ class PassArguementScreen extends StatelessWidget {
   }
 }
 
-// 定义路由，可route并列
+// 定义路由，可 route 并列
 
 onGenerateRoute: (settings) {
     if (settings.name == PassArguementScreen.routeName) {
@@ -213,11 +224,13 @@ onGenerateRoute: (settings) {
 
 ### 页面之间的动效
 
-1. Hreo组件
+1. Hreo 组件
 
-只需要在两个页面都是用Hero组件包起来就行了
+只需要在两个页面都是用 Hero 组件包起来就行了
+
 - `tag`：作为 `Hero` 组件的标识，在这两个页面中必须相同。
 - `child`：在两个屏幕直接跨越的那个 widget。
+
 ```dart
 child: Hero(
     tag: src,

@@ -1,11 +1,15 @@
-# go语言
+# go 语言
+
 ###./ 基础
+
 #### 格式化
+
 ```go
 fmt.Printf("type %T value %v \n", a, a)
 ```
 
 #### 循环
+
 ```go
 if num := 10; num > 0 {
     fmt.Println(num)
@@ -40,7 +44,8 @@ case dd > -1:
 
 #### 数组
 
-数组有固定大小，数组的大小是类型的一部分，因此[5]int 和 [25]int是不同类型
+数组有固定大小，数组的大小是类型的一部分，因此 [5]int 和 [25]int 是不同类型
+
 ```go
 a := []int{2}
 a[0] = 1
@@ -66,10 +71,11 @@ pln(nums...)
 ```
 
 #### map
+
 ```go
-// map的零值为nil, 必须使用make初始化
-// map是 引用类型，当map被赋值给另一个变量是后，他们共享一个
-// map不能使用==判断，==只能用来判断map是否为nil，应该遍历字典元素去比较两个字典
+// map 的零值为 nil，必须使用 make 初始化
+// map 是 引用类型，当 map 被赋值给另一个变量是后，他们共享一个
+// map 不能使用==判断，==只能用来判断 map 是否为 nil，应该遍历字典元素去比较两个字典
 var mm map[string]int
 // mm["s"] = 1                    // 回报错，map is nil
 // fmt.Printf("%T %v \n", mm, mm) // 这里虽然能打印出 map[]，但是无济于事
@@ -94,6 +100,7 @@ if v, ok := mmm["aa"]; ok == true {
 ```
 
 #### 字符串 与 切片
+
 ```go
 // 字符串
 name := "Señor"
@@ -111,7 +118,8 @@ for i := 0; i < len(name_); i++ {
 }
 ```
 
-当对切片调用`append(slice, ...elems)`是, 如果超出切片的cap,就会重新分配内存空间,因此必须需要用变量接受返回值
+当对切片调用`append(slice, ...elems)`是，如果超出切片的 cap，就会重新分配内存空间，因此必须需要用变量接受返回值
+
 ```go
 //关于切片
 // a[x] 是 (*a)[x] 的简写形式
@@ -141,45 +149,46 @@ func pln(elems ...int) {
 ```
 
 ### 结构体
+
 - 结构体是值类型。如果它的每一个字段都是可比较的，则该结构体也是可比较的。如果两个结构体变量的对应字段相等，则这两个变量也是相等的。
 - 如果结构体包含不可比较的字段，则结构体变量也不可比较。
 
 #### 书写
-- 匿名结构体: string,int就是字段名，字段不能重复
-    ```go
-    type Person struct {
-        string
-        int
-    }
-    person := Person{"aa", 1}
-    fmt.Println(person.int, person.string)
-    ```
-- 提升字段: 嵌入的结构体，可以直接调用里面的字段
-    ```go
-    type Group struct {
-        string
-        int
-        Person
-    }
-    ```
+
+- 匿名结构体: string,int 就是字段名，字段不能重复
+  ```go
+  type Person struct {
+      string
+      int
+  }
+  person := Person{"aa", 1}
+  fmt.Println(person.int, person.string)
+  ```
+- 提升字段：嵌入的结构体，可以直接调用里面的字段
+  ```go
+  type Group struct {
+      string
+      int
+      Person
+  }
+  ```
 - 匿名 + 提升，向上面的情况
 
-    匿名的类型可以重复，但是会以自身的为准
-    ```go
-    group := Group{"bb", 1, person}
-    fmt.Print(group.string, group.string)
-    ```
+  匿名的类型可以重复，但是会以自身的为准
+  ```go
+  group := Group{"bb", 1, person}
+  fmt.Print(group.string, group.string)
+  ```
 
+#### 结构体 Tag
 
-#### 结构体Tag
+**格式** 空格分割的键值对
 
-**格式**
-空格分割的键值对
+**使用** 示例: json 库能够反序列化结构体
 
-**使用**
-示例: json库能够反序列化结构体
-- 如果加上omitepty, 当结构体为空是就会被忽略
-- 如果不加, 为空的字段会被解析为空字符串""
+- 如果加上 omitepty，当结构体为空是就会被忽略
+- 如果不加，为空的字段会被解析为空字符串""
+
 ```go
 type Person struct {
     Name string `json:"name"`
@@ -197,7 +206,8 @@ func main() {
 }
 ```
 
-**可以通过反射读取tag**
+**可以通过反射读取 tag**
+
 ```go
 // 三种获取 field
 field := reflect.TypeOf(obj).FieldByName("Name")
@@ -211,21 +221,24 @@ tag := field.Tag
 labelValue := tag.Get("label")  // 获取不到就会返回 ""
 labelValue,ok := tag.Lookup("label")
 ```
-- 获取键值对，有Get 和 Lookup 两种方法，但其实 Get 只是对 Lookup 函数的简单封装而已，当没有获取到对应 tag 的内容，会返回空字符串。
-    ```go
-    func (tag StructTag) Get(key string) string {
-        v, _ := tag.Lookup(key)
-        return v
-    }
-    ```
+
+- 获取键值对，有 Get 和 Lookup 两种方法，但其实 Get 只是对 Lookup 函数的简单封装而已，当没有获取到对应 tag
+  的内容，会返回空字符串。
+  ```go
+  func (tag StructTag) Get(key string) string {
+      v, _ := tag.Lookup(key)
+      return v
+  }
+  ```
 - 空 Tag 和不设置 Tag 效果是一样的
 
 ### 方法 & 函数
 
 #### 结构体上的方法
-- 结构体方法: 不管是一个值，还是一个可以解引用的指针，调用这样的方法都是合法的。
-    或者说: 用**一个指针**或者**一个可取得地址的值**来调用都是合法的
-- 匿名字段的方法: 属于结构体的匿名字段的方法可以被直接调用，就好像这些方法是属于定义了匿名字段的结构体一样。
+
+- 结构体方法：不管是一个值，还是一个可以解引用的指针，调用这样的方法都是合法的。 或者说：用**一个指针**或者**一个可取得地址的值**来调用都是合法的
+- 匿名字段的方法：属于结构体的匿名字段的方法可以被直接调用，就好像这些方法是属于定义了匿名字段的结构体一样。
+
 ```go
 type rectangle struct {
 	length int
@@ -258,14 +271,18 @@ r.area()
 - 在其他的所有情况，值接收器都可以被使用。
 
 #### 孤儿规则🐶
-下面的不允许，因为int类型和这个方法，不再同一个包里
+
+下面的不允许，因为 int 类型和这个方法，不再同一个包里
+
 ```go
 func (a int) add(b int) {
 }
 ```
+
 解决方法
 
 - 定义类型别名
+
 ```go
 type myInt int
 
@@ -273,12 +290,13 @@ func (a myInt) add(b myInt) myInt {
     return a + b
 }
 ```
-- wrapper包装
 
+- wrapper 包装
 
 #### 函数
 
 **匿名函数**
+
 ```go
 func main() {
     func(n string) {
@@ -288,6 +306,7 @@ func main() {
 ```
 
 **自定义函数类型**
+
 ```go
 type add func(a int, b int) int
 
@@ -301,6 +320,7 @@ func main() {
 ```
 
 **高阶函数**
+
 ```go
 // 接受函数
 func simple(a func(a, b int) int) {
@@ -314,11 +334,12 @@ func simple() func(a, b int) int {
     }
     return f
 }
-
 ```
 
 ### 接口
-类似于dyn Train
+
+类似于 dyn Train
+
 ```go
 type SalaryCalculator interface {
     CalculateSalary() int
@@ -327,12 +348,14 @@ employees := []SalaryCalculator{pemp1, pemp2, cemp1}
 ```
 
 #### 接口的断言
+
 - 类型断言
+
 ```go
 func assert(i interface{}) {
     v, ok := i.(int)
     fmt.Println(v, ok)
-    // 如果不是int类型，v就会被赋为T的零值
+    // 如果不是 int 类型，v 就会被赋为 T 的零值
 }
 func main() {
     var s interface{} = 56
@@ -341,9 +364,10 @@ func main() {
     assert(i)
 }
 ```
-- switch type
-注意: 把变量传递到函数中后会自动转换类型到interface, 因此调用函数能行, 但是下面直接switch就不行
+
+- switch type 注意：把变量传递到函数中后会自动转换类型到 interface，因此调用函数能行，但是下面直接 switch 就不行
 - 回报错: a (variable of type int) is not an interface
+
 ```go
 func findType(i interface{}) {
     switch i.(type) {
@@ -372,7 +396,9 @@ func main() {
 ```
 
 #### 接口类型变量
+
 声明一个变量是接口类型，那么这个变量可以被赋值为，任何实现了接口的类型
+
 ```go
 type Describer interface {
     Describe()
@@ -386,9 +412,11 @@ type Address struct {
     country string
 }
 ```
-现在还不能赋值，接下来为两个struct我们实现接口
 
-为person实现describe，使用**值**接受者, 下面两种赋值都可以，也都能调用方法
+现在还不能赋值，接下来为两个 struct 我们实现接口
+
+为 person 实现 describe，使用**值**接受者，下面两种赋值都可以，也都能调用方法
+
 ```go
 func (p Person) Describe() { // 使用值接受者实现
     fmt.Printf("%s is %d years old\n", p.name, p.age)
@@ -401,10 +429,13 @@ p2 := Person{"James", 32}
 d1 = &p2
 d1.Describe()
 ```
-为Address实现describer, 使用**指针**接受者, 下面就比较特殊
-d = a不能直接赋值，如果是在结构体的方法中，下面的两种赋值都是可以的，但是在接口中不行
 
-其原因是：对于使用指针接受者的方法，用**一个指针**或者**一个可取得地址的值**来调用都是合法的。但接口中存储的具体值（Concrete Value）并不能取到地址，因此在下面的例子中，对于编译器无法自动获取 a 的地址，于是程序报错。
+为 Address 实现 describer，使用**指针**接受者，下面就比较特殊 d =
+a不能直接赋值，如果是在结构体的方法中，下面的两种赋值都是可以的，但是在接口中不行
+
+其原因是：对于使用指针接受者的方法，用**一个指针**或者**一个可取得地址的值**来调用都是合法的。但接口中存储的具体值（Concrete
+Value）并不能取到地址，因此在下面的例子中，对于编译器无法自动获取 a 的地址，于是程序报错。
+
 ```go
 func (a *Address) Describe() { // 使用指针接受者实现
     fmt.Printf("State %s Country %s", a.state, a.country)
@@ -414,13 +445,14 @@ a := Address{"Washington", "USA"}
 
 //d = a  // 这是不合法的，会报错: Address does not implement Describer
 
-d = &a // 这是合法的, Address 类型的指针实现了 Describer 接口
+d = &a // 这是合法的，Address 类型的指针实现了 Describer 接口
 d.Describe()
 ```
 
 #### 接口可以嵌套
-类似于匿名结构体的嵌套
-一个结构体实现了A，B，那就说它也实现了C
+
+类似于匿名结构体的嵌套 一个结构体实现了 A，B，那就说它也实现了 C
+
 ```go
 type A interface {
     foo()
@@ -434,50 +466,53 @@ type C interface {
     A
     B
 }
-
 ```
 
 #### 接口的零值
-接口的零值是nil，同时其底层值（Underlying Value）和具体类型（Concrete Type）都为 nil。调用方法会panic
+
+接口的零值是 nil，同时其底层值（Underlying Value）和具体类型（Concrete Type）都为 nil。调用方法会 panic
 
 #### 接口的坑
-- 不能把interface赋值为别的类型
-    ```go
-    func main() {
-        // 声明a变量, 类型int, 初始值为1
-        var a int = 1
 
-        // 声明i变量, 类型为interface{}, 初始值为a, 此时i的值变为1
-        var i interface{} = a
+- 不能把 interface 赋值为别的类型
+  ```go
+  func main() {
+      // 声明 a 变量，类型 int，初始值为 1
+      var a int = 1
 
-        // 声明b变量, 尝试赋值i
-        var b int = i
-    }
-    ```
+      // 声明 i 变量，类型为 interface{}, 初始值为 a，此时 i 的值变为 1
+      var i interface{} = a
+
+      // 声明 b 变量，尝试赋值 i
+      var b int = i
+  }
+  ```
 - 切片也不能再分
-    ```go
-    func main() {
-        sli := []int{2, 3, 5, 7, 11, 13}
+  ```go
+  func main() {
+      sli := []int{2, 3, 5, 7, 11, 13}
 
-        var i interface{}
-        i = sli
+      var i interface{}
+      i = sli
 
-        g := i[1:3]
-        fmt.Println(g)
-    }
-    ```
+      g := i[1:3]
+      fmt.Println(g)
+  }
+  ```
 
 ### channel
 
 #### 特性
-- go的channel默认是双向的，既可以send，也可以recv
-- channel必须有发送端和接收端，否则就panic
-- make(chan int, n) n表示缓冲区大小, 可以省略, 默认为0
-    - 而对于无缓冲channel，接受和发送都要在不同携程之间, 不让两个人互相阻塞
-    - 对于有缓冲区channel, 在缓冲区大小内, 两个不会互相阻塞, 可以在同一协程内
-    - 如果超过缓冲区大小, 就会panic, 所以超过缓冲区大小的还是必须在其他的协程中处理
-- 缓冲区也有len 和 cap的概念
-- 对于rust,如果超出缓冲区大小send就会返回Error
+
+- go 的 channel 默认是双向的，既可以 send，也可以 recv
+- channel 必须有发送端和接收端，否则就 panic
+- make(chan int, n) n 表示缓冲区大小，可以省略，默认为 0
+  - 而对于无缓冲 channel，接受和发送都要在不同携程之间，不让两个人互相阻塞
+  - 对于有缓冲区 channel，在缓冲区大小内，两个不会互相阻塞，可以在同一协程内
+  - 如果超过缓冲区大小，就会 panic，所以超过缓冲区大小的还是必须在其他的协程中处理
+- 缓冲区也有 len 和 cap 的概念
+- 对于 rust，如果超出缓冲区大小 send 就会返回 Error
+
 ```go
 func sendData(sendch chan<- int) {
     sendch <- 10
@@ -490,30 +525,33 @@ func main() {
 }
 ```
 
-#### 单向channel
+#### 单向 channel
+
 ```go
-// 声明参数是一个只能发送的ch
+// 声明参数是一个只能发送的 ch
 func sendData(sendch chan<- int) {
     sendch <- 10
 }
 
 func main() {
-    // 声明一个只能发送的channel，下面使用它去接受就会panic
-    // 如果声明为 chan int, 下面的接受不会panic，在sendData会被转换为只能发送的channel，而main中的仍然是双向的
+    // 声明一个只能发送的 channel，下面使用它去接受就会 panic
+    // 如果声明为 chan int，下面的接受不会 panic，在 sendData 会被转换为只能发送的 channel，而 main 中的仍然是双向的
     sendch := make(chan<- int)
     go sendData(sendch)
     fmt.Println(<-sendch)
 }
 ```
 
-#### 关闭channel
-不能一直send或者一直recv, 处理完及时把一端close了
+#### 关闭 channel
+
+不能一直 send 或者一直 recv，处理完及时把一端 close 了
+
 ```go
 func producer(chnl chan int) {
     for i := 0; i < 10; i++ {
         chnl <- i
     }
-    // 发送完成后, 使用send函数显式关闭channel
+    // 发送完成后，使用 send 函数显式关闭 channel
     close(chnl)
 }
 
@@ -521,7 +559,7 @@ func main() {
     ch := make(chan int)
     go producer(ch)
     for {
-        // 通过ok判断channel是否关闭
+        // 通过 ok 判断 channel 是否关闭
         v, ok := <-ch
         if ok == false {
             break
@@ -532,11 +570,13 @@ func main() {
 ```
 
 #### waitGroup
+
 等待一群协程结束
 
 注意一定要使用指针
 
 #### 工作池
+
 ```go
 // 模拟耗时的计算
 func calculate(number int) int {
@@ -558,7 +598,7 @@ func produceJobs(jobs chan<- Job, n int) {
 
 // 消费者，接受工作，干完活就通知以下管理员
 func consumeFunc(jobs <-chan Job, results chan<- int, wg *sync.WaitGroup) {
-	// 每个worker都在抢工作，真积极啊
+	// 每个 worker 都在抢工作，真积极啊
 	for job := range jobs {
 		// fmt.Printf("id: %d\n", job.id)
 		results <- calculate(job.number)
@@ -566,16 +606,16 @@ func consumeFunc(jobs <-chan Job, results chan<- int, wg *sync.WaitGroup) {
 	wg.Done()
 }
 
-// 管理员，等待所有工人都通知他，每次被通知，计数器就减1, 当计数器为0是就不再阻塞
+// 管理员，等待所有工人都通知他，每次被通知，计数器就减 1，当计数器为 0 是就不再阻塞
 func consumeJobs(jobs <-chan Job, results chan<- int, worker_number int) {
-	// 等待一批goroutine结束，类似于join
+	// 等待一批 goroutine 结束，类似于 join
 	var wg sync.WaitGroup
-	// 为每一个工作开启一个goroutine
+	// 为每一个工作开启一个 goroutine
 	for i := 0; i < worker_number; i++ {
 		wg.Add(1)
 		go consumeFunc(jobs, results, &wg)
 	}
-	wg.Wait() // 阻塞当前goroutine直到计数器归0, 所有job都应该做完了，result应该也都发送出去了
+	wg.Wait() // 阻塞当前 goroutine 直到计数器归 0，所有 job 都应该做完了，result 应该也都发送出去了
 	close(results)
 }
 
@@ -590,7 +630,7 @@ func main() {
 	jobs := make(chan Job, 10)
 	results := make(chan int, 10)
 
-	// 发送work, jobs send
+	// 发送 work, jobs send
 	go produceJobs(jobs, 100)
 	// jobs recv | results send
 	go consumeJobs(jobs, results, 50)
@@ -612,10 +652,11 @@ func main() {
 
 用法挺普通
 
-- channel不限制send/recv, 只要是对channel的操作就行
-- 如果有多个channel准备就绪, 就随机选择一个执行
-- 死锁与默认情况: 如果select一直没有命中, 就会触发死锁, 导致panic, 空select一样也会导致panic
-- 可以准备一个timeout chan, 到时间就send作为超时信号
+- channel 不限制 send/recv，只要是对 channel 的操作就行
+- 如果有多个 channel 准备就绪，就随机选择一个执行
+- 死锁与默认情况：如果 select 一直没有命中，就会触发死锁，导致 panic，空 select 一样也会导致 panic
+- 可以准备一个 timeout chan，到时间就 send 作为超时信号
+
 ```go
 func main() {
     ch := make(chan string)
@@ -628,12 +669,14 @@ func main() {
 ```
 
 ### 并发
-goroutine不能保证并发安全, 下面是一些解决方法
 
-- 总体说来，当 Go 协程需要与其他协程通信时，可以使用channel。而当只允许一个协程访问临界区时，可以使用 Mutex。
+goroutine 不能保证并发安全，下面是一些解决方法
+
+- 总体说来，当 Go 协程需要与其他协程通信时，可以使用 channel。而当只允许一个协程访问临界区时，可以使用 Mutex。
 - 就我们上面解决的问题而言，我更倾向于使用 Mutex，因为该问题并不需要协程间的通信。所以 Mutex 是很自然的选择。
 
 #### mutex
+
 ```go
 func aa(wg *sync.WaitGroup, m *sync.Mutex) {
 	m.Lock()
@@ -655,7 +698,9 @@ func main() {
 ```
 
 #### channel
-使用缓冲为1的channel实现
+
+使用缓冲为 1 的 channel 实现
+
 ```go
 func aa(wg *sync.WaitGroup, ch chan bool) {
 	ch <- true
@@ -680,7 +725,9 @@ func main() {
 ### defer
 
 #### 实参求值
+
 当执行 defer 语句的时候，就会对延迟函数的实参进行求值。
+
 ```go
 func printA(a int) {
     fmt.Println("value of a in deferred function", a)
@@ -693,10 +740,12 @@ func main() {
 // value of a in deferred function 5
 ```
 
-#### defer栈
+#### defer 栈
+
 当一个函数内多次调用 defer 时，Go 会把 defer 调用放入到一个栈中，随后按照后进先出（Last In First Out, LIFO）的顺序执行。
 
 下面的程序，使用 defer 栈，将一个字符串逆序打印。
+
 ```go
 func main() {
     name := "Naveen"
@@ -707,7 +756,7 @@ func main() {
 // 倒叙输出: neevaN
 ```
 
-#### defer在return后执行
+#### defer 在 return 后执行
 
 ```go
 import "fmt"
@@ -719,21 +768,22 @@ func myfunc() string {
         name = "python"
     }()
 
-    fmt.Printf("myfunc 函数里的name：%s\n", name) // go
+    fmt.Printf("myfunc 函数里的 name：%s\n", name) // go
     return name
 }
 
 func main() {
     myname := myfunc()
-    fmt.Printf("main 函数里的name: %s\n", name) // python
-    fmt.Println("main 函数里的myname: ", myname) // go
+    fmt.Printf("main 函数里的 name: %s\n", name) // python
+    fmt.Println("main 函数里的 myname: ", myname) // go
 }
 ```
 
 #### 使用场景
+
 ```go
 func (r rect) area(wg *sync.WaitGroup) {
-    // defer wg.Done() // 代替下面的3个return中的wg.Done()
+    // defer wg.Done() // 代替下面的 3 个 return 中的 wg.Done()
     if r.length < 0 {
         fmt.Printf("rect %v's length should be greater than zero\n", r)
         wg.Done()
@@ -753,14 +803,17 @@ func (r rect) area(wg *sync.WaitGroup) {
 ### 错误处理
 
 #### 错误接口
+
 在标准库里的定义
+
 ```go
 type error interface {
     Error() string
 }
 ```
 
-open函数的设计
+open 函数的设计
+
 ```go
 type PathError struct {
     Op   string
@@ -774,6 +827,7 @@ func (e *PathError) Error() string { return e.Op + " " + e.Path + ": " + e.Err.E
 #### 错误类型断言
 
 通过类型断言拿到错误信息
+
 ```go
 func main() {
     f, err := os.Open("/test.txt")
@@ -786,6 +840,7 @@ func main() {
 ```
 
 #### 子错误类型
+
 ```go
 type DNSError struct {
     ...
@@ -817,10 +872,12 @@ func main() {
 }
 ```
 
-#### panic和recover
+#### panic 和 recover
 
-下面使用recover去恢复panic
+下面使用 recover 去恢复 panic
+
 - 注意: Go 协程中调用 recover 才管用。recover 不能恢复一个不同协程的 panic。
+
 ```go
 func recoverName() {
     if r := recover(); r!= nil {
@@ -840,7 +897,9 @@ func fullName(firstName *string, lastName *string) {
     fmt.Println("returned normally from fullName")
 }
 ```
+
 #### 恢复后获得堆栈
+
 ```go
 import (
     "runtime/debug"
@@ -855,7 +914,9 @@ func r() {
 ```
 
 ### 反射
+
 **基础**
+
 ```go
 type order struct {
 	ordId      int
@@ -925,7 +986,9 @@ func main() {
 	fmt.Println(reflect.TypeOf(b))
 }
 ```
+
 **修改类型**
+
 ```go
 func main() {
     var age interface{} = 25
@@ -934,10 +997,12 @@ func main() {
     i := v.Interface().(int)
 }
 ```
+
 **可写性**
+
 ```go
 func main() {
-    var name string = "Go编程时光"
+    var name string = "Go 编程时光"
     v1 := reflect.ValueOf(&name)
     fmt.Println("v1 可写性为:", v1.CanSet())
 
@@ -951,41 +1016,52 @@ func main() {
 ### 变量
 
 #### make
+
 make 函数创建 slice、map 或 chan 类型变量
 
-**和new的区别**
-- new：为所有的类型分配内存，并初始化为零值，返回指针。
-- make：只能为 slice，map，chan 分配内存，并初始化，返回的是类型(指针)。因为这三个本身就是引用类型
+**和 new 的区别**
 
-- slice、map 和 chan 是 Go 中的引用类型，它们的创建和初始化，一般使用 make。特别的，chan 只能用 make。slice 和 map 还可以简单的方式：
+- new：为所有的类型分配内存，并初始化为零值，返回指针。
+- make：只能为 slice，map，chan 分配内存，并初始化，返回的是类型 (指针)。因为这三个本身就是引用类型
+
+- slice、map 和 chan 是 Go 中的引用类型，它们的创建和初始化，一般使用 make。特别的，chan 只能用 make。slice 和 map
+  还可以简单的方式：
+
 ```go
 slice := []int{0, 0}
 m := map[string]int{}
 ```
+
 #### 匿名变量
+
 - 不分配内存，不占用内存空间
 
 #### 浮点数
+
 浮点数转二进制时丢失了精度，计算完再转回十进制时和理论结果不同。
+
 - f32: 1 8
 - f64: 1 11
 
 #### 作用域
 
 **分类**
+
 - 内置作用域：不需要自己声明，所有的关键字和内置类型、函数都拥有全局作用域
 - 包级作用域：必須函数外声明，在该包内的所有文件都可以访问
-- 文件级作用域：不需要声明，导入即可。一个文件中通过import导入的包名，只在该文件内可用
+- 文件级作用域：不需要声明，导入即可。一个文件中通过 import 导入的包名，只在该文件内可用
 - 局部作用域：在自己的语句块内声明，包括函数，for、if 等语句块，或自定义的 {} 语句块形成的作用域，只在自己的局部作用域内可用
 
 **作用规则**
+
 - 低层作用域，可以访问高层作用域
 - 同一层级的作用域，是相互隔离的
 - 低层作用域里声明的变量，会覆盖高层作用域里声明的变量
 
 **动态作用域**
 
-下面的bash脚本中, func02在func01内部可以访问到value, 但在func01外面不能, 属于动态作用域
+下面的 bash 脚本中，func02 在 func01 内部可以访问到 value，但在 func01 外面不能，属于动态作用域
+
 ```shell
 #!/bin/bash
 func01() {
@@ -1001,10 +1077,9 @@ func01
 func02
 ```
 
-
 ### 协程池
-```go
 
+```go
 type Pool struct {
 	work chan func()   // 任务
 	sem  chan struct{} // 使用缓冲区大小控制工人数量
@@ -1024,10 +1099,10 @@ func (p *Pool) worker(task func()) {
 	}
 }
 func (p *Pool) NewTask(task func()) {
-	// 第一次加新任务时，work缓冲区大小为0, 发出去也没人接受，所以一定会走第二个
-	// 相当于找到了第一个工人处理任务，worker本身是个for循环，它处理完第一个任务后会继续接受新任务
+	// 第一次加新任务时，work 缓冲区大小为 0，发出去也没人接受，所以一定会走第二个
+	// 相当于找到了第一个工人处理任务，worker 本身是个 for 循环，它处理完第一个任务后会继续接受新任务
 	// 第二次加入时，就被第一个工人处理了，
-	// 如果第三个加入，因为sem缓冲区大小的限制，不会继续产生新的worker
+	// 如果第三个加入，因为 sem 缓冲区大小的限制，不会继续产生新的 worker
 	select {
 	case p.work <- task:
 	case p.sem <- struct{}{}:
@@ -1050,19 +1125,21 @@ func main() {
 
 接口分为两种`iface`和`eface`
 
-所有的变量都实现了空接口(eface)
+所有的变量都实现了空接口 (eface)
+
 ```go
 // 定义静态类型
 i := (int)(25)
-i = "Go编程时光" // 会报错
+i = "Go 编程时光" // 会报错
 
 // 定义动态类型
 i := (interface{})(25)
 var i interface{}
 i = 18
 
-i = "Go编程时光" // 上面三种都行，不会报错
+i = "Go 编程时光" // 上面三种都行，不会报错
 ```
+
 ```go
 var reader io.Reader
 
@@ -1073,14 +1150,14 @@ if err != nil {
 
 reader = tty
 ```
-第一行代码结束后，reader的静态类型为`io.Reader`还没有动态类型
+
+第一行代码结束后，reader 的静态类型为`io.Reader`还没有动态类型
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203060928375.png)
-被赋值为tty后，reader的动态类型变为`*os.File`
+被赋值为 tty 后，reader 的动态类型变为`*os.File`
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203060936153.png)
 
-
 ```go
-//不带函数的interface
+//不带函数的 interface
 var empty interface{}
 
 tty, err := os.OpenFile("/dev/tty", os.O_RDWR, 0)
@@ -1090,36 +1167,44 @@ if err != nil {
 
 empty = tty
 ```
-刚开始empty是eface，`_type`为nil
+
+刚开始 empty 是 eface，`_type`为 nil
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203060938295.png)
 被赋值后，`_type`的**静态类型**为`*os.File`
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203060938635.png)
 
 ### 导入
 
-导入方式:
+导入方式：
+
 - 绝对导入：从 `$GOPATH/src` 或 **`$GOROOT`** 或者 `$GOPATH/pkg/mod` 目录下搜索包并导入
 - 相对导入：从当前目录中搜索包并开始导入。就像下面这样
 
-注意:
+注意：
+
 - 导入时，是按照目录导入。导入目录后，可以使用这个目录下的所有包。
 - 只要不是`.`或`..`开头，全都是绝对路径
 
 ### context
-当一个goutine开启后，只能通过channel的通知实现管理，使用context更方便了
 
-当你把 Context 传递给多个 goroutine 使用时，只要执行一次 cancel 操作，所有的 goroutine 就可以收到 取消的信号，Context 是线程安全的，可以放心地在多个 goroutine 中使用。
+当一个 goutine 开启后，只能通过 channel 的通知实现管理，使用 context 更方便了
 
-context创建依赖于4个函数
-- withCancel最普通，只能使用cancel去结束
-- withDeadline和WithDeadline会在超时后自动cancel，传递的是绝对时间和相对时间
-- withValue能够携带一些键值对(键应该是可比的，值必须是线程安全的)
+当你把 Context 传递给多个 goroutine 使用时，只要执行一次 cancel 操作，所有的 goroutine 就可以收到
+取消的信号，Context 是线程安全的，可以放心地在多个 goroutine 中使用。
+
+context 创建依赖于 4 个函数
+
+- withCancel 最普通，只能使用 cancel 去结束
+- withDeadline 和 WithDeadline 会在超时后自动 cancel，传递的是绝对时间和相对时间
+- withValue 能够携带一些键值对 (键应该是可比的，值必须是线程安全的)
+
 ```go
 func WithCancel(parent Context) (ctx Context, cancel CancelFunc)
 func WithDeadline(parent Context, deadline time.Time) (Context, CancelFunc)
 func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
 func WithValue(parent Context, key, val interface{}) Context
 ```
+
 ```go
 func monitor(ctx context.Context, number int)  {
     for {
@@ -1154,5 +1239,6 @@ func main() {
 ```
 
 ## 参考
-- [2020重学Go系列：34. 图解静态类型与动态类型](https://mp.weixin.qq.com/s?__biz=MzAxMTA4Njc0OQ==&mid=2651439981&idx=4&sn=b1ad1fd6e9ddf4618b0db904b067f7f6&scene=19#wechat_redirect)
+
+- [2020 重学 Go 系列：34. 图解静态类型与动态类型](https://mp.weixin.qq.com/s?__biz=MzAxMTA4Njc0OQ==&mid=2651439981&idx=4&sn=b1ad1fd6e9ddf4618b0db904b067f7f6&scene=19#wechat_redirect)
 - []()

@@ -3,18 +3,20 @@
 ## IOC
 
 ### 获取实例
+
 ```java
 ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
-// 1. 通过id获取实例
+// 1. 通过 id 获取实例
 Student student = (Student) applicationContext.getBean("student");
-// 2. 通过运行时类获取实例 (缺点: xml中一种数据类型只能有一个实例)
+// 2. 通过运行时类获取实例 (缺点: xml 中一种数据类型只能有一个实例)
 //Student student = (Student) applicationContext.getBean(Student.class);
 System.out.println(student);
 ```
 
-### Bean配置
+### Bean 配置
 
 1. 无参构造
+
 ```java
 <bean id="student" class="com.southwind.entity.Student"
     scope="prototype" parent="student" autowire="byType" depends-on="a2">
@@ -24,16 +26,19 @@ System.out.println(student);
     <property name="address" ref="address"/>
 </bean>
 ```
-- scope: 默认为singleton, 单例模式, prototype为工厂模式
-- panent参数: 不同对象只要属性相同就能继承
-- autowire: byName根据id=(address)寻找, 根据class=(Student)寻找
-- depend-on: 规定bean创建顺序
+
+- scope: 默认为 singleton，单例模式，prototype 为工厂模式
+- panent 参数：不同对象只要属性相同就能继承
+- autowire: byName 根据 id=(address) 寻找，根据 class=(Student) 寻找
+- depend-on: 规定 bean 创建顺序
+
 2. 有参构造
+
 ```java
 <bean id="student3" class="com.southwind.entity.Student">
     <constructor-arg name="id" value="3"/>
     <constructor-arg name="name" value="李四"/>
-    <!--可以用index代替name, 但是也要按顺序写-->
+    <!--可以用 index 代替 name，但是也要按顺序写-->
     <constructor-arg name="age" value="14"/>
     <!--<constructor-arg index="2" value="14"/>-->
     <constructor-arg name="address" ref="address"/>
@@ -45,11 +50,11 @@ System.out.println(student);
     </constructor-arg>
 </bean>
 ```
-::: tip 提示
-spring通过反射调用无参构造创建对象, bean必须有无参构造
-:::
-ClassPathXmlApplicationContext类实现了ApplicationContext接口, 有getBean方法
-下面是一个ClassPathXmlApplicationContext的简单实现
+
+::: tip 提示 spring 通过反射调用无参构造创建对象，bean 必须有无参构造 :::
+ClassPathXmlApplicationContext 类实现了 ApplicationContext 接口，有 getBean 方法
+下面是一个 ClassPathXmlApplicationContext 的简单实现
+
 ```java
 public class ClassPathXmlApplicationContext implements ApplicationContext {
 
@@ -57,7 +62,7 @@ public class ClassPathXmlApplicationContext implements ApplicationContext {
 
     public ClassPathXmlApplicationContext(String path) {
         try {
-            // xml文件解析
+            // xml 文件解析
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read("./src/main/resources/" + path);
             System.out.println(document);
@@ -79,14 +84,14 @@ public class ClassPathXmlApplicationContext implements ApplicationContext {
                     String name = property.attributeValue("name");
                     String value = property.attributeValue("value");
                     String ref = property.attributeValue("ref");
-                    // 获取set方法
+                    // 获取 set 方法
                     // 1. 拼接方法名
                     String methodName = "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
                     // 2. 获取形参类型
                     Field field = clazz.getDeclaredField(name);
                     // 3. 获取带参数的方法
                     Method method = clazz.getDeclaredMethod(methodName, field.getType());
-                    // 4. 将实参类型String转换为所需的
+                    // 4. 将实参类型 String 转换为所需的
                     String fieldName = field.getType().getName();
                     if (fieldName == "long") {
                         method.invoke(object, Long.parseLong(value));
@@ -98,14 +103,14 @@ public class ClassPathXmlApplicationContext implements ApplicationContext {
                     if (ref != null) {
                         method.invoke(object, ioc.get(ref));
                         // 这里可能要做个递归
-                        // 或者是把bean全找到后再根据ref互相赋值
+                        // 或者是把 bean 全找到后再根据 ref 互相赋值
                         // 这里简单写
                     }
                 }
                 ioc.put(id, object);
                 System.out.println(object);
             }
-            System.out.println("XML解析完毕");
+            System.out.println("XML 解析完毕");
         } catch (DocumentException | ClassNotFoundException | NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalArgumentException | IllegalAccessException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {
@@ -122,7 +127,9 @@ public class ClassPathXmlApplicationContext implements ApplicationContext {
 ```
 
 3. 静态工厂
+
 - factory
+
 ```java
 public class StaticCarFactory {
     private static Map<Long, Car> carMap;
@@ -136,15 +143,20 @@ public class StaticCarFactory {
     }
 }
 ```
+
 - spring.xml
+
 ```xml
 <!--配置静态工厂-->
 <bean id="car" class="com.southwind.factory.StaticCarFactory"               factory-method="getCar">
     <constructor-arg value="2"/>
 </bean>
 ```
+
 4. 实例工厂
+
 - factory
+
 ```java
 public class InstanceCarFactory {
     private Map<Long, Car> carMap;
@@ -158,7 +170,9 @@ public class InstanceCarFactory {
     }
 }
 ```
+
 - xml
+
 ```java
 <!--配置实例工厂-->
 <bean id="carFactory" class="com.southwind.factory.InstanceCarFactory"/>
@@ -170,7 +184,9 @@ public class InstanceCarFactory {
 ## AOP
 
 ### 手动反射实现
+
 - handler
+
 ```java
 public class CalInvocationHandler implements InvocationHandler {
     // 接受委托对象
@@ -199,7 +215,9 @@ public class CalInvocationHandler implements InvocationHandler {
     }
 }
 ```
+
 - Test
+
 ```java
 public class Test {
     public static void main(String[] args) {
@@ -211,12 +229,13 @@ public class Test {
 }
 ```
 
-### @Aspect实现
+### @Aspect 实现
 
 - loggerAspect
+
 ```java
 @Aspect  // 让普通对象成为切面对象
-@Component  // 交给ioc管理bean  同时委托对象也要被ioc管理
+@Component  // 交给 ioc 管理 bean  同时委托对象也要被 ioc 管理
 public class loggerAspect {
 
     // 方法名用*代替  参数用..代替
@@ -253,20 +272,22 @@ public class loggerAspect {
 ```
 
 - spring.xml
+
 ```xml
-<!--自动扫描base-package下的对象, 将添加了@component注解的对象加入ioc容器-->
+<!--自动扫描 base-package 下的对象，将添加了 @component 注解的对象加入 ioc 容器-->
 <context:component-scan base-package="com.southwind"/>
 
-<!--自动扫描, 为添加了@aspect注解的对象自动生成代理对象-->
+<!--自动扫描，为添加了 @aspect 注解的对象自动生成代理对象-->
 <aop:aspectj-autoproxy/>
 ```
 
 - Test2
+
 ```java
 // 加载配置文件
 ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
-// 自动生成的代理对象被自动加入ioc,
-// @component("id") 如果不加参数bean的id为委托对象首字母小写
+// 自动生成的代理对象被自动加入 ioc,
+// @component("id") 如果不加参数 bean 的 id 为委托对象首字母小写
 Cal proxy = (Cal) applicationContext.getBean("calImpl");
 proxy.add(1, 2);
 ```
@@ -274,7 +295,9 @@ proxy.add(1, 2);
 ## spring-mvc
 
 ## Mybatis
+
 - pom.xml
+
 ```java
 <dependency>
     <groupId>org.mybatis</groupId>
@@ -287,17 +310,19 @@ proxy.add(1, 2);
     <version>8.0.23</version>
 </dependency>
 ```
+
 - config.xml
+
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-<!--    配置mybits运行环境-->
+<!--    配置 mybits 运行环境-->
     <environments default="development">
         <environment id="development">
-<!--            JDBC事务管理-->
+<!--            JDBC 事务管理-->
             <transactionManager type="JDBC"></transactionManager>
-<!--            POOLED配置数据库连接池-->
+<!--            POOLED 配置数据库连接池-->
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://localhost:3306/library?useUnicode=true&amp;characterEncoding=UTF-8"/>
@@ -306,7 +331,7 @@ proxy.add(1, 2);
             </dataSource>
         </environment>
     </environments>
-    <!--注册xml文件-->
+    <!--注册 xml 文件-->
     <mappers>
         <mapper resource="com/southwind/mapper/AccountMapper.xml"></mapper>
         <mapper resource="com/southwind/mapper/StudentMapper.xml"></mapper>

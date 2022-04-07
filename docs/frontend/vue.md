@@ -2,14 +2,16 @@
 
 ## Vue2.x
 
-### Vue基础
+### Vue 基础
 
-#### src引入
+#### src 引入
+
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>;
 ```
 
-#### question.html例子
+#### question.html 例子
+
 ```javascript
 <!DOCTYPE html>
 <html>
@@ -20,11 +22,11 @@
 	</head>
 	<body>
 		<div id="watch-example">
-		  <p>输入框:
+		  <p>输入框：
 			<input v-model="question" placeholder="sss">
 		  </p>
 		  <p> 答案:  {{ answer }}</p>
-           <!--// {{}}语法不能作用在 HTML attribute 上, 的但是可以用[attributeName]
+           <!--// {{}}语法不能作用在 HTML attribute 上，的但是可以用 [attributeName]
              可以嵌入 JavaScript 表达式-->
 		</div>
 		<script>
@@ -46,10 +48,10 @@
 					getAnswer: function() {
 						console.log("正在查询结果")
 						if (this.question.indexOf("?") === -1) {
-							this.answer = '问题要以?结尾';
+							this.answer = '问题要以？结尾';
 						}
 						this.answer = "Thinking..."
-						var this_ = this;  // axios为新的this
+						var this_ = this;  // axios 为新的 this
 						axios.get("https://yesno.wtf/api").then(function (response) {
 							this_.answer = "找到结果"
 						}).catch(function(error) {
@@ -64,42 +66,45 @@
 ```
 
 #### 计算属性
+
 ```javascript
- computed: {
-    fullName:  // 默认为set, 可增加get 
-      (set: )function () {
-      return this.firstName + ' ' + this.lastName
-    }
-  }
+computed: {
+   fullName:  // 默认为 set，可增加 get
+     (set: )function () {
+     return this.firstName + ' ' + this.lastName
+   }
+ }
 ```
 
 #### v-bind for class
+
 - 对象语法
-    ```javascript
-    // 1.
-    v-bind:class="{ active: isActive, 'text-danger': hasError }"
-    data: {
-    isActive: true,
-    hasError: false
-    }
-    // 2.
-    <div v-bind:class="classObject"></div>
-    data: {
-    classObject: {
-        active: true,
-        'text-danger': false
-    }
-    }
-    computed: {
-    classObject: function () {
-        return {
-        active: this.isActive && !this.error,
-        'text-danger': this.error && this.error.type === 'fatal'
-        }
-    }
-    } 
-    ```
+  ```javascript
+  // 1.
+  v-bind:class="{ active: isActive, 'text-danger': hasError }"
+  data: {
+  isActive: true,
+  hasError: false
+  }
+  // 2.
+  <div v-bind:class="classObject"></div>
+  data: {
+  classObject: {
+      active: true,
+      'text-danger': false
+  }
+  }
+  computed: {
+  classObject: function () {
+      return {
+      active: this.isActive && !this.error,
+      'text-danger': this.error && this.error.type === 'fatal'
+      }
+  }
+  }
+  ```
 - 数组语法
+
 ```javascript
 // 1.
 <div v-bind:class="[activeClass, errorClass]"></div>
@@ -112,8 +117,8 @@ data: {
 // 3.
 <div v-bind:class="[{ active: isActive }, errorClass]"></div>
 ```
-```javascript
 
+```javascript
 ```
 
 ## VuePress
@@ -122,20 +127,20 @@ data: {
 
 1. 部分字符需转义，例如<>
 
-### Home配置
+### Home 配置
 
 ```yaml
 ---
 home: true
 heroImage: logo.png
-heroText: Trdthg的个人主页
+heroText: Trdthg 的个人主页
 # tagline: Hero 副标题
 # actionText: 快速上手 →
 # actionLink: /zh/guide/
 features:
 - title: 简洁至上
   details: 以 Markdown 为中心的项目结构，以最少的配置帮助你专注于写作。
-- title: Vue驱动
+- title: Vue 驱动
   details: 享受 Vue + webpack 的开发体验，在 Markdown 中使用 Vue 组件，同时可以使用 Vue 来开发自定义主题。
 - title: 高性能
   details: VuePress 为每个页面预渲染生成静态的 HTML，同时在页面被加载的时候，将作为 SPA 运行。
@@ -148,26 +153,27 @@ footer: MIT Licensed | Copyright © 2020-present Evan You
 1. 新建 .vuepress -> styles -> palette.styl
 
 2. 示例
+
 ```styl
 // $accentColor =blue//默认主题颜色
 // $textColor = #006400//默认字体颜色
 $textColor = #000//默认字体颜色
 $borderColor = #eaecef//默认边框颜色
 $codeBgColor = #282c34//默认背景颜色
- 
-//示例修改相关样式f12找到需要修改的地方找到对应class类拿过来直接用就行了
+
+//示例修改相关样式 f12 找到需要修改的地方找到对应 class 类拿过来直接用就行了
 
 .sidebar-group.is-sub-group > .sidebar-heading:not(.clickable){
   opacity :1
 }
 
 .theme-container {
-  background-image: url(https://www.10wallpaper.com/wallpaper/1920x1200/1909/2019_Red_Blue_Abstract_Design_Desktop_1920x1200.jpg);  
+  background-image: url(https://www.10wallpaper.com/wallpaper/1920x1200/1909/2019_Red_Blue_Abstract_Design_Desktop_1920x1200.jpg);
   background-repeat:no-repeat;
   background-attachment:fixed;
 }
 .page {
-  padding-top: 5rem;  
+  padding-top: 5rem;
   padding-left: 15rem;
 }
 .sidebar {
@@ -194,7 +200,7 @@ sidebar: {
   '/python/': ['python'],
   '/rust/': ['rust', 'lists'],
   '/other/': ['other', 'script', 'datastructure'],
-  '/': [''] //不能放在数组第一个，否则会导致右侧栏无法使用 
+  '/': [''] //不能放在数组第一个，否则会导致右侧栏无法使用
 }, // 侧边栏配置
 nav:[ // 导航栏配置
   {text: 'Java',  link: '/java/java'},
@@ -202,7 +208,7 @@ nav:[ // 导航栏配置
   {text: 'Python', link: '/python/python'},
   {text: 'Rust', link: '/rust/rust' },
   {text: '其他', link: '/other/other'},
-  {text: 'Github', link: 'https://github.com/trdthg'}      
+  {text: 'Github', link: 'https://github.com/trdthg'}
 ],
 ```
 

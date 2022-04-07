@@ -1,19 +1,19 @@
-# WebAssembly初体验
+# WebAssembly 初体验
 
 ## hello-wasm
 
-[MDN教程](https://developer.mozilla.org/zh-CN/docs/WebAssembly/Rust_to_wasm)
+[MDN 教程](https://developer.mozilla.org/zh-CN/docs/WebAssembly/Rust_to_wasm)
 
 ### 安装准备
 
-- 安装Rust
-- 安装wasm-pack
+- 安装 Rust
+- 安装 wasm-pack
 
 ```
 cargo install wasm-pack
 ```
 
-- 安装node.js并注册账户
+- 安装 node.js 并注册账户
 
 ```powershell
 > npm adduser
@@ -80,7 +80,7 @@ cd pkg
 npm publish --access=public
 ```
 
-### 在webpack项目使用
+### 在 webpack 项目使用
 
 #### 目录
 
@@ -158,48 +158,48 @@ $ npm run serve
 
 ### 内存排布
 
-js的`Object`, `Array`, `DOM Nodes`等对象都存储在GC Heap上
-wasm的内存是和js分离的，线型排布，rust的数据就存在其中
+js 的`Object`, `Array`, `DOM Nodes`等对象都存储在 GC Heap 上
+wasm 的内存是和 js 分离的，线型排布，rust 的数据就存在其中
 
-### js与rust通讯
+### js 与 rust 通讯
 
-wasm目前无法直接访问js的GC Heap(这点可能会改变, wasm提案正尝试为wasm加入高级数据类型),
-而js可以直接访问wasm的内存数据，虽然需要把数据转换为固定大小的buf array(u8, i32, f64 ...). wasm函数也只能接受返回标量值.
-上面的内容构成了js和wasm通讯的基本模块
+wasm 目前无法直接访问 js 的 GC Heap(这点可能会改变，wasm 提案正尝试为 wasm 加入高级数据类型),
+而 js 可以直接访问 wasm 的内存数据，虽然需要把数据转换为固定大小的 buf array(u8, i32, f64 ...). wasm 函数也只能接受返回标量值。
+上面的内容构成了 js 和 wasm 通讯的基本模块
 
 ### wasm-bindgen
 
-该工具包装了rust数据结构，并能够将指针返回给js, 封装了js对象，直接调用js-api
+该工具包装了 rust 数据结构，并能够将指针返回给 js，封装了 js 对象，直接调用 js-api
 
-但是依然需要考虑如何设计数据结构以适配wasm的需要
+但是依然需要考虑如何设计数据结构以适配 wasm 的需要
 
 ### 注意事项
 
-- 最小化copy数据, 在js和wasm之间拷贝数据会带来不必要的开销 如果js能够使用指针直接操作wasm数据，就能大幅减少开销
+- 最小化 copy 数据，在 js 和 wasm 之间拷贝数据会带来不必要的开销 如果 js 能够使用指针直接操作 wasm 数据，就能大幅减少开销
 
 - 最小化序列化
 
-一些大型的，长期存在的数据结构应该将指针暴露给js
+一些大型的，长期存在的数据结构应该将指针暴露给 js
 
 ### 优化方向
 
-1. consle.EndTime计算函数执行时间
+1. consle.EndTime 计算函数执行时间
 
 2. 结合浏览器性能分析工具，观察函数调用栈的时间占比
 
 3. bench 准备项目
 
-- 切换到`nightly`版本, 项目根目录下增加`toolchain`文件，写入`nightly`即可
+- 切换到`nightly`版本，项目根目录下增加`toolchain`文件，写入`nightly`即可
 - 注释掉所有的`#[wasm-bindgen]`
 - 注释掉所有的`web-sys`调用
 
-开始测试，并将结果导出到before.txt
+开始测试，并将结果导出到 before.txt
 
 ```shell
 cargo bench | tee before.txt
 ```
 
-从before.txt中获取运行结果，找到对应的二进制文件， 使用perf再次运行这个二进制文件
+从 before.txt 中获取运行结果，找到对应的二进制文件， 使用 perf 再次运行这个二进制文件
 
 ```
 perf record -g target/release/deps/bench-2e4b55af5ebabae8 --bench
@@ -221,7 +221,7 @@ before: test universe_ticks ... bench:     215,952 ns/iter (+/- 7,814)
 after : test universe_ticks ... bench:      18,912 ns/iter (+/- 5,025)
 ```
 
-从10ms降低到3ms
+从 10ms 降低到 3ms
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203241453849.png)
 
 ### 🎉 展示

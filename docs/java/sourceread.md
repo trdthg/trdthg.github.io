@@ -5,9 +5,10 @@
 ### Arrays
 
 #### Arrays.copy()
+
 1. 创建一个新的集合用来储存数据
-    - type(T) == type(U) ? 直接创建 : 通过反射机制创建
-2. 调用System.arraycopy()拷贝到新集合上
+   - type(T) == type(U) ? 直接创建 : 通过反射机制创建
+2. 调用 System.arraycopy() 拷贝到新集合上
 
 ```java
 public static <T,U> T[] copyOf(U[] original, int newLength, Class<? extends T[]> newType) {
@@ -19,19 +20,21 @@ public static <T,U> T[] copyOf(U[] original, int newLength, Class<? extends T[]>
                         Math.min(original.length, newLength));
     return copy;
 }
-
 ```
 
 ### Collection
 
 1. 解释
+
 ```java
 public interface Collection<E> extends Iterable<E> {
 ```
-- 继承自Iterable, 实现了forEach && iterator && spliterator
-- removeIf方法传入Predicate(函数接口, 传入比较的方法), 利用Iterator迭代
+
+- 继承自 Iterable，实现了 forEach && iterator && spliterator
+- removeIf 方法传入 Predicate(函数接口，传入比较的方法), 利用 Iterator 迭代
 
 2. 源码
+
 ```java
 public interface MyCollection<E> extends Iterable<E> {
     int size();
@@ -74,20 +77,21 @@ public interface MyCollection<E> extends Iterable<E> {
     //}
 
 }
-
 ```
 
 ### List
 
 1. 解释
-- 相比于Collection, 主要增加了
+
+- 相比于 Collection，主要增加了
 - get
 - sort
-- index相关
+- index 相关
 - listIterator
 - SubList
 
 2. 源码
+
 ```java
 public interface MyList<E> extends Collection<E> {
     int size();
@@ -136,15 +140,18 @@ public interface MyList<E> extends Collection<E> {
 ### AbstractCollection
 
 1. 解释
+
 - 提供了两个抽象方法
+
 ```java
 public abstract Iterator<E> iterator();
 public abstract int size();
 ```
-- 实现了toArray()方法
 
+- 实现了 toArray() 方法
 
 2. 源码
+
 ```java
 public abstract class MyAbstractCollection<E> implements Collection<E> {
     protected MyAbstractCollection() {
@@ -305,8 +312,9 @@ public abstract class MyAbstractCollection<E> implements Collection<E> {
 ```
 
 2. 解释
-- toArray
-该方法没有直接返回, 目的是为了应对多线程
+
+- toArray 该方法没有直接返回，目的是为了应对多线程
+
 ```java
 public Object[] toArray() {
     // Estimate size of array; be prepared to see more or fewer elements
@@ -320,11 +328,10 @@ public Object[] toArray() {
     return it.hasNext() ? finishToArray(r, it) : r;
 }
 ```
-- 为什么不是遍历迭代器？  
-如果有多个线程操作该集合，其中某个线程向集合中添加了元素，此时如果在迭代器的遍历中向数组中添加元素，则会抛出数组越界异常。
-- 为什么返回一个新数组? 
-如果多线程删除了元素, 新数组长度更小, 节约空间
-如果多线程添加了元素, 调用finishToArray
+
+- 为什么不是遍历迭代器？ 如果有多个线程操作该集合，其中某个线程向集合中添加了元素，此时如果在迭代器的遍历中向数组中添加元素，则会抛出数组越界异常。
+- 为什么返回一个新数组？如果多线程删除了元素，新数组长度更小，节约空间 如果多线程添加了元素，调用 finishToArray
+
 ```java
 private static <T> T[] finishToArray(T[] r, Iterator<?> it) {
     int len = r.length;
@@ -342,36 +349,38 @@ private static <T> T[] finishToArray(T[] r, Iterator<?> it) {
     return (i == len) ? r : Arrays.copyOf(r, i);
 }
 ```
-- 该方法每次迭代都会比较当前数组长度与迭代器长度, 利用Array.copyOf进行扩容
-最后返回前再次判断, 确保数组容量与实际数据长度相同
+
+- 该方法每次迭代都会比较当前数组长度与迭代器长度，利用 Array.copyOf 进行扩容 最后返回前再次判断，确保数组容量与实际数据长度相同
 
 ### AbstractList
 
 1. 概述
-* extend
+
+- extend
   - AbstractList 继承自 AbstractCollection 抽象类，实现了 List 接口 ，
-  - 它实现了 List 的一些位置相关操作(比如 get,set,add,remove)，是第一个实现随机访问方法的集合类，但不支持添加和替换。
+  - 它实现了 List 的一些位置相关操作 (比如 get,set,add,remove)，是第一个实现随机访问方法的集合类，但不支持添加和替换。
   - AbstractList 内部已经提供了 Iterator, ListIterator 迭代器的实现类，分别为 Itr, ListItr
-  - 实现了SubList类
-* super
-  - 是ArrayList 和 AbstractSequentiaList 的父类。
-  - 提供了一个抽象类
-  `public abstract E get(int index);`
+  - 实现了 SubList 类
+- super
+  - 是 ArrayList 和 AbstractSequentiaList 的父类。
+  - 提供了一个抽象类 `public abstract E get(int index);`
 
 #### modCount 与 fail-fast
-- modCount作用是记录集合结构被改变的次数(添加, 删除等等), 目的是为了防止迭代过程中,
-其他线程, 或者自己对集合结构修改, 并不只是更改元素内容
-- fail-fast机制在迭代器中实现, fail-fast机制并不保证在不同步的修改下一定会抛出异常，它只是尽最大努力去抛出，所以这种机制一般仅用于检测bug。
 
-#### Itr类
+- modCount 作用是记录集合结构被改变的次数 (添加，删除等等), 目的是为了防止迭代过程中，其他线程，或者自己对集合结构修改，并不只是更改元素内容
+- fail-fast 机制在迭代器中实现，
+  fail-fast 机制并不保证在不同步的修改下一定会抛出异常，它只是尽最大努力去抛出，所以这种机制一般仅用于检测 bug。
+
+#### Itr 类
 
 1. 特征变量
+
 - cursor: 是指集合遍历过程中的即将遍历的元素的索引
 - lastRet: 它主要用于记录刚刚遍历过的元素的索引
-- expectedModCount: 为集合修改次数(默认为0)
-`int expectedModCount = modCount;`
+- expectedModCount: 为集合修改次数 (默认为 0) `int expectedModCount = modCount;`
 
 2. 源码
+
 ```java
 private class Itr implements Iterator<E> {
         /**
@@ -432,32 +441,39 @@ private class Itr implements Iterator<E> {
                 throw new ConcurrentModificationException();
         }
     }
-
 ```
 
 3. 解释
-- iterator进行next()和remove()前都需要进行checkForComodification(), 检查迭代过程中集合结构是否放生改变 ? 抛出ConcurrentModificationException() : 正常执行
-- 迭代器自身的next, remove不会对modCount进行修改, 集合调用add等方法时会修改
 
-#### 如何避免fail-fast
-1. 调用Iterator自身的remove()而不是集合的  
-    Itr.remove()并不会修改modCount的值，并且不会对后面的遍历造成影响，因为该方法remove不能指定元素，只能remove当前遍历过的那个元素，所以调用该方法并不会发生fail-fast现象。该方法有局限性。
-2. 使用java并发包(java.util.concurrent)中的类来代替 ArrayList 和hashMap。  
-示例  
-- CopyOnWriterArrayList  
-CopyOnWriter是写时复制的容器(COW)，在读写时是线程安全的。该容器在对add和remove等操作时，并不是在原数组上进行修改，而是将原数组拷贝一份，在新数组上进行修改，待完成后，才将指向旧数组的引用指向新数组，所以对于 CopyOnWriterArrayList在迭代过程并不会发生fail-fast现象。但 CopyOnWrite容器只能保证数据的最终一致性，不能保证数据的实时一致性。
-- ConcurrentHashMap  
-ConcurrentHashMap采用了锁机制，是线程安全的。在迭代方面，ConcurrentHashMap使用了一种不同的迭代方式。在这种迭代方式中，当iterator被创建后集合再发生改变就不再是抛出ConcurrentModificationException，取而代之的是在改变时new新的数据从而不影响原有的数据 ，iterator完成后再将头指针替换为新的数据 ，这样iterator线程可以使用原来老的数据，而写线程也可以并发的完成改变。即迭代不会发生fail-fast，但不保证获取的是最新的数据。
+- iterator 进行 next() 和 remove() 前都需要进行 checkForComodification(), 检查迭代过程中集合结构是否放生改变 ?
+  抛出 ConcurrentModificationException() : 正常执行
+- 迭代器自身的 next, remove 不会对 modCount 进行修改，集合调用 add 等方法时会修改
 
+#### 如何避免 fail-fast
 
-#### ListItr类
+1. 调用 Iterator 自身的 remove() 而不是集合的
+   Itr.remove() 并不会修改 modCount 的值，并且不会对后面的遍历造成影响，因为该方法 remove 不能指定元素，只能 remove 当前遍历过的那个元素，所以调用该方法并不会发生 fail-fast 现象。该方法有局限性。
+2. 使用 java 并发包 (java.util.concurrent) 中的类来代替 ArrayList 和 hashMap。 示例
+
+- CopyOnWriterArrayList
+  CopyOnWriter 是写时复制的容器 (COW)，在读写时是线程安全的。该容器在对 add 和 remove 等操作时，并不是在原数组上进行修改，而是将原数组拷贝一份，在新数组上进行修改，待完成后，才将指向旧数组的引用指向新数组，所以对于
+  CopyOnWriterArrayList 在迭代过程并不会发生 fail-fast 现象。但
+  CopyOnWrite 容器只能保证数据的最终一致性，不能保证数据的实时一致性。
+- ConcurrentHashMap
+  ConcurrentHashMap 采用了锁机制，是线程安全的。在迭代方面，ConcurrentHashMap 使用了一种不同的迭代方式。在这种迭代方式中，当 iterator 被创建后集合再发生改变就不再是抛出 ConcurrentModificationException，取而代之的是在改变时 new 新的数据从而不影响原有的数据
+  ，iterator 完成后再将头指针替换为新的数据
+  ，这样 iterator 线程可以使用原来老的数据，而写线程也可以并发的完成改变。即迭代不会发生 fail-fast，但不保证获取的是最新的数据。
+
+#### ListItr 类
 
 1. 概述
-- ListItr继承自Itr实现了ListIterator接口
-- 添加了previous(返回前一位), add(增加), set(修改)方法
-- 与Itr一样, 每次修改前需要检查modCount是否一致, 修改后再次同步modCount
+
+- ListItr 继承自 Itr 实现了 ListIterator 接口
+- 添加了 previous(返回前一位), add(增加), set(修改) 方法
+- 与 Itr 一样，每次修改前需要检查 modCount 是否一致，修改后再次同步 modCount
 
 2. 源码
+
 ```java
 private class ListItr extends Itr implements ListIterator<E> {
         ListItr(int index) {
@@ -520,24 +536,28 @@ private class ListItr extends Itr implements ListIterator<E> {
 
 #### 
 
-
 ### ArrayList
 
-:::warning 注意
-ArrayList不是线程安全的, 如果需要, 可以选择使用Collections.synchronizedList方法“包装”列表。最好在创建时执行此操作，以防止意外不同步地访问列表   - from Josh Bloch, Neal Gafter
-:::
+:::warning 注意 ArrayList 不是线程安全的，如果需要，
+可以选择使用 Collections.synchronizedList 方法“包装”列表。最好在创建时执行此操作，以防止意外不同步地访问列表 - from Josh
+Bloch, Neal Gafter :::
+
 #### 概述
+
 1. 创建
+
 ```java
-public class ArrayList<E> 
+public class ArrayList<E>
     extends AbstractList<E>
     implements List<E>, RandomAccess, Cloneable, java.io.Serializable
 ```
 
-2. 构造函数: 
-- 无参长度默认为10
+2. 构造函数：
+
+- 无参长度默认为 10
 - 指定长度
-- 从另一个Collection拷贝
+- 从另一个 Collection 拷贝
+
 ```java
 public ArrayList(Collection<? extends E> c) {
         Object[] a = c.toArray();
@@ -554,12 +574,12 @@ public ArrayList(Collection<? extends E> c) {
     }
 ```
 
-
-
 #### 其他方法
 
 1. trimToSize(最小化)
+
 - 用来最小化实例存储，将容器大小调整为当前元素所占用的容量大小。
+
 ```java
 public void trimToSize() {
     modCount++;
@@ -570,8 +590,11 @@ public void trimToSize() {
     }
 }
 ```
+
 2. ensureCapacity(最大化)
-- 利用grow(minCapacity)主动扩容, 当需要扩大的容量很大时, 能有效提高效率
+
+- 利用 grow(minCapacity) 主动扩容，当需要扩大的容量很大时，能有效提高效率
+
 ```java
 public void ensureCapacity(int minCapacity) {
     if (minCapacity > elementData.length
@@ -582,35 +605,40 @@ public void ensureCapacity(int minCapacity) {
     }
 }
 ```
-3. addAll  
+
+3. addAll
+
 - modCount++
 - 拷贝新集合
 - 判断是否超出原集合剩余容量
 - System.copy()
 
 4. shiftTailOverGap
+
 - 将某段元素进行平移
 
-5. batchRemove  
-retainAll , removeAll均通过调用此方法实现
-1. 第一次循环, 记录原数组中第一次出现的位置
-2. 第二次循环
+5. batchRemove retainAll , removeAll 均通过调用此方法实现
+6. 第一次循环，记录原数组中第一次出现的位置
+7. 第二次循环
+
 ```java
 for (Object e; r < end; r++)
     if (c.contains(e = es[r]) == complement)
         es[w++] = e;
 ```
-- r: 记录遍历到的index
-- w: 记录原始数组被覆盖到的index
-- 这部分的意思是, w的目的是记录新的内容覆盖掉原有的内容, 覆盖的原则是, 判断elementData[r]是否符合需要, 若符合就把他粘到w处
-- 最后finally执行shiftTailOverGap, 目的是把后面的乱七八糟的后缀
 
+- r: 记录遍历到的 index
+- w: 记录原始数组被覆盖到的 index
+- 这部分的意思是，w 的目的是记录新的内容覆盖掉原有的内容，覆盖的原则是，判断 elementData[r] 是否符合需要，若符合就把他粘到 w 处
+- 最后 finally 执行 shiftTailOverGap，目的是把后面的乱七八糟的后缀
 
 #### 核心方法
+
 1. grow
-- 不传参
-`return grow(size + 1);`
+
+- 不传参 `return grow(size + 1);`
 - 传参
+
 ```java
 private Object[] grow(int minCapacity) {
     int oldCapacity = elementData.length;
@@ -624,30 +652,35 @@ private Object[] grow(int minCapacity) {
     }
 }
 ```
-- 若扩容时没有元素直接阔到max(10, minCapacity)
-- 若有元素, 由于右移运算符的存在, 每次扩容并不一定是minCapacity的的大小, 一般为原大小的1.5倍, 具体可以查看System.newLength 和 System.hugeLength
 
-2. clone()  
-常规的浅拷贝
+- 若扩容时没有元素直接阔到 max(10, minCapacity)
+- 若有元素，由于右移运算符的存在，每次扩容并不一定是 minCapacity 的的大小，一般为原大小的 1.5 倍，
+  具体可以查看 System.newLength 和 System.hugeLength
+
+2. clone() 常规的浅拷贝
 3. add(), set(), remove()
-    1. new ArrayList()
-        - 调用构造函数创建新的空集合集合
-        - 通过AbstractList创建modCount=0
-    2. add(): 
-        - modCount++
-        - if elementData.length >= 0 ? 扩容50% :扩容默认10格 
-        - elementData[size] = e (size是已经存入的数据个数)
-    2. 若集合满了则先调用grow()扩容, 在赋值
+   1. new ArrayList()
+      - 调用构造函数创建新的空集合集合
+      - 通过 AbstractList 创建 modCount=0
+   2. add():
+      - modCount++
+      - if elementData.length >= 0 ? 扩容 50% :扩容默认 10 格
+      - elementData[size] = e (size 是已经存入的数据个数)
+   3. 若集合满了则先调用 grow() 扩容，在赋值
 
-6. add(index), remove(index)
-- add(index)同理, 扩容采用System.arraycopy在原数组上扩容
-- 若index不是最后一个, 则需要先用System.arraycopy从index让后方的数据向后挪一位, 空出新的位置用来插入
+4. add(index), remove(index)
+
+- add(index) 同理，扩容采用 System.arraycopy 在原数组上扩容
+- 若 index 不是最后一个，则需要先用 System.arraycopy 从 index 让后方的数据向后挪一位，空出新的位置用来插入
+
 ```java
 System.arraycopy(elementData, index,
                          elementData, index + 1,
                          s - index);
 ```
-- remove(index)调用了fastRemove(), 通过System.arraycopy()最小化容器,在将指定位置设置为null
+
+- remove(index) 调用了 fastRemove(), 通过 System.arraycopy() 最小化容器，在将指定位置设置为 null
+
 ```java
 private void fastRemove(Object[] es, int i) {
     modCount++;
@@ -658,7 +691,6 @@ private void fastRemove(Object[] es, int i) {
 }
 ```
 
-
 ### 待续...
 
 ## Set
@@ -666,6 +698,7 @@ private void fastRemove(Object[] es, int i) {
 ### Set
 
 #### 概述
+
 ```java
 public interface Set<E> extends Collection<E> {
 ```
@@ -673,21 +706,24 @@ public interface Set<E> extends Collection<E> {
 ### AbstractSet
 
 #### 概述
+
 ```java
 public abstract class AbstractSet<E> extends AbstractCollection<E> implements Set<E> {
 ```
-1. 继承自AbstractCollection, 实现了Set接口
-2. 只重写了 equals(), hashcode(), removeAll()方法, 几乎没变
+
+1. 继承自 AbstractCollection，实现了 Set 接口
+2. 只重写了 equals(), hashcode(), removeAll() 方法，几乎没变
 
 ### 待续...
 
 ## Map
 
-### 接口Map
+### 接口 Map
 
 ### Map
 
 #### 基础方法
+
 ```java
 public interface Map<K, V> {
     int size();
@@ -704,10 +740,10 @@ public interface Map<K, V> {
     Collection<V> values();
     Set<Map.Entry<K, V>> entrySet();
 
-    static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2) {  // 最大支持10对
+    static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2) {  // 最大支持 10 对
         return new ImmutableCollections.MapN<>(k1, v1, k2, v2);
     }
-    default boolean remove(Object key, Object value) { // 允许key为null
+    default boolean remove(Object key, Object value) { // 允许 key 为 null
         Object curValue = get(key);
         if (!Objects.equals(curValue, value) ||
             (curValue == null && !containsKey(key))) {
@@ -717,28 +753,33 @@ public interface Map<K, V> {
         return true;
     }
 ```
-#### 内部Entry接口
+
+#### 内部 Entry 接口
+
 ```java
-    interface Entry<K, V> {
-        K getKey();
-        V getValue();
-        V setValue(V value);
-        boolean equals(Object o);
-        int hashCode();
-        public static <K extends Comparable<? super K>, V> Comparator<Map.Entry<K, V>> comparingByKey() {
-            return (Comparator<Map.Entry<K, V>> & Serializable) (c1, c2) -> c1.getKey().compareTo(c2.getKey());
-        }
-        public static <K, V extends Comparable<? super V>> Comparator<Map.Entry<K, V>> comparingByValue() {}
-        public static <K, V> Comparator<Map.Entry<K, V>> comparingByKey(Comparator<? super K> cmp) {
-            Objects.requireNonNull(cmp);
-            return (Comparator<Map.Entry<K, V>> & Serializable) (c1, c2) -> cmp.compare(c1.getKey(), c2.getKey());
-        }
-        public static <K, V> Comparator<Map.Entry<K, V>> comparingByValue(Comparator<? super V> cmp) {}
+interface Entry<K, V> {
+    K getKey();
+    V getValue();
+    V setValue(V value);
+    boolean equals(Object o);
+    int hashCode();
+    public static <K extends Comparable<? super K>, V> Comparator<Map.Entry<K, V>> comparingByKey() {
+        return (Comparator<Map.Entry<K, V>> & Serializable) (c1, c2) -> c1.getKey().compareTo(c2.getKey());
     }
+    public static <K, V extends Comparable<? super V>> Comparator<Map.Entry<K, V>> comparingByValue() {}
+    public static <K, V> Comparator<Map.Entry<K, V>> comparingByKey(Comparator<? super K> cmp) {
+        Objects.requireNonNull(cmp);
+        return (Comparator<Map.Entry<K, V>> & Serializable) (c1, c2) -> cmp.compare(c1.getKey(), c2.getKey());
+    }
+    public static <K, V> Comparator<Map.Entry<K, V>> comparingByValue(Comparator<? super V> cmp) {}
+}
 ```
+
 #### 其他方法
+
 - equal hashcode
-- 3个replace 4个ifAbsent 1个merge
+- 3 个 replace 4 个 ifAbsent 1 个 merge
+
 ```java
     boolean equals(Object o);
     int hashCode();
@@ -773,7 +814,7 @@ public interface Map<K, V> {
         return true;
     }
     default V replace(K key, V value) {}
-    default void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {  // function批量处理
+    default void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {  // function 批量处理
         Objects.requireNonNull(function);
         for (Map.Entry<K, V> entry : entrySet()) {
             K k;
@@ -797,7 +838,7 @@ public interface Map<K, V> {
             }
         }
     }
-    default V putIfAbsent(K key, V value) {  // 不存在key则添加
+    default V putIfAbsent(K key, V value) {  // 不存在 key 则添加
         V v = get(key);
         if (v == null) {
             v = put(key, value);
@@ -806,7 +847,7 @@ public interface Map<K, V> {
     }
 
     // computeIfPresent 同理
-    // compute 用key和value生产新的value
+    // compute 用 key 和 value 生产新的 value
     default V computeIfAbsent(K key,
             Function<? super K, ? extends V> mappingFunction) {  // 不存在就用方法新建
         Objects.requireNonNull(mappingFunction);
@@ -840,96 +881,113 @@ public interface Map<K, V> {
 ### AbstractMap
 
 #### 概述
-1. 实现Map接口, 没有实现Map.Entry()接口
+
+1. 实现 Map 接口，没有实现 Map.Entry() 接口
 2. 有一个抽象方法
+
 ```java
 public abstract Set<Entry<K,V>> entrySet();
 ```
+
 3. 默认不支持修改
 
 #### enttrySet()
+
 ```java
 public abstract Set<Entry<K,V>> entrySet();
 ```
-1. 当我们要实现一个不可变的 Map 时，只需要继承这个类，然后实现 entrySet() 方法，这个方法返回一个保存所有 key-value 映射的 set。 通常这个 Set 不支持 add(), remove() 方法，Set 对应的迭代器也不支持 remove() 方法。
-2. 如果想要实现一个可变的 Map,我们需要在上述操作外，重写 put() 方法，因为 默认不支持 put 操作：
+
+1. 当我们要实现一个不可变的 Map 时，只需要继承这个类，然后实现 entrySet() 方法，这个方法返回一个保存所有 key-value 映射的
+   set。 通常这个 Set 不支持 add(), remove() 方法，Set 对应的迭代器也不支持 remove() 方法。
+2. 如果想要实现一个可变的 Map，我们需要在上述操作外，重写 put() 方法，因为 默认不支持 put 操作：
+
 ```java
 public V put(K key, V value) {
     throw new UnsupportedOperationException();
 }
 ```
-而且 entrySet() 返回的 Set 的迭代器，也得实现 remove() 方法，因为 AbstractMap 中的 删除相关操作都需要调用该迭代器的 remove() 方法。
+
+而且 entrySet() 返回的 Set 的迭代器，也得实现 remove() 方法，因为 AbstractMap 中的 删除相关操作都需要调用该迭代器的
+remove() 方法。
 
 #### 基础方法
-1. put()  
-默认需要重写, 否则直接抛异常
-2. 其他无非都是Iterator遍历
+
+1. put() 默认需要重写，否则直接抛异常
+2. 其他无非都是 Iterator 遍历
 
 #### 三个视图
+
 1. 获取所有键 `public Set<K> keySet() {`
 2. 获取所有值 `public Collection<V> values() {`
 3. 获取所有键值对 `public abstract Set<Entry<K,V>> entrySet();`
 
+### SortedMap
 
-
-### SortedMap  
 ```java
 public interface SortedMap<K,V> extends Map<K,V> {
 ```
+
 内置方法：
+
 ```java
-    Comparator<? super K> comparator();
-    SortedMap<K,V> subMap(K fromKey, K toKey);
-    SortedMap<K,V> headMap(K toKey);
-    SortedMap<K,V> tailMap(K fromKey);
-    K firstKey();
-    K lastKey();
-    Set<K> keySet();
-    Collection<V> values();
-    Set<Map.Entry<K, V>> entrySet();
+Comparator<? super K> comparator();
+SortedMap<K,V> subMap(K fromKey, K toKey);
+SortedMap<K,V> headMap(K toKey);
+SortedMap<K,V> tailMap(K fromKey);
+K firstKey();
+K lastKey();
+Set<K> keySet();
+Collection<V> values();
+Set<Map.Entry<K, V>> entrySet();
 ```
 
 ### NavigableMap
+
 ```java
 public interface NavigableMap<K,V> extends SortedMap<K,V> {
 ```
+
 内置方法：
+
 ```java
-    Map.Entry<K,V> lowerEntry(K key);  // 比给定的entry小的最大的entry 
-    K lowerKey(K key);
-    Map.Entry<K,V> floorEntry(K key);
-    K floorKey(K key); // <=
-    Map.Entry<K,V> ceilingEntry(K key);
-    K ceilingKey(K key);
-    Map.Entry<K,V> higherEntry(K key);
-    K higherKey(K key);
-    Map.Entry<K,V> firstEntry();
-    Map.Entry<K,V> lastEntry();
-    Map.Entry<K,V> pollFirstEntry();
-    Map.Entry<K,V> pollLastEntry();
-    NavigableMap<K,V> descendingMap();  // reverse order view
-    NavigableSet<K> navigableKeySet();
-    NavigableSet<K> descendingKeySet();
-    NavigableMap<K,V> subMap(K fromKey, boolean fromInclusive, 
-                             K toKey,   boolean toInclusive);
-    NavigableMap<K,V> headMap(K toKey, boolean inclusive);  // less than toKey
-    NavigableMap<K,V> tailMap(K fromKey, boolean inclusive);
-    SortedMap<K,V> subMap(K fromKey, K toKey);
-    SortedMap<K,V> headMap(K toKey);
-    SortedMap<K,V> tailMap(K fromKey);
+Map.Entry<K,V> lowerEntry(K key);  // 比给定的 entry 小的最大的 entry
+K lowerKey(K key);
+Map.Entry<K,V> floorEntry(K key);
+K floorKey(K key); // <=
+Map.Entry<K,V> ceilingEntry(K key);
+K ceilingKey(K key);
+Map.Entry<K,V> higherEntry(K key);
+K higherKey(K key);
+Map.Entry<K,V> firstEntry();
+Map.Entry<K,V> lastEntry();
+Map.Entry<K,V> pollFirstEntry();
+Map.Entry<K,V> pollLastEntry();
+NavigableMap<K,V> descendingMap();  // reverse order view
+NavigableSet<K> navigableKeySet();
+NavigableSet<K> descendingKeySet();
+NavigableMap<K,V> subMap(K fromKey, boolean fromInclusive,
+                         K toKey,   boolean toInclusive);
+NavigableMap<K,V> headMap(K toKey, boolean inclusive);  // less than toKey
+NavigableMap<K,V> tailMap(K fromKey, boolean inclusive);
+SortedMap<K,V> subMap(K fromKey, K toKey);
+SortedMap<K,V> headMap(K toKey);
+SortedMap<K,V> tailMap(K fromKey);
 ```
 
 ### TreeMap
+
 ```java
 public class TreeMap<K,V>
     extends AbstractMap<K,V>
     implements NavigableMap<K,V>, Cloneable, java.io.Serializable
 {
 ```
+
 #### 成员变量
+
 ```java
     // maintain the order Or keep keys'order natural
-    private final Comparator<? super K> comparator;  
+    private final Comparator<? super K> comparator;
     private transient Entry<K,V> root;
     private transient int size = 0;
     private transient int modCount = 0;
@@ -943,86 +1001,87 @@ static final class Entry<K,V> implements Map.Entry<K,V> {
 ```
 
 #### 构造器
-是否自带Comparator  
-是否从其他Map复制  
+
+是否自带 Comparator 是否从其他 Map 复制
+
 ```java
-    public TreeMap() {
-        comparator = null;
+public TreeMap() {
+    comparator = null;
+}
+public TreeMap(Comparator<? super K> comparator) {
+    this.comparator = comparator;
+}
+public TreeMap(Map<? extends K, ? extends V> m) {
+    comparator = null;
+    putAll(m);
+}
+public TreeMap(SortedMap<K, ? extends V> m) {
+    comparator = m.comparator();
+    try {
+        buildFromSorted(m.size(), m.entrySet().iterator(), null, null);
+    } catch (java.io.IOException cannotHappen) {
+    } catch (ClassNotFoundException cannotHappen) {
     }
-    public TreeMap(Comparator<? super K> comparator) {
-        this.comparator = comparator;
-    }
-    public TreeMap(Map<? extends K, ? extends V> m) {
-        comparator = null;
-        putAll(m);
-    }
-    public TreeMap(SortedMap<K, ? extends V> m) {
-        comparator = m.comparator();
-        try {
-            buildFromSorted(m.size(), m.entrySet().iterator(), null, null);
-        } catch (java.io.IOException cannotHappen) {
-        } catch (ClassNotFoundException cannotHappen) {
-        }
-    }
+}
 ```
 
 #### Put
-put就是普通的二叉树插入  
-若用户指定判断条件，就按照指定的条件判断插入坐枝还是插入右枝  
-否则使用默认的比较方法  
-重点是插入后调用了fixAfterInsertion(e);
+
+put 就是普通的二叉树插入 若用户指定判断条件，就按照指定的条件判断插入坐枝还是插入右枝 否则使用默认的比较方法
+重点是插入后调用了 fixAfterInsertion(e);
+
 ```java
-    public V put(K key, V value) {
-        Entry<K,V> t = root;
-        if (t == null) {
-            compare(key, key); // type (and possibly null) check
-            root = new Entry<>(key, value, null);
-            size = 1;
-            modCount++;
-            return null;
-        }
-        int cmp;
-        Entry<K,V> parent;
-        // split comparator and comparable paths
-        Comparator<? super K> cpr = comparator;
-        if (cpr != null) {
-            do {
-                parent = t;
-                cmp = cpr.compare(key, t.key);
-                if (cmp < 0)
-                    t = t.left;
-                else if (cmp > 0)
-                    t = t.right;
-                else
-                    return t.setValue(value);
-            } while (t != null);
-        }
-        else {
-            if (key == null)
-                throw new NullPointerException();
-            @SuppressWarnings("unchecked")
-                Comparable<? super K> k = (Comparable<? super K>) key;
-            do {
-                parent = t;
-                cmp = k.compareTo(t.key);
-                if (cmp < 0)
-                    t = t.left;
-                else if (cmp > 0)
-                    t = t.right;
-                else
-                    return t.setValue(value);
-            } while (t != null);
-        }
-        Entry<K,V> e = new Entry<>(key, value, parent);
-        if (cmp < 0)
-            parent.left = e;
-        else
-            parent.right = e;
-        fixAfterInsertion(e);
-        size++;
+public V put(K key, V value) {
+    Entry<K,V> t = root;
+    if (t == null) {
+        compare(key, key); // type (and possibly null) check
+        root = new Entry<>(key, value, null);
+        size = 1;
         modCount++;
         return null;
     }
+    int cmp;
+    Entry<K,V> parent;
+    // split comparator and comparable paths
+    Comparator<? super K> cpr = comparator;
+    if (cpr != null) {
+        do {
+            parent = t;
+            cmp = cpr.compare(key, t.key);
+            if (cmp < 0)
+                t = t.left;
+            else if (cmp > 0)
+                t = t.right;
+            else
+                return t.setValue(value);
+        } while (t != null);
+    }
+    else {
+        if (key == null)
+            throw new NullPointerException();
+        @SuppressWarnings("unchecked")
+            Comparable<? super K> k = (Comparable<? super K>) key;
+        do {
+            parent = t;
+            cmp = k.compareTo(t.key);
+            if (cmp < 0)
+                t = t.left;
+            else if (cmp > 0)
+                t = t.right;
+            else
+                return t.setValue(value);
+        } while (t != null);
+    }
+    Entry<K,V> e = new Entry<>(key, value, parent);
+    if (cmp < 0)
+        parent.left = e;
+    else
+        parent.right = e;
+    fixAfterInsertion(e);
+    size++;
+    modCount++;
+    return null;
+}
 ```
 
 #### fixAfterInsertion(e);
@@ -1037,33 +1096,32 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 ```
 
 #### 成员变量
-1. `private static final long serialVersionUID = 362498820763181265L;`：序列化ID
+
+1. `private static final long serialVersionUID = 362498820763181265L;`：序列化 ID
 2. `static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16`：指定默认初始长度
 3. `static final int MAXIMUM_CAPACITY = 1 << 30;`：最大长度
 4. `static final float DEFAULT_LOAD_FACTOR = 0.75f;`： 负载因子
-5. `static final int TREEIFY_THRESHOLD = 8;`：由链表转为红黑树的临界值1（链表长度>8）
+5. `static final int TREEIFY_THRESHOLD = 8;`：由链表转为红黑树的临界值 1（链表长度>8）
 6. `static final int UNTREEIFY_THRESHOLD = 6;`：由红黑树转为链表的临界值
-7. `static final int MIN_TREEIFY_CAPACITY = 64;`：：由链表转为红黑树的临界值2（capicity>64）
+7. `static final int MIN_TREEIFY_CAPACITY = 64;`：：由链表转为红黑树的临界值 2（capicity>64）
 
-- loadFactor值为0.75
-加载因子的选择与Poisson_distribution有关
-链表8号位有值的概率是0.00000006（理想随机情况下），具体可以查看源码注释
-更多的是为了防止用户自己实现了不好的哈希算法时导致链表过长，从而导致查询效率低，而此时转为红黑树更多的是一种保底策略，用来保证极端情况下查询的效率。
+- loadFactor 值为 0.75 加载因子的选择与 Poisson_distribution 有关
+  链表 8 号位有值的概率是 0.00000006（理想随机情况下），具体可以查看源码注释
+  更多的是为了防止用户自己实现了不好的哈希算法时导致链表过长，从而导致查询效率低，而此时转为红黑树更多的是一种保底策略，用来保证极端情况下查询的效率。
 - 刚开始不使用红黑树的原因
 
 单个 TreeNode 需要占用的空间大约是普通 Node 的两倍，所以只有当包含足够多的 Nodes 时才会转成 TreeNodes，
-而当桶中节点数小于6时又会变回普通的链表的形式，以便节省空间，
-- 链表转红黑树选择8
-红黑树平均查找长度为log(n)
-链表平均查找长度为 n/2
+而当桶中节点数小于 6 时又会变回普通的链表的形式，以便节省空间，
+
+- 链表转红黑树选择 8 红黑树平均查找长度为 log(n) 链表平均查找长度为 n/2
 
 #### 构造器
-1. HashMap提供了4种构造器，可以自主选择初始长度和负载因子
-2. 若传入的初始长度不是二次幂，java会自动将用户传入的initialCapacity转换为比它大的二进制数，目的是方便在求索引时使用位运算更快取模
-::: tip 注意
-虽然创建了新的table，但是没有将capicity进行赋值仍然是零，只将loadFactor和threshold进行赋值  
-这点需要在resize()中用到
-:::
+
+1. HashMap 提供了 4 种构造器，可以自主选择初始长度和负载因子
+2. 若传入的初始长度不是二次幂，java 会自动将用户传入的 initialCapacity 转换为比它大的二进制数，目的是方便在求索引时使用位运算更快取模 :::
+   tip 注意 虽然创建了新的 table，但是没有将 capicity 进行赋值仍然是零，只将 loadFactor 和 threshold 进行赋值
+   这点需要在 resize() 中用到 :::
+
 ```java
 public HashMap(int initialCapacity, float loadFactor) {
     if (initialCapacity < 0)
@@ -1075,7 +1133,7 @@ public HashMap(int initialCapacity, float loadFactor) {
     if (loadFactor <= 0 || Float.isNaN(loadFactor))
         throw new IllegalArgumentException("Illegal load factor: " + loadFactor);
     this.loadFactor = loadFactor;
-    // 这里虽然不是用`capicity * loadfactory`为扩容临界值赋值, 但是还会在put方法里重新修正
+    // 这里虽然不是用`capicity * loadfactory`为扩容临界值赋值，但是还会在 put 方法里重新修正
     this.threshold = tableSizeFor(initialCapacity);
 }
 public HashMap(int initialCapacity) {
@@ -1084,7 +1142,7 @@ public HashMap(int initialCapacity) {
 
 public HashMap() {
     this.loadFactor = DEFAULT_LOAD_FACTOR; // all other fields defaulted
-    // 此时阈值和容量值大小都为0
+    // 此时阈值和容量值大小都为 0
 }
 
 public HashMap(Map<? extends K, ? extends V> m) {
@@ -1095,8 +1153,8 @@ public HashMap(Map<? extends K, ? extends V> m) {
 
 #### 初始长度修正
 
-这里使用5次右移+或运算  
-一下是举例： 
+这里使用 5 次右移 + 或运算 一下是举例：
+
 ```
 0000 0000 0000 1010 0000 0011 1110 1010  n
 0000 0000 0000 0101 0000 0001 1111 0101  n >>> 1
@@ -1109,9 +1167,10 @@ public HashMap(Map<? extends K, ? extends V> m) {
 ---------------------------------------  |
 0000 0000 0000 1111 1111 1111 1111 1111  n
 0000 0000 0000 0000 0000 1111 1111 1111  n >>> 8
-剩下的就不用写了全部被转换成1，最后在加上1就是：
+剩下的就不用写了全部被转换成 1，最后在加上 1 就是：
 >Returns a power of two size for the given target capacity.
 ```
+
 ```java
 static final int tableSizeFor(int cap) {
     int n = cap - 1;
@@ -1124,237 +1183,245 @@ static final int tableSizeFor(int cap) {
 }
 ```
 
-#### 链表转红黑树  
+#### 链表转红黑树
 
 若链表长度>8，尝试转为红黑树
+
 ```java
 if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
     treeifyBin(tab, hash);
 ```
 
-- 若检测到size<64，扩容，不转为红黑树
+- 若检测到 size<64，扩容，不转为红黑树
+
 ```java
 final void treeifyBin(Node<K,V>[] tab, int hash) {
     int n, index; Node<K,V> e;
     if (tab == null || (n = tab.length) < MIN_TREEIFY_CAPACITY)
         resize();
 ```
-resize扩容后所有元素的索引值会重新分配，链表长度会发生变化，更加散列
 
-- 若检测到size>=64，转为红黑树
-    1. 链表转为LinkedHashMap（节点转为TreeNode，加入向前的指针和左右字节点）
-    ```java
-    else if ((e = tab[index = (n - 1) & hash]) != null) {
-        TreeNode<K,V> hd = null, tl = null;
-        do {
-            TreeNode<K,V> p = replacementTreeNode(e, null);
-            if (tl == null)
-                hd = p;
-            else {
-                p.prev = tl;
-                tl.next = p;
-            }
-            tl = p;
-        } while ((e = e.next) != null);
-    ```
-    2. 把根节点放入桶中，进行平衡
+resize 扩容后所有元素的索引值会重新分配，链表长度会发生变化，更加散列
 
-    3. 待续
+- 若检测到 size>=64，转为红黑树
+  1. 链表转为 LinkedHashMap（节点转为 TreeNode，加入向前的指针和左右字节点）
+  ```java
+  else if ((e = tab[index = (n - 1) & hash]) != null) {
+      TreeNode<K,V> hd = null, tl = null;
+      do {
+          TreeNode<K,V> p = replacementTreeNode(e, null);
+          if (tl == null)
+              hd = p;
+          else {
+              p.prev = tl;
+              tl.next = p;
+          }
+          tl = p;
+      } while ((e = e.next) != null);
+  ```
+  2. 把根节点放入桶中，进行平衡
 
+  3. 待续
 
 #### 扩容_resize
 
-1. 确定新容量的大小：  
+1. 确定新容量的大小：
 
-    - 若oldCap > 0(正常情况下扩容)
-        ```java
-        //翻倍或者调为MAXIMUM_CAPACITY(本身就超过最大值或者翻倍后会超过最大值)
-        if (oldCap > 0) {
-            if (oldCap >= MAXIMUM_CAPACITY) {
-                threshold = Integer.MAX_VALUE;
-                return oldTab;
-            }
-            else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
-                        oldCap >= DEFAULT_INITIAL_CAPACITY)
-                newThr = oldThr << 1; // double threshold
-        }
-        ```
-    - 若oldThr > 0（初始化下需要扩容，手动选择初始容量） 
-        ```java
-        // 确定初始长度
-        else if (oldThr > 0) // initial capacity was placed in threshold
-            newCap = oldThr;
-        ```
-        这里需要说明，在构造器中有如下代码
-        ```java
-        this.threshold = tableSizeFor(initialCapacity);
-        // tableSizeFor返回的就是Capicity，只不过赋值给了threshold(也就是oldThr)，在这里newCap才被确定
-        ```
-    - 若oldCap == oldThr == 0（初始化下需要扩容，没有手动选择初始容量）
-        按照默认值进行初始化
-        ```java
-        else {               // zero initial threshold signifies using defaults
-            newCap = DEFAULT_INITIAL_CAPACITY;
-            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
-        }
-        ```
+   - 若 oldCap > 0(正常情况下扩容)
+     ```java
+     //翻倍或者调为 MAXIMUM_CAPACITY(本身就超过最大值或者翻倍后会超过最大值)
+     if (oldCap > 0) {
+         if (oldCap >= MAXIMUM_CAPACITY) {
+             threshold = Integer.MAX_VALUE;
+             return oldTab;
+         }
+         else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
+                     oldCap >= DEFAULT_INITIAL_CAPACITY)
+             newThr = oldThr << 1; // double threshold
+     }
+     ```
+   - 若 oldThr > 0（初始化下需要扩容，手动选择初始容量）
+     ```java
+     // 确定初始长度
+     else if (oldThr > 0) // initial capacity was placed in threshold
+         newCap = oldThr;
+     ```
+     这里需要说明，在构造器中有如下代码
+     ```java
+     this.threshold = tableSizeFor(initialCapacity);
+     // tableSizeFor 返回的就是 Capicity，只不过赋值给了 threshold(也就是 oldThr)，在这里 newCap 才被确定
+     ```
+   - 若 oldCap == oldThr == 0（初始化下需要扩容，没有手动选择初始容量）按照默认值进行初始化
+     ```java
+     else {               // zero initial threshold signifies using defaults
+         newCap = DEFAULT_INITIAL_CAPACITY;
+         newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+     }
+     ```
 2. 确定新的扩容边界
-    ```java
-    if (newThr == 0) {
-        float ft = (float)newCap * loadFactor;
-        newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
-                    (int)ft : Integer.MAX_VALUE);
-    }
-    threshold = newThr;
-    ```
+   ```java
+   if (newThr == 0) {
+       float ft = (float)newCap * loadFactor;
+       newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
+                   (int)ft : Integer.MAX_VALUE);
+   }
+   threshold = newThr;
+   ```
 
 3. 开辟新的空间，重新排列原来的元素
-    - 开辟
-    ```java
-    Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
-    table = newTab;
-    ```
-    若原数组不为空（不是刚初始化的），循环原tab  
-    - 用e代替oldTab
-    ```java
-    if (oldTab != null) {
-        for (int j = 0; j < oldCap; ++j) {
-            Node<K,V> e;
-            if ((e = oldTab[j]) != null) {
-    ```
-    - 若原tab在j处不为空
-        1. 清空原table在j处的占用
-            ```java
-            oldTab[j] = null;
-            ```
-        2. 重新计算索引
-            - 若不是链表或红黑树，直接移动
-            ```java
-            if (e.next == null)
-                newTab[e.hash & (newCap - 1)] = e;
-            ```
-            - 若是红黑树，待续
-            ```java
-            else if (e instanceof TreeNode)
-                ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
-            ```
-            - 若是链表  
-            这里 e.hash & oldCap 直接与二次幂（不是n-1）做&运算
-            二次幂低位全为零，与hash做与运算后能够得到得到新索引的最高位为是0还是1
-            (e.hash & oldCap) == 0 => 确定新索引是原索引还是原索引+n  
-            ```java
-                else { // preserve order
-                    Node<K,V> loHead = null, loTail = null;
-                    Node<K,V> hiHead = null, hiTail = null;
-                    Node<K,V> next;
-                    do {
-                        next = e.next;
-                        // 判断新索引最高为
-                        if ((e.hash & oldCap) == 0) {
-                            if (loTail == null)
-                                loHead = e;
-                            else
-                                //如果可能会拼接一个新链表
-                                loTail.next = e;
-                            loTail = e;
-                        }
-                        else {
-                            if (hiTail == null)
-                                hiHead = e;
-                            else
-                                hiTail.next = e;
-                            hiTail = e;
-                        }
-                    } while ((e = next) != null);
-                    // 新链表的头节点装入到新桶中
-                    if (loTail != null) {
-                        loTail.next = null;
-                        newTab[j] = loHead;
+   - 开辟
+   ```java
+   Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+   table = newTab;
+   ```
+   若原数组不为空（不是刚初始化的），循环原 tab
+   - 用 e 代替 oldTab
+   ```java
+   if (oldTab != null) {
+       for (int j = 0; j < oldCap; ++j) {
+           Node<K,V> e;
+           if ((e = oldTab[j]) != null) {
+   ```
+   - 若原 tab 在 j 处不为空
+     1. 清空原 table 在 j 处的占用
+        ```java
+        oldTab[j] = null;
+        ```
+     2. 重新计算索引
+        - 若不是链表或红黑树，直接移动
+        ```java
+        if (e.next == null)
+            newTab[e.hash & (newCap - 1)] = e;
+        ```
+        - 若是红黑树，待续
+        ```java
+        else if (e instanceof TreeNode)
+            ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
+        ```
+        - 若是链表 这里 e.hash & oldCap 直接与二次幂（不是 n-1）做&运算
+          二次幂低位全为零，与 hash 做与运算后能够得到得到新索引的最高位为是 0 还是 1 (e.hash & oldCap) == 0 =>
+          确定新索引是原索引还是原索引 +n
+        ````java
+            else { // preserve order
+                Node<K,V> loHead = null, loTail = null;
+                Node<K,V> hiHead = null, hiTail = null;
+                Node<K,V> next;
+                do {
+                    next = e.next;
+                    // 判断新索引最高为
+                    if ((e.hash & oldCap) == 0) {
+                        if (loTail == null)
+                            loHead = e;
+                        else
+                            //如果可能会拼接一个新链表
+                            loTail.next = e;
+                        loTail = e;
                     }
-                    if (hiTail != null) {
-                        hiTail.next = null;
-                        newTab[j + oldCap] = hiHead;
+                    else {
+                        if (hiTail == null)
+                            hiHead = e;
+                        else
+                            hiTail.next = e;
+                        hiTail = e;
                     }
+                } while ((e = next) != null);
+                // 新链表的头节点装入到新桶中
+                if (loTail != null) {
+                    loTail.next = null;
+                    newTab[j] = loHead;
+                }
+                if (hiTail != null) {
+                    hiTail.next = null;
+                    newTab[j + oldCap] = hiHead;
                 }
             }
-            ```java
+        }
+        ```java
+        ````
 
+#### 扩容后的索引规律
 
-#### 扩容后的索引规律  
-假如原数组长度n = 16  
+假如原数组长度 n = 16
 
 1. hash & (n-1)
+
 ```
-- key1 与 15  
-1101 1001 0010 1100 1111 000|0 0101  key1.hashCode()   
-0000 0000 0000 0000 0000 000|0 1111  n - 1  
-----------------------------------  &    
-0000 0000 0000 0000 0000 000|0 0101  5  
+- key1 与 15
+1101 1001 0010 1100 1111 000|0 0101  key1.hashCode()
+0000 0000 0000 0000 0000 000|0 1111  n - 1
+----------------------------------  &
+0000 0000 0000 0000 0000 000|0 0101  5
 - key1 与 31
 1101 1001 0010 1100 1111 000|0 0101  key1.hashCode()
 0000 0000 0000 0000 0000 000|1 1111  n * 2 - 1
 ----------------------------------  &
 0000 0000 0000 0000 0000 000|0 0101  5
-- key2 与 15  
-1101 1001 0010 1100 1111 001|1 0101  key2.hashCode()  
-0000 0000 0000 0000 0000 000|0 1111  n - 1  
-----------------------------------  &  
-0000 0000 0000 0000 0000 000|0 0101  5   
-- key2 与 31   
-1101 1001 0010 1100 1111 001|1 0101  key2.hashCode()  
-0000 0000 0000 0000 0000 000|1 1111  n * 2 - 1  
+- key2 与 15
+1101 1001 0010 1100 1111 001|1 0101  key2.hashCode()
+0000 0000 0000 0000 0000 000|0 1111  n - 1
+----------------------------------  &
+0000 0000 0000 0000 0000 000|0 0101  5
+- key2 与 31
+1101 1001 0010 1100 1111 001|1 0101  key2.hashCode()
+0000 0000 0000 0000 0000 000|1 1111  n * 2 - 1
 ----------------------------------  &
 0000 0000 0000 0000 0000 000|1 0101  5 + 16
 ```
-由上图可见，新索引位置只能是原索引或者原索引+n，到底是那种情况只用看新索引高位是0还是1  
-- 优点：不用真的重新计算新索引位置，只需要计算高位是0还是1即可确定新索引
+
+由上图可见，新索引位置只能是原索引或者原索引 +n，到底是那种情况只用看新索引高位是 0 还是 1
+
+- 优点：不用真的重新计算新索引位置，只需要计算高位是 0 还是 1 即可确定新索引
 
 2. hash & n
-- key2 与 16  
-1101 1001 0010 1100 1111 001|1 0101  key2.hashCode()  
-0000 0000 0000 0000 0000 000|0 1111  n 
-----------------------------------  &  
-0000 0000 0000 0000 0000 000|0 0101  5   
-- key2 与 32   
-1101 1001 0010 1100 1111 001|1 0101  key2.hashCode()  
-0000 0000 0000 0000 0000 000|1 0000  n
-----------------------------------  &
-0000 0000 0000 0000 0000 000|1 0000  得到最高位为1
 
-#### hash计算方法
+- key2 与 16 1101 1001 0010 1100 1111 001|1 0101 key2.hashCode() 0000 0000 0000
+  0000 0000 000|0 1111 n ---------------------------------- & 0000 0000 0000
+  0000 0000 000|0 0101 5
+- key2 与 32 1101 1001 0010 1100 1111 001|1 0101 key2.hashCode() 0000 0000 0000
+  0000 0000 000|1 0000 n ---------------------------------- & 0000 0000 0000
+  0000 0000 000|1 0000 得到最高位为 1
 
-先调用key.hashCode()，在于自身高位异或
+#### hash 计算方法
+
+先调用 key.hashCode()，在于自身高位异或
+
 ```java
 static final int hash(Object key) {
     int h;
     return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
 }
 ```
+
 示例
+
 ```
 1101 0111 1010 1111 1000 0110 0001 1011  hash
 0000 0000 0000 0000 1101 0111 1010 1111  hash >>> 16
 ---------------------------------------  ^
-1101 0111 1010 1111 0101 0001 1011 0100  
+1101 0111 1010 1111 0101 0001 1011 0100
 ```
-原因： 
+
+原因：
+
 1. 混合高低位信息
-2. 确保hash不会向0或1单独靠拢
+2. 确保 hash 不会向 0 或 1 单独靠拢
 
 #### put
-- put调用putVal实现
-    ```java
-    public V put(K key, V value) {
-        return putVal(hash(key), key, value, false, true);
-    }
-    ```
+
+- put 调用 putVal 实现
+  ```java
+  public V put(K key, V value) {
+      return putVal(hash(key), key, value, false, true);
+  }
+  ```
 - 方法参数
-    1. boolean onlyIfAbsent ：只有不存在才添加（即不修改原数据）
-    2. boolean evict ： 如果为false表示为创建状态
+  1. boolean onlyIfAbsent ：只有不存在才添加（即不修改原数据）
+  2. boolean evict ： 如果为 false 表示为创建状态
 
 - 具体实现
 
-1. 如果table == null，resize新建数组
+1. 如果 table == null，resize 新建数组
+
 ```java
 final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                    boolean evict) {
@@ -1362,55 +1429,58 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
     if ((tab = table) == null || (n = tab.length) == 0)
         n = (tab = resize()).length;
 ```
-2. 插入/或记录被修改value的节点e
-    - 若索引位置为空，直接插入
-    ```java
-    if ((p = tab[i = (n - 1) & hash]) == null)
-        tab[i] = newNode(hash, key, value, null);
-    else {
-    ```
-    - 若不为空，且key相同，e就是当前节点
-    ```java
-        Node<K,V> e; K k;
-        if (p.hash == hash &&
-            ((k = p.key) == key || (key != null && key.equals(k))))
-            e = p;
-    ```
-    - 若不为空，但是为红黑树，按照红黑树插入
-    ```java
-        else if (p instanceof TreeNode)
-            e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
-    ```
-    - 若不为空但是为链表
-        找到相同节点就记录e
-        没找到就尾插新结点，并判断是否转为红黑树
-    ```java
-        else {
-            for (int binCount = 0; ; ++binCount) {
-                if ((e = p.next) == null) {
-                    p.next = newNode(hash, key, value, null);
-                    if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
-                        treeifyBin(tab, hash);
-                    break;
-                }
-                if (e.hash == hash &&
-                    ((k = e.key) == key || (key != null && key.equals(k))))
-                    break;
-                p = e;
-            }
-        }
-3. 如果上一步没有插入新结点而是准备覆盖value，就在这一步覆盖
+
+2. 插入/或记录被修改 value 的节点 e
+   - 若索引位置为空，直接插入
+   ```java
+   if ((p = tab[i = (n - 1) & hash]) == null)
+       tab[i] = newNode(hash, key, value, null);
+   else {
+   ```
+   - 若不为空，且 key 相同，e 就是当前节点
+   ```java
+   Node<K,V> e; K k;
+   if (p.hash == hash &&
+       ((k = p.key) == key || (key != null && key.equals(k))))
+       e = p;
+   ```
+   - 若不为空，但是为红黑树，按照红黑树插入
+   ```java
+   else if (p instanceof TreeNode)
+       e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+   ```
+   - 若不为空但是为链表 找到相同节点就记录 e 没找到就尾插新结点，并判断是否转为红黑树
+   ```java
+   else {
+       for (int binCount = 0; ; ++binCount) {
+           if ((e = p.next) == null) {
+               p.next = newNode(hash, key, value, null);
+               if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                   treeifyBin(tab, hash);
+               break;
+           }
+           if (e.hash == hash &&
+               ((k = e.key) == key || (key != null && key.equals(k))))
+               break;
+           p = e;
+       }
+   }
+   ```
+3. 如果上一步没有插入新结点而是准备覆盖 value，就在这一步覆盖
+
 ```java
-        if (e != null) { // existing mapping for key
-            V oldValue = e.value;
-            if (!onlyIfAbsent || oldValue == null)
-                e.value = value;
-            afterNodeAccess(e);
-            return oldValue;
-        }
+    if (e != null) { // existing mapping for key
+        V oldValue = e.value;
+        if (!onlyIfAbsent || oldValue == null)
+            e.value = value;
+        afterNodeAccess(e);
+        return oldValue;
     }
+}
 ```
-4. fastfail检验，扩容检验
+
+4. fastfail 检验，扩容检验
+
 ```java
     ++modCount;
     if (++size > threshold)
@@ -1422,7 +1492,8 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 #### remove
 
-1. 判断table是否为空，table是否存有元素，要找的索引位置是否有值
+1. 判断 table 是否为空，table 是否存有元素，要找的索引位置是否有值
+
 ```java
 final Node<K,V> removeNode(int hash, Object key, Object value,
                                boolean matchValue, boolean movable) {
@@ -1430,35 +1501,38 @@ final Node<K,V> removeNode(int hash, Object key, Object value,
         if ((tab = table) != null && (n = tab.length) > 0 &&
             (p = tab[index = (n - 1) & hash]) != null) {
 ```
-2. 找到待删除节点node记录
-    - index处就是所找节点
-        ```java
-        Node<K,V> node = null, e; K k; V v;
-        if (p.hash == hash &&
-            ((k = p.key) == key || (key != null && key.equals(k))))
-            node = p;
-        ```
-    - 是红黑树，按照红黑树的方式查找
-        ```java
-        else if ((e = p.next) != null) {
-            if (p instanceof TreeNode)
-                node = ((TreeNode<K,V>)p).getTreeNode(hash, key);
-        ```
-    - 是链表，按照链表方式查找
-        ```java
-            else {
-                do {
-                    if (e.hash == hash &&
-                        ((k = e.key) == key ||
-                            (key != null && key.equals(k)))) {
-                        node = e;
-                        break;
-                    }
-                    p = e;
-                } while ((e = e.next) != null);
-            }
-        }
+
+2. 找到待删除节点 node 记录
+   - index 处就是所找节点
+     ```java
+     Node<K,V> node = null, e; K k; V v;
+     if (p.hash == hash &&
+         ((k = p.key) == key || (key != null && key.equals(k))))
+         node = p;
+     ```
+   - 是红黑树，按照红黑树的方式查找
+     ```java
+     else if ((e = p.next) != null) {
+         if (p instanceof TreeNode)
+             node = ((TreeNode<K,V>)p).getTreeNode(hash, key);
+     ```
+   - 是链表，按照链表方式查找
+     ```java
+         else {
+             do {
+                 if (e.hash == hash &&
+                     ((k = e.key) == key ||
+                         (key != null && key.equals(k)))) {
+                     node = e;
+                     break;
+                 }
+                 p = e;
+             } while ((e = e.next) != null);
+         }
+     }
+     ```
 3. 删除节点，处理后事
+
 ```java
         if (node != null && (!matchValue || (v = node.value) == value ||
                                 (value != null && value.equals(v)))) {
@@ -1486,11 +1560,12 @@ final Node<K,V> removeNode(int hash, Object key, Object value,
 
 ### 序列化
 
-#### Serializable接口
+#### Serializable 接口
 
 - 序列化就是将对象转换为字节序列的过程，反序列化就是把持久化的字节文件数据恢复为对象的过程。
-- 对于JVM来说，要进行持久化的类必须要有一个标记，只有持有这个标记JVM才允许类创建的对象可以通过其IO系统转换为字节数据，从而实现持久化，而这个标记就是Serializable接口。
-- 而在反序列化的过程中则需要使用serialVersionUID来确定由那个类来加载这个对象，所以我们在实现Serializable接口的时候，一般还会要去尽量显示地定义serialVersionUID
+- 对于 JVM 来说，要进行持久化的类必须要有一个标记，只有持有这个标记 JVM 才允许类创建的对象可以通过其 IO 系统转换为字节数据，从而实现持久化，而这个标记就是 Serializable 接口。
+- 而在反序列化的过程中则需要使用 serialVersionUID 来确定由那个类来加载这个对象，所以我们在实现 Serializable 接口的时候，一般还会要去尽量显示地定义 serialVersionUID
+
 ```java
 public class MySerializable {
     public static void main(String[] args) {
@@ -1517,62 +1592,71 @@ class Student implements Serializable {
     private String name;
 }
 ```
->如果我们在序列化中没有显示地声明serialVersionUID，则序列化运行时将会根据该类的各个方面计算该类默认的serialVersionUID值。>但是，Java官方强烈建议所有要序列化的类都显示地声明serialVersionUID字段，因为如果高度依赖于JVM默认生成serialVersionUID,可>能会导致其与编译器的实现细节耦合，这样可能会导致在反序列化的过程中发生意外的InvalidClassException异常。因此，为了保证跨不?>同Java编译器实现的serialVersionUID值的一致，实现Serializable接口的必须显示地声明serialVersionUID字段。<br/>
 
->此外serialVersionUID字段地声明要尽可能使用private关键字修饰，这是因为该字段的声明只适用于声明的类，该字段作为成员变量被子>类继承是没有用处的!有个特殊的地方需要注意的是，数组类是不能显示地声明serialVersionUID的，因为它们始终具有默认计算的值,不过>数组类反序列化过程中也是放弃了匹配serialVersionUID值的要求。
+> 如果我们在序列化中没有显示地声明 serialVersionUID，则序列化运行时将会根据该类的各个方面计算该类默认的 serialVersionUID 值。>但是，Java 官方强烈建议所有要序列化的类都显示地声明 serialVersionUID 字段，因为如果高度依赖于 JVM 默认生成 serialVersionUID，可>能会导致其与编译器的实现细节耦合，这样可能会导致在反序列化的过程中发生意外的 InvalidClassException 异常。因此，为了保证跨不？>同 Java 编译器实现的 serialVersionUID 值的一致，实现 Serializable 接口的必须显示地声明 serialVersionUID 字段。<br/>
+
+> 此外 serialVersionUID 字段地声明要尽可能使用 private 关键字修饰，这是因为该字段的声明只适用于声明的类，该字段作为成员变量被子>类继承是没有用处的！有个特殊的地方需要注意的是，数组类是不能显示地声明 serialVersionUID 的，因为它们始终具有默认计算的值，不过>数组类反序列化过程中也是放弃了匹配 serialVersionUID 值的要求。
 
 #### transient
 
-- 在实现Serializable接口后可以用该关键字修饰, 让这个属性不序列化
-- 但是用static修饰后, 一定不会被序列化
-- 若选择实现Externalizable接口, 则属性是否进行序列化需要手动指定, 与是否有transient关键字无关
+- 在实现 Serializable 接口后可以用该关键字修饰，让这个属性不序列化
+- 但是用 static 修饰后，一定不会被序列化
+- 若选择实现 Externalizable 接口，则属性是否进行序列化需要手动指定，与是否有 transient 关键字无关
 
 ### RandomAccess
 
-1. 概述
-RandomAccess 是一个空的接口，它用来标识某个类是否支持 随机访问（随机访问，相对比“按顺序访问”）。一个支持随机访问的类明显可以使用更加高效的算法。
+1. 概述 RandomAccess 是一个空的接口，它用来标识某个类是否支持
+   随机访问（随机访问，相对比“按顺序访问”）。一个支持随机访问的类明显可以使用更加高效的算法。
+
 ```java
 public interface RandomAccess {
 }
 ```
-- List 中支持随机访问最佳的例子就是 ArrayList, 它的数据结构使得 get(), set(), add()等方法的时间复杂度都是 O(1);
-- 反例就是 LinkedList, 链表结构使得它不支持随机访问，只能按序访问，因此在一些操作上性能略逊一筹。
+
+- List 中支持随机访问最佳的例子就是 ArrayList，它的数据结构使得 get(), set(), add() 等方法的时间复杂度都是 O(1);
+- 反例就是 LinkedList，链表结构使得它不支持随机访问，只能按序访问，因此在一些操作上性能略逊一筹。
+
 2. 例子
 
-- 通常在操作一个 List 对象时，通常会判断是否支持 随机访问，也就是* 是否为 RandomAccess 的实例*，从而使用不同的算法。
-比如遍历，实现了 RandomAccess 的集合使用 get():
+- 通常在操作一个 List 对象时，通常会判断是否支持 随机访问，也就是* 是否为 RandomAccess 的实例*，从而使用不同的算法。 比如遍历，实现了
+  RandomAccess 的集合使用 get():
+
 ```java
 for (int i=0, n=list.size(); i &lt; n; i++)
           list.get(i);
-
 ```
+
 比用迭代器更快：
+
 ```java
 for (Iterator i=list.iterator(); i.hasNext(); )
     i.next();
 ```
->实现了 RandomAccess 接口的类有：
->ArrayList, AttributeList, CopyOnWriteArrayList, Vector, Stack 等。
 
-
+> 实现了 RandomAccess 接口的类有： ArrayList, AttributeList, CopyOnWriteArrayList,
+> Vector, Stack 等。
 
 ### Cloneable
 
 #### 浅拷贝
 
-1. 概述
-实现了Cloneable接口的对象能进行克隆， Object实现了先拷贝
+1. 概述 实现了 Cloneable 接口的对象能进行克隆， Object 实现了先拷贝
+
 ```java
 public interface Cloneable {
 }
 ```
-clon方法再Object类中定义
+
+clon 方法再 Object 类中定义
+
 ```java
 protected native Object clone() throws CloneNotSupportedException;
 ```
 
 2. 引例
+
 - 这里先定义一个学生
+
 ```java
 @Data
 @AllArgsConstructor
@@ -1586,31 +1670,35 @@ class Student implements Cloneable{
     }
 }
 ```
-- student2由student浅拷贝得到
+
+- student2 由 student 浅拷贝得到
+
 ```java
 Student student = new Student("a", address1);
 Student student2 = (Student) student.clone();
 ```
-- student == student2  => False
-- student.address == student2.address  => True
-两人的地址不同， 但是“地址”所指向的地址相同
+
+- student == student2 => False
+- student.address == student2.address => True 两人的地址不同， 但是“地址”所指向的地址相同
 
 #### 深拷贝
 
-1. 实现Cloneable接口并重写Object类中的clone()方法；
+1. 实现 Cloneable 接口并重写 Object 类中的 clone() 方法；
 
-- 在上面的例子中想要实现address也不相同可以在重写clone()加上
-`stu.addr = (Address)addr.clone();   //深度复制  `
+- 在上面的例子中想要实现 address 也不相同可以在重写 clone() 加上
+  `stu.addr = (Address)addr.clone();   //深度复制`
 
-- 缺点: 如果引用类型里面还包含很多引用类型，或者内层引用类型的类里面又包含引用类型，使用clone方法就会很麻烦。这时我们可以用序列化的方式来实现对象的深克隆。
+- 缺点：
+  如果引用类型里面还包含很多引用类型，或者内层引用类型的类里面又包含引用类型，使用 clone 方法就会很麻烦。这时我们可以用序列化的方式来实现对象的深克隆。
 
-2. 实现Serializable接口，通过对象的序列化和反序列化实现克隆，可以实现真正的深度克隆。
+2. 实现 Serializable 接口，通过对象的序列化和反序列化实现克隆，可以实现真正的深度克隆。
 
-- 手动写新的clone方法
+- 手动写新的 clone 方法
 
-- 缺点: 需要对象及对象所有的对象属性都实现序列化
+- 缺点：需要对象及对象所有的对象属性都实现序列化
 
 - 示例
+
 ```java
 public class DeepClone {
     public static void main(String[] args) {
@@ -1623,7 +1711,7 @@ public class DeepClone {
 
 @AllArgsConstructor
 class Outer implements Serializable {
-    private static final long serialVersionUID = 369285298572941L;  //最好是显式声明ID
+    private static final long serialVersionUID = 369285298572941L;  //最好是显式声明 ID
     public Inner inner;
     public Outer myClone() {
         Outer outer = null;
@@ -1638,12 +1726,12 @@ class Outer implements Serializable {
 }
 
 class Inner implements Serializable {
-    private static final long serialVersionUID = 872390113109L; //最好是显式声明ID
+    private static final long serialVersionUID = 872390113109L; //最好是显式声明 ID
 }
 ```
 
 ::: tip 注意
-注意：基于序列化和反序列化实现的克隆不仅仅是深度克隆，更重要的是通过泛型限定，可以检查出要克隆的对象是否支持序列化，这项检查是编译器完成的，不是在运行时抛出异常，这种是方案明显优于使用Object类的clone方法克隆对象。让问题在编译的时候暴露出来总是优于把问题留到运行时。
+注意：基于序列化和反序列化实现的克隆不仅仅是深度克隆，更重要的是通过泛型限定，可以检查出要克隆的对象是否支持序列化，这项检查是编译器完成的，不是在运行时抛出异常，这种是方案明显优于使用 Object 类的 clone 方法克隆对象。让问题在编译的时候暴露出来总是优于把问题留到运行时。
 :::
 
 ### 待续...
@@ -1651,29 +1739,33 @@ class Inner implements Serializable {
 ## 函数式接口
 
 ### 概述
+
 `@FunctionalInterface`
+
 1. 特征
+
 - 该注解只能标记在"有且仅有一个抽象方法"的接口上。
-- JDK8接口中的静态方法和默认方法，都不算是抽象方法。
-- 接口默认继承java.lang.Object，所以如果接口显示声明覆盖了Object中方法，那么也不算抽象方法。
-- 该注解不是必须的，如果一个接口符合"函数式接口"定义，那么加不加该注解都没有影响。加上该注解能够更好地让编译器进行检查。如果编写的不是函数式接口，但是加上了@FunctionInterface，那么编译器会报错。
+- JDK8 接口中的静态方法和默认方法，都不算是抽象方法。
+- 接口默认继承 java.lang.Object，所以如果接口显示声明覆盖了 Object 中方法，那么也不算抽象方法。
+- 该注解不是必须的，如果一个接口符合"函数式接口"定义，那么加不加该注解都没有影响。加上该注解能够更好地让编译器进行检查。如果编写的不是函数式接口，但是加上了 @FunctionInterface，那么编译器会报错。
 
 2. 示例
+
 ```java
 // 正确的函数式接口
 @FunctionalInterface
 public interface TestInterface {
- 
+
     // 抽象方法
     public void sub();
- 
-    // java.lang.Object中的方法不是抽象方法
+
+    // java.lang.Object 中的方法不是抽象方法
     public boolean equals(Object var1);
- 
-    // default不是抽象方法
+
+    // default 不是抽象方法
     public default void defaultMethod(){}
- 
-    // static不是抽象方法
+
+    // static 不是抽象方法
     public static void staticMethod(){}
 }
 ```
@@ -1681,16 +1773,19 @@ public interface TestInterface {
 ### Consumer
 
 #### Consumer
+
 1. 定义
+
 - 它不是生产一个数据，而是消费一个数据，其数据类型由泛型决定
-- 泛型指定什么类型，就可以使用accept方法消费什么类型的数据
-- 至于具体怎么消费(使用)，需要自定义
+- 泛型指定什么类型，就可以使用 accept 方法消费什么类型的数据
+- 至于具体怎么消费 (使用)，需要自定义
+
 ```java
 @FunctionalInterface
 public interface Consumer<T> {
 
     void accept(T t);
- 
+
     default Consumer<T> andThen(Consumer<? super T> after) {
         Objects.requireNonNull(after);
         return (T t) -> { accept(t); after.accept(t); };
@@ -1699,7 +1794,9 @@ public interface Consumer<T> {
 ```
 
 #### BiComsumer
-与Consumer类似
+
+与 Consumer 类似
+
 ```java
 @FunctionalInterface
 public interface BiConsumer<T, U> {
@@ -1713,8 +1810,8 @@ default BiConsumer<T, U> andThen(BiConsumer<? super T, ? super U> after) {
 }
 ```
 
-2. 示例
-Iterable接口,用法和Thread类似
+2. 示例 Iterable 接口，用法和 Thread 类似
+
 ```java
 public static void main(String[] args) {
     List<String> list = new ArrayList<>();
@@ -1730,15 +1827,17 @@ public static void main(String[] args) {
 }
 ```
 
-
 ### Predicate
 
 1. 特性
+
 - JDK8 提供的函数式接口
-- 提供一个抽象方法test, 接受一个参数, 根据这个参数进行一些判断, 返回判断结果 true / false
-- 提供几个默认的default方法, and, or, negate 用于进行组合判断
+- 提供一个抽象方法 test，接受一个参数，根据这个参数进行一些判断，返回判断结果 true / false
+- 提供几个默认的 default 方法，and, or, negate 用于进行组合判断
 - 在流中被广泛使用
+
 2. 定义
+
 ```java
 @FunctionalInterface
 public interface MyPredict<T> {
@@ -1769,10 +1868,12 @@ public interface MyPredict<T> {
     }
 }
 ```
+
 3. 示例
+
 ```java
 public static void main(String[] args) {
-    Predicate predicate = "Yes"::equals;   // lambda表达式
+    Predicate predicate = "Yes"::equals;   // lambda 表达式
     Predicate predicate2 = o -> !"No".equals(o);
     System.out.println(predicate.test("Yes"));
     System.out.println(predicate.and(predicate2).test("Yes"));;
@@ -1782,9 +1883,10 @@ public static void main(String[] args) {
 ### Function
 
 #### Function
-1. 特性
-Function接口的主要作用是将一个给定的对象进行加工,然后返回加工后的对象,这个加工可以是任何操作.
+
+1. 特性 Function 接口的主要作用是将一个给定的对象进行加工，然后返回加工后的对象，这个加工可以是任何操作。
 2. 定义
+
 ```java
 public interface MyFunction<T, R> {
     R apply(T t);
@@ -1804,23 +1906,25 @@ public interface MyFunction<T, R> {
     }
 
 }
-
 ```
+
 3. 示例
+
 ```java
 public static void main(String[] args) {
     Function<String, Integer> f1 = (t) -> Integer.valueOf(t) * 10;
     System.out.println(f1.apply("3"));
     // 返回自己
     System.out.println(Function.identity().apply("3"));
-    // apply后执行
+    // apply 后执行
     System.out.println(f1.andThen((r) -> String.valueOf(r) + ".....").apply("4"));
-    // apply前执行
+    // apply 前执行
     System.out.println(f1.compose((String r) -> r.substring(1)).apply("a5"));
 }
 ```
 
 #### BiFunction
+
 ```java
 @FunctionalInterface
 public interface BiFunction<T, U, R> {
@@ -1834,6 +1938,7 @@ public interface BiFunction<T, U, R> {
 ### UnaryOperator
 
 1. 定义
+
 ```java
 @FunctionalInterface
 public interface MyUnaryOperator<T> extends Function<T, T> {
@@ -1843,22 +1948,25 @@ public interface MyUnaryOperator<T> extends Function<T, T> {
 }
 `
 ```
+
 2. 示例
+
 ```java
 public static void main(String[] args) {
     UnaryOperator<Integer> unaryOperator = x -> x + 1;
-    System.out.println(unaryOperator.apply(10)); // 11 
+    System.out.println(unaryOperator.apply(10)); // 11
     UnaryOperator<String> unaryOperator1 = x -> x + 1;
     System.out.println(unaryOperator1.apply("aa")); // aa1
 }
 ```
 
-
 ### Compare
 
 #### Comparable
+
 - Comparable 是排序接口。
-- 若一个类实现了Comparable接口，就意味着“该类支持排序”。
+- 若一个类实现了 Comparable 接口，就意味着“该类支持排序”。
+
 ```java
 public interface Comparable<T> {
         public int compareTo(T o);
@@ -1868,6 +1976,7 @@ public interface Comparable<T> {
 #### Comparator
 
 ##### 源码
+
 ```java
 @FunctionalInterface
 public interface MyComparator<T> {
@@ -1960,7 +2069,9 @@ public interface MyComparator<T> {
 ##### 方法解释
 
 1. thenComparing
-- &是java8新语法
+
+- &是 java8 新语法
+
 ```java
 // (Comparator<T> & Serializable) == (Comparator<T>) (Serializable)
 default Comparator<T> thenComparing(Comparator<? super T> other) {
@@ -1971,7 +2082,9 @@ default Comparator<T> thenComparing(Comparator<? super T> other) {
     };
 }
 ```
+
 - 示例
+
 ```java
 public static void main(String[] args) {
     Comparator comparator = new Comparator() {
@@ -1986,9 +2099,11 @@ public static void main(String[] args) {
 ```
 
 2. comparing
--  利用Function先处理再比较
+
+- 利用 Function 先处理再比较
+
 ```java
-public static <T, U> Comparator<T> comparing(   Function<? super T, ? extends U> keyExtractor, 
+public static <T, U> Comparator<T> comparing(   Function<? super T, ? extends U> keyExtractor,
                                                 Comparator<? super U> keyComparator) {
         Objects.requireNonNull(keyExtractor);
         Objects.requireNonNull(keyComparator);
@@ -1999,13 +2114,14 @@ public static <T, U> Comparator<T> comparing(   Function<? super T, ? extends U>
 ```
 
 3. reverseOrder
-- 利用Collections实现
+
+- 利用 Collections 实现
+
 ```java
 public static <T extends Comparable<? super T>> Comparator<T> reverseOrder() {
     return Collections.reverseOrder();
 }
 ```
-
 
 ### 待续...
 
@@ -2014,12 +2130,14 @@ public static <T extends Comparable<? super T>> Comparator<T> reverseOrder() {
 ### Object
 
 1. 概述
-- @HotSpotIntrinsicCandidate
-- 自JDK 9引入
-- 作用: 被@HotSpotIntrinsicCandidate标注的方法，在HotSpot中都有一套高效的实现，该高效实现基于CPU指令，运行时，HotSpot维护的高效实现会替代JDK的源码实现，从而获得更高的效率。
 
+- @HotSpotIntrinsicCandidate
+- 自 JDK 9 引入
+- 作用：
+  被 @HotSpotIntrinsicCandidate 标注的方法，在 HotSpot 中都有一套高效的实现，该高效实现基于 CPU 指令，运行时，HotSpot 维护的高效实现会替代 JDK 的源码实现，从而获得更高的效率。
 
 2. 源码
+
 ```java
 public class MyObject {
     //@HotSpotIntrinsicCandidate
@@ -2063,7 +2181,3 @@ public class MyObject {
 ```
 
 ## 待续...
-
-
-
-
