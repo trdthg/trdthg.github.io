@@ -197,12 +197,102 @@ match self.state {
 
 ### 性能
 
+#### drop
+
 ```rs
 async fn do_stuff(context: Arc<Context>) {
     info!("running foo with context {}", context);
     foo().await;
+} // <- std::mem::drop(context);
+```
+
+对于上面的异步函数有一个小小的性能问题，每当一个变量超出作用域时，Rust 都会隐式的在函数末尾插入 drop，所以直到函数运行结束 context
+变量才会被释放。但是我们在打完日志之后就不需要 context 了，没必要等到 foo 执行完在释放掉 context
+
+其中一个解决方法时将 context 移动到函数的内部作用域：
+
+```rs
+async fn do_stuff(context: Arc<Context>) {
+    {
+        let context = context;
+        info!("running foo with context {}", context);
+    } // <- std::mem::drop(context);
+    foo().await;
 }
 ```
-对于上面的异步函数有一个小小的性能问题，每当一个变量超出作用域时，Rust 都会隐式的在函数末尾插入 drop，所以直到函数运行结束 context 变量才会被释放。但是我们在打完日志之后就不需要 context 了，没必要等到 foo 执行完在释放掉 context
 
-其中一个解决方法时将 context
+drop 会被移动到内部作用域的末尾，但是这样依然不完美。future 在被 poll 之前什么都不会做，函数开始的任何一行都不会执行，所以在没有 poll
+时我们还是一只持有着 context 变量。
+
+解决问题的最好办法实际上是脱糖：
+
+```rs
+fn do_stuff(context: Arc<Context>) -> impl Future<Output = ()> {
+    info!("running foo with context {}", context);
+    async {
+        foo().await;
+    }
+}
+```
+
+这样 context 根本就不会被保存在我们的状态机里，我们也永远不会持有对 context 的引用
+
+#### 大数据
+
+另一个注意的点是，当你在 await 一个非常大的临时变量或者表达式
+
+```rs
+struct Big([u8; 1024]);
+
+impl Drop for Big { /* print "GOODBYE" */ }
+
+async fn foo(x: usize) -> usize { /* ... */ }
+
+async fn bar() -> usize {
+    let result = foo(Big::new().0.len()).await;
+    result
+}
+```
+
+如果你尝试打印 bar 的大小：
+
+```rs
+fn main() {
+    dng!(std::mem::size_of_val(&bar())); // 1024
+}
+```
+
+结果会非常大，那是因为 Rust 会在状态机里插入 Big 的副本。原因是 只要你在语句中创建临时变量，都会在语句的最后调用该临时变量的 `drop`
+函数。因此在 `.await` 运行后，`drop` 函数里的打印会执行。
+
+异步函数里的临时变量都会存活到 `.await` 之后。
+
+解决方法： 让获取 len 和 调用 foo 方法之间插入一个分号
+
+```rs
+async fn bar() -> usize {
+    let len = Big::new().0.len();
+    let result = foo(len).await;
+    result
+}
+```
+
+当然，你也可以写成这样：
+
+```rs
+async fn bar() -> usize {
+    let fut = foo(Big::new().0.len());
+    let result = fut.await;
+    result
+}
+```
+
+因为我们不再需要在状态机中保存 Big 的副本，所以现在 bar 就小的多了：
+
+```rs
+fn main() {
+    dng!(std::mem::size_of_val(&bar())); // 24
+}
+```
+
+如果你没有为 Big 实现 Drop，编译器应该为此做出一些优化，不过这个现在不谈
