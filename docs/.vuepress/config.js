@@ -4,7 +4,7 @@ module.exports = {
       ['link', { rel: 'icon', href: 'https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202022217241.jpg' }], // 增加一个自定义的 favicon(网页标签的图标)
     ],
     description: '我的个人网站',
-    base: '/', // 这是部署到github相关的配置
+    base: '/', // 这是部署到 github 相关的配置
     markdown: {
       lineNumbers: false // 代码块显示行号
     },
@@ -13,11 +13,11 @@ module.exports = {
       navbar:[ // 导航栏配置
         {text: '学习笔记 📚', children: [
           {text: '前端相关', children: [
-            {text: '虚拟DOM', link: '/frontend/vdom'},
+            {text: '虚拟 DOM', link: '/frontend/vdom'},
             {text: 'Js 进阶', link: '/frontend/js_advanced'},
             {text: '资料', link: '/frontend/list'},
             {text: 'Vue', link: '/frontend/vue'},
-            {text: 'HTTP相关', link: '/frontend/http'},
+            {text: 'HTTP 相关', link: '/frontend/http'},
             {text: 'Flutter', link: '/frontend/flutter'},
           ]},
           {text: 'Python 相关', children: [
@@ -52,13 +52,13 @@ module.exports = {
         ]},
         {text: 'IO Club ⚽', children: [
           {text: '分享', children: [
-            {text: '关于数据库与B+树', link: '/ioclub/share_1'},
+            {text: '关于数据库与 B+ 树', link: '/ioclub/share_1'},
           ]},
           {text: '授课', children: [
-            { text: '后端1', link: '/ioclub/backend_1'},
-            { text: '后端2', link: '/ioclub/backend_2'},
-            { text: '后端3', link: '/ioclub/backend_3'},
-            { text: '后端4', link: '/ioclub/backend_4'},
+            { text: '后端 1', link: '/ioclub/backend_1'},
+            { text: '后端 2', link: '/ioclub/backend_2'},
+            { text: '后端 3', link: '/ioclub/backend_3'},
+            { text: '后端 4', link: '/ioclub/backend_4'},
           ]},
         ]},
         {text: '其他 📦', children: [
@@ -69,8 +69,9 @@ module.exports = {
           {text: 'Git', link: '/other/git'},
           {text: 'Docker', link: '/other/docker'},
           {text: '性能监测工具', link: '/other/analyze'},
-          {text: 'OCI规范', link: '/other/oci'},
+          {text: 'OCI 规范', link: '/other/oci'},
           {text: 'OAuth2.0', link: '/other/oauth2'},
+          {text: '文章翻译', link: '/magic/article'},
         ]},
       ],
       darkMode: true,
@@ -78,6 +79,6 @@ module.exports = {
       toggleDarkMode: '切换夜间',
       repo: 'https://github.com/trdthg',
       lastUpdated: true,
-      // sidebarDepth: 4, // 侧边栏显示2级
+      // sidebarDepth: 4, // 侧边栏显示 2 级
     }
   };
