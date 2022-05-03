@@ -1,2 +1,2 @@
 # trdthg.github.io
-person blog, powerd by vuepress2
+person blog, powerd by vuepress3
