@@ -3,10 +3,10 @@ module.exports = {
   head: [ // 注入到当前页面的 HTML <head> 中的标签
     ['link', { rel: 'icon', href: 'https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202022217241.jpg' }], // 增加一个自定义的 favicon(网页标签的图标)
   ],
-  description: '我的个人网站',
+  description: 'Welcome to Trdthg\'s blog',
   base: '/', // 这是部署到 github 相关的配置
   markdown: {
-    lineNumbers: false // 代码块显示行号
+    lineNumbers: true // 代码块显示行号
   },
   themeConfig: {
     logo: 'https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202022217241.jpg',
@@ -33,7 +33,7 @@ module.exports = {
         ]
       },
       {
-        text: '杂文 🥗', children: [
+        text: '杂文 🍱', children: [
           { text: '折腾 i3wm', link: '/articles/i3wm' },
           { text: '(译) 尾部延迟', link: '/articles/tail_latency' },
           { text: '(译) 查询引擎', link: '/articles/search_engine' },
