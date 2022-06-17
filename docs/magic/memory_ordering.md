@@ -56,8 +56,8 @@ x = 1;          y *= 2;
 
 ### 3. CPU Cache
 
-由于一次复制操作涉及到 move(内存 -> 寄存器) add mov(寄存器 ->
-内存) 三条汇编指令，在 add 操作完成后，数据还没有被拷贝到内存时，另一个线程可能读取到此时还没有被修改的数据，或者是两个线程同时修改，结果某一个线程修改的结果被另一个线程覆盖
+由于一次复制操作涉及到 move(内存 -> 寄存器) add mov(寄存器 -> 内存) 三条汇编指令，在 add
+操作完成后，数据还没有被拷贝到内存时，另一个线程可能读取到此时还没有被修改的数据，或者是两个线程同时修改，结果某一个线程修改的结果被另一个线程覆盖
 
 ## 术语
 
@@ -73,8 +73,8 @@ x = 1;          y *= 2;
 
 ### **3. synchronized-with**
 
-x是支持原子操作的变量 A 写入 (store)x，B 读取 (load)x，分别在两个线程内，则 A((store) 就是 synchornized-with
-B(load) 的
+x 是支持原子操作的变量 A 写入 (store)x，B 读取 (load)x，分别在两个线程内，则 A((store) 就是
+synchornized-with B(load) 的
 
 ### 4. inter-thread
 
@@ -114,8 +114,8 @@ fn to_relaxed() {
 
 **Release 释放** ，设定内存屏障 (Memory barrier)，保证它之前的操作永远在它之前，但是它后面的操作可能被重排到它前面
 **Acquire 获取** , 设定内存屏障，保证在它之后的访问永远在它之后，但是它之前的操作却有可能被重排到它后面，往往和
-`Release`在不同线程中联合使用 **AcqRel**: Acquire 和 Release 的结合，同时拥有它们俩提供的保证。比如你要对一个 atomic
-自增 1，同时希望该操作之前和之后的读取或写入操作不会被重新排序
+`Release`在不同线程中联合使用 **AcqRel**: Acquire 和 Release 的结合，同时拥有它们俩提供的保证。比如你要对一个
+atomic 自增 1，同时希望该操作之前和之后的读取或写入操作不会被重新排序
 
 这两个操作通常成对使用，对 store 使用 Release，对 load 使用 Acquire 先后顺序具体看下面的代码
 
@@ -150,8 +150,10 @@ fn main() {
 
 ### 3. Sequence
 
-顺序一致性，强制所有线程看到一致的原子操作，完全的分界点，SeqCst 就像是 AcqRel 的加强版，它不管原子操作是属于读取还是写入的操作，只要某个线程有用到 SeqCst 的原子操作，线程中该 SeqCst 操作前的数据操作绝对不会被重新排在该 SeqCst 操作之后，且该 SeqCst 操作后的数据操作也绝对不会被重新排在 SeqCst 操作前。
-下面的例子，只有使用 SeqCst ordering，才能保证 Z 最后的值不为 0
+顺序一致性，强制所有线程看到一致的原子操作，完全的分界点，SeqCst 就像是 AcqRel
+的加强版，它不管原子操作是属于读取还是写入的操作，只要某个线程有用到 SeqCst 的原子操作，线程中该 SeqCst 操作前的数据操作绝对不会被重新排在该
+SeqCst 操作之后，且该 SeqCst 操作后的数据操作也绝对不会被重新排在 SeqCst 操作前。下面的例子，只有使用 SeqCst
+ordering，才能保证 Z 最后的值不为 0
 
 ```rust
 fn write_x() {
@@ -320,3 +322,9 @@ x.store(3, Relaxed); X ---------    |
 - [Rust 学习笔记](https://skyao.io/learning-rust/std/sync/atomic-type.html)
 - [rust 语言圣经](https://course.rs/advance/concurrency-with-threads/sync2.html)
 - [Rust 高级编程](https://learnku.com/docs/nomicon/2018/83-atomic-operation/4742)
+
+## 资料
+
+- [C 语言丨深入理解 volatile 关键字](https://zhuanlan.zhihu.com/p/343688629)
+- [Java volatile 三大特性详解](https://www.jianshu.com/p/765e3abbe89a)
+- [Java CAS 实现原理](https://juejin.cn/post/6844904177856937991)

@@ -34,6 +34,7 @@ module.exports = {
       },
       {
         text: '杂文 🍱', children: [
+          { text: '优质文章资源', link: '/articles/menu' },
           { text: '折腾 i3wm', link: '/articles/i3wm' },
           { text: '(译) 尾部延迟', link: '/articles/tail_latency' },
           { text: '(译) 查询引擎', link: '/articles/search_engine' },
