@@ -328,3 +328,4 @@ x.store(3, Relaxed); X ---------    |
 - [C 语言丨深入理解 volatile 关键字](https://zhuanlan.zhihu.com/p/343688629)
 - [Java volatile 三大特性详解](https://www.jianshu.com/p/765e3abbe89a)
 - [Java CAS 实现原理](https://juejin.cn/post/6844904177856937991)
+- [一文解决内存屏障](https://monkeysayhi.github.io/2017/12/28/%E4%B8%80%E6%96%87%E8%A7%A3%E5%86%B3%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C/)

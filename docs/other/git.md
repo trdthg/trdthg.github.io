@@ -54,18 +54,41 @@ git stash list
 git stash pop
 ```
 
+## 仓库管理
+
+### 拆分仓库
+
+1. 将 src/locale 目录拆分到一个新分支里
+
+```
+git subtree split -P src/locale -b my-locale
+```
+
+> 必须从仓库根目录下执行
+
+2. 从另一个仓库里拉取上面的分支
+
+```
+cd ..
+mkdir repo
+cd repo
+git init
+
+git pull ../dayjs my-locale
+```
+
 ## 打标签
 
 ### 共享标签
 
-默认情况下，git push 命令并不会传送标签到远程仓库服务器上。 在创建完标签后你必须显式地推送标签到共享服务器上。
+默认情况下，git push 命令并不会传送标签到远程仓库服务器上。在创建完标签后你必须显式地推送标签到共享服务器上。
 这个过程就像共享远程分支一样——你可以运行 git push origin tagname。
 
 ```
 git push origin v1.5
 ```
 
-如果想要一次性推送很多标签，也可以使用带有 --tags 选项的 git push 命令。 这将会把所有不在远程仓库服务器上的标签全部传送到那里。
+如果想要一次性推送很多标签，也可以使用带有 --tags 选项的 git push 命令。这将会把所有不在远程仓库服务器上的标签全部传送到那里。
 
 ```
 git push origin --tags
@@ -185,7 +208,7 @@ debug[!01].log      # 不忽略 debug0.log、debug1.log
 ### pull
 
 [菜鸟](https://www.runoob.com/git/git-pull.html) git pull 其实就是 git fetch 和 git
-merge FETCH_HEAD 的简写。 命令格式如下：
+merge FETCH_HEAD 的简写。命令格式如下：
 
 ```
 git pull <远程主机名> <远程分支名>:<本地分支名>
