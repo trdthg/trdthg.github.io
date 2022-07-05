@@ -32,7 +32,9 @@ connected to 192.168.31.176:1583
 
 ### 两个关联的页面
 
+```
 HOME(FirstRoute) -> SecondRoute HOME(FirstRoute) <- SecondRoute
+```
 
 ```dart
 class FirstRoute extends StatelessWidget {
