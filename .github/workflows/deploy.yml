@@ -3,7 +3,7 @@ name: Github Page
 on:
   push:
     branches:
-     - source
+     - main
 
 jobs:
   build-and-deploy:
@@ -36,7 +36,7 @@ jobs:
           # 发布到当前仓库
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # 的 main 分支
-          publish_branch: main
+          publish_branch: gh-page
           # 要发布的文件夹
           publish_dir: ./docs/.vuepress/dist
 
