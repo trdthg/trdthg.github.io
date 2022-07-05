@@ -9,33 +9,33 @@ jobs:
   build-and-deploy:
     # 运行环境
     runs-on: ubuntu-latest
-    # 开始job
+    # 开始 job
     steps:
       # from [actions/checkout](https://github.com/actions/checkout#checkout-v2)
       # This action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it.
-      # 属于是必要选项了, 能够拿到当前分支， 对应这里就是source分支
+      # 属于是必要选项了，能够拿到当前分支，对应这里就是 source 分支
       - uses: actions/checkout@v2
 
-      # 使用yarn
+      # 使用 yarn
 
       # 安装依赖
       - name: Install dependencies
-        uses: borales/actions-yarn@v2.3.0
+        uses: borales/actions-yarn@v3.0.0
         with:
           cmd: install # will run `yarn install` command
 
       - name: Build
-        uses: borales/actions-yarn@v2.3.0
+        uses: borales/actions-yarn@v3.0.0
         with:
           cmd: build # will run `yarn build` command
 
-      # 把disk文件发布到另一个branch
+      # 把 disk 文件发布到另一个 branch
       - name: Deploy with <GitHub Pages v3>
         uses: peaceiris/actions-github-pages@v3.1.12
         with:
           # 发布到当前仓库
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # 的main分支
+          # 的 main 分支
           publish_branch: main
           # 要发布的文件夹
           publish_dir: ./docs/.vuepress/dist
