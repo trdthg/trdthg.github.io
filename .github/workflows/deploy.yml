@@ -39,7 +39,3 @@ jobs:
           publish_branch: gh-page
           # 要发布的文件夹
           publish_dir: ./docs/.vuepress/dist
-
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #     steps:
