@@ -1,0 +1,1 @@
+const e={key:"v-ae569600",path:"/articles/i3wm.html",title:"\u6298\u817E i3wm",lang:"en-US",frontmatter:{},excerpt:"",headers:[{level:2,title:"\u591A\u5C4F\u5E55",slug:"\u591A\u5C4F\u5E55",children:[]}],git:{},filePathRelative:"articles/i3wm.md"};export{e as data};

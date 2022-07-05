@@ -1,0 +1,1 @@
+const e={key:"v-90b2f97c",path:"/rust/rs_channel.html",title:"channel \u6E90\u4EE3\u7801\u5256\u6790",lang:"en-US",frontmatter:{},excerpt:"",headers:[{level:2,title:"\u6807\u51C6\u5E93 channel",slug:"\u6807\u51C6\u5E93-channel",children:[]}],git:{},filePathRelative:"rust/rs_channel.md"};export{e as data};
