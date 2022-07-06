@@ -1,0 +1,3 @@
+import{e}from"./app.cefaa7da.js";import{_ as a}from"./plugin-vue_export-helper.21dcd24c.js";const r={},s=e(`<h1 id="\u6298\u817E-i3wm" tabindex="-1"><a class="header-anchor" href="#\u6298\u817E-i3wm" aria-hidden="true">#</a> \u6298\u817E i3wm</h1><h2 id="\u591A\u5C4F\u5E55" tabindex="-1"><a class="header-anchor" href="#\u591A\u5C4F\u5E55" aria-hidden="true">#</a> \u591A\u5C4F\u5E55</h2><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>xrandr
+xrandr --output DP-1 --auto --right-of eDP-1
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div>`,3);function n(i,d){return s}var h=a(r,[["render",n]]);export{h as default};
