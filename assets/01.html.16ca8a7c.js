@@ -1,0 +1,1 @@
+const e={key:"v-44986b6e",path:"/articles/rust-quiz/01.html",title:"Rust Quiz#1",lang:"en-US",frontmatter:{},excerpt:"",headers:[{level:2,title:"\u9898\u76EE",slug:"\u9898\u76EE",children:[]},{level:2,title:"\u89E3\u7B54",slug:"\u89E3\u7B54",children:[]}],git:{},filePathRelative:"articles/rust-quiz/01.md"};export{e as data};
