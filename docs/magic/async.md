@@ -1,6 +1,6 @@
 # 协程与异步
 
-## 协程
+## 协程的 C 实现
 
 [C 语言协程的简单实现](https://github.com/xiaobing94/coroutine)
 
@@ -19,6 +19,18 @@ linux
 
 下面的图片是阅读了上面代码后的整理
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202203262211252.png)
+
+## Reactor 机制
+
+# 异步
+
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202205122110854.png)
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202205122111319.png)
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202205122112837.png)
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202205122112604.png)
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202205122112493.png)
+![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202205122112531.png)
+
 
 ## Rust 异步原理
 
