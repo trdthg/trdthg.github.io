@@ -1,8 +1,12 @@
 # 网站更新日志
 
-## 2022.10.21 从 vuepress2 迁移到 Docusaurus
+## v3 Docusaurus
 
-## deploy 脚本
+2022.10.21 从 vuepress2 迁移到 Docusaurus
+
+## v2 vuepress3
+
+## v1 vuepress1
 
 基于 typora 处理图片
 

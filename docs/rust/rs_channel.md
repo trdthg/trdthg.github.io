@@ -1,4 +1,4 @@
-# channel 源代码剖析
+# Channel 源码剖析
 
 ## 标准库 channel
 
