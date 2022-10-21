@@ -1,4 +1,10 @@
-# Rust
+---
+sidebar_position: 1
+sidebar_label: Rust 语言
+sidebar_class_name: green
+---
+
+# Rust 语言
 
 ## 1. 生命周期
 
