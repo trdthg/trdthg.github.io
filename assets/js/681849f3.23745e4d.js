@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunktrdthg_github_io=self.webpackChunktrdthg_github_io||[]).push([[137],{2489:t=>{t.exports=JSON.parse('{"title":"\ud83d\udd2e \u62d3\u5c55","slug":"/category/-\u62d3\u5c55","permalink":"/docs/category/-\u62d3\u5c55","navigation":{"next":{"title":"\u534f\u7a0b\u4e0e\u5f02\u6b65","permalink":"/docs/magic/async"}}}')}}]);
