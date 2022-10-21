@@ -1,4 +1,4 @@
-# WebAssembly 初体验
+# Wasm 实现生命游戏
 
 ## hello-wasm
 

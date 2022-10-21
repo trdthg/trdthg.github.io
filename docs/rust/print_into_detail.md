@@ -1,4 +1,4 @@
-# `print!` 宏详解
+# Rust print! 宏
 
 ```rs
 print!("{}", &a)

@@ -1,6 +1,7 @@
 {
-  "label": "IO-Club",
+  "label": "🦀 Rust 语言",
   "position": 2,
+  "collapsed": false,
   "link": {
     "type": "generated-index"
   }
