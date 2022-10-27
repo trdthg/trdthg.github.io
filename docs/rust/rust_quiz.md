@@ -48,7 +48,7 @@ fn main() {
 
 而外部的 `$(...)*` 部分表示一个重复，它可以重复匹配 0 或多次内容。
 
-> The input rule of the macro m! is $($s:stmt)* which matches zero or more Rust
+> The input rule of the macro m! is $($s:stmt)*which matches zero or more Rust
 > statements. The $(...)* part of the rule is a repetition which matches the
 > contents of the repetition zero or more times, and the $s:stmt is a fragment
 > specifier that matches a Rust statement (stmt) conforming to the rules of the
@@ -93,7 +93,7 @@ s.x + 1
 
 `{ stringify!($s); 1 }` 是一个表达式，它的返回值永远是 1。`stringify!($s)` 被丢弃了，所以它和 `{ 1 }` 的效果是相同的。这里使用 `stringify!($s)` 是为了控制重复的次数，规则中定义的标志符
 
-> The `{ stringify!($s); 1 }` is an expression whose value is always 1. The 
+> The `{ stringify!($s); 1 }` is an expression whose value is always 1. The
 > value of `stringify!($s)` is discarded, so this is equivalent to the expression
 > `{ 1 }`. The reason for having `stringify!($s)` in there is to control the
 > number of times the repetition is repeated, which is determined by which
@@ -156,7 +156,6 @@ m! {
 
 这是一条 return 语句，他返回的 y 是一个闭包 `|| true`。等价于 `(|| true)`。所以他会被解析为一条语句，调用 `m!` 的结果是 1。
 
-
 > This is a return-expression that would return the closure `|| true`. It is
 > equivalent to return `(|| true)`. It is parsed as a single statement so the m! invocation evaluates to 1
 
@@ -192,7 +191,6 @@ self.skip_whitespace()?;
 
 不需要分号的表达式都定义在 libsyntex 里。The distinction informs a few different early bail-out cases where the parser decides to finish parsing the current expression.(能力有限，不会翻译)
 
-
 > The list of expression types that stand alone without a semicolon is defined
 > here in libsyntax. The distinction informs a few different early bail-out cases
 > where the parser decides to finish parsing the current expression.
@@ -226,6 +224,7 @@ fn f() -> bool {
     ({ true } && true)
 }
 ```
+
 总之，该程序的输出是 112。
 
 > Anyhow, the output of the program is 112.
@@ -371,7 +370,6 @@ main 的第三行改变了一个临时变量，该变量在分号结尾就立即
 
 > In the context of the quiz code, the name of the struct S is part of the type namespace and the name of the const S is part of the value namespace. That is how we can have seemingly two different things with the same name in scope at the same time.
 
-
 ## #4 `..`
 
 ### 题目
@@ -413,7 +411,7 @@ fn main() {
 
 > Coming out of the first line of main, we have x = 1 and y = (..). Thus the value printed is going to be b"066"[..][1].
 
-`b"066"` 是一个表达式，他是一个 Byte 形式的字符串字面量，它的类型是 `&'static [u8; 3]`, 拥有三个 ASCII 字符 `b'0'`, `b'6'`, `b'6'`。 
+`b"066"` 是一个表达式，他是一个 Byte 形式的字符串字面量，它的类型是 `&'static [u8; 3]`, 拥有三个 ASCII 字符 `b'0'`, `b'6'`, `b'6'`。
 
 > The expression b"066" is a byte-string literal of type &'static [u8; 3] containing the three ASCII bytes b'0', b'6', b'6'.
 
@@ -620,6 +618,7 @@ match self {
     Enum::Second => print!("2"),
 }
 ```
+
 这个程序会打印 2。
 
 > then this program would print 2.
@@ -667,7 +666,7 @@ match self {
 }
 ```
 
-通过[标准库的 prelude](https://doc.rust-lang.org/std/prelude/index.html)，我们可以在模式匹配中直接使用 `OK` 和 `Some` (而不是 `Result::OK` 和 `Option::Some`)。 
+通过[标准库的 prelude](https://doc.rust-lang.org/std/prelude/index.html)，我们可以在模式匹配中直接使用 `OK` 和 `Some` (而不是 `Result::OK` 和 `Option::Some`)。
 
 > Having variants brought into scope by the standard library prelude is what allows us to write Ok and Some in match arms, rather than the qualified paths Result::Ok and Option::Some.
 
@@ -1083,11 +1082,11 @@ error: lifetime bounds cannot be used in this context
 
 - 生命周期在函数签名之外声明，例如，在一个结构体的方法中;或者
 
-    > The lifetime is declared outside the function signature, e.g. in an associated method of a struct it could be from the struct itself; or
+   > The lifetime is declared outside the function signature, e.g. in an associated method of a struct it could be from the struct itself; or
 
 - 生命周期参数被其他一些更长的生命周期所约束。正如我们所看到的，这种约束在 HRTB 中是无法表达的，因为 HRTB 会涉及到生命周期的晚绑定。
 
-    > The lifetime parameter is bounded below by some other lifetime that it must outlive. As we've seen, this constraint is not expressible in the HRTB that would be involved in late binding the lifetime.
+   > The lifetime parameter is bounded below by some other lifetime that it must outlive. As we've seen, this constraint is not expressible in the HRTB that would be involved in late binding the lifetime.
 
 根据这些规则，签名 `fn f<'a>()` 有一个晚期绑定的生命周期参数，而签名 `fn g<'a: 'a>()` 有一个早绑定的生命周期参数 -- 尽管这里的约束是无效的。
 
@@ -1322,7 +1321,7 @@ fn main() {
 
 如果我们想解决 trait 方法的调用 `Trait::f(x)`，我们发现它的参数 x 必须是 `&Self` 类型，即实现了 Trait 的某个 Self 类型。我们发现推断 `0: u32` 既满足了 u32 是一个整数的约束，也满足了 u32 实现了 Trait，所以这个方法调用最终调用了 `<u32 as Trait>::f(x)` 并打印出 1。
 
-> If we want to resolve the trait method call Trait::f(x), we find that its argument x must be of type &Self for some type Self that implements Trait. We find that inferring 0: u32 satisfies both the constraint that u32 is an integer as well as u32 implements Trait, so the method call ends up calling <u32 as Trait>::f(x) and prints 1.
+> If we want to resolve the trait method call Trait::f(x), we find that its argument x must be of type &Self for some type Self that implements Trait. We find that inferring 0: u32 satisfies both the constraint that u32 is an integer as well as u32 implements Trait, so the method call ends up calling `<u32 as Trait>::f(x)` and prints 1.
 
 在这个 [Stack Overflow](https://stackoverflow.com/a/28552082/6086311) 的答案中详细介绍了 Trait 方法的解析。
 
@@ -1568,38 +1567,50 @@ Rust 中涉及 break 的语法与涉及 return 的语法不同。
 
 - `fn return1`
 
-    if 语句的条件.被解析为一个表达式, 这个表达式会返回 `{ print!("1") }` 即 ().这个值需要在返回前被计算,所以最终打印 1.
+    if 语句的,条件。被解析为一个表达式，这个表达式会返回 `{ print!("1") }` 即 ().这个值需要在返回前被计算，所以最终打印 1.
 
-    > The condition of the if-statement is parsed as a return-expression that returns the value { print!("1") } of type (). The value needs to be evaluated prior to being returned so this function prints 1.
+   > The condition of the if-statement is parsed as a return-expression that returns the value { print!("1") } of type (). The value needs to be evaluated prior to being returned so this function prints 1.
 
 - `fn return2`
 
-    这个函数和 `return1` 一样.`return` 关键字会立即消耗掉返回值，即使返回值被大括号包裹．甚至是在 if 语句的条件大括号(例如结构体)通常也不会被接受. 
+   这个函数和 `return1` 一样。`return` 关键字会立即消耗掉返回值，即使返回值被大括号包裹．甚至是在 if 语句的条件中，大括号 (例如结构体) 通常也不会被接受。
 
-    > This function is parsed the same as return1. The return keyword eagerly consumes a trailing return value, even if the return value begins with a curly brace, and even in the condition of an if-statement where curly braces such as in a struct literal would ordinarly not be accepted. This function prints 2.
+   > This function is parsed the same as return1. The return keyword eagerly consumes a trailing return value, even if the return value begins with a curly brace, and even in the condition of an if-statement where curly braces such as in a struct literal would ordinarly not be accepted. This function prints 2.
 
 - `fn break1`
 
-    > The condition of the if-statement is a break-with-value expression that breaks out of the enclosing loop with the value { print!("1") } of type (). Similar to return1, in order to break with this value the value needs to be evaluated and this function prints 1.
+   if 语句的条件是是个 break-with-value 表达式，它会结束整个循环，并返回 `{ print!("1") }`, 即 ()，和 `return1` 类似，为了在打破循环时返回值，这个值需要被计算，所以最终打印 1；
+
+   > The condition of the if-statement is a break-with-value expression that breaks out of the enclosing loop with the value { print!("1") } of type (). Similar to return1, in order to break with this value the value needs to be evaluated and this function prints 1.
 
 - `fn break2`
 
-    > Here we observe a difference between the grammar of break and the grammar of return. Unlike return, the break keyword in the condition of this if-statement does not eagerly parse a value that begins with a curly brace. This code is parsed as:
+   这里我们可以看到 break 和 return 语法的区别。不像 return，if 条件里的 break 关键字不会立即解析出后面大括号的值。这段代码会被解析为：
 
-    ```rs
-    loop {
-        if break {
-            print!("2")
-        }
-        {}
-    }
-    ```
+   > Here we observe a difference between the grammar of break and the grammar of return. Unlike return, the break keyword in the condition of this if-statement does not eagerly parse a value that begins with a curly brace. This code is parsed as:
 
-    > We break out of the loop before executing the print, so this function does not print anything.
+   ```rs
+   loop {
+       if break {
+           print!("2")
+       }
+       {}
+   }
+   ```
 
-    > I believe the reason for the difference between return and break is that returning a value was obviously supported at Rust 1.0 and well before, but break-with-value was introduced fairly late, in Rust 1.19. The code in break2 was perfectly legal Rust code prior to Rust 1.19 so we cannot change its behavior when implementing the break-with-value language feature.
+   我们在执行 print 前打破了循环，所以这个函数不会执行 print.
 
-    > It is possible that a future Edition would adjust the two grammars to align with each other.
+   > We break out of the loop before executing the print, so this function does not print anything.
+
+   我相信 return 和 break 不同的原因是，return 在 Rust 1.0 以及之前显然都是支持的，但是 break-with-value 是在 Rust 1.19 才被引入之后。`break2` 中的代码一直都是合法的 Rust 代码，所以在实现 break-with-value 这个语言特性时也考虑到不能改变它的行为。
+
+   > I believe the reason for the difference between return and break is that returning a value was obviously supported at Rust 1.0 and well before, but break-with-value was introduced fairly late, in Rust 1.19. The code in break2 was perfectly legal Rust code prior to Rust 1.19 so we cannot change its behavior when implementing the break-with-value language feature.
+
+   未来的版本有可能对这两种语法进行调整，使之相互一致。
+
+   > It is possible that a future Edition would adjust the two grammars to align with each other.
+
+main 的输出为 121。
 
 > The output from main is 121.
 
@@ -1663,7 +1674,6 @@ fn main() {
 
 > We want to know whether each possible parenthesization of return || true; and break || true; evaluates to the closure || true or to the unit value ().
 
-
 - `let x = || { (return) || true; };`
 
     在这一行，x 是一个返回 () 的闭包。等价于 `let x = || {}`.当我们调用 `x().f()` 时，方法 f 会被解析为 `impl Trait for ()`, 并打印 2.
@@ -1685,7 +1695,6 @@ fn main() {
     ```
 
     其中 `unimplemented!()` 的类型，因为它在没有求值的情况下直接 panic ，它的返回值类型也是 `！`。
-
 
     > in which the type of unimplemented!(), since it panics without evaluating to any value, is also !.
 
@@ -1710,7 +1719,7 @@ fn main() {
     这是一个包含 `break-with-value` 表达式的循环。`break` 的参数变成了循环的返回值。这段代码等同于 `let x = || true`。
 
     > This is a loop containing a break-with-value expression. The argument of the break becomes the value of the enclosing loop. This code is equivalent to let x = || true.
-    
+
     当我们调用 `x.f()` 时，它使用了 FnOnce 的 Trait 实现，打印出 1。
 
     > When we call x.f() it uses the FnOnce impl of Trait which prints 1.
@@ -1756,6 +1765,23 @@ main 的完整输出是 221111.
 ### 题目
 
 ```rs
+macro_rules! m {
+    ($a:tt) => { print!("1") };
+    ($a:tt $b:tt) => { print!("2") };
+    ($a:tt $b:tt $c:tt) => { print!("3") };
+    ($a:tt $b:tt $c:tt $d:tt) => { print!("4") };
+    ($a:tt $b:tt $c:tt $d:tt $e:tt) => { print!("5") };
+    ($a:tt $b:tt $c:tt $d:tt $e:tt $f:tt) => { print!("6") };
+    ($a:tt $b:tt $c:tt $d:tt $e:tt $f:tt $g:tt) => { print!("7") };
+}
+
+fn main() {
+    m!(-1);
+    m!(-1.);
+    m!(-1.0);
+    m!(-1.0e1);
+    m!(-1.0e-1);
+}
 ```
 
 1. 未定义的行为
@@ -1764,15 +1790,73 @@ main 的完整输出是 221111.
 
 ### 提示
 
+macro 会计算输入的 "token" 的数量。
+
+> The macro is counting how many "tokens" are in its input.
+
 ### 题解
 
-答案：
+答案：22222
+
+所有的 m！调用都传递了两个标记作为输入：一个减号，然后是一个整数或浮点字样的标记。
+
+> All five invocations of m! pass two tokens as input: a minus sign followed by an integer or floating point literal token.
+
+浮点字面符号 `1.`、`1.0`、`1.0e1`、`1.0e-1` 都是单一的原子符号。
+
+> The floating point literals 1., 1.0, 1.0e1, 1.0e-1 are each a single atomic token.
+
+Rust 编译器内置的解析器总是将负号作为一个单独的标记，与数字进行区分。然而，在过程宏中，用户定义的解析器可以通过向 `proc_macro::Literal` 的构造器之一传递一个负的整数或负的浮点数来构造一个负数作为单个标记。如果这样的负数最终出现在随后的过程宏调用的输入中，则由编译器决定是重写成一对标记还是将其作为一个标记。
+
+> The parser built into the Rust compiler always parses a negative sign as a separate token from the numeric literal that is being negating. However, it is possible for a user-defined parser within a procedural macro to construct a negative number as a single token by passing a negative integer or negative floating point value to one of the constructors of proc_macro::Literal. If such a negative literal ends up in the input of a subsequent procedural macro invocation, it is up to the compiler whether to rewrite into a pair of tokens or keep them as one.
+
+编译器的解析器的行为在语言表面也是可以观察到的，不仅仅是在宏中。例如，下面的代码打印出 -81，因为表达式被解析为 `-(3i32.pow(4))` 而不是 `(-3i32).pow(4)`。
+
+> The behavior of the compiler's parser is observable in the surface language as well, not only in macros. For example the following code prints -81 because the expression is parsed as -(3i32.pow(4)) rather than (-3i32).pow(4).
+
+```rs
+fn main() {
+    let n = -3i32.pow(4);
+    println!("{}", n);
+}
+```
 
 ## #23
 
 ### 题目
 
 ```rs
+trait Trait {
+    fn f(&self);
+    fn g(&self);
+}
+
+struct S;
+
+impl S {
+    fn f(&self) {
+        print!("1");
+    }
+
+    fn g(&mut self) {
+        print!("1");
+    }
+}
+
+impl Trait for S {
+    fn f(&self) {
+        print!("2");
+    }
+
+    fn g(&self) {
+        print!("2");
+    }
+}
+
+fn main() {
+    S.f();
+    S.g();
+}
 ```
 
 1. 未定义的行为
@@ -1781,15 +1865,52 @@ main 的完整输出是 221111.
 
 ### 提示
 
+我不能帮助你解决这个问题。这是由语言本身做出的一个相当随意的选择。试试所有的可能吧！
+
+> I can't help you with this one. This is a pretty arbitrary choice made by the language. Try all the possibilities!
+
 ### 题解
 
-答案：
+答案：12
+
+`S.f()` 会调用固有方法 f。如果一个固有方法和一个 Trait 方法同名，并且返回值相同，普通的方法调用总是会选择固有方法。调用这必须写 `Trait::f(&s)` 或者 `<S as Trait>::f(&s)` 去调用 Trait 方法。 
+
+> S.f() calls the inherent method f. If an inherent method and a trait method have the same name and receiver type, plain method call syntax will always prefer the inherent method. The caller would need to write `Trait::f(&S)` or `<S as Trait>::f(&S)` in order to call the trait method.
+
+对于宏的作者来说，意识到这一点很重要。宏生成的代码通常不应该使用普通的方法调用语法来调用用户定义的类型上的特征方法。这些调用可能会被与特质方法同名的固有方法无意中劫持。
+
+> It is important for macro authors to be aware of this. Macro-generated code typically should not use method call syntax to invoke trait methods on types defined by the user. Those calls could get unintentially hijacked by inherent methods having the same name as the trait method.
+
+另一方面，`S.g()` 调用特质方法 `g`。在方法解析过程中，如果 `&` 和 `＆mut` 都可以调用，自动引用总是倾向于将某样东西变成 `&`，而不是将其变成 `&mut`。
+
+> On the other hand, S.g() calls the trait method g. Auto-ref during method resolution always prefers making something into & over making it into &mut where either one would work.
+
+请参阅 [Stack Overflow](https://stackoverflow.com/a/28552082/6086311) 的答案，了解方法解析过程中自动引用的更详细解释。
+
+> See this Stack Overflow answer for a more detailed explanation of auto-ref during method resolution.
 
 ## #24
 
 ### 题目
 
 ```rs
+fn main() {
+    let x: u8 = 1;
+    const K: u8 = 2;
+
+    macro_rules! m {
+        () => {
+            print!("{}{}", x, K);
+        };
+    }
+
+    {
+        let x: u8 = 3;
+        const K: u8 = 4;
+
+        m!();
+    }
+}
 ```
 
 1. 未定义的行为
@@ -1798,15 +1919,93 @@ main 的完整输出是 221111.
 
 ### 提示
 
+宏的卫生性只是用于局部变量。
+
+> Hygiene in macro_rules! only applies to local variables.
+
 ### 题解
 
-答案：
+答案：14
+
+这个程序打印出 14，因为宏的 "卫生性"(Hygiene) 只适用于局部变量。
+
+> This program prints 14 because hygiene in macro_rules! only applies to local variables.
+
+你可以把 Hygiene 想象成：给每次提到的局部变量的名字分配一种颜色，允许在范围内有多个可区分的局部变量同时具有相同的名字。
+
+> You can imagine hygiene as a way of assigning a color to each mention of the name of a local variable, allowing for there to be multiple distinguishable local variables in scope simultaneously with the same name.
+
+在 main 的顶端，假设我们认为局部变量 x 的名字是紫色的 x，常量 K 的名字只是普通的 K，因为常量被认为是项 (Item) 而不是局部变量（你可以把项放在函数体之外；但是不能把局部变量放在函数体之外）。
+
+> At the top of main, suppose we consider the name of the local variable x to be a purple x. The name of the constant K is just plain K, as constants are considered items rather than local variables (you can place items outside of a function body; you cannot place local variables outside of a function body).
+
+```
+let   x: u8 = 1; // x 为紫色
+const K: u8 = 2; // K 为无色
+```
+
+我们继续往下看，在 macro m! 的声明中，有两个被用到的标识符。因为作用域内有一个变量 x，所以在 m! 内使用的标识符 x 的颜色与局部变量 x 相同。在作用域内没有局部变量 K，所以在宏的声明中的 K 被分配了一些新的颜色，例如橙色。
+
+> Continuing down the body of main, within the declaration of the macro m! there are identifiers x and K being used. Since there is a local variable x in scope, the use of the identifier x within the macro body picks up the same color as the local variable x. There is no local variable K in scope so the K within the declaration of the macro is assigned some new color, say orange.
+
+```
+macro_rules! m {
+    () => {
+        print!("{}{}", x, K); // x 为紫色，K 为橙色
+    };
+}
+```
+
+接下来我们进入一个新的作用域（用大括号划定），包含另一个 x 和 K。每一个新的局部变量总是会引入一个新的颜色，所以我们把这个 x 叫做蓝色。const 依然不是一个局部变量，所以没有给 K 分配颜色。
+
+> Next we enter a new scope (delimited by curly braces) containing another x and K. Every new local variable always introduces a new color so let's call this x blue. The const again is not a local variable so no color is assigned to K.
+
+```
+{
+    let   x: u8 = 3; // x 为蓝色
+    const K: u8 = 4; // K 为无色
+
+    m!();
+}
+```
+
+当 `m!()` 展开时，展开的代码包含一个紫色的 x 和一个橙色的 K。紫色的 x 可以和蓝色的 x 区分开来，所以紫色的 x 的值被打印出来，是 1。至于 K，一个不卫生的（未着色的）K 被允许像任何颜色一样。第二个 K 会遮蔽第一个 K。当 m! 寻找一个橙色的 K 时，会识别到第二个 K，第二个 K 的值被打印出来，即 4。
+
+> When m!() expands, the expanded code refers to a purple x and an orange K. The purple x is distinguishable from the blue x -- the value of the purple x is printed which is 1. As for the K, an unhygienic (uncolored) K is allowed to act like any color. The second K is shadowing the first one. It gets picked up when looking for an orange K and its value is printed, which is 4.
+
+所以输出是 14。
+
+> So the output of the quiz code is 14.
 
 ## #25
 
 ### 题目
 
 ```rs
+use std::fmt::{self, Display};
+
+struct S;
+
+impl Display for S {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("1")
+    }
+}
+
+impl Drop for S {
+    fn drop(&mut self) {
+        print!("2");
+    }
+}
+
+fn f() -> S {
+    S
+}
+
+fn main() {
+    let S = f(); 
+    print!("{}", S);
+}
 ```
 
 1. 未定义的行为
@@ -1815,15 +2014,49 @@ main 的完整输出是 221111.
 
 ### 提示
 
+弄清楚哪些值被哪些变量所拥有。当一个值不再有所有者时，它就被 drop 了。
+
+> Figure out what values are owned by which variables where. A value is dropped when it no longer has an owner.
+
 ### 题解
 
-答案：
+答案：212
+
+程序打印 212。
+
+> This program prints 212.
+
+在函数 f 内，没有 S 会被 drop。f 函数内产生一个 S，然后把它的所有权返回给 f 的调用者；调用者会决定什么时候 drop 掉他拿到的 S。
+
+> No value of type S gets dropped within the body of function f. The function f conjures an S and returns ownership of it to the caller of f; the caller determines when to drop the S of which it received ownership.
+
+在 main 的第一行，我们调用了 f(),但是并没有把它绑定到某一个变量上。所以 f() 返回的 S 会被立即 drop，打印了 2。`let S = f()` 中的 S 是一个单元结构体的模式匹配 (不是一个变量)，它能够通过解构匹配到 S 结构体里的字段，但是这里并没有将匹配到的字段绑定到某一变量。
+
+> On the first line of main, we call f() and perform an infallible match that binds no new variables. As no variables are declared on this line, there is no variable that could be the owner of the S returned by f() so that S is dropped at that point, printing 2. The S in let S = f() is a unit struct pattern (not a variable name) that matches a value of type S via destructuring but does not bind the value to any variable.
+
+main 的第二行产生一个新的 S，并打印，最后在分号处 drop 它。
+
+> The second line of main conjures a new S, prints it, and drops it at the semicolon.
 
 ## #26
 
 ### 题目
 
 ```rs
+fn main() {
+    let input = vec![1, 2, 3];
+
+    let parity = input
+        .iter()
+        .map(|x| {
+            print!("{}", x);
+            x % 2
+        });
+
+    for p in parity {
+        print!("{}", p);
+    }
+}
 ```
 
 1. 未定义的行为
@@ -1832,15 +2065,55 @@ main 的完整输出是 221111.
 
 ### 提示
 
+请查阅 [Iterator](https://doc.rust-lang.org/std/iter/trait.Iterator.html) Trait 的文档
+
+> Refer to the documentation of the Iterator trait.
+
 ### 题解
 
-答案：
+答案：112031
+
+正如 `Iterator::map` 方法的文档中所描述的，map 操作是惰性执行的。作为参数提供给 map 的闭包只有在值从结果迭代器中被消耗时才会被调用。闭包并不会立即应用于整个输入流。
+
+> As described in the documentation of the Iterator::map method, the map operation is performed lazily. The closure provided as an argument to map is only invoked as values are consumed from the resulting iterator. The closure is not applied eagerly to the entire input stream up front.
+
+在这段代码中，for 循环是驱动迭代的因素。对于从奇偶性迭代器中消耗的每个元素，我们的闭包都需要被执行一次。因此，输出将在由闭包打印的数字和由循环体打印的数字之间交替进行。
+
+> In this code, the for loop is what drives the iteration. For each element consumed from the parity iterator, our closure needs to be evaluated one time. Thus the output will alternate between numbers printed by the closure and numbers printed by the loop body.
 
 ## #27
 
 ### 题目
 
 ```rs
+trait Base {
+    fn method(&self) {
+        print!("1");
+    }
+}
+
+trait Derived: Base {
+    fn method(&self) {
+        print!("2");
+    }
+}
+
+struct BothTraits;
+impl Base for BothTraits {}
+impl Derived for BothTraits {}
+
+fn dynamic_dispatch(x: &dyn Base) {
+    x.method();
+}
+
+fn static_dispatch<T: Base>(x: T) {
+    x.method();
+}
+
+fn main() {
+    dynamic_dispatch(&BothTraits);
+    static_dispatch(BothTraits);
+}
 ```
 
 1. 未定义的行为
@@ -1849,15 +2122,126 @@ main 的完整输出是 221111.
 
 ### 提示
 
+`Base::method` 和 `Derived::method` 碰巧有相同的名字，但是是毫不相关的两个方法。不会互相覆盖。
+
+> Base::method and Derived::method happen to have the same name but are otherwise unrelated methods. One does not override the other.
+
 ### 题解
 
-答案：
+答案：11
+
+这两个 Trait，`Base` 和 `Derived` 各自定义了一个名为 method 的 Trait 方法。这两个方法只是碰巧拥有相同的名称，但在其他方面并不相关，如下文所解释。
+
+> The two traits Base and Derived each define a trait method called method. These methods happen to have the same name but are otherwise unrelated methods as explained below.
+
+两个 Trait 都为 method 提供了一个默认的实现。如果某个具体实现没有定义方法，那么默认的实现在概念上会被复制到具体的实现中。
+
+默认实现在概念上被复制到每个没有明确定义相同方法的 trait impl 中。例如，在这种情况下，BothTraits 的 impl Base 没有提供自己的 Base::method 的实现，这意味着 BothTraits 的 Base 的实现将使用该 trait 定义的默认行为，即 print!
+
+> Both traits provide a default implementation of their trait method. Default implementations are conceptually copied into each trait impl that does not explicitly define the same method. In this case for example impl Base for BothTraits does not provide its own implementation of Base::method, which means the implementation of Base for BothTraits will use the default behavior defined by the trait i.e. print!("1").
+
+此外，Derived 将 Base 作为一个 supertrait，这意味着每个实现 Derived 的类型也都需要实现 Base。这两个 trait 方法尽管名字相同，但却没有关系 -- 因此任何实现 Derived 的类型都会有 Derived::method 和 Base::method 的实现，而且这两个方法可以自由地有不同的行为。Supertraits 不是继承！Supertraits 是一种特征约束，如果要实现 Derived，那么 Base 也必须被实现。
+
+> Additionally, Derived has Base as a supertrait which means that every type that implements Derived is also required to implement Base. The two trait methods are unrelated despite having the same name -- thus any type that implements Derived will have an implementation of Derived::method as well as an implementation of Base::method and the two are free to have different behavior. Supertraits are not inheritance! Supertraits are a constraint that if some trait is implemented, some other trait must also be implemented.
+
+让我们看一下从 main 调用的两个方法的具体过程。
+
+> Let's consider what happens in each of the two methods called from main.
+
+- `dynamic_dispatch(&BothTraits)`
+
+   参数 x 是一个对特征对象 `dyn Base` 的引用。特征对象是由编译器生成的一个 "小垫片"，它具有和 Trait 相同的名称 (如下所示)，可以通过将所有特质方法的调用，转发到原始类型的特质方法。转发是通过读取特征对象里包含的函数指针表来完成的。
+
+   > The argument x is a reference to the trait object type dyn Base. A trait object is a little shim generated by the compiler that implements the trait with the same name by forwarding all trait method calls to trait methods of whatever type the trait object was created from. The forwarding is done by reading from a table of function pointers contained within the trait object.
+
+   ```rs
+   // Generated by the compiler.
+   //
+   // This is an implementation of the trait `Base` for the
+   // trait object type `dyn Base`, which you can think of as
+   // a struct containing function pointers.
+   impl Base for (dyn Base) {
+       fn method(&self) {
+           /*
+           Some automatically generated implementation detail
+           that ends up calling the right type's impl of the
+           trait method Base::method.
+           */
+       }
+   }
+   ```
+
+   在 quiz 代码里，`x.method()` 实际上是调用由编译器自动生成的方法，它的名字是 `<dyn Base as Base>::method`。由于 x 是通过将 `BothTraits` 转换为 `dyn Base` 得到的，自动生成的实现将转发到 `<BothTraits as Base>::method`，最后打印出 1。
+
+   > In the quiz code, `x.method()` is a call to this automatically generated method whose fully qualified name is `<dyn Base as Base>::method`. Since x was obtained by converting a BothTraits to dyn Base, the automatically generated implementation detail will wind up forwarding to `<BothTraits as Base>::method` which prints 1.
+
+   希望从这一切可以看出，这里没有任何东西与 `BothTraits` 定义的 `Derived::method` 有关。特别要注意的是，`x.method()` 不可能是对 `Derived::method` 的调用，因为 x 是 `dyn Base` 类型，而 `dyn Base` 并没有 `Derived` 的实现。
+
+   > Hopefully it's clear from all of this that nothing here has anything to do with the unrelated trait method Derived::method defined by BothTraits. Especially notice that `x.method()` cannot be a call to Derived::method because x is of type dyn Base and there is no implementation of Derived for dyn Base.
+
+- static_dispatch(BothTraits)
+   
+   在编译时我们知道 `x.method()` 是对 `<T as Base>::method` 的调用。Rust 中对泛型函数的类型推断是独立于泛型函数的任何具体实例而发生的，也就是说，在我们知道 T 可能是什么之前，只知道它实现了 Base 这一事实。因此，具体类型 T 上的任何固有方法或任何其他特征方法都不可能影响 `x.method()` 的调用。在决定 T 的时候，已经确定 `x.method()` 会调用 `<T as Base>::method`。
+
+   > At compile time we know that `x.method()` is a call to `<T as Base>::method`. Type inference within generic functions in Rust happens independently of any concrete instantiation of the generic function i.e. before we know what T may be, other than the fact that it implements Base. Thus no inherent method on the concrete type T or any other trait method may affect what method `x.method()` is calling. By the time that T is decided, it has already been determined that `x.method()` is calling `<T as Base>::method`.
+
+   泛型函数在实例化时，T 等于 BothTraits，所以这将会调用 `<BothTraits as Base>::method`，打印出 1。
+
+   > The generic function is instantiated with T equal to BothTraits so this is going to call `<BothTraits as Base>::method` which prints 1.
+
+> If you are familiar with C++, the behavior of this code in Rust is different from the behavior of superficially analogous C++ code. In C++ the output would be 22 as seen in the following implementation. This highlights the difference between Rust's traits and supertraits vs C++'s inheritance.
+
+如果你熟悉 C++，这段代码在 Rust 中的行为与表面上类似的 C++代码的行为是不同的。在 `C++` 中，输出将是 22，正如在下面的实现中看到的那样。这突出了 Rust 的 traits 和 supertraits 与 C++ 的继承之间的区别。
+
+```cpp
+#include <iostream>
+
+struct Base {
+    virtual void method() const {
+        std::cout << "1";
+    }
+};
+
+struct Derived: Base {
+    void method() const {
+        std::cout << "2";
+    }
+};
+
+void dynamic_dispatch(const Base &x) {
+    x.method();
+}
+
+template <typename T>
+void static_dispatch(const T x) {
+    x.method();
+}
+
+int main() {
+    dynamic_dispatch(Derived{});
+    static_dispatch(Derived{});
+}
+```
 
 ## #28
 
 ### 题目
 
 ```rs
+struct Guard;
+
+impl Drop for Guard {
+    fn drop(&mut self) {
+        print!("1");
+    }
+}
+
+fn main() {
+    let _guard = Guard;
+    print!("3");
+    let _ = Guard;
+    print!("2");
+}
 ```
 
 1. 未定义的行为
@@ -1866,15 +2250,77 @@ main 的完整输出是 221111.
 
 ### 提示
 
+当一个值不再有所有者时，它就被 drop 了。
+
+> A value is dropped when it no longer has an owner.
+
 ### 题解
 
-答案：
+答案：3121
+
+该程序打印出 3121。也就是说，`let _guard = Guard` 的 `Drop` 在 main 的末尾运行，但是 `let _ = Guard` 的 `Drop` 却立即运行。
+
+> The program prints 3121. That is, the Drop impl for let _guard = Guard runs at the end of main but the Drop impl for let _ = Guard runs right away.
+
+一般来说，当一个值不再有所有者时，它就会被放弃。变量 `_guard` 拥有 Guard 类型的第一个值，并且在 main 结束前一直处于作用域中。`_` 不是一个变量，而是一个通配符模式，它没有绑定任何东西；因为这一行没有绑定任何变量，所以没有变量成为 Guard 类型的第二个值的所有者，该值在同一行被丢弃。
+
+> In general, a value is dropped when it no longer has an owner. The variable _guard owns the first value of type Guard and remains in scope until the end of main. The _ is not a variable but a wildcard pattern that binds nothing; since no variables are bound on this line, there is no variable to be the owner of the second value of type Guard and that value is dropped on the same line.
+
+下划线模式与带下划线的变量之间的区别在某些情况下很重要，特别是当在 unsafe 代码中使用锁时，
+
+> This distinction between the underscore pattern vs variables with a leading underscore is incredibly important to remember when working with lock guards in unsafe code.
+
+```rs
+use std::sync::Mutex;
+
+static MUTEX: Mutex<()> = Mutex::new(());
+
+/// MUTEX must be held when accessing this value.
+static mut VALUE: usize = 0;
+
+fn main() {
+    let _guard = MUTEX.lock().unwrap();
+    unsafe {
+        VALUE += 1;
+    }
+}
+```
+
+如果这段代码使用 `let _ = MUTEX.lock().unwrap()`，则会立即释放互斥锁，无法对 `VALUE` 的访问进行限制。
+
+> If this code were to use `let _ = MUTEX.lock().unwrap()` then the mutex guard would be dropped immediately, releasing the mutex and failing to guard the access of VALUE.
 
 ## #29
 
 ### 题目
 
 ```rs
+trait Trait {
+    fn p(&self);
+}
+
+impl Trait for (u32) {
+    fn p(&self) { print!("1"); }
+}
+
+impl Trait for (i32,) {
+    fn p(&self) { print!("2"); }
+}
+
+impl Trait for (u32, u32) {
+    fn p(&self) { print!("3"); }
+}
+
+impl Trait for (i32, i32,) {
+    fn p(&self) { print!("4"); }
+}
+
+fn main() {
+    (0).p();
+    (0,).p();
+    (0, 0).p();
+    (0, 0,).p();
+}
 ```
 
 1. 未定义的行为
@@ -1883,15 +2329,55 @@ main 的完整输出是 221111.
 
 ### 提示
 
+括号内的值与只有一个元素的元组的类型不一样。
+
+> A value in parentheses does not have the same type as a 1-tuple.
+
 ### 题解
 
-答案：
+答案：1244
+
+在单元素元组的情况下，尾部的逗号是必须的，因为它可以将其与与 `(0)` 区分开来 (`(0)` 和 `0` 相同)。然而，对于更大的元组，它是完全可选的：`(i32)` 与 `(i32,)` 是不同的类型，但是 `(i32, i32)` 和 `(i32, i32, )` 是相同的。
+
+> The trailing comma is required in the case of a 1-tuple, (0,), because it disambiguates it from (0) which is identical to 0. However, for larger tuples, it is entirely optional: (i32) is a distinct type from (i32,), but (i32, i32) and (i32, i32,) are the same.
+
+一个整形 0 可以被推断为任何整数类型，但如果没有足够的类型信息，则默认推断为 i32。`(0)` 被推断为 `u32`，`(0,)` 被推断为 `(i32,)`，因为它们分别具有唯一的 Trait 实现。
+
+> An integral literal 0 can be inferred to be any integer type, but defaults to i32 if insufficient type information is available. (0) is inferred to be a u32 and (0,) is inferred to be a (i32,) because those are respectively the only integral and 1-tuple types with an implementation for Trait.
+
+由于 `(0, 0)` 和 `(0, 0,)` 具有相同的类型，它们的 `p` 方法的输出也是相同的，但是 Rust 需要在 Trait 的两种可能的实现中进行选择，即 `(u32, u32)` 和 `(i32, i32)`。由于 `i32` 是默认的整形类型，所以在这两种情况下都会选择 `(i32, i32)`。
+
+> Since (0, 0) and (0, 0,) have the same type, the output of their p methods must be the same, but Rust needs to somehow choose between the two possible implementations of Trait, namely (u32, u32) and (i32, i32). Since i32 is the default integral type, (i32, i32) is chosen in both cases.
 
 ## #30
 
 ### 题目
 
 ```rs
+use std::rc::Rc;
+
+struct A;
+
+fn p<X>(x: X) {
+    match std::mem::size_of::<X>() {
+        0 => print!("0"),
+        _ => print!("1"),
+    }
+}
+
+fn main() {
+    let a = &A;
+    p(a);
+    p(a.clone());
+    
+    let b = &();
+    p(b);
+    p(b.clone());
+    
+    let c = Rc::new(());
+    p(Rc::clone(&c));
+    p(c.clone());
+}
 ```
 
 1. 未定义的行为
@@ -1900,9 +2386,37 @@ main 的完整输出是 221111.
 
 ### 提示
 
+不可变的指针 `&T` 和 `Rc<T>` 实现了 `Clone`，即使 `T` 并没有实现。
+
+> Immutable pointers &T and Rc<T> implement Clone even if T doesn't.
+
 ### 题解
 
-答案：
+答案：111011
+
+这里出现的两个非引用类型，`()` 和 `A` 都是零大小类型 (ZST)。如果你向函数 `p<X>` 传一个 `X = ()` 或者 `X = A`，那么会打印 0。如果传的是 `X = ＆()` 或者 `X = &A`，无论指针有多大，总会打印 1。
+
+> Both of our non-reference types, `()` and `A`, are zero-sized types (ZST). The function `p<X>` will print 0 if it is passed a value of type `X = ()` or `X = A`, and it will print 1 if passed a reference `X = &()` or `X = &A` regardless of exactly how big pointers happen to be.
+
+`p(a)` 用 `X = &A` 调用 p，因为参数 a 是 `&A` 类型的；打印出 1。
+
+> p(a) invokes p with X = &A because the argument a is of type `&A`; this prints 1.
+
+在下一行 `p(a.clone())`，如果 A 实现了 Clone，那么 `a.clone()` 会调用对应的实现。但是它没有，编译器发现 `&T` 实现了 Clone，所以这里会调用 `&A` 实现的 Clone，它会通过简单地重复引用，将一个 `&&A` 转为 `&A`。对 p 的调用中，`X = &A`，也会打印 1。在实践中，当包含引用的结构想要派生出 Clone 时，Clone 对引用的影响是非常有用的，但正如这里所看到的，它有时会意外地启动。
+
+> On the next line, if A implemented Clone then a.clone() would be a call to that impl. But since it doesn't, the compiler finds another applicable impl which is the implementation of Clone for references &T -- so concretely the clone call is calling the impl of Clone for &A which turns a &&A into a &A by simply duplicating the reference. We get another call to p with X = &A printing 1. The impl of Clone for references is useful in practice when a struct containing a reference wants to derive Clone, but as seen here it can sometimes kick in unexpectedly.
+
+类型 `()` 确实实现了 Clone，所以 `b.clone()` 调用了该实现，产生了 `()`。对 `&()`的 Clone 实现也适用于 A 的情况，但是编译器更喜欢调用 trait impl for ()，将 `&()` 转换为 `()` ，而不是 trait impl for &()，将 `&&()` 转换为 `&()`，因为前者对 trait solver 插入的隐式引用或取消引用的要求更少。在对 `b.clone()` 的调用中，`b` 的类型是 `&()`，与 `impl Clone for ()` 的参数完全匹配，而为了拿到 `&&()` 作为参数传递给 `impl Clone for &()`，特征求解器还需要插入额外的隐式引用层 -- 有效地计算 `(&b).clone()`。
+
+> The type () does implement Clone so b.clone() invokes that impl and produces (). The implementation of Clone for &() would also be applicable as happened in the case of A, but the compiler prefers calling the trait impl for () which converts &() to () over the trait impl for &() which converts &&() to &() because the former is the one that requires fewer implicit references or dereferences inserted by the trait solver. In the call to b.clone(), b is of type &() which exactly matches the argument of the impl Clone for (), while in order to obtain a &&() to pass as argument to the impl Clone for &() the trait solver would need to insert an additional layer of referencing implicitly -- effectively computing (&b).clone().
+
+我们在调用 `p(b)` 时实际传入的 `X = ＆()`，调用 `p(b.clone())` 时则是 `X = ()`。
+
+> What we get is p(b) calling p with X = &() and p(b.clone()) calling p with X = (). Together these print 10.
+
+最后是 Rc，两次对 b 的调用都是 `X = Rc<()>`，大小不为零。使用 `Rc::clone(&c)` 而不是 `c.clone()` 来克隆一个 Rc 被认为是习惯性的，因为 `Rc::clone()` 使人明显感觉到这是一个引用计数的增加，而不是克隆底层数据，但最终两者指的是同一个函数。要在 Rc 内部调用一个值的克隆，你需要先对它解引用：`(*c).clone()`。
+
+> Finally in the Rc case, both calls to p are with X = Rc<()> which is non-zero sized. It is considered idiomatic to clone a Rc using Rc::clone(&c) instead of c.clone() because it makes it apparent that this is a reference count bump rather than cloning underlying data, but ultimately both refer to the same function. To call the clone method of a value inside a Rc, you would need to dereference it first: (*c).clone().
 
 ## #31
 
