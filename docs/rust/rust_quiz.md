@@ -1096,26 +1096,36 @@ error: lifetime bounds cannot be used in this context
 
 > Ordinarily these distinctions are compiler-internal terminology that Rust programmers are not intended to know about or think about in everyday code. There are only a few edge cases where this aspect of the type system becomes observable in the surface language, such as in the original quiz code.
 
-## #12 `size of fn`
+## #12 `let S { x, .. } = S`
 
 ### 题目
 
 ```rs
-fn d<T>(_f: T) {
-    match std::mem::size_of::<T>() {
-        0 => print!("0"),
-        1 => print!("1"),
-        _ => print!("2"),
+struct D(u8);
+
+impl Drop for D {
+    fn drop(&mut self) {
+        print!("{}", self.0);
     }
 }
 
-fn a<T>(f: fn(T)) {
-    d(f);
+struct S {
+    d: D,
+    x: u8,
 }
 
 fn main() {
-    a(a::<u8>);
-    d(a::<u8>);
+    let S { x, .. } = S {
+        d: D(1),
+        x: 2,
+    };
+    print!("{}", x);
+
+    let S { ref x, .. } = S {
+        d: D(3),
+        x: 4,
+    };
+    print!("{}", x);
 }
 ```
 
@@ -1125,41 +1135,29 @@ fn main() {
 
 ### 提示
 
-用任何其他整数类型代替 u8，答案都是一样的。
+模式 `S { ref x, .. }` 从 S 类型的值的所有者那里借用了一个 x 成员，并绑定到了变量 x 上。
 
-> The answer would be the same with any other integer type in place of u8.
+> The pattern `S { ref x, .. }` borrows a binding x from the owner of a value of type S.
 
 ### 题解
 
-答案：20
+答案：1243
 
-表达式 `a::<u8>` 的类型是一个零大小类型（ZST）。
+模式 `S { ref x, .. }` 从 S 类型的值的所有者那里借用一个绑定的 x。这个问题涉及到 drop 触发的位置。D 在哪里被 drop？
 
-> The expression a::<u8>'s type is a zero-sized type (ZST).
+> This question involves drop-placement. Where does D get dropped?
 
-Rust 围绕函数类型的作出的选择和具体实现与几乎所有其他语言都不同，但它是 Rust 许多零开销抽象的重要促成因素。在 Rust 中，每个函数（或泛型函数的每个不同实例）都有自己的独特类型。特别是，即使是具有相同函数签名的两个函数也会有不同的类型。
+在第一个 let-binding 中，我们将一个 S 类型的值解构为它的 u8 类型的字段 x 以及代表 "S 的其余部分" 的 `..`。`..` 会立即被 drop，因为它不再有所有者。
 
-> Rust's implementation choices around function types are different from nearly all other languages, but are an important enabler of many of Rust's zero-overhead abstractions. In Rust, every function (or every distinct instantiation of a generic function) has its own unique type. In particular, even two functions with the same function signature would have different types.
+> In the first let-binding, we destructure a value of type S into its field x of type u8 as well as .. which represents "the rest of S". The part that is the rest of S is dropped immediately at that point because it no longer has an owner.
 
-每个函数都有一个独特的类型，这种特性允许类型本身携带将被调用的函数的信息，不需要任何运行时状态，如指针。
+在第二个 let-binding 中，我们从 S 类型的值的所有者那里借用一个字段 x。在字段 x 被借用期间，整个 S 类型的值将保持在作用域内，并在 main 的闭合大括号处退出作用域。
 
-> Having a unique type for each function allows the type itself to carry the information of what function will be called, not needing any runtime state such as a pointer.
+> In the second let-binding, we borrow a field x from the owner of a value of type S. The whole value of type S remains in scope during the time that its field x is borrowed, and goes out of scope at the close curly brace of main.
 
-为了理解这种优化方法的优势，考虑 `Iterator::map` 和两个调用 `iter.map(f)` 和 `iter.map(g)`，其中 `f` 和 `g` 是具有相同签名的不同函数。因为 `f` 和 `g` 有不同的类型，这两个 map 调用会产生两个不同的泛型函数的单态实例，其中一个静态地调用 `f`，另一个静态地调用 `g`，就像你直接为每个函数写了一个特殊的 map 实现，而没有 map 提供的抽象。因此，泛型 map 是一个零成本的抽象。传统上，在其他语言如 C++ 或 Go 中，f 和 g 会被作为一个函数指针传递给 map，并且只有一个 map 的实例，包含一个执行函数调用的动态分发，这通常会比静态调用函数更慢。这种性能缺陷使得这些语言中的 map 不是一个零成本的抽象。
+最后的输出是 1243。
 
-> To understand the optimization advantages of this approach, consider Iterator::map and the two calls iter.map(f) and iter.map(g) where f and g are different functions with the same signature. Because f and g have distinct types, the two map calls would produce two different monomorphic instantiations of the generic map function, one of which statically calls f and the other statically calls g, as if you had directly written a special-purpose map implementation specific to each function without the abstraction provided by map. The generic map is thus a zero-overhead abstraction. Traditionally in other languages such as C++ or Go, in this situation f and g would be passed to map as a function pointer and there would be just one instantiation of map, containing a dynamic dispatch to execute the function call, which is usually going to be slower than statically calling the right function. This performance penalty makes map in those languages not a zero-overhead abstraction.
-
-目前在 Rust 中，没有语法来表达特定的函数类型，所以它们总是作为一个通用的类型参数与 `FnOnce`、`Fn` 或 `FnMut` 绑定传递。在错误信息中，你可能会看到函数类型以 `fn(T) -> U {fn_name}` 的形式出现，但你不能在代码中使用这种语法。
-
-> Currently in Rust there is no syntax to express the type of a specific function, so they are always passed as a generic type parameter with a FnOnce, Fn or FnMut bound. In error messages you might see function types appear in the form fn(T) -> U {fn_name}, but you can't use this syntax in code.
-
-另一方面，一个函数指针，`fn(T) -> U`，在运行时是指针大小。函数类型可以被胁迫为函数指针，这一点在你需要将 "选择调用那个函数" 推迟到运行时很有用。
-
-> On the other hand, a function pointer, fn(T) -> U, is pointer-sized at runtime. Function types can be coerced into function pointers, which can be useful in case you need to defer the choice of function to call until runtime.
-
-在测验代码中，main 中的第一个调用在调用 d 之前将 a::<u8>从一个函数胁迫为一个函数指针`(fn(fn(u8)) {a::<u8>}` 到 `fn(fn(u8)))`，因此在一个具有 64 位函数指针的系统中，它的大小为 8。main 中的第二个调用不涉及函数指针；d 被直接调用，T 是 `a::<u8>` 的不可表达的类型，它的大小为零。
-
-> In the quiz code, the first call in main coerces a::<u8> from a function to a function pointer (fn(fn(u8)) {a::<u8>} to fn(fn(u8))) prior to calling d, so its size would be 8 on a system with 64-bit function pointers. The second call in main does not involve function pointers; d is directly called with T being the inexpressible type of a::<u8>, which is zero-sized.
+> The output is 1243.
 
 ## #13 `eq`
 
@@ -1567,7 +1565,7 @@ Rust 中涉及 break 的语法与涉及 return 的语法不同。
 
 - `fn return1`
 
-    if 语句的,条件。被解析为一个表达式，这个表达式会返回 `{ print!("1") }` 即 ().这个值需要在返回前被计算，所以最终打印 1.
+    if 语句的，条件。被解析为一个表达式，这个表达式会返回 `{ print!("1") }` 即 ().这个值需要在返回前被计算，所以最终打印 1.
 
    > The condition of the if-statement is parsed as a return-expression that returns the value { print!("1") } of type (). The value needs to be evaluated prior to being returned so this function prints 1.
 
@@ -1579,42 +1577,42 @@ Rust 中涉及 break 的语法与涉及 return 的语法不同。
 
 - `fn break1`
 
-   if 语句的条件是是个 break-with-value 表达式，它会结束整个循环，并返回 `{ print!("1") }`, 即 ()，和 `return1` 类似，为了在打破循环时返回值，这个值需要被计算，所以最终打印 1；
+    if 语句的条件是是个 break-with-value 表达式，它会结束整个循环，并返回 `{ print!("1") }`, 即 ()，和 `return1` 类似，为了在打破循环时返回值，这个值需要被计算，所以最终打印 1；
 
-   > The condition of the if-statement is a break-with-value expression that breaks out of the enclosing loop with the value { print!("1") } of type (). Similar to return1, in order to break with this value the value needs to be evaluated and this function prints 1.
+    > The condition of the if-statement is a break-with-value expression that breaks out of the enclosing loop with the value { print!("1") } of type (). Similar to return1, in order to break with this value the value needs to be evaluated and this function prints 1.
 
 - `fn break2`
 
-   这里我们可以看到 break 和 return 语法的区别。不像 return，if 条件里的 break 关键字不会立即解析出后面大括号的值。这段代码会被解析为：
+    这里我们可以看到 break 和 return 语法的区别。不像 return，if 条件里的 break 关键字不会立即解析出后面大括号的值。这段代码会被解析为：
 
-   > Here we observe a difference between the grammar of break and the grammar of return. Unlike return, the break keyword in the condition of this if-statement does not eagerly parse a value that begins with a curly brace. This code is parsed as:
+    > Here we observe a difference between the grammar of break and the grammar of return. Unlike return, the break keyword in the condition of this if-statement does not eagerly parse a value that begins with a curly brace. This code is parsed as:
 
-   ```rs
-   loop {
-       if break {
-           print!("2")
-       }
-       {}
-   }
-   ```
+    ```rs
+    loop {
+        if break {
+            print!("2")
+        }
+        {}
+    }
+    ```
 
-   我们在执行 print 前打破了循环，所以这个函数不会执行 print.
+    我们在执行 print 前打破了循环，所以这个函数不会执行 print.
 
-   > We break out of the loop before executing the print, so this function does not print anything.
+    > We break out of the loop before executing the print, so this function does not print anything.
 
-   我相信 return 和 break 不同的原因是，return 在 Rust 1.0 以及之前显然都是支持的，但是 break-with-value 是在 Rust 1.19 才被引入之后。`break2` 中的代码一直都是合法的 Rust 代码，所以在实现 break-with-value 这个语言特性时也考虑到不能改变它的行为。
+    我相信 return 和 break 不同的原因是，return 在 Rust 1.0 以及之前显然都是支持的，但是 break-with-value 是在 Rust 1.19 才被引入之后。`break2` 中的代码一直都是合法的 Rust 代码，所以在实现 break-with-value 这个语言特性时也考虑到不能改变它的行为。
 
-   > I believe the reason for the difference between return and break is that returning a value was obviously supported at Rust 1.0 and well before, but break-with-value was introduced fairly late, in Rust 1.19. The code in break2 was perfectly legal Rust code prior to Rust 1.19 so we cannot change its behavior when implementing the break-with-value language feature.
+    > I believe the reason for the difference between return and break is that returning a value was obviously supported at Rust 1.0 and well before, but break-with-value was introduced fairly late, in Rust 1.19. The code in break2 was perfectly legal Rust code prior to Rust 1.19 so we cannot change its behavior when implementing the break-with-value language feature.
 
-   未来的版本有可能对这两种语法进行调整，使之相互一致。
+    未来的版本有可能对这两种语法进行调整，使之相互一致。
 
-   > It is possible that a future Edition would adjust the two grammars to align with each other.
+    > It is possible that a future Edition would adjust the two grammars to align with each other.
 
 main 的输出为 121。
 
 > The output from main is 121.
 
-## #21
+## #21 `return & break`
 
 ### 题目
 
@@ -1684,7 +1682,7 @@ fn main() {
 
     > The type of the expression (return) is the primitive never type, usually written as !. It is legal to compute ! || true because ! can fill in for any type, in this case bool. The expression ! || true is a logical-OR with bool on both the left-hand side and right-hand side.
 
-    `!` 可以转为任何类型的行为允许我们写出如下代码:
+    `!` 可以转为任何类型的行为允许我们写出如下代码：
 
     > The behavior of ! of filling in for any type is what allows us to write:
 
@@ -1694,13 +1692,13 @@ fn main() {
     }
     ```
 
-    其中 `unimplemented!()` 的类型，因为它在没有求值的情况下直接 panic ，它的返回值类型也是 `！`。
+    其中 `unimplemented!()` 的类型，因为它在没有求值的情况下直接 panic，它的返回值类型也是 `！`。
 
     > in which the type of unimplemented!(), since it panics without evaluating to any value, is also !.
 
 - `let x = loop { (break) || true; };`
 
-    和 `(return)` 类似,`(break)` 的类型也是 `!`. 这行代码会打破循环,并返回 `()`, 所以 `x` 的类型是 `()`.调用 `x.f()` 会打印 2.
+    和 `(return)` 类似，`(break)` 的类型也是 `!`. 这行代码会打破循环，并返回 `()`, 所以 `x` 的类型是 `()`.调用 `x.f()` 会打印 2.
 
     > Similar to (return), the type of (break) is the never type !. This code breaks out of the loop with the implicit value (), so x is of type (). Calling x.f() will print 2.
 
@@ -1760,7 +1758,7 @@ main 的完整输出是 221111.
 
 > The total output from main is 221111.
 
-## #22
+## #22 `- is a token`
 
 ### 题目
 
@@ -1821,7 +1819,7 @@ fn main() {
 }
 ```
 
-## #23
+## #23 `method lookup order`
 
 ### 题目
 
@@ -1889,7 +1887,7 @@ fn main() {
 
 > See this Stack Overflow answer for a more detailed explanation of auto-ref during method resolution.
 
-## #24
+## #24 `Hygiene`
 
 ### 题目
 
@@ -1977,7 +1975,7 @@ macro_rules! m {
 
 > So the output of the quiz code is 14.
 
-## #25
+## #25 `drop`
 
 ### 题目
 
@@ -2038,7 +2036,7 @@ main 的第二行产生一个新的 S，并打印，最后在分号处 drop 它�
 
 > The second line of main conjures a new S, prints it, and drops it at the semicolon.
 
-## #26
+## #26 `lazy map`
 
 ### 题目
 
@@ -2081,7 +2079,7 @@ fn main() {
 
 > In this code, the for loop is what drives the iteration. For each element consumed from the parity iterator, our closure needs to be evaluated one time. Thus the output will alternate between numbers printed by the closure and numbers printed by the loop body.
 
-## #27
+## #27 `dyn Trait`
 
 ### 题目
 
@@ -2150,44 +2148,44 @@ fn main() {
 
 - `dynamic_dispatch(&BothTraits)`
 
-   参数 x 是一个对特征对象 `dyn Base` 的引用。特征对象是由编译器生成的一个 "小垫片"，它具有和 Trait 相同的名称 (如下所示)，可以通过将所有特质方法的调用，转发到原始类型的特质方法。转发是通过读取特征对象里包含的函数指针表来完成的。
+    参数 x 是一个对特征对象 `dyn Base` 的引用。特征对象是由编译器生成的一个 "小垫片"，它具有和 Trait 相同的名称 (如下所示)，可以通过将所有特质方法的调用，转发到原始类型的特质方法。转发是通过读取特征对象里包含的函数指针表来完成的。
 
-   > The argument x is a reference to the trait object type dyn Base. A trait object is a little shim generated by the compiler that implements the trait with the same name by forwarding all trait method calls to trait methods of whatever type the trait object was created from. The forwarding is done by reading from a table of function pointers contained within the trait object.
+    > The argument x is a reference to the trait object type dyn Base. A trait object is a little shim generated by the compiler that implements the trait with the same name by forwarding all trait method calls to trait methods of whatever type the trait object was created from. The forwarding is done by reading from a table of function pointers contained within the trait object.
 
-   ```rs
-   // Generated by the compiler.
-   //
-   // This is an implementation of the trait `Base` for the
-   // trait object type `dyn Base`, which you can think of as
-   // a struct containing function pointers.
-   impl Base for (dyn Base) {
-       fn method(&self) {
-           /*
-           Some automatically generated implementation detail
-           that ends up calling the right type's impl of the
-           trait method Base::method.
-           */
-       }
-   }
-   ```
+    ```rs
+    // Generated by the compiler.
+    //
+    // This is an implementation of the trait `Base` for the
+    // trait object type `dyn Base`, which you can think of as
+    // a struct containing function pointers.
+    impl Base for (dyn Base) {
+        fn method(&self) {
+            /*
+            Some automatically generated implementation detail
+            that ends up calling the right type's impl of the
+            trait method Base::method.
+            */
+        }
+    }
+    ```
 
-   在 quiz 代码里，`x.method()` 实际上是调用由编译器自动生成的方法，它的名字是 `<dyn Base as Base>::method`。由于 x 是通过将 `BothTraits` 转换为 `dyn Base` 得到的，自动生成的实现将转发到 `<BothTraits as Base>::method`，最后打印出 1。
+    在 quiz 代码里，`x.method()` 实际上是调用由编译器自动生成的方法，它的名字是 `<dyn Base as Base>::method`。由于 x 是通过将 `BothTraits` 转换为 `dyn Base` 得到的，自动生成的实现将转发到 `<BothTraits as Base>::method`，最后打印出 1。
 
-   > In the quiz code, `x.method()` is a call to this automatically generated method whose fully qualified name is `<dyn Base as Base>::method`. Since x was obtained by converting a BothTraits to dyn Base, the automatically generated implementation detail will wind up forwarding to `<BothTraits as Base>::method` which prints 1.
+    > In the quiz code, `x.method()` is a call to this automatically generated method whose fully qualified name is `<dyn Base as Base>::method`. Since x was obtained by converting a BothTraits to dyn Base, the automatically generated implementation detail will wind up forwarding to `<BothTraits as Base>::method` which prints 1.
 
-   希望从这一切可以看出，这里没有任何东西与 `BothTraits` 定义的 `Derived::method` 有关。特别要注意的是，`x.method()` 不可能是对 `Derived::method` 的调用，因为 x 是 `dyn Base` 类型，而 `dyn Base` 并没有 `Derived` 的实现。
+    希望从这一切可以看出，这里没有任何东西与 `BothTraits` 定义的 `Derived::method` 有关。特别要注意的是，`x.method()` 不可能是对 `Derived::method` 的调用，因为 x 是 `dyn Base` 类型，而 `dyn Base` 并没有 `Derived` 的实现。
 
-   > Hopefully it's clear from all of this that nothing here has anything to do with the unrelated trait method Derived::method defined by BothTraits. Especially notice that `x.method()` cannot be a call to Derived::method because x is of type dyn Base and there is no implementation of Derived for dyn Base.
+    > Hopefully it's clear from all of this that nothing here has anything to do with the unrelated trait method Derived::method defined by BothTraits. Especially notice that `x.method()` cannot be a call to Derived::method because x is of type dyn Base and there is no implementation of Derived for dyn Base.
 
 - static_dispatch(BothTraits)
    
-   在编译时我们知道 `x.method()` 是对 `<T as Base>::method` 的调用。Rust 中对泛型函数的类型推断是独立于泛型函数的任何具体实例而发生的，也就是说，在我们知道 T 可能是什么之前，只知道它实现了 Base 这一事实。因此，具体类型 T 上的任何固有方法或任何其他特征方法都不可能影响 `x.method()` 的调用。在决定 T 的时候，已经确定 `x.method()` 会调用 `<T as Base>::method`。
+    在编译时我们知道 `x.method()` 是对 `<T as Base>::method` 的调用。Rust 中对泛型函数的类型推断是独立于泛型函数的任何具体实例而发生的，也就是说，在我们知道 T 可能是什么之前，只知道它实现了 Base 这一事实。因此，具体类型 T 上的任何固有方法或任何其他特征方法都不可能影响 `x.method()` 的调用。在决定 T 的时候，已经确定 `x.method()` 会调用 `<T as Base>::method`。
 
-   > At compile time we know that `x.method()` is a call to `<T as Base>::method`. Type inference within generic functions in Rust happens independently of any concrete instantiation of the generic function i.e. before we know what T may be, other than the fact that it implements Base. Thus no inherent method on the concrete type T or any other trait method may affect what method `x.method()` is calling. By the time that T is decided, it has already been determined that `x.method()` is calling `<T as Base>::method`.
+    > At compile time we know that `x.method()` is a call to `<T as Base>::method`. Type inference within generic functions in Rust happens independently of any concrete instantiation of the generic function i.e. before we know what T may be, other than the fact that it implements Base. Thus no inherent method on the concrete type T or any other trait method may affect what method `x.method()` is calling. By the time that T is decided, it has already been determined that `x.method()` is calling `<T as Base>::method`.
 
-   泛型函数在实例化时，T 等于 BothTraits，所以这将会调用 `<BothTraits as Base>::method`，打印出 1。
+    泛型函数在实例化时，T 等于 BothTraits，所以这将会调用 `<BothTraits as Base>::method`，打印出 1。
 
-   > The generic function is instantiated with T equal to BothTraits so this is going to call `<BothTraits as Base>::method` which prints 1.
+    > The generic function is instantiated with T equal to BothTraits so this is going to call `<BothTraits as Base>::method` which prints 1.
 
 > If you are familiar with C++, the behavior of this code in Rust is different from the behavior of superficially analogous C++ code. In C++ the output would be 22 as seen in the following implementation. This highlights the difference between Rust's traits and supertraits vs C++'s inheritance.
 
@@ -2223,7 +2221,7 @@ int main() {
 }
 ```
 
-## #28
+## #28 `_guard & _`
 
 ### 题目
 
@@ -2290,7 +2288,7 @@ fn main() {
 
 > If this code were to use `let _ = MUTEX.lock().unwrap()` then the mutex guard would be dropped immediately, releasing the mutex and failing to guard the access of VALUE.
 
-## #29
+## #29 `(T) & (T,)`
 
 ### 题目
 
@@ -2349,7 +2347,7 @@ fn main() {
 
 > Since (0, 0) and (0, 0,) have the same type, the output of their p methods must be the same, but Rust needs to somehow choose between the two possible implementations of Trait, namely (u32, u32) and (i32, i32). Since i32 is the default integral type, (i32, i32) is chosen in both cases.
 
-## #30
+## #30 `clone`
 
 ### 题目
 
@@ -2418,11 +2416,43 @@ fn main() {
 
 > Finally in the Rc case, both calls to p are with X = Rc<()> which is non-zero sized. It is considered idiomatic to clone a Rc using Rc::clone(&c) instead of c.clone() because it makes it apparent that this is a reference count bump rather than cloning underlying data, but ultimately both refer to the same function. To call the clone method of a value inside a Rc, you would need to dereference it first: (*c).clone().
 
-## #31
+## #31 `method lookup order`
 
 ### 题目
 
 ```rs
+trait Or {
+    fn f(self);
+}
+
+struct T;
+
+impl Or for &T {
+    fn f(self) {
+        print!("1");
+    }
+}
+
+impl Or for &&&&T {
+    fn f(self) {
+        print!("2");
+    }
+}
+
+fn main() {
+    let t = T;
+    let wt = &T;
+    let wwt = &&T;
+    let wwwt = &&&T;
+    let wwwwt = &&&&T;
+    let wwwwwt = &&&&&T;
+    t.f();
+    wt.f();
+    wwt.f();
+    wwwt.f();
+    wwwwt.f();
+    wwwwwt.f();
+}
 ```
 
 1. 未定义的行为
@@ -2431,15 +2461,62 @@ fn main() {
 
 ### 提示
 
+在方法查找过程中，Rust 会自动解引用，并以明确的顺序借用接收器，直到找到第一个有合适签名的函数。这个顺序是什么呢？
+
+> During a method lookup, Rust automatically derefences and borrows the receiver in a well-defined order until it finds the first function with a suitable signature. What is that order?
+
 ### 题解
 
-答案：
+答案：111222
 
-## #32
+这篇 [引用](https://doc.rust-lang.org/reference/expressions/method-call-expr.html) 描述了 Rust 的方法查找顺序。相关的段落如下： 
+
+获得 [候选接收方类型] 的方法是：反复解引用接受者表达式的类型，将遇到的每个类型添加到列表中，最后尝试在最后进行非大小胁迫，如果成功，则添加结果类型。然后，对于每个候选的T，将 `&T` 和 `&mut T` 添加到紧跟 `T` 的列表中。
+
+> The [Reference](https://doc.rust-lang.org/reference/expressions/method-call-expr.html) describes Rust's method lookup order. The relevant paragraph is:
+
+> Obtain [the candidate receiver type] by repeatedly dereferencing the receiver expression's type, adding each type encountered to the list, then finally attempting an unsized coercion at the end, and adding the result type if that is successful. Then, for each candidate T, add &T and &mut T to the list immediately after T.
+
+把这些规则添加到所给的例子里：
+
+> Applying these rules to the given examples, we have:
+
+- `t.f()`: 我们试图找到一个定义在类型 `T` 上的函数 f，但是没有。接下来，我们搜索类型 `&T`，并找到 `Or` 特征的第一个实现，然后我们就完成了。在调用时，找到的调用会打印出 1。
+
+    > t.f(): We try to find a function f defined on the type T, but there is none. Next, we search the type &T, and find the first implemenation of the Or trait, and we are done. Upon invocation, the resolved call prints 1.
+
+- `wt.f()`: 我们搜索一个定义在 `&T` 上的函数 f，立刻就成功了。调用后，该函数打印出 1。
+
+    > We search for a function f defined on &T, which immediately succeeds. Upon invocation, the function prints 1.
+
+- `wwt.f()`: 搜索顺序是 `&&T -> &&&T -> &mut &&T -> &T`，结果打印 1。
+    
+    > The search order is `&&T -> &&&T -> &mut &&T -> &T`, and we're done. Upon invocation, the function prints 1.
+- `wwwt.f()`: `&&&T -> &&&&T` 这个打印 2。
+    > `&&&T -> &&&&T`. This prints 2.
+- `wwwwt.f()`: `&&&&T` 这个打印 2。 
+    > `&&&&T`. This prints 2.
+- `wwwwwt.f()`: `&&&&&T -> &&&&&&T -> &mut &&&&&T -> &&&&T` 这个打印 2。
+    > `&&&&&T -> &&&&&&T -> &mut &&&&&T -> &&&&T`. This prints 2.
+
+## #32 `march arm & if guard`
 
 ### 题目
 
 ```rs
+fn check(x: i32) -> bool {
+    print!("{}", x);
+    false
+}
+
+fn main() {
+    match (1, 2) {
+        (x, _) | (_, x) if check(x) => {
+            print!("3")
+        }
+        _ => print!("4"),
+    }
+}
 ```
 
 1. 未定义的行为
@@ -2448,15 +2525,54 @@ fn main() {
 
 ### 提示
 
+无论哪种方式，在不同的情况下都会令人困惑；没有一个明确的正确行为，提示可以帮助识别。猜测两者都是。
+
+> Either way would be confusing in different situations; there isn't a clear right behavior that a hint could help identify. Guess both. :/
+
 ### 题解
 
-答案：
+答案：124
 
-## #33
+这个问题覆盖了 match 分支和 guards 的行为。
+
+> This question covers two behaviors of match arms and guards.
+
+首先，包含 `|` 的匹配臂上的 if guard 是适用于匹配臂中的所有备选方案，还是只适用于它相邻的方案。在测验代码中，`check(x)` 是同时对 `(x, _)` 和 `(_, x)` 执行，还是只覆盖了 `(_, x)`？我们希望只有在前者的情况下，1 才会被打印出来。事实上，1 确实被打印出来了。一个匹配臂最多只能有一个 if guard，而且这个 guard 适用于匹配臂中所有的由 `|` 分隔的备选方案。
+
+> First, whether an if guard on a match-arm containing `|` applies to all alternatives in the match-arm or just to the one it is adjacent to. In the quiz code, does `check(x)` execute at all for `(x, _)` or does it only cover the `(_, x)` case? We would expect 1 would get printed if and only if the former is the case. In fact 1 does get printed. A match-arm gets to have at most one if guard and that guard applies to all the `|`-separated alternatives in the arm.
+
+其次，这个问题还包括匹配臂的一种 "回溯" 行为。当 `check(x)` 在 `(x, _)` 上返回 false 时，整个匹配臂是在这里匹配失败，还是 Rust 继续前进到 `(_, x)` 并第二次执行 guard？我们期望当且仅当后一种情况出现时 2 会被打印出来。事实上，2 确实被打印出来了；if guard 被运行了多次，在匹配臂中的每一个 `|` 分隔的选项中都有一次。
+
+> But second, this question also covers a kind of "backtracking" behavior of match-arms. After `check(x)` returns false on `(x, _)`, does the whole match-arm fail to match at that point or does Rust move on to `(_, x)` and execute the guard a second time? We would expect 2 to be printed if and only if the latter is the case. In fact 2 does get printed; the guard is being run multiple times, once per `|`-separated alternative in the match-arm.
+
+## #33 `Range's method`
 
 ### 题目
 
 ```rs
+use std::ops::RangeFull;
+
+trait Trait {
+    fn method(&self) -> fn();
+}
+
+impl Trait for RangeFull {
+    fn method(&self) -> fn() {
+        print!("1");
+        || print!("3")
+    }
+}
+
+impl<F: FnOnce() -> T, T> Trait for F {
+    fn method(&self) -> fn() {
+        print!("2");
+        || print!("4")
+    }
+}
+
+fn main() {
+    (|| .. .method())();
+}
 ```
 
 1. 未定义的行为
@@ -2465,15 +2581,73 @@ fn main() {
 
 ### 提示
 
+`||` 是一个闭包。`..` 是 range 的语法，通常会在切片中看到，例如 `&s[1..4]` 或者 `&s[..s.len() - 1]`。
+
+> `||` is a closure introducer. `..` is range syntax, normally seen in slicing operations like `&s[1..4]` or `&s[..s.len() - 1]`.
+
 ### 题解
 
-答案：
+答案：24
 
-## #34
+两个合理的可能是 1 或 24，取决于如何区分 `|| .. .method()` 的优先级。
+
+> The two rational possibilities are 1 or 24, depending on how the precedence of `|| .. .method()` is disambiguated.
+
+如 `|| ((..).method())`，这是一个闭包，其主体调用了我们对 `RangeFull` 的实现的 Trait 方法。在这种情况下，main 会打印 1。它不会打印 13，因为从 `(..).method()` 返回的 `fn()` 从未被 main 调用。
+
+> As `|| ((..).method())`, which is a closure whose body invokes our impl of Trait on `RangeFull`. In this case main would print 1. It would not print 13 because the `fn()` returned from `(..).method()` is never invoked by main.
+
+如 `(|| ..).method()`，它是我们对 `FnOnce()->T` 实现的 Trait 的调用，其中 `T` 被推断为 `RangeFull`。在这种情况下，main 会打印 24。
+
+> As `(|| ..).method()`, which is an invocation of our impl of Trait on `FnOnce() -> T` where T is inferred to be `RangeFull`. In this case main would print 24.
+
+后者才是正确的答案。
+
+> The latter of those is the correct answer.
+
+我们可以通过显式的括号来实现前者的行为，如上文中所示。
+
+> We can achieve the former behavior by explicitly parenthesizing as shown in the bullet above.
+
+只有部分括号如 `|| (.. .method())` 是不够的。这会导致一个解析错误。
+
+> Partially parenthesizing as `|| (.. .method())` is not sufficient. This results in a parse error.
+
+```rs
+error: expected one of `)` or `,`, found `.`
+  --> src/main.rs:22:13
+   |
+22 |     (|| (.. .method()))();
+   |            -^ expected one of `)` or `,`
+   |            |
+   |            help: missing `,`
+```
+
+正确处理像 `|| .. .method()` 这样相当模糊的表达式对 Rust tooling 来说是一个挑战，从 Rustfmt ([rust-lang/rustfmt#4808](https://github.com/rust-lang/rustfmt/issues/4808)) 和 Syn ([dtolnay/syn#1019](https://github.com/dtolnay/syn/issues/1019)) 的相关错误中可以看出。
+
+> Correctly handling a quite ambiguous expression like || .. .method() is a challenge for tooling, as seen by the associated bugs in Rustfmt ([rust-lang/rustfmt#4808](https://github.com/rust-lang/rustfmt/issues/4808)) and Syn ([dtolnay/syn#1019](https://github.com/dtolnay/syn/issues/1019)).
+
+## #34 `size of fn`
 
 ### 题目
 
 ```rs
+fn d<T>(_f: T) {
+    match std::mem::size_of::<T>() {
+        0 => print!("0"),
+        1 => print!("1"),
+        _ => print!("2"),
+    }
+}
+
+fn a<T>(f: fn(T)) {
+    d(f);
+}
+
+fn main() {
+    a(a::<u8>);
+    d(a::<u8>);
+}
 ```
 
 1. 未定义的行为
@@ -2482,15 +2656,66 @@ fn main() {
 
 ### 提示
 
+用任何其他整数类型代替 u8，答案都是一样的。
+
+> The answer would be the same with any other integer type in place of u8.
+
 ### 题解
 
-答案：
+答案：20
 
-## #35
+表达式 `a::<u8>` 的类型是一个零大小类型（ZST）。
+
+> The expression a::<u8>'s type is a zero-sized type (ZST).
+
+Rust 围绕函数类型的作出的选择和具体实现与几乎所有其他语言都不同，但它是 Rust 许多零开销抽象的重要促成因素。在 Rust 中，每个函数（或泛型函数的每个不同实例）都有自己的独特类型。特别是，即使是具有相同函数签名的两个函数也会有不同的类型。
+
+> Rust's implementation choices around function types are different from nearly all other languages, but are an important enabler of many of Rust's zero-overhead abstractions. In Rust, every function (or every distinct instantiation of a generic function) has its own unique type. In particular, even two functions with the same function signature would have different types.
+
+每个函数都有一个独特的类型，这种特性允许类型本身携带将被调用的函数的信息，不需要任何运行时状态，如指针。
+
+> Having a unique type for each function allows the type itself to carry the information of what function will be called, not needing any runtime state such as a pointer.
+
+为了理解这种优化方法的优势，考虑 `Iterator::map` 和两个调用 `iter.map(f)` 和 `iter.map(g)`，其中 `f` 和 `g` 是具有相同签名的不同函数。因为 `f` 和 `g` 有不同的类型，这两个 map 调用会产生两个不同的泛型函数的单态实例，其中一个静态地调用 `f`，另一个静态地调用 `g`，就像你直接为每个函数写了一个特殊的 map 实现，而没有 map 提供的抽象。因此，泛型 map 是一个零成本的抽象。传统上，在其他语言如 C++ 或 Go 中，f 和 g 会被作为一个函数指针传递给 map，并且只有一个 map 的实例，包含一个执行函数调用的动态分发，这通常会比静态调用函数更慢。这种性能缺陷使得这些语言中的 map 不是一个零成本的抽象。
+
+> To understand the optimization advantages of this approach, consider Iterator::map and the two calls iter.map(f) and iter.map(g) where f and g are different functions with the same signature. Because f and g have distinct types, the two map calls would produce two different monomorphic instantiations of the generic map function, one of which statically calls f and the other statically calls g, as if you had directly written a special-purpose map implementation specific to each function without the abstraction provided by map. The generic map is thus a zero-overhead abstraction. Traditionally in other languages such as C++ or Go, in this situation f and g would be passed to map as a function pointer and there would be just one instantiation of map, containing a dynamic dispatch to execute the function call, which is usually going to be slower than statically calling the right function. This performance penalty makes map in those languages not a zero-overhead abstraction.
+
+目前在 Rust 中，没有语法来表达特定的函数类型，所以它们总是作为一个通用的类型参数与 `FnOnce`、`Fn` 或 `FnMut` 绑定传递。在错误信息中，你可能会看到函数类型以 `fn(T) -> U {fn_name}` 的形式出现，但你不能在代码中使用这种语法。
+
+> Currently in Rust there is no syntax to express the type of a specific function, so they are always passed as a generic type parameter with a FnOnce, Fn or FnMut bound. In error messages you might see function types appear in the form fn(T) -> U {fn_name}, but you can't use this syntax in code.
+
+另一方面，一个函数指针，`fn(T) -> U`，在运行时是指针大小。函数类型可以被胁迫为函数指针，这一点在你需要将 "选择调用那个函数" 推迟到运行时很有用。
+
+> On the other hand, a function pointer, fn(T) -> U, is pointer-sized at runtime. Function types can be coerced into function pointers, which can be useful in case you need to defer the choice of function to call until runtime.
+
+在测验代码中，main 中的第一个调用在调用 d 之前将 a::<u8>从一个函数胁迫为一个函数指针`(fn(fn(u8)) {a::<u8>}` 到 `fn(fn(u8)))`，因此在一个具有 64 位函数指针的系统中，它的大小为 8。main 中的第二个调用不涉及函数指针；d 被直接调用，T 是 `a::<u8>` 的不可表达的类型，它的大小为零。
+
+> In the quiz code, the first call in main coerces a::<u8> from a function to a function pointer (fn(fn(u8)) {a::<u8>} to fn(fn(u8))) prior to calling d, so its size would be 8 on a system with 64-bit function pointers. The second call in main does not involve function pointers; d is directly called with T being the inexpressible type of a::<u8>, which is zero-sized.
+
+## #35 `Hygiene 2`
 
 ### 题目
 
 ```rs
+macro_rules! x {
+    ($n:expr) => {
+        let a = X($n);
+    };
+}
+
+struct X(u64);
+
+impl Drop for X {
+    fn drop(&mut self) {
+        print!("{}", self.0);
+    }
+}
+
+fn main() {
+    let a = X(1);
+    x!(2);
+    print!("{}", a.0);
+}
 ```
 
 1. 未定义的行为
@@ -2499,15 +2724,74 @@ fn main() {
 
 ### 提示
 
+有一些程序，cargo expand 产生的展开后的代码可以编译，但其行为与原始代性码的原始宏卫生不同。
+
+> There are some programs for which cargo expand produces expanded code that compiles, but behaves differently than the original code with the original macro hygiene.
+
 ### 题解
 
-答案：
+答案：121
 
-## ＃36
+根据你对 macro 展开的假设，本题有两条看似合理的错误答案：
+
+> There are two reasonable paths to an incorrect answer on this question, based on your assumptions around how this macro gets expanded:
+
+```rs
+1. let a = X(2);
+2. { let a = X(2); }
+```
+
+如果第一种展开方式是正确的，这个宏会引入一个新的绑定，a，它将遮蔽 main 中已经直接分配的 a。因此，main 中的 print 语句将首先执行，打印 2，然后变量将按引入的顺序倒序 drop，先打印 2，再打印 1，最后输出 221。
+
+> If the first expansion were right, the macro would introduce a new binding, a, which shadows the a already directly assigned in main. So the print statement in main would execute first, printing 2, then the variables would drop in reverse order of introduction, printing 2 then 1, with a final output of 221.
+
+如果第二种展开方式是正确的，这个宏会在一个嵌套的作用域中引入 a，只在这个作用域中遮蔽已经存在的 a，而不是在它之外。由于新的 a 的作用域在打印语句之前就结束了，所以当它超出作用域时，它的 Drop impl 将是第一个执行的打印，打印 2。接下来，main 中的打印将打印 1，也就是第一个 a 的值，最后，当这个值在 main 结束时，再打印 1，最终输出 211。
+
+> If the second expansion were right, the macro would introduce a in a nested scope, shadowing the already existing a only inside of that scope and not beyond it. Since the new a's scope ends before the print statement, its Drop impl when going out of scope would be the first print to execute, printing 2. Next the print in main would print 1 which is the value of the first a, and finally 1 again when that value drops at the end of main, with final output 211.
+
+如果你读过关于宏卫生性的文章，那么你可能已经猜到它的实现方式与第二个选项类似。重要的是，宏的内部结构不会与调用地点范围内的变量发生冲突，而且 Rust 宏在防止意外的名称冲突方面做得很好。然而，这并不是卫生性的实现方式；在宏扩展周围引入人为的作用域会使它们的作用更加有限，而且不会解决很多其他的卫生性问题。
+
+> If you've read about macro hygiene then you might have guessed it would be implemented something like this second option. It's important that internals of a macro don't interfere coincidentally with variables in scope at the call site, and Rust macros mostly do a good job of preventing unintended name collisions. However, this is not how hygiene is implemented; introducing artificial scopes around macro expansions would make them more limited in their usefulness, and wouldn't solve a lot of other hygiene problems.
+
+你可以把 lazily calcalute 想象成给每个提到的局部变量的名字分配一个颜色，允许在作用域内有多个可区分的局部变量同时拥有相同的文本名称。
+
+> You can instead imagine hygiene as a way of assigning a color to each mention of the name of a local variable, allowing for there to be multiple distinguishable local variables in scope simultaneously with the same textual name.
+
+```rs
+fn main() {
+    let a = X(1);
+    let a = X(2);
+    print!("{}", a.0);
+}
+```
+
+所以打印出来的是 main 的标识符 a 的值，也就是 1，然后两个值按照引入的相反顺序丢掉，先打印 2 再打印 1，程序的输出是 121。
+
+> So what's printed is the value of main's identifier a which is 1, then the two values are dropped in reverse order of introduction printing 2 then 1, and the output of the program is 121.
+
+## ＃36 `move & Fn`
 
 ### 题目
 
 ```rs
+fn call(mut f: impl FnMut() + Copy) {
+    f();
+}
+
+fn g(mut f: impl FnMut() + Copy) {
+    f();
+    call(f);
+    f();
+    call(f);
+}
+
+fn main() {
+    let mut i = 0i32;
+    g(move || {
+        i += 1;
+        print!("{}", i);
+    });
+}
 ```
 
 1. 未定义的行为
@@ -2516,6 +2800,72 @@ fn main() {
 
 ### 提示
 
+变量 `i` 被编译器生成的闭包对象所捕获。
+
+> The variable `i` is captured by value in the compiler-generated closure object.
+
 ### 题解
 
-答案：
+答案：1223
+
+传入 g 的对象是一个 `FnMut` 闭包，它捕获了一个整数。实际上，它是一个不可命名的结构体，包含一个类型为 i32 的字段，并有一个函数调用操作符，该操作符接收 `&mut self`。
+
+> The object passed into g is a FnMut closure which captures an integer by value. Effectively it's an unnameable struct containing a single field whose type is i32, with a function call operator that takes &mut self:
+
+```rs
+#[derive(Copy, Clone)]
+pub struct UnnameableClosure {
+    i: i32,
+}
+
+impl UnnameableClosure {
+    pub fn unnameable_call_operator(&mut self) {
+        self.i += 1;
+        print!("{}", self.i);
+    }
+}
+
+let mut i = 0i32;
+g(UnnameableClosure { i });
+```
+
+g 里面的 4 个调用的行为如下。
+
+> The behavior of the 4 calls inside g is as follows:
+
+- `f()` 运行闭包，其通过值捕获的 `i` 的值变为 1。
+
+    > f() runs the closure and its by-value captured value of i becomes 1.
+
+- `call(f)` 制造一个 `f` 的副本，作为 call 的参数。这个副本被执行，它的 `i` 变成了 2，但是原始闭包仍然保持着它捕获的 `i` 的值为 1。`f` 的副本在调用主体的末尾超出了作用域被 drop。
+
+    > call(f) makes a copy of f to become the argument of call. The copy gets executed and its i becomes 2, but the original closure still holds a value of 1 for its captured i. The copy of the closure gets dropped as it goes out of scope at the end of the body of call.
+
+- `f()` 第二次运行原始闭包，其 i 变为 2。
+    > f() runs the original closure a second time and its i becomes 2.
+
+- `call(f)` 第二次复制 f 并执行副本，它的 i 变成了 3。
+
+    > call(f) copies f a second time and executes the copy, its i becomes 3.
+
+从 Rust 1.26 开始，如果闭包的所有捕获都实现了 Clone，则闭包自动实现了 Clone；如果所有捕获都实现了 Copy，则闭包自动实现了 Copy。
+
+> Since Rust 1.26, closures automatically implement Clone if all their captures implement Clone, and Copy if all the captures implement Copy.
+
+如果 quiz 代码中省略了 move 关键字，编译器生成的闭包将通过可变引用而不是通过值捕获 i。
+
+> If the move keyword were omitted from the quiz code, the compiler-generated closure would capture i by mutable reference instead of by value:
+
+```rs
+pub struct UnnameableClosure<'a> {
+    i: &'a mut i32,
+}
+```
+
+并且不再有 Copy impl，因为将一个可变引用复制成多个副本是不正确的（aliasing xor mutation；这是借用检查器的重点）。
+
+> and there would no longer be a Copy impl, because it's incorrect to duplicate a mutable reference into multiple copies (aliasing xor mutation; this is the point of the borrow checker).
+
+对于 Rust 的初学者来说，一个经常出现的困惑是 move, non-move 闭包与 Fn、FnMut 和 FnOnce 闭包之间的关系。这是两个几乎完全不同的东西。正如上面的 `UnnameableClosure` 伪代码所示，move 与 non-move 是指编译器生成的闭包结构的字段是否与原始被捕获变量的类型相同，或者是对原始捕获变量类型的引用（例如，`i32` 与 `&mut i32`）。相比之下，`Fn` vs `FnMut` vs `FnOnce` 是关于编译器生成的闭包结构的调用方法是否有一个接收器，该接收器是 `&self` vs `&mut self` vs `self`。
+
+> One recurring source of confusion for Rust beginners is the relationship between move and non-move closures vs Fn and FnMut and FnOnce closures. These are two nearly-orthogonal things. As illustrated in the UnnameableClosure pseudocode above, move vs non-move is about whether the fields of the compiler-generated closure struct have the same type as the original captured variable's type, vs are references to the original captured variable's type (i32 vs &mut i32, for example). In contrast, Fn vs FnMut vs FnOnce is about whether the call method of the compiler-generated closure struct has a receiver which is &self vs &mut self vs self.
