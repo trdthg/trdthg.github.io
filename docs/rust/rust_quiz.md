@@ -73,32 +73,19 @@ s.x + 1
 
 函数体的语法要求某些类型的语句后面有一个分号，但对于宏的语法而言，分号并不是语句的一部分。
 
-> The grammar of function bodies requires that some types of statements are
-> followed by a semicolon, but the semicolon is not part of the statement for
-> the purpose of macro syntax.
+> The grammar of function bodies requires that some types of statements are followed by a semicolon, but the semicolon is not part of the statement for the purpose of macro syntax.
 
 `m!` 将会展开成 0 或多个由 `<<` 分割的 `{ stringify!($s); 1 }`。`$(...)<<*` 部分表示重复语句之间使用 `<<` 作为分隔符。
 
-> The macro m! expands to zero or more copies of `{ stringify!($s); 1 }`
-> separated by the `<<` token. The `$(...)<<*` part of the rule is a repetition
-> using `<<` as the separator.
+> The macro m! expands to zero or more copies of `{ stringify!($s); 1 }` separated by the `<<` token. The `$(...)<<*` part of the rule is a repetition using `<<` as the separator.
 
 在宏中使用 `<<` 作为分隔符非常不常见。最常用的分隔符是逗号，`$(...),*`，其他的单一符号也是允许的。重要的是，`macro_rules!` 把所有的 Rust 内置操作符都当成单 token
 
-> Using `<<` as a separator in a repetition in a macro is highly unusual. The
-> most commmonly used separator is the comma, written as `$(...),*`, but any
-> other single token is allowed here. Crucially, macro_rules! treats all
-> built-in Rust operators as single tokens, even those that consist of multiple
-> characters like <<.
+> Using `<<` as a separator in a repetition in a macro is highly unusual. The most commmonly used separator is the comma, written as `$(...),*`, but any other single token is allowed here. Crucially, macro_rules! treats all built-in Rust operators as single tokens, even those that consist of multiple characters like `<<`.
 
 `{ stringify!($s); 1 }` 是一个表达式，它的返回值永远是 1。`stringify!($s)` 被丢弃了，所以它和 `{ 1 }` 的效果是相同的。这里使用 `stringify!($s)` 是为了控制重复的次数，规则中定义的标志符
 
-> The `{ stringify!($s); 1 }` is an expression whose value is always 1. The
-> value of `stringify!($s)` is discarded, so this is equivalent to the expression
-> `{ 1 }`. The reason for having `stringify!($s)` in there is to control the
-> number of times the repetition is repeated, which is determined by which
-> fragment variables are used within the repetition. Writing a repetition without
-> using any fragment variables inside of it would not be legal.
+> The `{ stringify!($s); 1 }` is an expression whose value is always 1. The value of `stringify!($s)` is discarded, so this is equivalent to the expression `{ 1 }`. The reason for having `stringify!($s)` in there is to control the number of times the repetition is repeated, which is determined by which fragment variables are used within the repetition. Writing a repetition without using any fragment variables inside of it would not be legal.
 
 假设我们调用宏时传入三条语句：
 
@@ -134,19 +121,11 @@ m! {
 
 字符串字面量的值没有被使用。所以这个结果等价于 `{ 1 } << { 1 } << { 1 }`，也等价于 `1 << 1 << 1`。`<<` 操作符就是左移；结果是 4。
 
-> The values of the string literals are not used. In this case the expression is
-> equivalent to `{ 1 } << { 1 } << { 1 }`, which is equivalent to `1 << 1 << 1`.
-> The `<<` operator is left-associative; the numeric value of this expression
-> is 4.
+> The values of the string literals are not used. In this case the expression is equivalent to `{ 1 } << { 1 } << { 1 }`, which is equivalent to `1 << 1 << 1`. The `<<` operator is left-associative; the numeric value of this expression is 4.
 
 总的来说，Rust 语句有多少，1 就重复多少次。所以这个宏就相当于 `1 << (n - 1)`。当 n 为 0 时，语句无法展开，会编译失败。
 
-> Altogether, the relevant behavior of this macro is that it evaluates to
-> `1 << 1 << 1 << ...` where the number of ones is equal to the number of Rust
-> statements in the input of the macro. In closed form, the numeric value is
-> `1 << (n - 1)` where n is the number of statements, except in the case that n is
-> zero where the macro expands to nothing and we get a syntax error at the call
-> site.
+> Altogether, the relevant behavior of this macro is that it evaluates to `1 << 1 << 1 << ...` where the number of ones is equal to the number of Rust statements in the input of the macro. In closed form, the numeric value is `1 << (n - 1)` where n is the number of statements, except in the case that n is zero where the macro expands to nothing and we get a syntax error at the call site.
 
 剩下的就是判断一下这 3 次调用分别传入了多少个 Rust 语句。
 
@@ -163,17 +142,13 @@ m! {
 
 这是一条逻辑或语句。`||` 是一个二元运算符，左侧是一个 `(return)` 语句 (或者说 `!` 类型)，右侧是一个表达式 `true`。所以 `(return) || true` 是一个语句，`m!` 的值仍然为 1。
 
-> This is a logical-OR expression. The `||` is a binary operator, where the
-> left-hand side is the expression `(return)` (of diverging type `!`) and the
-> right-hand side is the expression `true`. This expression is a single statement
-> so m! again evaluates to 1.
+> This is a logical-OR expression. The `||` is a binary operator, where the left-hand side is the expression `(return)` (of diverging type `!`) and the right-hand side is the expression `true`. This expression is a single statement so m! again evaluates to 1.
 
 3. `{return} || true`
 
 这条是两个语句！一个块表达式 `return`，后面又跟一个闭包 `|| true`。
 
-> This one is two statements! A block-statement `{return}` followed by a closure
-> expression `|| true`.
+> This one is two statements! A block-statement `{return}` followed by a closure expression `|| true`.
 
 Rust 的语法区分了需要分号的表达式 (作为单个表达式) 和无需分号的一组表达式。看看下面的两个例子：
 
@@ -191,15 +166,11 @@ self.skip_whitespace()?;
 
 不需要分号的表达式都定义在 libsyntex 里。The distinction informs a few different early bail-out cases where the parser decides to finish parsing the current expression.(能力有限，不会翻译)
 
-> The list of expression types that stand alone without a semicolon is defined
-> here in libsyntax. The distinction informs a few different early bail-out cases
-> where the parser decides to finish parsing the current expression.
+> The list of expression types that stand alone without a semicolon is defined here in libsyntax. The distinction informs a few different early bail-out cases where the parser decides to finish parsing the current expression.
 
 块表达式 `{ /* ... */ }` 终止一个表达式，和本题的情况相同。如果这样做在语法上是合理的，那就意味着解析器在块表达式之后不会立即消耗二元运算符。因此，我们可以这样写。
 
-> Relevant to our case is that block expressions `{ /* ... */ }` terminate an
-> expression if doing so would be syntactically sensible. The parser does not
-> eagerly consume binary operators after a block expression. Thus one might write:
+> Relevant to our case is that block expressions `{ /* ... */ }` terminate an expression if doing so would be syntactically sensible. The parser does not eagerly consume binary operators after a block expression. Thus one might write:
 
 ```rs
 fn f() -> &'static &'static bool {
@@ -215,9 +186,7 @@ fn f() -> &'static &'static bool {
 
 为了正确解析这种情况（块表达式后面紧跟一个二元运算符），解析器需要在表达式的末尾及时终止。
 
-> In order to parse a block followed by a binary operator, we would need to make
-> it syntactically insensible for the parser to terminate an expression at the
-> close curly brace. This would usually be done by wrapping in parentheses.
+> In order to parse a block followed by a binary operator, we would need to make it syntactically insensible for the parser to terminate an expression at the close curly brace. This would usually be done by wrapping in parentheses.
 
 ```rs
 fn f() -> bool {
@@ -714,11 +683,11 @@ fn main() {
 
 列表中的有一个例子，`<<=` 是一个 token，Rust 语法把它作为左移赋值。因此包含 `<<=` 的一个 `macro_rules!` 输入，只有遇到 `<<=` 且中间没有空格时才会匹配。
 
-> As one example from that list, <<= is a single token because the Rust grammar uses that sequence of characters to mean left shift assignment. Thus a macro_rules! input rule containing <<= would only match if all three characters <<= are written consecutively without spaces in the invocation.
+> As one example from that list, `<<=` is a single token because the Rust grammar uses that sequence of characters to mean left shift assignment. Thus a macro_rules! input rule containing `<<=` would only match if all three characters `<<=` are written consecutively without spaces in the invocation.
 
 但是 `=<<` 在 Rust 语法中不是一个 native token。macro_rules！的解析器会根据贪心将其分解为 Rust 标记。 `=<` 也不是一个 native token，所以首先我们需要匹配一个 `=` 本身。然后，`<<` 是一个 native token。在宏规则中写 `=<<` 的行为与写 `= <<` 的行为完全相同。
 
-> But for example =<< is not a native token in the Rust grammar. The parser of macro_rules! will decompose this into Rust tokens according to a greedy process. =< is also not a native token, so first we would need to match a = by itself. Then << is a native token. Writing =<< in a macro rule behaves exactly the same as writing = <<.
+> But for example `=<<` is not a native token in the Rust grammar. The parser of macro_rules! will decompose this into Rust tokens according to a greedy process. `=<` is also not a native token, so first we would need to match a `=` by itself. Then `<<` is a native token. Writing `=<<` in a macro rule behaves exactly the same as writing `= <<`.
 
 现在让我们以同样的方式分解代码中的规则。
 
@@ -899,7 +868,7 @@ fn main() {
 
 这道题里有一个 Trait 方法 `Trait::f`，同时还有特征对象 `dyn Trait` 的 f 方法。
 
-> This question contains a trait method Trait::f as well as an inherent method f on the trait object type dyn Trait.
+> This question contains a trait method `Trait::f` as well as an inherent method f on the trait object type dyn Trait.
 
 据我所知，鉴于这些名字会相互遮蔽，在 `dyn Trait` 实现的 `f` 方法实际上是无法调用的。目前，Rust 中没有任何语法可以在 `dyn Trait` 上调用它的 `f`。
 
@@ -1201,7 +1170,7 @@ main 的第一行创建了一个类型为 [S; 2] 的本地值。让我们把这�
 
 数组类型 `[S; 2]` 本身就是一个零大小的类型。你可以通过打印 `std::mem::size_of::<[S; 2]>()` 的值来确认这点。事实上，数组的第一个和第二个元素有相同的内存地址。
 
-> The array type [S; 2] is itself a zero sized type. You can confirm this by printing the value of std::mem::size_of::<[S; 2]>(). Indeed the first and second element of the array have the same memory address.
+> The array type `[S; 2]` is itself a zero sized type. You can confirm this by printing the value of `std::mem::size_of::<[S; 2]>()`. Indeed the first and second element of the array have the same memory address.
 
 通常情况下，对同一内存位置有多个可变引用是不安全的，但是在对零大小类型的可变引用的情况下，解引用是不可行的，所以这种方式没有违反任何内存安全保证。
 
@@ -1266,11 +1235,11 @@ fn main() {
 
 对 `0.is_reference()` 的调用观察到没有一个我们可以直接调用的为整数类型的 Trait 的实现。所以方法解析自动插入了一个引用，即 `(&0).is_reference()`。这一次的调用与 `&'a, T> Trait` 的 `impl<'a, T>` 匹配，并打印出 1。
 
-> The call to 0.is_reference() observes that there is no implementation of Trait for an integer type that we could call directly. Method resolution inserts an auto-ref, effectively evaluating (&0).is_reference(). This time the call matches impl<'a, T> Trait for &'a T and prints 1.
+> The call to `0.is_reference()` observes that there is no implementation of Trait for an integer type that we could call directly. Method resolution inserts an auto-ref, effectively evaluating `(&0).is_reference()`. This time the call matches impl<'a, T> Trait for &'a T and prints 1.
 
 对 `'?'.is_reference()` 的调用反而找到了 `char` 的 `implated Trait`，打印出 0。
 
-> The call to '?'.is_reference() instead finds impl Trait for char, printing 0.
+> The call to `'?'.is_reference()` instead finds impl Trait for char, printing 0.
 
 ## #15 `type inference`
 
@@ -1319,7 +1288,7 @@ fn main() {
 
 如果我们想解决 trait 方法的调用 `Trait::f(x)`，我们发现它的参数 x 必须是 `&Self` 类型，即实现了 Trait 的某个 Self 类型。我们发现推断 `0: u32` 既满足了 u32 是一个整数的约束，也满足了 u32 实现了 Trait，所以这个方法调用最终调用了 `<u32 as Trait>::f(x)` 并打印出 1。
 
-> If we want to resolve the trait method call Trait::f(x), we find that its argument x must be of type &Self for some type Self that implements Trait. We find that inferring 0: u32 satisfies both the constraint that u32 is an integer as well as u32 implements Trait, so the method call ends up calling `<u32 as Trait>::f(x)` and prints 1.
+> If we want to resolve the trait method call `Trait::f(x)`, we find that its argument x must be of type `&Self` for some type Self that implements Trait. We find that inferring 0: u32 satisfies both the constraint that u32 is an integer as well as u32 implements Trait, so the method call ends up calling `<u32 as Trait>::f(x)` and prints 1.
 
 在这个 [Stack Overflow](https://stackoverflow.com/a/28552082/6086311) 的答案中详细介绍了 Trait 方法的解析。
 
@@ -1345,7 +1314,7 @@ fn main() {
 
 Rust 所支持的运算符集在 `std::ops` 中有相关文档。
 
-> The set of operators supported by Rust is documented in std::ops.
+> The set of operators supported by Rust is documented in `std::ops`.
 
 ### 题解
 
@@ -1395,7 +1364,7 @@ fn main() {
 
 Rust 支持的操作符都在 `std：：ops`。
 
-> The set of operators supported by Rust is documented in std::ops.
+> The set of operators supported by Rust is documented in `std::ops`.
 
 ### 题解
 
@@ -1453,7 +1422,7 @@ fn main() {
 
 一个看起来像 `.f()`的调用总会解析到一个方法，在这里是固有的方法 `S::f`。如果作用域内没有方法 f，那么即使字段 f 存在并包含一个函数指针，这样的调用也不能编译。
 
-> A call that looks like .f() always resolves to a method, in this case the inherent method S::f. If there were no method f in scope, a call like this would fail to compile even if a field f exists and contains a function pointer.
+> A call that looks like .f() always resolves to a method, in this case the inherent method `S::f`. If there were no method f in scope, a call like this would fail to compile even if a field f exists and contains a function pointer.
 
 为了调用存储在字段 f 中的函数指针，我们需要在字段周围写上圆括号。
 
@@ -1710,41 +1679,41 @@ fn main() {
 
     Quiz 代码调用了 `x().f()`, 这会解析为 `impl<F> Trait for F where F: FnOnce() -> bool`. 最终打印 1.
 
-    > The quiz code calls x().f() which resolves to impl<F> Trait for F where F: FnOnce() -> bool. That trait impl prints 1.
+    > The quiz code calls `x().f()` which resolves to `impl<F> Trait for F where F: FnOnce() -> bool`. That trait impl prints 1.
 
 - `let x = loop { break (|| true); };`
 
     这是一个包含 `break-with-value` 表达式的循环。`break` 的参数变成了循环的返回值。这段代码等同于 `let x = || true`。
 
-    > This is a loop containing a break-with-value expression. The argument of the break becomes the value of the enclosing loop. This code is equivalent to let x = || true.
+    > This is a loop containing a break-with-value expression. The argument of the break becomes the value of the enclosing loop. This code is equivalent to let `x = || true`.
 
     当我们调用 `x.f()` 时，它使用了 FnOnce 的 Trait 实现，打印出 1。
 
-    > When we call x.f() it uses the FnOnce impl of Trait which prints 1.
+    > When we call `x.f()` it uses the FnOnce impl of Trait which prints 1.
 
 - `let x = || { return || true; };`
 
     现在我们来到了这个问答问题的核心。`return || true` 的解析与 `(return) || true` 相同，还是与 `return (|| true)` 相同？
 
-    > Now we arrive at the meat of this quiz question. Is return || true parsed the same as (return) || true or as return (|| true)?
+    > Now we arrive at the meat of this quiz question. Is `return || true` parsed the same as `(return) || true` or as `return (|| true)`?
 
     结果是后者，所以 x 是一个返回 true 的闭包。`x().f()` 打印 1。
 
-    > It turns out to be the latter, so x is a closure that returns a closure that returns true. x().f() prints 1.
+    > It turns out to be the latter, so x is a closure that returns a closure that returns true. `x().f()` prints 1.
 
 - `let x = loop { break || true; };`
 
     这个也是类似的问题，这是 `(break) || true` 还是 `break (|| true)`？
 
-    > Similar question here, is this (break) || true or break (|| true)?
+    > Similar question here, is this `(break) || true` or `break (|| true)`?
 
     `break-with-value` 语言功能是在 1.0 之后的两年后 (Rust 1.19) 加入的。在 break-with-value 之前，`break || true` 是完全合法的 Rust 代码，解析为 `(break) || true`。
 
-    > The break-with-value language feature was added to Rust more than two years after 1.0, in Rust 1.19. Prior to break-with-value, break || true was perfectly legal Rust code that parsed as (break) || true.
+    > The break-with-value language feature was added to Rust more than two years after 1.0, in Rust 1.19. Prior to break-with-value, `break || true` was perfectly legal Rust code that parsed as `(break) || true`.
 
     在 Rust 1.19 中，这段代码的行为被语言无意中打破了，现在它被解析为 `break (|| true)`，打印出来的值是 1。
 
-    > In Rust 1.19 the behavior of this code was unintentionally broken by the language such that now it parses as break (|| true) and the printed value is 1.
+    > In Rust 1.19 the behavior of this code was unintentionally broken by the language such that now it parses as `break (|| true)` and the printed value is 1.
 
     如果我们在 Rust 1.19 的开发过程中注意到这种意义上的变化，我们可能会调整解析以保留现有代码的意义。不幸的是，这样做会导致语法在 return 和 break 之间有不同的表现，除了历史的意外，没有任何合理的理由。
 
@@ -1806,7 +1775,7 @@ macro 会计算输入的 "token" 的数量。
 
 Rust 编译器内置的解析器总是将负号作为一个单独的标记，与数字进行区分。然而，在过程宏中，用户定义的解析器可以通过向 `proc_macro::Literal` 的构造器之一传递一个负的整数或负的浮点数来构造一个负数作为单个标记。如果这样的负数最终出现在随后的过程宏调用的输入中，则由编译器决定是重写成一对标记还是将其作为一个标记。
 
-> The parser built into the Rust compiler always parses a negative sign as a separate token from the numeric literal that is being negating. However, it is possible for a user-defined parser within a procedural macro to construct a negative number as a single token by passing a negative integer or negative floating point value to one of the constructors of proc_macro::Literal. If such a negative literal ends up in the input of a subsequent procedural macro invocation, it is up to the compiler whether to rewrite into a pair of tokens or keep them as one.
+> The parser built into the Rust compiler always parses a negative sign as a separate token from the numeric literal that is being negating. However, it is possible for a user-defined parser within a procedural macro to construct a negative number as a single token by passing a negative integer or negative floating point value to one of the constructors of `proc_macro::Literal`. If such a negative literal ends up in the input of a subsequent procedural macro invocation, it is up to the compiler whether to rewrite into a pair of tokens or keep them as one.
 
 编译器的解析器的行为在语言表面也是可以观察到的，不仅仅是在宏中。例如，下面的代码打印出 -81，因为表达式被解析为 `-(3i32.pow(4))` 而不是 `(-3i32).pow(4)`。
 
@@ -1873,7 +1842,7 @@ fn main() {
 
 `S.f()` 会调用固有方法 f。如果一个固有方法和一个 Trait 方法同名，并且返回值相同，普通的方法调用总是会选择固有方法。调用这必须写 `Trait::f(&s)` 或者 `<S as Trait>::f(&s)` 去调用 Trait 方法。 
 
-> S.f() calls the inherent method f. If an inherent method and a trait method have the same name and receiver type, plain method call syntax will always prefer the inherent method. The caller would need to write `Trait::f(&S)` or `<S as Trait>::f(&S)` in order to call the trait method.
+> `S.f()` calls the inherent method f. If an inherent method and a trait method have the same name and receiver type, plain method call syntax will always prefer the inherent method. The caller would need to write `Trait::f(&S)` or `<S as Trait>::f(&S)` in order to call the trait method.
 
 对于宏的作者来说，意识到这一点很重要。宏生成的代码通常不应该使用普通的方法调用语法来调用用户定义的类型上的特征方法。这些调用可能会被与特质方法同名的固有方法无意中劫持。
 
@@ -2122,7 +2091,7 @@ fn main() {
 
 `Base::method` 和 `Derived::method` 碰巧有相同的名字，但是是毫不相关的两个方法。不会互相覆盖。
 
-> Base::method and Derived::method happen to have the same name but are otherwise unrelated methods. One does not override the other.
+> Base::method and `Derived::method` happen to have the same name but are otherwise unrelated methods. One does not override the other.
 
 ### 题解
 
@@ -2136,11 +2105,11 @@ fn main() {
 
 默认实现在概念上被复制到每个没有明确定义相同方法的 trait impl 中。例如，在这种情况下，BothTraits 的 impl Base 没有提供自己的 Base::method 的实现，这意味着 BothTraits 的 Base 的实现将使用该 trait 定义的默认行为，即 print!
 
-> Both traits provide a default implementation of their trait method. Default implementations are conceptually copied into each trait impl that does not explicitly define the same method. In this case for example impl Base for BothTraits does not provide its own implementation of Base::method, which means the implementation of Base for BothTraits will use the default behavior defined by the trait i.e. print!("1").
+> Both traits provide a default implementation of their trait method. Default implementations are conceptually copied into each trait impl that does not explicitly define the same method. In this case for example impl Base for BothTraits does not provide its own implementation of `Base::method`, which means the implementation of Base for BothTraits will use the default behavior defined by the trait i.e. print!("1").
 
 此外，Derived 将 Base 作为一个 supertrait，这意味着每个实现 Derived 的类型也都需要实现 Base。这两个 trait 方法尽管名字相同，但却没有关系 -- 因此任何实现 Derived 的类型都会有 Derived::method 和 Base::method 的实现，而且这两个方法可以自由地有不同的行为。Supertraits 不是继承！Supertraits 是一种特征约束，如果要实现 Derived，那么 Base 也必须被实现。
 
-> Additionally, Derived has Base as a supertrait which means that every type that implements Derived is also required to implement Base. The two trait methods are unrelated despite having the same name -- thus any type that implements Derived will have an implementation of Derived::method as well as an implementation of Base::method and the two are free to have different behavior. Supertraits are not inheritance! Supertraits are a constraint that if some trait is implemented, some other trait must also be implemented.
+> Additionally, Derived has Base as a supertrait which means that every type that implements Derived is also required to implement Base. The two trait methods are unrelated despite having the same name -- thus any type that implements Derived will have an implementation of Derived::method as well as an implementation of `Base::method` and the two are free to have different behavior. Supertraits are not inheritance! Supertraits are a constraint that if some trait is implemented, some other trait must also be implemented.
 
 让我们看一下从 main 调用的两个方法的具体过程。
 
@@ -2386,7 +2355,7 @@ fn main() {
 
 不可变的指针 `&T` 和 `Rc<T>` 实现了 `Clone`，即使 `T` 并没有实现。
 
-> Immutable pointers &T and Rc<T> implement Clone even if T doesn't.
+> Immutable pointers `&T` and `Rc<T>` implement Clone even if T doesn't.
 
 ### 题解
 
@@ -2414,7 +2383,7 @@ fn main() {
 
 最后是 Rc，两次对 b 的调用都是 `X = Rc<()>`，大小不为零。使用 `Rc::clone(&c)` 而不是 `c.clone()` 来克隆一个 Rc 被认为是习惯性的，因为 `Rc::clone()` 使人明显感觉到这是一个引用计数的增加，而不是克隆底层数据，但最终两者指的是同一个函数。要在 Rc 内部调用一个值的克隆，你需要先对它解引用：`(*c).clone()`。
 
-> Finally in the Rc case, both calls to p are with X = Rc<()> which is non-zero sized. It is considered idiomatic to clone a Rc using Rc::clone(&c) instead of c.clone() because it makes it apparent that this is a reference count bump rather than cloning underlying data, but ultimately both refer to the same function. To call the clone method of a value inside a Rc, you would need to dereference it first: (*c).clone().
+> Finally in the Rc case, both calls to p are with `X = Rc<()>` which is non-zero sized. It is considered idiomatic to clone a Rc using `Rc::clone(&c)` instead of `c.clone()` because it makes it apparent that this is a reference count bump rather than cloning underlying data, but ultimately both refer to the same function. To call the clone method of a value inside a Rc, you would need to dereference it first: `(*c).clone()`.
 
 ## #31 `method lookup order`
 
@@ -2666,7 +2635,7 @@ fn main() {
 
 表达式 `a::<u8>` 的类型是一个零大小类型（ZST）。
 
-> The expression a::<u8>'s type is a zero-sized type (ZST).
+> The expression `a::<u8>`'s type is a zero-sized type (ZST).
 
 Rust 围绕函数类型的作出的选择和具体实现与几乎所有其他语言都不同，但它是 Rust 许多零开销抽象的重要促成因素。在 Rust 中，每个函数（或泛型函数的每个不同实例）都有自己的独特类型。特别是，即使是具有相同函数签名的两个函数也会有不同的类型。
 
@@ -2678,7 +2647,7 @@ Rust 围绕函数类型的作出的选择和具体实现与几乎所有其他语
 
 为了理解这种优化方法的优势，考虑 `Iterator::map` 和两个调用 `iter.map(f)` 和 `iter.map(g)`，其中 `f` 和 `g` 是具有相同签名的不同函数。因为 `f` 和 `g` 有不同的类型，这两个 map 调用会产生两个不同的泛型函数的单态实例，其中一个静态地调用 `f`，另一个静态地调用 `g`，就像你直接为每个函数写了一个特殊的 map 实现，而没有 map 提供的抽象。因此，泛型 map 是一个零成本的抽象。传统上，在其他语言如 C++ 或 Go 中，f 和 g 会被作为一个函数指针传递给 map，并且只有一个 map 的实例，包含一个执行函数调用的动态分发，这通常会比静态调用函数更慢。这种性能缺陷使得这些语言中的 map 不是一个零成本的抽象。
 
-> To understand the optimization advantages of this approach, consider Iterator::map and the two calls iter.map(f) and iter.map(g) where f and g are different functions with the same signature. Because f and g have distinct types, the two map calls would produce two different monomorphic instantiations of the generic map function, one of which statically calls f and the other statically calls g, as if you had directly written a special-purpose map implementation specific to each function without the abstraction provided by map. The generic map is thus a zero-overhead abstraction. Traditionally in other languages such as C++ or Go, in this situation f and g would be passed to map as a function pointer and there would be just one instantiation of map, containing a dynamic dispatch to execute the function call, which is usually going to be slower than statically calling the right function. This performance penalty makes map in those languages not a zero-overhead abstraction.
+> To understand the optimization advantages of this approach, consider `Iterator::map` and the two calls `iter.map(f)` and iter.map(g) where f and g are different functions with the same signature. Because f and g have distinct types, the two map calls would produce two different monomorphic instantiations of the generic map function, one of which statically calls f and the other statically calls g, as if you had directly written a special-purpose map implementation specific to each function without the abstraction provided by map. The generic map is thus a zero-overhead abstraction. Traditionally in other languages such as C++ or Go, in this situation f and g would be passed to map as a function pointer and there would be just one instantiation of map, containing a dynamic dispatch to execute the function call, which is usually going to be slower than statically calling the right function. This performance penalty makes map in those languages not a zero-overhead abstraction.
 
 目前在 Rust 中，没有语法来表达特定的函数类型，所以它们总是作为一个通用的类型参数与 `FnOnce`、`Fn` 或 `FnMut` 绑定传递。在错误信息中，你可能会看到函数类型以 `fn(T) -> U {fn_name}` 的形式出现，但你不能在代码中使用这种语法。
 
@@ -2688,9 +2657,9 @@ Rust 围绕函数类型的作出的选择和具体实现与几乎所有其他语
 
 > On the other hand, a function pointer, fn(T) -> U, is pointer-sized at runtime. Function types can be coerced into function pointers, which can be useful in case you need to defer the choice of function to call until runtime.
 
-在测验代码中，main 中的第一个调用在调用 d 之前将 a::<u8>从一个函数胁迫为一个函数指针`(fn(fn(u8)) {a::<u8>}` 到 `fn(fn(u8)))`，因此在一个具有 64 位函数指针的系统中，它的大小为 8。main 中的第二个调用不涉及函数指针；d 被直接调用，T 是 `a::<u8>` 的不可表达的类型，它的大小为零。
+在测验代码中，main 中的第一个调用在调用 d 之前将 `a::<u8>` 从一个函数胁迫为一个函数指针`(fn(fn(u8)) {a::<u8>}` 到 `fn(fn(u8)))`，因此在一个具有 64 位函数指针的系统中，它的大小为 8。main 中的第二个调用不涉及函数指针；d 被直接调用，T 是 `a::<u8>` 的不可表达的类型，它的大小为零。
 
-> In the quiz code, the first call in main coerces a::<u8> from a function to a function pointer (fn(fn(u8)) {a::<u8>} to fn(fn(u8))) prior to calling d, so its size would be 8 on a system with 64-bit function pointers. The second call in main does not involve function pointers; d is directly called with T being the inexpressible type of a::<u8>, which is zero-sized.
+> In the quiz code, the first call in main coerces `a::<u8>` from a function to a function pointer `(fn(fn(u8)) {a::<u8>}` to `fn(fn(u8)))` prior to calling d, so its size would be 8 on a system with 64-bit function pointers. The second call in main does not involve function pointers; d is directly called with T being the inexpressible type of `a::<u8>`, which is zero-sized.
 
 ## #35 `Hygiene 2`
 
