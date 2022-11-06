@@ -12,19 +12,19 @@
 
 ### ISA 设计
 
-- 成本（美元硬币）
-- 简洁性（轮子）
-    
-    -  ISA 的简洁性，从而缩小实现 ISA 的处理器的尺寸
-- 性能（速度计）
-- 架构和具体实现的分离（分开的两个半圆）
-- 提升空间（手风琴）
-- 程序大小（相对的压迫着一条线的两个箭头）
-- 易于编程/编译/链接（儿童积木“像 ABC 一样简单”）
+- 成本
+- 简洁性
+  - ISA 的简洁性，从而缩小实现 ISA 的处理器的尺寸
+- 性能
+- 架构和具体实现的分离
+- 提升空间
+- 程序大小
+- 易于编程/编译/链接
 
 ### RV32I 指令格式
 
 六种基本指令格式分别是：
+
 - 用于 `寄存器-寄存器` 操作的 R 类型指令
 - 用于短立即数和访存 load 操作的 I 型指令
 - 用于访存 store 操作的 S 型指令
@@ -61,7 +61,7 @@
 |  x4 / tp |  线程指针 (Thread pointer)  |
 |  x5 / t0 |  临时 (Temporary)  |
 |  x6 / t1 |  临时   |
-|  x7 / t2 |  临时   | 
+|  x7 / t2 |  临时   |
 |  x8 / s0 / fp |  保存寄存器 (saved register) / frame pointer   |
 |  x9 / s1 |  保存寄存器   |
 |  x10 / a0 |  函数参数 (Function argument), 返回地址   |
@@ -89,25 +89,35 @@
 | | |
 | PS | 程序计数器 |
 
+保存寄存器和临时寄存器为什么不是连续编号的？
+
+为了支持 RV32E——一个只有 16 个寄存器的嵌入式版本的 RISC-V（参见第 11 章），只使用寄存器 x0 到 x15——一部分保存寄存器和一部分临时寄存器都在这个范围内。其它的保存寄存器和临时寄存器在剩余 16 个寄存器内。RV32E 较小，但由于和 RV32I 不匹配，目前还没有编译器支持。
+
 ## 计算机中的指令表示
 
-## 计算
+### 指令
+
+![size](./riscv/instructions_size.jpg)
+![usage](./riscv/instructions_usage.jpg)
+![format](./riscv/instructions_format.jpg)
+![binary2asm](./riscv/instructions_binary2asm.jpg)
+
+### 计算指令
 
 - 简单计算: add, sub
 - 逻辑指令: and, or, xor
-- 移位指令: sll, srl, sra 
+- 移位指令: sll, srl, sra
 - 小于时置位: slt, altu (unsigned), 立即数版 (slti，sltiu)
 
+### 决策指令
 
-## 用于决策的指令
-
-### 判断 (if-then-else)
+#### 判断 (if-then-else)
 
 ```c
 // f,   g,   h,   i,   j
 // x19, x20, x21, x22, x23
 
-if (i == g) 
+if (i == g)
     f = g + h;
 else
     f = g - h;
@@ -123,18 +133,18 @@ Else: sub x19, x20. x21 // else
 Exit:
 ```
 
-### 循环 (for / while)
+#### 循环 (for / while)
 
 ```c
 // i: x22, k: x24, save: x25
-while (save[i] == k) 
+while (save[i] == k)
     i += 1;
 ```
 
 - 将 `save[i]` 加载到临时寄存器里。
-    - 加载 `save[i]` 前还需要得到它的地址，将 i 加到 save 的基址上。
-    - 由于字节寻址问题，i 还需要乘 8。这个可以通过左移实现
-    - 添加 Loop 标签
+  - 加载 `save[i]` 前还需要得到它的地址，将 i 加到 save 的基址上。
+  - 由于字节寻址问题，i 还需要乘 8。这个可以通过左移实现
+  - 添加 Loop 标签
 
 ```asm
       slid x10, x22, 3  ; i * 8, 并存到 x10 里
@@ -146,27 +156,29 @@ Loop: bne x9, x24, Exit ; 比较
 Exit：
 ```
 
-### case / switch
+#### case / switch
 
 实现方法：
+
 1. 转换为一系列 if-then-else
 2. 更高效的方法：使用分支地址表或分支表。
 
-## "过程"
+### 过程指令 (函数)
 
-### 过程调用时的寄存器的分配
+#### 过程调用时的寄存器的分配
 
 - `x0` 硬连线为 0
 - `x10 - x17`: 参数寄存器，用于传递参数或者返回值
 - `x1`: 一个返回地址寄存器
 
-### 跳转指令
+#### 跳转指令
 
 - `jal`: 跳转 - 链接指令
 
 ```asm
 jal x1, ProcedureAddress
 ```
+
 跳转到 ProcedureAddress 并把下一条指令的返回值保存到目标寄存器 **`rd`**.
 
 > 在存储程序中，总需要一个寄存器存储当前指令的地址，这个寄存器被称为 "程序计数器", 缩写为 "PC".所以 `jal` 指令实际上是将 `PC + 4` 写入到 x1 中
@@ -181,8 +193,7 @@ jalr x0, 0(x1)
 
 当用户 `jal x1 X` `jalr x0, 0(x1)`
 
-
-## 使用更多寄存器
+#### 使用更多寄存器
 
 假设一个过程需要比 8 个更多的寄存器，需要将寄存器换出到存储器。
 
@@ -200,6 +211,7 @@ long long int leaf_example(long long int g, long long int h, long long int i, lo
 ```
 
 汇编：
+
 ```asm
 leaf_example:
     ; 压栈 (sd 从寄存器取双字到存储器)
@@ -221,7 +233,7 @@ leaf_example:
     ld x6, 8(sp)
     ld x5, 16(sp)
     addi sp, sp, 24
-    
+
     ; 返回
     jalr x0, 0(x1)
 ```
@@ -233,7 +245,7 @@ leaf_example:
 
 这一约定，减少了寄存器换出，x5, x6 不用保存，减少了两次存储和载入，x20 必须保存和恢复。
 
-## 嵌套过程
+#### 嵌套过程
 
 不调用其他过程的过程称为 leaf 进程
 
@@ -255,27 +267,638 @@ long long int fact(long long int n) {
 ```asm
 fact:
     ; 压栈
-    addi sp, sp, 16    ; n 和 x1
-    sd x1, 8(sp)       ; 返回地址 x1
-    sd x10, 16(sp)     ; 参数 n
+    addi sp, sp, -16   ; 参数 n 和返回地址 x1
+    sd x1, 8(sp)       ; 把返回地址 x1 存到 8[sp] 中
+    sd x10, 0(sp)      ; 把 x10 [[参数 n]] 存到 0[sp] 中
 
     ; 判断
     addi x5, x10, -1   ; x5 = n - 1
-    bge x5, x0, L1     ; if (n < 1) goto L1;
-    
+    bge x5, x0, L1     ; if (n - 1 >= 0) goto L1;
+
     ; true
     addi x10, x0, 1    ; x10 = 1
 
-    addi sp, sp, 16    ; 再次压栈
-    jalr x0, 0(x1)     ; 跳到 x1
+    addi sp, sp, 16    ; 弹栈
+    jalr x0, 0(x1)     ; 跳回去 x1
 L1:
     ; false
-    addi x10, x10, -1  ; x10 = n - 1
-    jal x1, fact       ; fact
+    addi x10, x10, -1  ; [[x10 = n - 1]]
+    jal x1, fact       ; fact // 这里发生递归
+
     addi x6, x10, 0    ; 把计算结果存到 x6
 
     ld x10, 0(sp)
     ld x1, 8(sp)
-    addi sp, sp, 16
+    addi sp, sp, 16    ; 弹栈
+
     mul x10, x10, x6   ; return n * fact(n - 1)
     jalr x0, 0(x1)
+```
+
+通过把返回地址 (PC + 4) 存到栈上实现了返回。
+
+#### 尾递归
+
+```c
+long long int sum(long long int n, long long int acc) {
+    if (n > 0)
+        return sum(n - 1, acc + n);
+    else
+        return acc;
+}
+```
+
+这种求和的递归可以用迭代高效实现
+
+```asm
+    ; 假设 x10 = n, x11 = acc, 结果放入 x12
+sum:
+    ble x10, x0, sum_exit
+    add x11, x11, x10
+    addi x10, x10, -1
+    jal x0, sum
+sum_exit:
+    addi x12, x11, 0
+    jalr x0, 0(x1)
+```
+
+### 字符处理指令
+
+RISC-V 中一系列指令可以从双字中提取一个字节
+
+- `lbu` (加载无符号字节): 从内存中加载一个字节，放到寄存器的最右边八位
+- `sb` (存储字节): 从存储器最右边八位取一个字节并写入内存
+
+```asm
+lbu x12 0(x10) // read from x10
+sb x12 0(x11)  // write to x11
+```
+
+字符串的设计：
+
+1. 字符串第一位保留，表示字符串长度
+2. 附加长度的变量（如结构体）
+3. 字符串的结尾用一个字符标记结尾
+
+`strcpy` 的汇编实现
+
+```c
+void strcpy(char x[], char y[]) {
+    size_t i;
+    i = 0;
+    while ((x[i] = y[i]) != '\0') { // copy & test byte
+        i += 1;
+    }
+}
+```
+
+假设 x: x10, y: x11, i: x19
+
+```asm
+strcpy:
+    addi sp, sp, -8   ; 压栈
+    sd x19, 0(sp)     ; 保存 i
+    add x19, 0, 0;    ; i = 0 + 0
+L1:
+    add x5, x19, x11  ; 计算 数组基址 + 偏移量 (i)
+    lbu x6, 0(x5)     ; 加载对应字节，注意：这里不用 *8，因为是字节数组
+
+    bep x6, x0, L2
+    addi x19, x19, 1  ; if (== '\0')
+    jal x0, L1
+L2:
+    ld x19, 0(sp)     ; else
+    addi sp, sp, 8    ; 弹栈
+    jalr x0, 0(x1)    ; 返回
+```
+
+### 大立即数
+
+假如常量超过了 12 位怎么办？
+
+RISC-V 提供了 lui (load upper immediate) 指令 (取高位立即数)，能够将 20 位常量加载到寄存器的第 31 到 12 位。
+
+将以下 64 位常量加载到寄存器 x19：
+
+```asm
+; 00000000 00000000 00000000 00000000 00000000 00111101 00000101 00000000
+
+
+; 加载前 20 位
+lui x19, 976                   ; 976: 00000000 00111101
+
+; 此时 x19
+; 00000000 00000000 00000000 00000000 00000000 00111101 00000000 00000000
+
+; 加载后 12 位
+addi x19, x19, 1280                             ; 1280: 00000101 00000000
+```
+
+### swap 和 排序
+
+#### swap
+
+```c
+void swap(long long int v[], size_t k) {
+    long long int temp;
+    temp = v[k];
+    v[k] = v[k + 1];
+    v[k + 1] = temp;
+}
+```
+
+手动把 C 翻译为 ASM 时，我们遵循一下步骤：
+
+1. 为程序中的变量分配寄存器
+2. 为过程生成汇编代码
+3. 保存过程调用间的寄存器
+
+下面是详细过程：
+
+寄存器的分配。RISC-V 参数传递默认使用 x10 和 x17 寄存器，由于 swap 只有两个参数，所以可以在 x10 和 x17 保存。
+
+还剩一个变量 temp，我们用 x5 保存它。
+
+剩下的 C 过程代码：
+
+```c
+temp     = v[k];
+v[k]     = v[k + 1];
+v[k + 1] = tmep;
+```
+
+对应的 ASM:
+
+```asm
+; 使用数组基址 + 8 * i 计算地址
+alli x6, x11, 3     ; reg x6 = k * 8
+add  x6, x10, x6    ; reg x6 = x6 + (k * 8)
+
+; 加载数组数据到寄存器
+ld x5, 0(x6)        ; reg x5 (temp) = v[k]
+ld x7, 8(x6)        ; reg x7        = v[k + 1]
+
+; 把寄存器数据存入数组
+sd x7, 0(x6)        ; v[k]     = reg x7
+sd x5, 8(x6)        ; v[k + 1] = reg x5 (temp)
+```
+
+RISC-V 是字节寻址，双字之间相差了 8 个字节。
+
+#### sort
+
+```c
+void sort(long long int v[], size_t int n) {
+    size_t i, j;
+    for (int i = 0; i < n; i += 1) {
+        for (j = i - 1; j >= 0 && v[j] > v[j + 1]; j -= 1) {
+            swap(v, j);
+        }
+    }
+}
+```
+
+1. 寄存器的分配：
+
+    v 和 n 两个参数保存在 x10 和 x11 中，我们将 i 和 j 两个临时寄存器分配在 x19 和 x20 (都是保存寄存器).
+
+2. 翻译过程体代码：
+
+    过程体由两层 for 循环和一个 swap 调用组成，我们从外到内展开代码。
+
+##### 第一层 for 循环
+
+`for (int i = 0; i < n; i += 1) {`:
+
+for 循环分三步，对 i 做初始化，判断 `i < n` 和 `i += 1`, 分别对应下面的汇编指令：
+
+```asm
+; 初始化
+li x19, 0         ; li 是汇编器提供的伪指令, 目的是简化汇编的编写
+
+; i += 1
+addi x19, x19, 1
+
+; 判断 i < n
+for1tst:
+    beg x19, x11, exit1 ; 如果 i >= 0, 则退出
+    j for1tst
+exit1:
+```
+
+经过排序后：
+
+```asm
+li x19, 0
+for1tst:
+    bge x19, x11, exit1 ; 如果 i >= 0, 则退出
+    ...
+    ; i 循环的 body
+    ...
+    addi x19, x19, 1  ; i += 1
+    j for1tst         ; 继续循环
+exit1:
+```
+
+##### 第二层循环
+
+`for (j = i - 1; j >= 0 && v[j] > v[j + 1]; j -= 1) {`
+
+```asm
+; 初始化
+addi x20, x19, -1
+
+; j -= 1
+addi x20, x20, -1
+
+; 判断条件,任意一个为假都要推出循环
+for2tst:
+    ; 判断 j >= 0
+    ble x20, 0, exit2
+
+    ; 判断 v[j]> v[j + 1]
+    ; 先计算地址
+    slii x5, x20, 8    ; reg x5 = j * 8
+    add x5, x10, x5    ; reg x5 = v = j * 8
+    ld x6, 0(x5)       ; 加载 v[j]
+    ld x7, 8(x5)       ; 加载 v[j + 1]
+    bge x6, x7, exit2  ; 比较
+    ...
+    (第二个循环的内容)
+    ...
+    addi x20, x20, -1  ; j -= 1
+    j for2tst          ; 重复循环
+exit2:
+```
+
+##### 调用 swap
+
+调用 swap 很容易： `j x1 swap`
+
+swap 需要 x10 (v) 和 x11 (k) 中的值，其中一种方法是：将 swap 的参数提前复制到其他寄存器中，使得 x10 和 x11 在调用 swap 时可用。
+
+```asm
+mv x21, x10 ; 把 x10 复制到 x21
+mv x22, x11 ; 把 x11 复制到 x20
+```
+
+然后将这两个参数传递给 swap:
+
+```asm
+mv x10, x21 ; 把 x10 从 x21 恢复回去
+mv x11, x20 ; ?
+```
+
+保留 sort 中的寄存器
+
+```asm
+sort:
+    addi sp, sp, -40
+    sd x1, 32(sp)       ; 返回地址
+    sd x22, 24(sp)      ; 把 x22 保存到栈
+    sd x21, 16(sp)      ; 同上
+    sd x20, 8(sp)       ; 同上
+    sd x19, 0(sp)       ; 同上
+```
+
+##### 完整过程
+
+```c
+void sort(long long int v[], size_t int n) {
+    size_t i, j;
+    for (int i = 0; i < n; i += 1) {
+        for (j = i - 1; j >= 0 && v[j] > v[j + 1]; j -= 1) {
+            swap(v, j);
+        }
+    }
+}
+```
+
+- v 和 n 两个参数保存在 x10 和 x11 中，
+- i 和 j 两个临时寄存器分配在 x19 和 x20 (都是保存寄存器).
+
+```asm
+
+sort:
+    addi sp, sp, -40
+    sd x1, 32(sp)       ; 返回地址
+    sd x22, 24(sp)      ; 把 x22 保存到栈
+    sd x21, 16(sp)      ; 同上
+    sd x20, 8(sp)       ; 同上
+    sd x19, 0(sp)       ; 同上
+
+    ; 为 swap 保存参数
+    mv x21, x10 ; 把 x10 (v) 复制到 x21
+    mv x22, x11 ; 把 x11 (k) 复制到 x22
+
+    ; 初始化 i = 0
+    li x19, 0
+for1tst:
+    bge x19, x22, exit1 ; 如果 i >= 0, 则退出
+    ; 初始化 j = i - 1
+    addi x20, x19, -1   ; j = i - 1
+for2tst:
+    ; 判断 j >= 0
+    ble x20, 0, exit2
+
+    ; 判断 v[j]> v[j + 1]
+    ; 先计算地址
+    slii x5, x20, 8    ; reg x5 = j * 8
+    add x5, x10, x5    ; reg x5 = v = j * 8
+    ld x6, 0(x5)       ; 加载 v[j]
+    ld x7, 8(x5)       ; 加载 v[j + 1]
+    bge x6, x7, exit2  ; 如果 v[j] > v[j + 1], 则退出
+
+    ; 恢复寄存器, 并调用 swap
+    mv x10, x21
+    mv x11, x20
+    jal x1, swap
+
+    addi x20, x20, -1  ; j -= 1
+    j for2tst          ; 重复循环
+exit2:
+    addi x19, x19, 1  ; i += 1
+    j for1tst         ; 继续循环
+exit1:
+    ld x19, 0(sp)
+    ld x20, 8(sp)
+    ld x21, 16(sp)
+    ld x22, 24(sp)
+    ld x1, 32(sp)
+    addi sp, sp, 40
+    jalr x0, 0(x1)
+```
+
+```asm
+swap:
+    ; 使用数组基址 + 8 * i 计算地址
+    alli x6, x11, 3     ; reg x6 = k * 8
+    add  x6, x10, x6    ; reg x6 = x6 + (k * 8)
+
+    ; 加载数组数据到寄存器
+    ld x5, 0(x6)        ; reg x5 (temp) = v[k]
+    ld x7, 8(x6)        ; reg x7        = v[k + 1]
+
+    ; 把寄存器数据存入数组
+    sd x7, 0(x6)        ; v[k]     = reg x7
+    sd x5, 8(x6)        ; v[k + 1] = reg x5 (temp)
+```
+
+### 数组和指针
+
+```c
+clear1(long long int array[], size_t int size) {
+    size_t i;
+    for (i = 0; i < size; i += 1) {
+        array[i] = 0;
+    }
+}
+clear2(long long int *array, size_t int size) {
+    long long int *p
+    for (p = &array[0]; p < &array[size]; p = p + 1) {
+        *p = 0;
+    }
+}
+```
+
+假设 array: x10, size: x11, i: x5
+
+```asm
+    li x5, 0            ; i = 0
+loop1:
+    slii x6, x5, 3      ; i * 8
+    add x7, x10, x6
+    sd 0, 0(x7)         ; array[i] = 0
+    addi x5, x5, 1
+    ble x5, x11, loop1  ; if i < size; goto loop1
+```
+
+指针实现
+
+```asm
+    mv x5, x10          ; p(x5) = x10
+loop2:
+    sd x0, 0(x5)        ; 加载 *p
+    addi x5, x5, 8      ; p = p + 8
+    slli x6, x11, 3     ; x6 = size + 8
+    add x7, x10, x6     ; x7 = &array[size]
+    bltu x5, x7, loop2
+```
+
+这段代码可以优化，将计算 `&array[size]` 移动到外部：
+
+```asm
+    mv x5, x10          ; p(x5) = x10
+    slli x6, x11, 3     ; x6 = size + 8
+    add x7, x10, x6     ; x7 = &array[size]
+loop2:
+    sd x0, 0(x5)        ; 加载 *p
+    addi x5, x5, 8      ; p = p + 8
+    bltu x5, x7, loop2
+```
+
+减少了两条指令，这种优化对应分别于两种编译器优化：
+
+- "强度削弱": 使用移位代替乘法
+- 循环变量消除：消除循环内的数组地址计算
+
+## 并发
+
+这里介绍上锁 (lock) 和解锁 (unlock) 的同步实现
+
+在多处理器中实现同步所需的关键是一组硬件原语，它们能够提供以原子方式读取和修改内存单元的能力。也就是说在内存单元的读取和写人之间不能插人其他任何操作。
+
+> 如果没有这样的能力，构建基本同步原语的成本将会很高并会随着处理器数量的增加而急剧增加。
+
+有许多基本硬件原语的实现方案，所有这些都提供了原子读和原子写的能力以及一些判断读写是否是原子操作的力法。
+
+> 通常，体系结构设计人员不希望用户使用基本的硬件原语而是期望系统程序员使用原语来构建同步库，这个过程通常复杂且棘手。
+
+我们从 **原子交换** (atomic exchange 或 atomic swap) 原语开始展示如何使用它来构建 基本同步原语。它是构建同步机制的一种典型操作，它将寄存器中的值与存储器中的值进行交换。
+
+为了了解如何使用它来构建基木同步原语，假设要构建一个简单的锁变量，其中用 0 表示锁可用，用 1 用于表示锁已被占用。
+
+处理器尝试通过将寄存器中的 1 与该锁变量对应的内存地址的值进行交换来设置加锁。如果某个其他处理器已声明访间该锁变量则交换指令的返回值为 1 表明该锁已被其他处理器占用，否则为 0 表示加锁成功。在后一种情况下，锁变量的值变为 1 以防止其他处理器也加锁成功
+
+现在考虑两个处理器尝试同时进行交换操作：这种竞争会被阻止。因为其中一个处理器将首先执行交换并返回。而第二个处理器在进行交换时将返回 1。使用交换原语实现同步的关键是操作的原子性：交换是不可分割的．硬件将对两个同时发生的交换进行排序，尝试以这种方式设置同步变量的两个处理器都不可能认为它们同时设置了变量。
+
+实现单个的原子存储操作为处理器的设计带来了一些挑战，因为它要求在单条不可中断的指令中完成存储器的读和写操作
+
+另一种方法是使用指令对其中第二条指令返回一个值，该值表示该指令对是否被原子执行。如果任何处理器执行的所有其他操作都发生在该对指令之前或之后，则该指令对实际上是原子的。因此，当指令对实际上是原子操作时没有其他处理器可以在指令对之间改变值。
+
+在 RISC-V 中，这对指令指的是一个称为 **保留加载 (load-reserved) 双字 (1 rd)** 的特殊加载指令，和一个称为 **条件存储 (store-conditional) 双字 (sc.d)** 的特殊存储指令。这些指令按序使用：
+
+- 如果保留加载指令指定的内存位置的内容在条件存储指令执行到同一地址之前发生了变化，则条件存储指令失败且不会将值写人内存。
+- 条件存储指令定义为将（可能是不同的）寄存器的值存储在内存中，如果成功则将另一个寄存器的值更改为 0 ,如果失败则更改为非零值。
+
+因此，sc.d 指定了三个寄存器：
+
+- 一个用于保存地址
+- 一个用于指示原子操作的失败或成功
+- 还有一个用于如果成功则将值存储在内存中。
+
+由于保留加载指令返回初始位，并且条件存储指令仅在成功时返回 0，因此以下序列在寄存器 x20 中指定的内存位置上实现原子交换
+
+```asm
+again:
+    lr.d x10, (x20)         ; 保留加载 load-reserved
+    sc.d x11, x23, (x20)    ; 条件存储 store-conditional
+    bne  x11, x0, again     ; 失败则重试
+    addi x23, x10, 0        ; 保存加载到的值到 x23
+```
+
+详细阐述：虽然同步是为多处理器而提出的，但原子交换对于单个处理器操作系统中处理多个进程也很有用。为了确保单个处理器中的执行不受任何干扰，如果处理器在**两个指令对之间进行上下文切换**，则条件存储也会失败
+
+详细阐述: 保留加载/条件存储机制的一个优点是可以用于构建其他同步原语，例如原子的比较和交换(atomic compare and swap)或原子的取后加(atomic fetch-and-increment), 这在一些并行编程模型中使用。这些同步原语的实现需要在 `lr.d` 和 `sc.d` 之间插入更多指令，但不会太多
+
+由于条件存储会在另一个 store 尝试加载保留地址或异常之后失败，因此必须注意选择在两个指令之间插入哪些指令。特别是，只有保留加载/条件存储块中的整点算术、前向分支和后向分支被允许执行且不会出现问题；否则，可能会产生死锁情况 - 由于重复的页错误，处理器永远无法完成 `sc.d`。此外，保留加载和条件存储之间的指令数应该很少，以将由于不相关事件或竞争处理器导致条件存储频繁失败的可能性降至最低。
+
+详细阐述：虽然上面的代码实现了原子交换，但下面的代码可以更有效地获取寄存器 x20 对应存储中的锁变量，其中值 0 表示锁变量是空闲的，值 1 表示锁变量被占用：
+
+```asm
+    addi x12, x0, 1         ; x12 设为 1
+again:
+    lr.d x10, (x20)         ; 读取锁状态
+    bne x10, x0, again      ; 如果是 0
+    sc.d x11, x12, (x20)    ; 把 1 存到 x20, 把 x20 返回到 x11
+    bne x11, 0, again       ; 如果 x11 为 1, 说明已经被上锁, again
+    sd x0, 0(x20)           ; 使用普通的存储指令就能释放锁
+```
+
+## 高级专题
+
+### C，Java 与 Jit
+
+为了保持可移植性并提高执行速度，Java 发展的下一阶段目标 是设计在程序运行时翻译的编译器。
+
+这样的 **即时编译器（JIT)** 通常会对正在运行的程序进行剖视，以找到 "热点" 方法所在的位置，然后将它们翻译成（运行虚拟机的）宿主机对应的指令。编译过的部分将在下次运行程序时保存，以便每次运行时速度更快。这种解释和编译的平衡随着时间的推移而发展，因此经常运行的 Java 程序几乎没有解释的开销。
+
+随着计算机的速度变得越来越快，编译器也变得更为强大，并且随着研究人员发明出更 好的动态编译 Java 的方法，Java 与 C 或 C+＋之间的性能差距正在缩小。
+
+### 其他 IPS
+
+### 总结
+
+1. **简单源于规整**。规整性使 RISC-V 指令系统具有很多特点：所有指令都保持单一长度、算术指令中总是使用寄存器作为操作数、所有指令格式中寄存器字段都保持在相同位置。
+2. **更少则更决**。对速度的要求导致 RISC-V 有 32 个寄存器而不是更多。
+3. **优秀的设计需要适当的折中**。一个 RISC-V 的例子是，在指令中提供更大的地址和常 数．与保持所有的指令具有相同的长度之间的折中。
+
+每种类型的 RISC-v 指令都与编程语言中出现的结构相关：
+
+- 算术指令对应于赋值语句中的操作
+- 传输指令最有可能发生在处理数组或结构体等数据结构时。
+- 条件分支用于 if 语句和循环中。
+- 无条件分支用于过程调用和返回，以及 case/switch 语句
+
+这些指令出现频率不相等，少数常用指令在大多数指令中占主导地位。下图展示了 SPEC CPU 2006 的每类指令的出现频率。指令的不同出现频率在数据路径、控制和流水线中起着重要作用
+
+| 指令类别 | RISC-V 实例 | 对应的高级语言 | 整数频率 | 浮点频率 |
+|--------|-------------|--------------|---------|---------|
+| 算术 | add, sub, addi | 赋值语句中的操作 | 6% | 48% |
+| 数据传输 | ld, sd, lw, sw, lh, sh, lb, sb, lui | 对存储器中数据结构的引用 | 35% | 36% |
+| 逻辑 | and, or, xor, sll, srl, sra | 赋值语句中的操作 | 12% | 14% |
+| 分支 | beq, bne, blt, bge, bltu, bgeu | if 语句；循环 | 34% | 8% |
+| 跳转 | jal, jalr | 过程调用&返回；switch 语句 | 2% | 0% |
+
+## 翻译并启动程序
+
+### 编译器
+
+函数调用过程
+
+函数调用过程通常分为 6 个阶段：
+
+1. 将参数存储到函数能够访问到的位置；
+2. 跳转到函数开始位置 (使用 RV32I 的 jal 指令)；
+3. 获取函数需要的局部存储资源，按需保存寄存器；
+4. 执行函数中的指令；
+5. 将返回值存储到调用者能够访问到的位置，恢复寄存器，释放局部存储资源；
+6. 返回调用函数的位置 (使用 ret 指令);
+
+### 汇编器
+
+ret 实际上是一个伪指令，汇编器会用 jalr x0, x1, 0 来替换它。大多数的 RISC-V 伪指令依赖于 x0。因此，把一个寄存器硬编码为 0 便于将许多常用指令——如跳转 (jump）、返回 (return)、等于 0 时转移 (branch on equal to zero)——作为伪指令，进而简化 RISC-V 指令集。
+
+![fakes](./riscv/instructions_fakes.png)
+![fakes2](./riscv/instructions_fakes2.png)
+
+hello.c
+
+```c
+#include <stdio.h>
+int main() {
+    printf("hello, %s\n", "world");
+    return 0;
+}
+```
+
+hello.s
+
+```asm
+    ; Directive: enter text section         指示符: 进入代码段
+    .text
+    ; Directive: align code to 2^2 bytes    指示符: 按 2^2 字节对齐代码
+    .align 2
+    ; Directive: declare global symbol main 指示符: 声明全局符号 main
+    .globl main
+; label for start of main                   main 的开始标记
+main:
+    ; allocate stack frame                  分配栈帧
+    addi sp, sp, -16
+    ; save return address                   存储返回地址
+    sw ra, 12(sp)
+    ; compute address of string1            计算 string1 的地址
+    lui a0, %hi(string1)
+    ;   string1
+    addi a0, a0, %lo(string1)
+    ; compute address of string2            计算 string2 的地址
+    lui a1, %hi(string2)
+    ;   string2
+    addi a1, a1, %lo(string2)
+    ; call function printf                  调用 printf 函数
+    call printf
+
+    ; restore return address                恢复返回地址
+    lw ra, 12(sp)
+    ; deallocate stack frame                释放栈帧
+    addi sp, sp, 16
+    ; load return value 0                   读取返回值
+    li a0, 0
+    ; return                                返回
+    ret
+
+    ; Directive: enter read-only data section   指示符: 进入只读数据段
+    .section .rodata
+    ; Directive: align data section to 4 bytes  指示符: 按 4 字节对齐数据
+    .balign 4
+; label for first string                        第一个字符串标记
+string1:
+    ; Directive: null-terminated string         指示符: 空字符结尾的字符串
+    .string "Hello, %s\n"
+; label for second string                       第二个字符串标记
+string2:
+    ; Directive: null-terminated string         指示符: 空字符结尾的字符串
+    .string "world"
+```
+
+hello.o
+
+```asm
+00000000 <main> :
+ 0: ff010113 addi   sp, sp, -16
+ 4: 00112623 sw     ra, 12(sp)
+ 8: 00000537 lui    a0, 0x0
+ c: 00050513 mv     a0, a0
+10: 000005b7 lui    a1, 0x0
+14: 00058593 mv     a1, a1
+18: 00000097 auipc  ra, 0x0
+1c: 000080e7 jalr   ra
+20: 00c12083 lw     ra, 12(sp)
+24: 01010113 addi   sp, sp, 16
+28: 00000513 li     a0, 0
+2c: 00008067 ret
+```
+
+位置 8 到 1c 的这几条指令的地址为 0, 将被链接器填充。
+
+## 特权级
