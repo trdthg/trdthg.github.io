@@ -9,7 +9,6 @@ xrandr
 xrandr --output DP-1 --auto --right-of eDP-1
 ```
 
-
 ## manjaro
 
 ### cpu 调频
@@ -72,3 +71,28 @@ sudo systemctl start sshd
 # 重启 sshd 服务
 sudo systemctl restart sshd
 ```
+
+## gamepad
+
+驱动下载：xboxdrv
+
+蓝牙：
+
+```txt
+bluetoothctl pair <mac_addr>
+bluetoothctl connect <mac_addr>
+bluetoothctl remove <mac_addr>
+bluetoothctl trust <mac_addr>
+```
+
+[如何使用 bluetoothctl 在 Linux 上管理蓝牙设备](https://zhongguo.eskere.club/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8bluetoothctl%E5%9C%A8linux%E4%B8%8A%E7%AE%A1%E7%90%86%E8%93%9D%E7%89%99%E8%AE%BE%E5%A4%87/2021-05-16/)
+
+测试：
+
+[树莓派和手柄 - 蓝牙连接](https://www.shumeijiang.com/2021/08/04/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%92%8C%E6%89%8B%E6%9F%84-%E8%93%9D%E7%89%99%E8%BF%9E%E6%8E%A5.html)
+
+资料：
+
+[How to Set Up and Use Game Controllers on Linux](https://www.makeuseof.com/tag/get-game-controllers-running-linux/)
+[Arch-Wiki Gamepad](https://wiki.archlinux.org/title/Gamepad)
+[Guide – Configuring XInput support for Linux](https://help.wooting.io/en/article/guide-configuring-xinput-support-for-linux-69m32u/)
