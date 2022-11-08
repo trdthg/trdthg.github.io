@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://www.googletagmanager.com">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4TM86KZ83J"></script>
 <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-4TM86KZ83J",{anonymize_ip:!0})</script><link rel="stylesheet" href="/assets/css/styles.6b28552f.css">
-<link rel="preload" href="/assets/js/runtime~main.54e5bcba.js" as="script">
+<link rel="preload" href="/assets/js/runtime~main.903a575b.js" as="script">
 <link rel="preload" href="/assets/js/main.916d2c7b.js" as="script">
 </head>
 <body class="navigation-with-keyboard">
@@ -46,7 +46,7 @@ Rust 结构体 repr 的对齐方式没有任何保证。</p><p>在过去的几�
 <code>addr_of_mut!</code> 的一些使用是必要的，但实际上并非如此。在有人指出这个错误之前，文章已经得到了大量关注。</p><p>这些规则使得 Rust 最好的功能之一越来越难以接近，同时也越来越难以理解。要求存在 MaybeUninit，而不仅仅是过去的
 mem::uninitialized API 是显而易见的，但是却展示了语言规则是多么的复杂。</p><p>我不认为这是好的。事实上，我认为这根本不是一个好的趋势，好像越来越少的人了解 unsafe Rust。与 C 的互操作性是让 Rust
 伟大的一个原因，但是我们现在正在创建巨大的屏障，这是不可取的。更重要的是：编译器在指出我的错误时没有什么帮助。</p><p>让 unsafe 变得更符合人体工程学是一个困难的问题，但是它值得被解决。因为有一点很明确：人们不会很快停止编写 unsafe 代码。</p></div></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="博文分页导航"><a class="pagination-nav__link pagination-nav__link--prev" href="/blog/2023/01/03/[译] Rust冒险: 滥用 Serde"><div class="pagination-nav__sublabel">较新一篇</div><div class="pagination-nav__label">[译] Rust冒险: 滥用 Serde</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/blog/2023/01/01/[译] 拓展 Rust 中的 Map"><div class="pagination-nav__sublabel">较旧一篇</div><div class="pagination-nav__label">[译] 拓展 Rust 中的 Map</div></a></nav></main><div class="col col--2"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#从-c-到-rust" class="table-of-contents__link toc-highlight">从 C 到 Rust</a></li><li><a href="#什么时候用-addr_of_mut" class="table-of-contents__link toc-highlight">什么时候用 <code>addr_of_mut!</code></a></li><li><a href="#maybeuninit" class="table-of-contents__link toc-highlight">MaybeUninit</a></li><li><a href="#我的-unsafe-代码正确吗" class="table-of-contents__link toc-highlight">我的 unsafe 代码正确吗？</a></li></ul></div></div></div></div></div></div>
-<script src="/assets/js/runtime~main.54e5bcba.js"></script>
+<script src="/assets/js/runtime~main.903a575b.js"></script>
 <script src="/assets/js/main.916d2c7b.js"></script>
 </body>
 </html>
