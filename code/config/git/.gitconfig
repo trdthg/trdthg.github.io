@@ -1,13 +1,12 @@
 [https]
-	proxy = socks5://127.0.0.1:1089
+	# proxy = socks5://127.0.0.1:1089
 [user]
 	name = trdthg
-	password = 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
+	# password = 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
 	email = trdthg@outlook.com
 [http]
-	proxy = socks5://127.0.0.1:1089
+	# proxy = socks5://127.0.0.1:1089
 [core]
 	editor = vim
 [credential]
 	helper = trdthg
-
