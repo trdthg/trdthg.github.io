@@ -29,10 +29,14 @@ bindsym $mod+m move workspace to output left
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:monospace 8
+
 #################################################################################
 # exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec xrandr -s 7
-exec --no-startup-id qv2ray
+# exec xrandr --dpi 144
+# exec xrandr -s 7
+# exec --no-startup-id qv2ray
+exec --no-startup-id xrandr --output eDP-1 --mode 2560x1600 --scale 1x1 --dpi 192
+# exec --no-startup-id cfwl
 exec --no-startup-id fcitx
 exec --no-startup-id blueman-applet
 
@@ -42,6 +46,9 @@ exec /usr/bin/gnome-keyring-daemon --start --components=gpg
 exec /usr/bin/gnome-keyring-daemon --start --components=secrets
 exec /usr/bin/gnome-keyring-daemon --start --components=ssh
 exec /usr/bin/gnome-keyring-daemon --start --components=pkcs11
+
+# polkit agent
+exec --no-startup-id /usr/lib/lxqt-policykit-agent
 
 #################################################################################
 # This font is widely installed, provides lots of unicode glyphs, right-to-left

@@ -50,7 +50,7 @@ eval "$(pyenv virtualenv-init -)"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="jonathan" # set by `omz`
+ZSH_THEME="mira" # set by `omz`
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -113,12 +113,12 @@ ZSH_THEME="jonathan" # set by `omz`
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+    z
     git
     zsh-autosuggestions
-    command-not-found
     zsh-syntax-highlighting
+    command-not-found
     safe-paste
-    z
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -154,3 +154,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 [ -f "/home/trdthg/.ghcup/env" ] && source "/home/trdthg/.ghcup/env" # ghcup-env
+
+# pnpm
+export PNPM_HOME="/home/trdthg/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
