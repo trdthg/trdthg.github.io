@@ -1,4 +1,99 @@
-# Python 嵌入式
+# Python
+
+## venv
+
+- 安装
+  - `pip install virtualenv`
+- 创建
+  - `python -m venv {myenv}`
+  - myenv 是虚拟环境的名字 (其实是路径)
+  - 会在路径下创建一个文件夹
+- 进入
+  - `source /home/trdthg/myproject/bigdata20/venv/bin/activate`
+  - 其实就是执行 venv 下的名字为 activate 的 shell 脚本
+- 退出
+  - 运行 `deactivate`
+- 其他虚拟工具
+  - pipenv
+
+## requirements.txt
+
+- 生成项目依赖
+  - venv
+    - `pip3 freeze > requirements.txt`
+    - 注意：如果不是在虚拟环境下执行，会把全局的依赖也加进去
+  - pipenv
+    - 略过
+  - 非虚拟环境 pipreqs
+    - `pipreqs /path/to/project`
+- 使用 requirements.txt
+  - `pip install -r requirements.txt`
+
+## setup.py
+
+感觉不好用
+
+- [requirements.txt vs setup.py in Python](https://towardsdatascience.com/requirements-vs-setuptools-python-ae3ee66e28af)
+
+## scrapy
+
+### IP 池
+
+```
+docker run --network host --env DB_CONN=redis://:@localhost:6379/0 -p 5010:5010 jhao104/proxy_pool:2.4.0
+```
+
+```py
+class ProxyMiddleware(object):
+    def __init__(self, proxy_url):
+        self.proxy_url = proxy_url
+
+    def get_random_proxy(self):
+        try:
+            print("-"*100)
+            print("请求随机代理")
+            response = requests.get("http://127.0.0.1:5010/get?type=https")
+            if response.status_code == 200:
+                proxy = response.json()['proxy']
+                return proxy
+        except requests.ConnectionError:
+            return False
+
+    def process_request(self, request, spider):
+        if request.meta.get('retry_times'):
+            proxy = self.get_random_proxy()
+            if proxy:
+                uri = f'https://{proxy}'
+                print(' 使用代理 ' + proxy)
+                request.meta['proxy'] = uri
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        settings = crawler.settings
+        return cls(proxy_url=settings.get('PROXY_URL'))
+```
+
+### 随机下载延迟
+
+```py
+class RandomDelayMiddleware(object):
+    def __init__(self, delay):
+        self.delay = delay
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        delay = crawler.spider.settings.get("RANDOM_DELAY", 10)
+        if not isinstance(delay, int):
+            raise ValueError("RANDOM_DELAY need a int")
+        return cls(delay)
+
+    def process_request(self, request, spider):
+        delay = random.randint(0, self.delay)
+        print('-'*100)
+        print("下载延迟：", delay, "秒")
+        time.sleep(delay)
+```
+
 
 ## MicroPython
 
