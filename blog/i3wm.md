@@ -1,5 +1,56 @@
 # Linux 发行版配置
 
+## nixos
+
+### 安装注意
+
+在执行最后的 `nixos-install` 之前记得打开网络设置，不然就要重装
+
+### 网络设置
+
+```sh
+systemctl start wpa_supplicant
+
+wpa_cli
+add_network
+set_network 0 ssid | psk | key_mgmt
+
+WPA-PSK
+
+list_network
+enable_network 0
+```
+
+关闭设备（wifi）被禁用
+
+```sh
+rfkill list
+rfkill unblock all
+```
+
+### 亮度设置
+
+```sh
+programs.light.enable = true;
+```
+
+```sh
+light -U 30 # darker.
+light -A 30 # brighter.
+```
+
+### 音量调节
+
+```sh
+
+alsamixer
+
+amixer set Master mute
+amixer set Master unmute
+amixer set Master 10%
+amixer set Master 20%
+```
+
 ## i3wm
 
 ### 多屏幕
