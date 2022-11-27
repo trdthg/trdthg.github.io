@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://www.googletagmanager.com">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4TM86KZ83J"></script>
 <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-4TM86KZ83J",{anonymize_ip:!0})</script><link rel="stylesheet" href="/assets/css/styles.6b28552f.css">
-<link rel="preload" href="/assets/js/runtime~main.4526e0a1.js" as="script">
+<link rel="preload" href="/assets/js/runtime~main.d7ed96f1.js" as="script">
 <link rel="preload" href="/assets/js/main.916d2c7b.js" as="script">
 </head>
 <body class="navigation-with-keyboard">
@@ -30,7 +30,7 @@ PostgreSql 就提供了 B 树作为存储结构</p><p><img loading="lazy" src="h
 1 次就能读到数据，这是一个飞跃。</p><p><strong>小问题</strong></p><p>学号为 10, 20, 30 的学生的数据去哪了？没了？
 <img loading="lazy" src="https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021254452.png" class="img_ev3q"></p><p>比如我们现在需要查询学号为 10 的学生的数据，我们在在查询第一层时已经找到了 10，但是依然不能停，需要继续想下查找，知道找到最后一层节点为止</p><p><strong>小拓展</strong></p><p>把最后一层的数据串起来，我们就能实现区间查询，比如查询学好为 12 到 22 的所有学生的数据</p><p><img loading="lazy" src="https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021255491.png" class="img_ev3q"></p><p><strong>一个 demo</strong>
 <img loading="lazy" src="https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202021255706.png" class="img_ev3q"></p><p><strong>快要忘记的固态硬盘</strong></p><p>如果你用的是固态硬盘，那么 B+ 树......卒</p></div></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文档分页导航"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/ioclub/后端/backend_4"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">第四次课 SQL</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/intro"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">文档页</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#什么是数据库" class="table-of-contents__link toc-highlight">什么是数据库</a><ul><li><a href="#技术初衷" class="table-of-contents__link toc-highlight">技术初衷</a></li><li><a href="#数据库管理系统" class="table-of-contents__link toc-highlight">数据库管理系统</a></li><li><a href="#数据库的分类" class="table-of-contents__link toc-highlight">数据库的分类</a></li></ul></li><li><a href="#如何实现一个数据库" class="table-of-contents__link toc-highlight">如何实现一个数据库？</a><ul><li><a href="#使用单文件存储的缺点" class="table-of-contents__link toc-highlight">使用单文件存储的缺点</a></li><li><a href="#目标" class="table-of-contents__link toc-highlight">目标</a></li></ul></li><li><a href="#实现思路" class="table-of-contents__link toc-highlight">实现思路</a><ul><li><a href="#使用数组存储" class="table-of-contents__link toc-highlight">使用数组存储</a></li><li><a href="#使用树存储" class="table-of-contents__link toc-highlight">使用树存储</a></li></ul></li></ul></div></div></div></div></main></div></div></div>
-<script src="/assets/js/runtime~main.4526e0a1.js"></script>
+<script src="/assets/js/runtime~main.d7ed96f1.js"></script>
 <script src="/assets/js/main.916d2c7b.js"></script>
 </body>
 </html>
