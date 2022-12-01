@@ -70,6 +70,18 @@
 
 这里会将一个 Dockerfile 的构建过程
 
+### ENV & ARG
+
+ARG 用于设置环境变量
+- **只在 build 期间生效，run 期无效**
+- 在构建镜像的时候使用 `--build-arg` 进行传递，会 **覆盖** Dockerfile 中指定的同名参数
+
+> 灵活使用 ARG 指令，可以在不修改 Dockerfile 的情况下，构建不同镜像。我们可以在构建镜像的时候，给参数传递不同的值，构建出不同的镜像
+
+ENV 指令和 ARG 指令特别相似
+- ARG 在 build 的时候生效，ENV 在 run 的时候生效，都可以直接使用这里定义的环境变量。
+- `docker run --env` 可以修改这些值
+
 ### ADD & COPY
 
 COPY
@@ -83,6 +95,12 @@ COPY hom* /mydir/
 COPY hom?.txt /mydir/
 COPY --chown=55:mygroup files* /mydir/
 ```
+
+
+- 如果 src 是 URL，并且 dest 不以斜杠结尾，则从 URL 下载文件并将其复制到 dest。
+- 如果 dest 以斜杠结尾，将自动推断出 url 的名字（保留最后一部分），保存到 dest
+- 如果 src 是目录，则将复制目录的整个内容，包括文件系统元数据。
+
 
 ADD
 
@@ -125,6 +143,12 @@ RUN pwd
 # /a/b/c
 ```
 
+### ENTRYPOINT
+
+ENTRYPOINT 配置容器启动时的执行命令
+
+- 不会被忽略，**一定会被执行**，即使运行 docker run 时指定了其他命令
+
 ### VOLUME
 
 挂载主机目录 / 挂载数据卷
@@ -151,6 +175,7 @@ VOLUME /data
 | source/src             | Docker Host 上的一个目录或者文件  |
 | destination/dst/target | 被挂载容器上的一个目录或者文件        |
 | readonly               | 挂载为只读                  |
+
 
 ### 格式
 
