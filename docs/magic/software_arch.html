@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://www.googletagmanager.com">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4TM86KZ83J"></script>
 <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-4TM86KZ83J",{anonymize_ip:!0})</script><link rel="stylesheet" href="/assets/css/styles.6b28552f.css">
-<link rel="preload" href="/assets/js/runtime~main.d7ed96f1.js" as="script">
+<link rel="preload" href="/assets/js/runtime~main.30ce8a14.js" as="script">
 <link rel="preload" href="/assets/js/main.916d2c7b.js" as="script">
 </head>
 <body class="navigation-with-keyboard">
@@ -31,7 +31,7 @@ StudentDO，对学生表的增删改查等操作就是 StudentDAO。</p></li><li
 DTO 可以只取有含义的业务字段，DO 是和数据库记录的一一映射，但是 DTO 只需要按照业务需要定义需要的字段。</li></ul></li><li><p>BO: 包含 PO/DO 和 DAO，有点类似于 domain(entity, usecase) 的概念，BO
 主要作用是把业务逻辑封装为一个对象。这个对象可以包括一个或多个其它的对象，还能够完成 DO - DTO 之间的转换</p></li><li><p>VO: 对应页面显示（web 页面/移动端 H5/Native 视图）的数据对象。举个例子，DTO 中时间 Date 格式，或者是
 yyyyMMddHHmmss 的字符串，但是 VO 需要的是前端展示的格式，需要转成”yyyy 年 MM 月 dd 月&quot;；</p></li></ul><h3 class="anchor anchorWithStickyNavbar_LWe7" id="图解">图解<a class="hash-link" href="#图解" title="标题的直接链接">​</a></h3><p><img loading="lazy" src="https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202061126981.png" class="img_ev3q"></p></div></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文档分页导航"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/magic/memory_ordering"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">原子操作与内存顺序</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/category/-rust-语言"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">🦀 Rust 语言</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#六边形架构" class="table-of-contents__link toc-highlight">六边形架构</a><ul><li><a href="#端口与适配器" class="table-of-contents__link toc-highlight">端口与适配器</a></li><li><a href="#应用程序核心" class="table-of-contents__link toc-highlight">应用程序核心</a></li><li><a href="#优点" class="table-of-contents__link toc-highlight">优点</a></li><li><a href="#参考" class="table-of-contents__link toc-highlight">参考</a></li></ul></li><li><a href="#干净架构" class="table-of-contents__link toc-highlight">干净架构</a><ul><li><a href="#参考-1" class="table-of-contents__link toc-highlight">参考</a></li><li><a href="#分层架构" class="table-of-contents__link toc-highlight">分层架构</a></li><li><a href="#目录结构" class="table-of-contents__link toc-highlight">目录结构</a></li><li><a href="#参考-2" class="table-of-contents__link toc-highlight">参考</a></li></ul></li><li><a href="#关于-dodtobo-等对象的关系图解" class="table-of-contents__link toc-highlight">关于 DO，DTO，BO 等对象的关系图解</a><ul><li><a href="#概念" class="table-of-contents__link toc-highlight">概念</a></li><li><a href="#说人话就是" class="table-of-contents__link toc-highlight">说人话就是</a></li><li><a href="#图解" class="table-of-contents__link toc-highlight">图解</a></li></ul></li></ul></div></div></div></div></main></div></div></div>
-<script src="/assets/js/runtime~main.d7ed96f1.js"></script>
+<script src="/assets/js/runtime~main.30ce8a14.js"></script>
 <script src="/assets/js/main.916d2c7b.js"></script>
 </body>
 </html>
