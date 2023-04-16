@@ -10,6 +10,7 @@ FROM customer
 WHERE customer_balance > 0
 ```
 
+
 查询优化器通常将这样的 SQL 查询编译成一系列离散运算符：
 ![](https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202204202254060.png)
 
