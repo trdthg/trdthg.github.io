@@ -1,0 +1,17 @@
+{
+  "commentTranslate.targetLanguage": "zh-CN",
+  "commentTranslate.hover.enabled": true,
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "a",
+      "username": "postgres",
+      "password": "postgres",
+      "connectionTimeout": 3000,
+      "database": "postgres"
+    }
+  ]
+}
