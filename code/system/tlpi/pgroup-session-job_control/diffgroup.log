@@ -1,0 +1,4 @@
+child: pid=8424, ppid=8068, pgid=8424, sid=8068, tty=/dev/tty
+child: pid=8425, ppid=8424, pgid=8425, sid=8068, tty=/dev/tty
+child 8424: caught SIGHUP
+child 8424: caught SIGHUP
