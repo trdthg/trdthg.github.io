@@ -26,6 +26,24 @@
 
 3. 删除所有仓库名为 redis 的镜像：`docker image rm $(docker image ls -q redis)`
 
+### 1.4 docker-drag
+
+https://github.com/NotGlop/docker-drag
+
+使用方法：
+
+```sh
+python docker_pull.py hello-world
+
+python docker_pull.py mysql/mysql-server:8.0
+
+python docker_pull.py mcr.microsoft.com/mssql-tools
+
+python docker_pull.py consul@sha256:6ba4bfe1449ad8ac5a76cb29b6c3ff54489477a23786afb61ae30fb3b1ac0ae9
+```
+
+加载镜像：`docker image load -i xxx.tar`
+
 ## 2 容器
 
 ### 2.0 列出容器
