@@ -29,16 +29,16 @@ refresh_token 实现了 token 的自动更新 将 username 改为从 token 解�
 
 ### 5 月 30 日
 
-今天写了 Shiro 模块（southwind_shiro）， 以及 shiro + redis +
+今天写了 Shiro 模块（southwind_shiro），以及 shiro + redis +
 token 整合版，现在关于权限还没有测试，下一步是把权限信息也加入到 redis 缓存里，整一套可以复用的登录模板
 
 ### 5 月 27 日
 
-10 天前开得 hashmap 终于继续了，今天只把增删看了， 关于红黑树方面的具体实现明天再说
+10 天前开得 hashmap 终于继续了，今天只把增删看了，关于红黑树方面的具体实现明天再说
 
 ### 5 月 26 日
 
-花了几天天装了个 manjaro 系统双系统，用了两天感觉还不错， 今天早上发现耗电量不尽人意，只能说一般般吧，比 windows 看着好像差点，在用用看先;
+花了几天天装了个 manjaro 系统双系统，用了两天感觉还不错，今天早上发现耗电量不尽人意，只能说一般般吧，比 windows 看着好像差点，在用用看先;
 
 ### 5 月 22 日
 
@@ -154,11 +154,11 @@ G=nx.from_dict_of_lists(dol)
 
 #### 2. ArrayList
 
-1. 添加: add()
-2. 取值: get( int index )
-3. 修改: set( int index, Object obj)
-4. 删除: remove(int index)
-5. 计算大小: list.size() 方法
+1. 添加：add()
+2. 取值：get( int index )
+3. 修改：set( int index, Object obj)
+4. 删除：remove(int index)
+5. 计算大小：list.size() 方法
 
 | [addAll()](https://www.runoob.com/java/java-arraylist-addall.html)               | 添加集合中的所有元素到 arraylist 中      |
 | -------------------------------------------------------------------------------- | ---------------------------- |
@@ -218,7 +218,7 @@ G=nx.from_dict_of_lists(dol)
 | [replace()](https://www.runoob.com/java/java-hashmap-replace.html)                   | 替换 hashMap 中是指定的 key 对应的 value。                      |
 | [replaceAll()](https://www.runoob.com/java/java-hashmap-replaceall.html)             | 将 hashMap 中的所有映射关系替换成给定的函数所执行的结果。                    |
 | [get()](https://www.runoob.com/java/java-hashmap-get.html)                           | 获取指定 key 对应对 value                                   |
-| [getOrDefault()](https://www.runoob.com/java/java-hashmap-getordefault.html)         | 获取指定 key 对应对 value，如果找不到 key ，则返回设置的默认值              |
+| [getOrDefault()](https://www.runoob.com/java/java-hashmap-getordefault.html)         | 获取指定 key 对应对 value，如果找不到 key，则返回设置的默认值              |
 | [forEach()](https://www.runoob.com/java/java-hashmap-foreach.html)                   | 对 hashMap 中的每个映射执行指定的操作。                             |
 | [entrySet()](https://www.runoob.com/java/java-hashmap-entryset.html)                 | 返回 hashMap 中所有映射项的集合集合视图。                            |
 | [keySet](https://www.runoob.com/java/java-hashmap-keyset.html)()                     | 返回 hashMap 中所有 key 组成的集合视图。                          |
@@ -249,7 +249,7 @@ model = tf.keras.Sequential([
 model.compile(  optimizer='adam',
                 loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
                 metrics=['sparse_categorical_accuracy'])
-# PS: metrics 可选:    y_ = y_train  y = x_train * w + b
+# PS: metrics 可选：y_ = y_train  y = x_train * w + b
         1. 'accuracy'  y_和 y 都是数值
         2. 'categorical_accuracy' y_和 y 都是独热码
         3. 'sparsecategorical_accuracy' y_是数值 y 是独热码
@@ -305,7 +305,7 @@ model = tf.keras.Sequential([
 ```java
     /// 1. 普通传参
 	@RequestMapping(value="/index3", method = RequestMethod.POST, params={"name", "id=10"})
-    // ！！！注意！！！ id 的类型已经被自动完成类型转换
+    // ！！！注意！！！id 的类型已经被自动完成类型转换
     //0 public String index3(String name, int id) {    正常
     //(1) 如果不想用 name 和 id 作为参数  需要进行参数绑定
     //(2)（1）public String index3(String str, int age) {    报错

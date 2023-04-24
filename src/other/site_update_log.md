@@ -1,10 +1,16 @@
 # 网站更新日志
 
+## v4 mdbook
+
+2023.4.24 Docusaurus 懒得折腾了，mdbook 比较熟，还能通过模板引用代码文件，就用它了。
+
 ## v3 Docusaurus
 
 2022.10.21 从 vuepress2 迁移到 Docusaurus
 
-## v2 vuepress3
+## v2 vuepress2
+
+迁移到 vite 后的构建速度是真滴快！
 
 ## v1 vuepress1
 
