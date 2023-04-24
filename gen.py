@@ -38,7 +38,11 @@ def gen(dirname) -> str:
             break
 
     for section in sections:
+        ret += "---"
+        ret += "\n"
+        ret += "\n"
         ret += "# " + section
+        ret += "\n"
         ret += "\n"
         for root, dirs, files in os.walk(os.path.join(dirname, section)):
             if root == os.path.join(dirname, section):
@@ -71,8 +75,6 @@ def gen(dirname) -> str:
                             + ")"
                         )
                         ret += "\n"
-        ret += "\n"
-        ret += "---"
         ret += "\n"
 
     return ret
