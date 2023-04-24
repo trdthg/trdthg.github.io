@@ -1,0 +1,1014 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>java - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../../favicon.svg">
+                        <link rel="shortcut icon" href="../../favicon.png">
+                <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+                <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/java/java.html" class="active"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../../note/java/springboot.html"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../../note/frontend/http.html"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/magic/riscv.html"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust.html"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../../draft/计算机网络.html"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="java"><a class="header" href="#java">Java</a></h1>
+<h2 id="基础知识"><a class="header" href="#基础知识">基础知识</a></h2>
+<h3 id="for-和-whiletrue-的区别"><a class="header" href="#for-和-whiletrue-的区别">for(;;) 和 while(true) 的区别</a></h3>
+<p>虽然两者都能实现死循环，但是源码中都是选择 for(;;) 原因：</p>
+<pre><code>编译前              编译后
+while (1)           mov eax,1
+                    test eax,eax
+                    je foo+23h
+                    jmp foo+18h
+
+编译前              编译后
+for (;;)          jmp foo+23h
+</code></pre>
+<p>对比之下，for (;;) 指令少，不占用寄存器，而且没有判断跳转，比 while (1) 好。
+也就是说两者在在宏观上完全一样的逻辑，但是底层完全不一样，for 相对于来说更加简洁明了。</p>
+<h3 id="equal-与的区别"><a class="header" href="#equal-与的区别">equal 与==的区别</a></h3>
+<ol>
+<li>区别</li>
+</ol>
+<ul>
+<li>==是运算符，equal 是方法，</li>
+<li>比较基本类型：只能用==, 不能用 equal</li>
+<li>比较包装类型：==比较的是内存地址，而 equal 比较的是值</li>
+<li>比较对象：==和 equal 比较的都是内存地址，因为 equal 没有被重写，没有被重写的 equal 都是 object 的 equal 方法 ::: warning
+注意 String（还有 Date，Integer）类型重写了 equals 方法，使其比较的是存储对象的内容是否相等，而不是堆内存地址。 :::</li>
+</ul>
+<h3 id="classthis-和-this-的区别"><a class="header" href="#classthis-和-this-的区别">Class.this 和 this 的区别</a></h3>
+<p>当 inner class（内部类）必顺使用到 outer class（外部类）的 this instance（实例）时，或者匿名内部类要使用外部类的实例。</p>
+<h3 id="待续"><a class="header" href="#待续">待续...</a></h3>
+<h2 id="包装类"><a class="header" href="#包装类">包装类</a></h2>
+<h3 id="int-vs-integer"><a class="header" href="#int-vs-integer">int VS Integer</a></h3>
+<h5 id="初始化"><a class="header" href="#初始化">初始化</a></h5>
+<ul>
+<li>1 int 类的变量初始为 0. Integer 的变量则初始化为 null.</li>
+<li>2 Integer 变量必须实例化后才能使用，int 变量不需要 .</li>
+<li>3 在 Int 是将值直接存储，Integer 对象是生成指针指向此对象。</li>
+</ul>
+<h5 id="比较"><a class="header" href="#比较">比较</a></h5>
+<ol>
+<li>Integer ? int <code>&lt;br/&gt;</code> 只要两个变量的值是向等的，则结果为 true。
+因为包装类 Integer 和基本数据类型 int 比较时，java 会自动拆包装为 int，然后进行比较，实际上就变为两个 int 变量的比较。</li>
+<li>new Integer() ? !new Integer()，<code>&lt;br/&gt;</code> 结果为 false ! new
+Integer() 当变量值在 -128~127 之间时，非 new 生成的 Integer 变量指向的是 java 常量池中 cache 数组中存储的指向了堆中的 Integer 对象，
+而 new Integer() 生成的变量指向堆中新建的对象，两者在内存中的地址不同；</li>
+<li>new Interger() ? new Integer() <code>&lt;br/&gt;</code> false</li>
+<li>!new Integer() ? !new Integer() <code>&lt;br/&gt;</code> 如果两个值相等，且在区间 -128 到 127 之间则 true
+只要不同或者有值在区间外就不相同</li>
+</ol>
+<h5 id="应用"><a class="header" href="#应用">应用</a></h5>
+<pre><code class="language-java">Integer a = Integer.parseInt(&quot;1&quot;);
+Integer b = Integer.parseInt(&quot;1&quot;);
+synchronized(i)
+</code></pre>
+<h2 id="析构函数"><a class="header" href="#析构函数">&quot;析构函数&quot;</a></h2>
+<p>java 提供 finalize() 方法，垃圾回收器准备释放内存的时候，会先调用 finalize()。</p>
+<ul>
+<li>特征</li>
+</ul>
+<ol>
+<li>对象不一定会被回收。</li>
+<li>垃圾回收不是析构函数。</li>
+<li>垃圾回收只与内存有关。</li>
+<li>垃圾回收和 finalize() 都是靠不住的，只要 JVM 还没有快到耗尽内存的地步，它是不会浪费时间进行垃圾回收的。</li>
+</ol>
+<ul>
+<li>应对方法</li>
+</ul>
+<ol>
+<li>主动调用 System.gc() 方法强制垃圾回收器来释放这些对象的内存。</li>
+<li>Java 1.1 通过提供一个 System.runFinalizersOnExit() 方法，不象 System.gc()
+方法那样，System.runFinalizersOnExit() 方法并不立即试图启动垃圾回收器。而是当应用程序或 Applet
+退出时，它调用每个对象的 finalize() 方法。</li>
+<li>继承 finalize()</li>
+</ol>
+<h2 id="泛型"><a class="header" href="#泛型">泛型</a></h2>
+<h3 id="t-的位置"><a class="header" href="#t-的位置">T 的位置</a></h3>
+<ol>
+<li>示例</li>
+</ol>
+<pre><code class="language-java">static &lt;T&gt; void show(Collection&lt;T&gt; C) {
+    System.out.println(&quot;使用泛型 -------&gt;&quot; + C);
+}
+</code></pre>
+<ol start="2">
+<li>解释</li>
+</ol>
+<ul>
+<li>第一处：静态方法不能直接引用类定义处的泛型，需要提前定义好泛型才能使用</li>
+<li>第二处：指定 Collection 的元素类型为 T</li>
+</ul>
+<h3 id="边界通配符"><a class="header" href="#边界通配符">边界通配符</a></h3>
+<pre><code class="language-java">&lt;? extends T&gt;和&lt;? super T&gt;
+</code></pre>
+<ol>
+<li>引例</li>
+</ol>
+<ul>
+<li>这种情况下是可行的</li>
+</ul>
+<pre><code class="language-java">Plate&lt;Fruit&gt; plate = new Plate&lt;&gt;(apple);
+</code></pre>
+<ul>
+<li>这种情况下，虽然苹果和水果有继承关系，但盘子间没有继承关系会报错</li>
+</ul>
+<pre><code class="language-java">Plate&lt;Fruit&gt; plate = new Plate&lt;Apple&gt;(apple);
+</code></pre>
+<ol start="2">
+<li>上下界通配符</li>
+</ol>
+<ul>
+<li>Apple -&gt; Fruit -&gt; Food</li>
+<li><code>&lt;? extends T&gt;</code> 可以是任何 T 的子类</li>
+</ul>
+<pre><code class="language-java">Plate&lt;? extends Food&gt; plate = new Plate&lt;Fruit&gt;(apple);
+</code></pre>
+<ul>
+<li><code>&lt;? super T&gt;</code> 可以是任何 T 的父类</li>
+</ul>
+<pre><code class="language-java">Plate&lt;? super Apple&gt; plate = new Plate&lt;Food&gt;(fruit);
+</code></pre>
+<ol start="3">
+<li>上下界通配符的副作用</li>
+</ol>
+<ul>
+<li>上界<code>&lt;? extends T&gt;</code>不能往里存，只能往外取</li>
+</ul>
+<pre><code class="language-java">Plate&lt;? extends Food&gt; plate = new Plate&lt;Fruit&gt;(apple);
+Food a = plate.getItem();
+// plate.setItem(food);  失效
+</code></pre>
+<ul>
+<li>下界&lt;? super T&gt;不影响往里存，但往外取只能放在 Object 对象里</li>
+</ul>
+<pre><code class="language-java">Plate&lt;? super Apple&gt; plate = new Plate&lt;Food&gt;(fruit);
+plate2.setItem(apple);
+// Apple b = plate2.getItem(); 失效
+// 元素的类型信息全部丢失。
+</code></pre>
+<p>::: tip 补充</p>
+<ul>
+<li>?与 T 的区别</li>
+<li>对编译器来说所有的 T 都代表同一种类型。比如下面这个泛型方法里，三个 T 都指代同一个类型，要么都是 String，要么都是 Integer。</li>
+<li>但通配符<code>&lt;?&gt;没有这种约束，Plate&lt;?&gt;</code>单纯的就表示：盘子里放了一个东西，是什么我不知道。所以题主问题里的错误就在这里，Plate&lt;？
+extends Fruit&gt;里什么都放不进去。 :::</li>
+</ul>
+<h2 id="注解"><a class="header" href="#注解">注解</a></h2>
+<ol>
+<li>注解会影响程序的编译和运行</li>
+<li>注解本身只是一个标注，本身不用包含逻辑处理内容</li>
+</ol>
+<h3 id="作用范围"><a class="header" href="#作用范围">作用范围</a></h3>
+<ul>
+<li>RUNTIME：程序运行时起作用，例如：<code>@WebServlet</code></li>
+<li>SOURCE：编译时期作用，例如 <code>@Override</code></li>
+</ul>
+<h3 id="target"><a class="header" href="#target">@Target</a></h3>
+<p>指定注解针对的目标</p>
+<ul>
+<li>ElementType.Type 类、方法</li>
+<li>ElementType.Field 成员变量</li>
+<li>ElementType.METHOD 成员方法</li>
+<li>ElementType.PARAMETER 方法参数</li>
+<li>ElementType.CONSTRUCTOR 构造器</li>
+<li>ElementType.PACKAGE 包</li>
+<li>ElementType.ANNOTATION_TYPE 注解</li>
+</ul>
+<h3 id="retention"><a class="header" href="#retention">@Retention</a></h3>
+<p>指定注解的保留域</p>
+<ul>
+<li>RetentionPolicy.SOURCE 源代码级别，由编译器处理，处理后不再保留</li>
+<li>RetentionPolicy.CLASS 注解信息保留到 class 文件中</li>
+<li>RetentionPolicy.RUNTION 由 jvm 读取，运行时使用</li>
+</ul>
+<h3 id="示例"><a class="header" href="#示例">示例</a></h3>
+<ol>
+<li>注解类</li>
+</ol>
+<pre><code class="language-java">@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface InitAnno {
+
+}
+</code></pre>
+<ol start="2">
+<li>被注解类</li>
+</ol>
+<pre><code class="language-java">public class Foo {
+    @InitAnno
+    public void bar() {
+        System.out.println(&quot;进入了 bar 方法&quot;);
+    }
+}
+</code></pre>
+<ol start="3">
+<li>Main</li>
+</ol>
+<pre><code class="language-java">public static void main(String[] args) {
+    Class&lt;?&gt; clazz = Class.forName(&quot;Foo&quot;);
+    Annotation annotation = clazz.getAnnotation(InitAnno.class);
+    if (annotation == null) {
+        System.out.println(&quot;类前没有 InitAnno 注解&quot;);
+    }
+    Method[] methods = clazz.getMethods();
+    for (Method method : methods) {
+        boolean isInitAnno = method.isAnnotationPresent(InitAnno.class);
+        if (isInitAnno) {
+            method.invoke(clazz.getConstructor(null).newInstance(null), null);
+        }
+    }
+}
+</code></pre>
+<h2 id="多线程"><a class="header" href="#多线程">多线程</a></h2>
+<h3 id="实现"><a class="header" href="#实现">实现</a></h3>
+<ol>
+<li>继承 Thread 类</li>
+</ol>
+<pre><code class="language-java">MyThread thread = new MyThread();
+thread.start();
+</code></pre>
+<ol start="2">
+<li>实现 Runnable 接口</li>
+</ol>
+<pre><code class="language-java">MyRunnable runnable = new MyRunnable();
+Thread thread = new Thread(runnable);
+
+Thread thread = new Thread(new MyRunnable() {
+    @Override
+    public void run() {
+        for(int i = 0;i&lt;100;i++) {
+            System.out.println(&quot;MyRunnable1&quot;);
+        }
+    }
+});
+thread.start();
+</code></pre>
+<p>::: tip 提示 Runnable 相比 Thread 耦合低，lambda 表达式更低 ::: 3. 实现 Callable 接口</p>
+<pre><code class="language-java">Callable&lt;String&gt; callable = () -&gt; {
+    System.out.println(&quot;进去了&quot;);
+    return &quot;Hello&quot;;
+};
+FutureTask&lt;String&gt; featureTask = new FutureTask&lt;&gt;(callable);
+Thread thread = new Thread(featureTask);
+System.out.println(featureTask.get());
+</code></pre>
+<blockquote>
+<p>注意！Callable 与 Thread 没有直接关系，需要间接实现</p>
+</blockquote>
+<pre><code class="language-java">public interface RunnableFuture&lt;V&gt; extends Runnable, Future&lt;V&gt; {
+    /**
+     * Sets this Future to the result of its computation
+     * unless it has been cancelled.
+     */
+    void run();
+}
+
+public class FutureTask&lt;V&gt; implements RunnableFuture&lt;V&gt; {
+    private Callable&lt;V&gt; callable;
+}
+</code></pre>
+<pre><code class="language-mermaid">graph LR
+A[Callable] --&gt;B(FutureTask) --&gt; C(RunnableFuture) --&gt; D(Runnable) --&gt; E(Thread)
+</code></pre>
+<h3 id="常用方法"><a class="header" href="#常用方法">常用方法</a></h3>
+<pre><code class="language-java">1. 休眠
+thread.sleep(3000);
+2. 合并
+thread.join(3000);
+3. 礼让
+yield();
+</code></pre>
+<h3 id="线程同步"><a class="header" href="#线程同步">线程同步</a></h3>
+<p>每个 java 对象都有一个内置锁，内置锁会保护使用 synchronized 关键字修饰的方法 要调用该方法必须先获取锁，否则就处于堵塞状态</p>
+<ul>
+<li>静态变量</li>
+</ul>
+<pre><code class="language-java">public class SameRunnable implements Runnable {
+    private static int num = 0;
+    @Override
+    public synchronized void run() {
+        ++num;
+        Thread.sleep(10);
+        System.out.println(&quot;第&quot; + Thread.currentThread().getName() + &quot;位访客是第&quot; + num + &quot;个&quot;);
+    }
+}
+</code></pre>
+<ul>
+<li>静态代码块，锁定类 synchronized 关键字也能修饰代码块，以下例子也能有相同的效果</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        for (int i = 0; i &lt; 5; i++) {
+            Thread thread = new Thread(new Runnable() {
+                public void run() {
+                    Test test = new Test();
+                    test.print();
+                }
+            }).start();
+        }
+    }
+    public synchronized void print() {
+        synchronized (Test.class) {    // 锁定类 (非静态可 this), 不能是类的实例
+            System.out.println(&quot;开始&quot;);
+            Thread.currentThread().sleep(1000);
+            System.out.println(&quot;结束&quot;);
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>锁定实例方法 ::: danger 注意 synchronized 关键字只是修饰共享的资源，下面的例子不能得到想要的效果 :::</li>
+</ul>
+<pre><code class="language-java">public synchronized void print() {
+    System.out.println(&quot;开始&quot;);
+    Thread.currentThread().sleep(1000);
+    System.out.println(&quot;结束&quot;);
+}
+</code></pre>
+<h3 id="线程安全的单例模式"><a class="header" href="#线程安全的单例模式">线程安全的单例模式</a></h3>
+<ul>
+<li>锁定类</li>
+</ul>
+<pre><code class="language-java">public volatile class Runner {
+    private static Runner runner;
+    // 记得加关键字，防止多个线程访问时还没创建过对象
+    // 1. 🔒整个方法
+    public synchronized static Runner getRunner() {
+        if (runner == null) {
+            runner = new Runner();
+        }
+        return runner;
+    }
+    // 只锁代码块，不影响该方法内的其他业务
+    public static Runner getRunner() {
+        synchronized(Runner.class) {
+            if (runner == null) {
+                runner = new Runner();
+            }
+        }
+        return runner;
+    }
+
+}
+</code></pre>
+<p>::: tip 其他锁定对象</p>
+<ol>
+<li>synchronized(runner): n 个空指针异常，不能锁空对象</li>
+<li>Integer i = Integer.parseInt(&quot;1&quot;); synchronized(i): 也可以</li>
+<li>Integer a = Integer.parseInt(&quot;1&quot;); Integer b = Integer.parseInt(&quot;1&quot;);
+synchronized(i) 开启两个线程，若 a,b 值 (详情见 Integer 包装类) 相同，则线程安全，否则不安全 :::</li>
+</ol>
+<h3 id="voletile-关键字"><a class="header" href="#voletile-关键字">voletile 关键字</a></h3>
+<ol>
+<li>引例</li>
+</ol>
+<pre><code class="language-java">public class exam {
+
+    public static void main(String[] args) {
+        int num = 0;
+        int finalNum = num;
+        new Thread(() -&gt; {
+            while (finalNum == 0) {
+            }
+        }).start();
+        TimeUnit.SECONDS.sleep(1);
+        num = 1;
+        System.out.println(num);
+    }
+}
+</code></pre>
+<ul>
+<li>在该例子中，循环不会停止 new Thread 与 main 同时操作 num，他们分别从主内存复制到工作内存，对各自的工作内存中的数据进行操作，
+main 线程对 num+1，同步到主线程，但 new Thread 的任务未停止，没有与主内存同步，循环不会终止</li>
+<li>若循环中加一个执行语句，循环会终止，工作内存会即使与主内存进行同步</li>
+</ul>
+<p>当各个线程操作时，数据没有进行同步到主内存，产生错误 voletile 关键字使多个线程直接操作主内存，不在经过工作内存</p>
+<h3 id="待续-1"><a class="header" href="#待续-1">待续...</a></h3>
+<h2 id="juc"><a class="header" href="#juc">JUC</a></h2>
+<h3 id="特征"><a class="header" href="#特征">特征</a></h3>
+<p>synchronized 与 Lock 对比</p>
+<ol>
+<li>synchronized 自动上锁解锁，Lock 手动上锁解锁</li>
+<li>synchronized 无法判断是否获取到锁，Lock 可以</li>
+<li>synchronized 拿不到锁会一直等待，Lock 不会</li>
+<li>synchronized 是关键字，jvm 实现，Lock 是接口，jdk 实现</li>
+<li>synchronized 是非公平锁，Lock 自由设置</li>
+</ol>
+<blockquote>
+<p>公平锁：多个线程排队加锁<code>&lt;br/&gt;</code> 非公平锁：不判断是否有其他等待线程，直接占用</p>
+</blockquote>
+<h3 id="基本操作"><a class="header" href="#基本操作">基本操作</a></h3>
+<pre><code class="language-java">private Lock lock = new ReentrantLock();
+lock.lock();
+    ...
+lock.unlock();
+</code></pre>
+<h3 id="死锁"><a class="header" href="#死锁">死锁</a></h3>
+<pre><code class="language-java">/*
+* num = 1 的人拿到 chopsticks1，等待 chopsticks2
+* num = 2 的人拿到 chopsticks2，等待 chopsticks1
+* */
+@Override
+public void run() {
+    if (num == 1) {
+        synchronized (chopsticks1) {
+            Thread.sleep(100);
+            synchronized (chopsticks2) {
+                System.out.println(&quot;1 吃完了&quot;);
+            }
+        }
+    }
+    if (num == 2) {
+        synchronized (chopsticks2) {
+            synchronized (chopsticks1) {
+                System.out.println(&quot;2 吃完了&quot;);
+            }
+        }
+    }
+}
+</code></pre>
+<h3 id="生产者消费者"><a class="header" href="#生产者消费者">生产者消费者</a></h3>
+<pre><code class="language-java">// 1. synchronize
+class Container {
+    private int num = 5;
+    public synchronized void add() {
+        while (num != 0) {
+            this.wait();
+        }
+        num += 1;
+        TimeUnit.SECONDS.sleep(1);
+        System.out.println(Thread.currentThread().getName() + &quot;生产了 1 个，还有&quot; + num + &quot;个&quot;);
+        this.notify();
+    }
+    public synchronized void pop(int i) {
+        while (num == 0) {
+            this.wait();
+        }
+        num -= 1;
+        System.out.println(i + &quot;购买了 1 个，还有&quot; + num + &quot;个&quot;);
+        this.notify();
+    }
+}
+// 2. Lock 要以 condition.await 和 condition.singal 代替 wait 和 notify
+class Container2 {
+    private int num = 5;
+    ReentrantLock lock = new ReentrantLock();
+    private Condition condition = lock.newCondition();
+    public void add() {
+        lock.lock();
+        while (num != 0) {
+            condition.await();
+        }
+        num += 1;
+        TimeUnit.SECONDS.sleep(1);
+        System.out.println(Thread.currentThread().getName() + &quot;生产了 1 个，还有&quot; + num + &quot;个&quot;);
+        condition.signal();
+        lock.unlock();
+    }
+}
+</code></pre>
+<h3 id="trylock"><a class="header" href="#trylock">tryLock</a></h3>
+<pre><code class="language-java">class TimeLock {
+    private final ReentrantLock lock = new ReentrantLock();
+    public void tryLock() {
+        try {
+            if (lock.tryLock(3, TimeUnit.SECONDS)) {
+                System.out.println(&quot;3 秒内拿到了锁&quot;);
+                TimeUnit.SECONDS.sleep(5);
+            } else {
+                System.out.println(&quot;3 秒内没拿到锁&quot;);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            if (lock.isHeldByCurrentThread()) {
+                lock.unlock();  // 只能由上锁者去解锁
+            }
+        }
+    }
+}
+</code></pre>
+<h3 id="同时读写"><a class="header" href="#同时读写">同时读写</a></h3>
+<ol>
+<li>对 ArrayList 读写操作同时存在会抛出异常</li>
+</ol>
+<pre><code class="language-java">public class ReadAndWrite {
+    public static void main(String[] args) {
+        List&lt;String&gt; list = new ArrayList&lt;&gt;();
+        //List&lt;String&gt; list = new Vector&lt;&gt;();
+        // List&lt;String&gt; list = Collections.synchronizedList(new ArrayList&lt;&gt;());
+        // List&lt;String&gt; list = new CopyOnWriteArrayList();
+        for (int i = 0; i &lt; 10; i++) {
+            new Thread(() -&gt; {
+                try {
+                    TimeUnit.MILLISECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                list.add(&quot;a&quot;);
+                System.out.println(Thread.currentThread().getName() + list);
+            }, String.valueOf(i)).start();
+        }
+    }
+}
+</code></pre>
+<ol start="2">
+<li>原因 ArrayList 不是线程安全的</li>
+</ol>
+<pre><code class="language-java">public boolean add(E e) {
+    ensureCapacityInternal(size + 1);  // Increments modCount!!
+    elementData[size++] = e;
+    return true;
+}
+</code></pre>
+<ol start="3">
+<li>解决方法</li>
+</ol>
+<ul>
+<li>更换为 Vector</li>
+</ul>
+<pre><code class="language-java">public synchronized boolean add(E e) {
+    modCount++;
+    ensureCapacityHelper(elementCount + 1);
+    elementData[elementCount++] = e;
+    return true;
+}
+</code></pre>
+<ul>
+<li>
+<p>更换为 Collections.synchronizedList()</p>
+</li>
+<li>
+<p>JUC: CopyOnWriteList</p>
+</li>
+</ul>
+<blockquote>
+<p>CopyOnWrite 实现了读写分离，当我们往一个容器添加元素的时候，不是直接给容器添加，而是先将当前容器复制一
+份，向新的容器中添加数据，添加完成之后，再将原容器的引用指向新的容器。</p>
+</blockquote>
+<pre><code class="language-java">public boolean add(E e) {
+    final ReentrantLock lock = this.lock;
+    lock.lock();
+    try {
+        Object[] elements = getArray();
+        int len = elements.length;
+        Object[] newElements = Arrays.copyOf(elements, len + 1);
+        newElements[len] = e;
+        setArray(newElements);
+        return true;
+    } finally {
+        lock.unlock();
+    }
+}
+</code></pre>
+<h3 id="计数器"><a class="header" href="#计数器">计数器</a></h3>
+<ul>
+<li>减法计数器 countDownLatch 可以确保某个线程优先执行，当计数器清零在唤醒其他线程</li>
+</ul>
+<pre><code class="language-java">public class CountDown {
+    public static void main(String[] args) {
+        CountDownLatch countDownLatch = new CountDownLatch(80);
+        new Thread(() -&gt; {
+            for (int i = 0; i &lt; 100; i++) {
+                countDownLatch.countDown();
+                System.out.println(i);
+            }
+        }).start();
+
+        countDownLatch.await();   // 必须唤醒，且计数器要清零
+
+        for (int i = 0; i &lt; 10; i++) {
+            System.out.println(&quot;main&quot;);
+        }
+    }
+}
+</code></pre>
+<p>::: warning 注意 new CountDownLatch(80), countDownLatch.countDown(),
+countDownLatch.await() 必须配合使用，只要计数器没有清零，计数器不会停止，其他线程也不能唤醒 :::</p>
+<ul>
+<li>加法计数器 试图唤醒当前线程，当加到一定数量成功唤醒，之后清零，再次累加循环</li>
+</ul>
+<pre><code class="language-java">// 构造器
+public CyclicBarrier(int parties, Runnable barrierAction) {
+    if (parties &lt;= 0) throw new IllegalArgumentException();
+    this.parties = parties;
+    this.count = parties;
+    this.barrierCommand = barrierAction;
+}
+
+// Test
+public class CyclicBarrier_ {
+    public static void main(String[] args) {
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(5, () -&gt; {
+            System.out.println(&quot;放行&quot;);
+        });
+        for (int i = 0; i &lt; 10; i++) {
+            final int temp = i;
+            new Thread(() -&gt; {
+                cyclicBarrier.await();
+            }).start();
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>计数线程限流 限制同时进入的线程数</li>
+</ul>
+<ol>
+<li>初始化</li>
+<li>获得许可</li>
+<li>释放</li>
+</ol>
+<pre><code class="language-java">public static void main(String[] args) {
+    Semaphore semaphore = new Semaphore(5);   // 限制最多 5 人
+    for (int i = 0; i &lt; 15; i++) {
+        new Thread(() -&gt; {
+            try {
+                semaphore.acquire();
+                System.out.println(Thread.currentThread().getName() + &quot;进去了&quot;);
+                TimeUnit.SECONDS.sleep(2);
+                System.out.println(Thread.currentThread().getName() + &quot;出去了&quot;);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                semaphore.release();
+            }
+        }).start();
+    }
+}
+</code></pre>
+<h3 id="读写锁"><a class="header" href="#读写锁">读写锁</a></h3>
+<p>读写锁也是为了实现线程同步，只不过粒度更细，可以为读和写设置不同的锁</p>
+<pre><code class="language-java">class Cache {
+    private Map&lt;Integer, String&gt; map = new HashMap&lt;&gt;();
+    private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+
+    public void write(Integer id, String value) {
+        readWriteLock.writeLock().lock();
+        System.out.println(&quot;开始写入 ID: &quot; + id);
+        map.put(id, value);
+        System.out.println(&quot;写入完成 ID: &quot; + id);
+        readWriteLock.writeLock().unlock();
+    }
+
+    public String read(Integer id) {
+        readWriteLock.readLock().lock();
+        System.out.println(&quot;开始读取 ID: &quot; + id);
+        String a = map.get(id);
+        System.out.println(&quot;读取完成 ID: &quot; + id);
+        readWriteLock.readLock().unlock();
+        return a;
+    }
+}
+</code></pre>
+<p>::: tip 补充 写入锁也叫独占锁，只能被 1 个线程占用，读取锁也叫共享锁，多个线程可以同时占用。 :::</p>
+<h3 id="线程池"><a class="header" href="#线程池">线程池</a></h3>
+<ol>
+<li>基本使用</li>
+</ol>
+<p>预先创建好一定数量的线程对象，存入缓冲池中，需要用的时候直接从缓冲池中取出，用完之后不要销毁，还回到缓冲池中，为了提高资源的利用率。优势：</p>
+<ul>
+<li>提高线程的利用率</li>
+<li>提高响应速度</li>
+<li>便于统一管理线程对象</li>
+<li>可以控制最大的并发数</li>
+</ul>
+<pre><code class="language-java">public class ThreadPool_ {
+    public static void main(String[] args) {
+        // 单例
+        //ExecutorService executorService = Executors.newSingleThreadExecutor();
+        // 指定线程数量
+        //ExecutorService executorService = Executors.newFixedThreadPool(5);
+        // 缓冲线程池
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        for (int i = 0; i &lt; 60; i++) {
+            final int temp = i;
+            executorService.execute(() -&gt; {
+                System.out.println(Thread.currentThread().getName() + &quot; &quot; + temp);
+            });
+        }
+        executorService.shutdown();
+    }
+}
+</code></pre>
+<!-- 2. 线程池分析 -->
+<ol start="2">
+<li>构造函数</li>
+</ol>
+<p>三个常用线程池都 return new ThreadPoolExecutor(); ThreadPoolExecutor 的构造函数如下</p>
+<pre><code class="language-java">public ThreadPoolExecutor(  int corePoolSize,
+                            int maximumPoolSize,
+                            long keepAliveTime,
+                            TimeUnit unit,
+                            BlockingQueue&lt;Runnable&gt; workQueue,
+                            ThreadFactory threadFactory,
+                            RejectedExecutionHandler handler) {
+</code></pre>
+<ul>
+<li>corePoolSize: 核心池数量</li>
+<li>maximumPoolSize: 线程池容量上限，任务量增大时，线程池主动扩容</li>
+<li>keepAliveTime: 线程对象存活时间</li>
+<li>unit: 线程对象存活时间单位</li>
+<li>workQueue: 线程队列 (新的任务在队列中等候获取线程对象)</li>
+<li>threadFactory: 线程工厂创建线程对象</li>
+<li>handler: 拒绝策略</li>
+</ul>
+<ol start="3">
+<li>拒绝策略</li>
+</ol>
+<p>RejectedExecutionHandler 是一个接口，均在 ThreadPoolExecutor 中实现</p>
+<ul>
+<li>AbortPolicyz:直接抛出异常</li>
+</ul>
+<pre><code class="language-java">/**
+    * A handler for rejected tasks that throws a
+    * {@code RejectedExecutionException}.
+    */
+public static class AbortPolicy implements RejectedExecutionHandler {
+</code></pre>
+<ul>
+<li>DiscardPolicy: 直接拒绝</li>
+</ul>
+<pre><code class="language-java">/**
+    * A handler for rejected tasks that silently discards the
+    * rejected task.
+    */
+public static class DiscardPolicy implements RejectedExecutionHandler {
+</code></pre>
+<ul>
+<li>DiscardOldestPolicy: 尝试与等待队列中最开始的任务争夺，不抛出异常</li>
+</ul>
+<pre><code class="language-java">/**
+     * A handler for rejected tasks that discards the oldest unhandled
+     * request and then retries {@code execute}, unless the executor
+     * is shut down, in which case the task is discarded.
+     */
+    public static class DiscardOldestPolicy implements RejectedExecutionHandler {
+</code></pre>
+<ul>
+<li>CallerRunsPolicy 由发起请求线程处理</li>
+</ul>
+<pre><code class="language-java">/**
+    * A handler for rejected tasks that runs the rejected task
+    * directly in the calling thread of the {@code execute} method,
+    * unless the executor has been shut down, in which case the task
+    * is discarded.
+    */
+public static class CallerRunsPolicy implements RejectedExecutionHandler {
+</code></pre>
+<ol start="4">
+<li>自定义线程池</li>
+</ol>
+<pre><code class="language-java">executorService = new ThreadPoolExecutor(
+        4,
+        10,
+        2L,
+        TimeUnit.SECONDS,
+        new ArrayBlockingQueue&lt;&gt;(20),
+        Executors.defaultThreadFactory(),
+        new ThreadPoolExecutor.AbortPolicy());
+</code></pre>
+<p>4 种 workQueue 堵塞队列，用来存储等待执行的任务</p>
+<ul>
+<li>ArrayBlockingQueue: 基于数组的先进先出队列，创建时必须指定大小。</li>
+<li>LinkedBlockingQueue: 基于链表的先进先出队列，创建时可以不指定大小，默认值是 Integer.MAX VALUE。最大值。</li>
+<li>SynchronousQueue: 它不会保持提交的任务，而是直接新建一个线程来执行新来的任务。</li>
+<li>PriorityBlockingQueue: 具有优先级的阻塞队列。</li>
+</ul>
+<h3 id="forkjoin"><a class="header" href="#forkjoin">Forkjoin</a></h3>
+<ol>
+<li>概念</li>
+</ol>
+<ul>
+<li>Forkjoin 是 JDK 1.7 后发布的多线程并发处理框架，功能上和 JUC 类似，
+JUC 更多时候是使用单个类完成操作，Forkjoin 使用多个类同时完成某项工作，处理上比 JUC 更加丰富，</li>
+<li>本质上是对线程池的一种的补充，对线程池功能的一种扩展，基于线程池，</li>
+<li>它的核心思想就是将一个大型的任务拆分成很多个小任务，然后由多个线程并发执行，最终将小任务的结果进行汇总，生成最终的结果。</li>
+</ul>
+<ol start="2">
+<li>基本使用 设置临界值，递归分配任务，知道任务不能被再分</li>
+</ol>
+<pre><code class="language-java">public class FolkJoin_ extends RecursiveTask&lt;Long&gt; {
+
+    private Long start;
+    private Long end;
+    private Long temp = 200_0000L;
+
+    public FolkJoin_(Long start, Long end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    @Override
+    protected Long compute() {
+        if ((end - start) &lt; temp) {
+            Long sum = 0L;
+            for (Long i = start; i &lt; end ; i++) {
+                sum += i;
+            }
+            return sum;
+        } else {
+            Long avg = (start + end) / 2;
+            FolkJoin_ tast1 = new FolkJoin_(start, avg);
+            FolkJoin_ tast2 = new FolkJoin_(avg, end);
+            tast1.fork();
+            tast2.fork();
+            return tast1.join()+tast2.join();
+        }
+    }
+}
+</code></pre>
+<p>Main.java</p>
+<pre><code class="language-java">Long start = System.currentTimeMillis();
+ForkJoinPool folkJoinPool = new ForkJoinPool();
+FolkJoin_ task = new FolkJoin_(0L, 10_0000_0000L);
+folkJoinPool.execute(task);
+System.out.println(task.get() + &quot; &quot; + (System.currentTimeMillis() - start) / 1000.0);
+</code></pre>
+<h3 id="待续-2"><a class="header" href="#待续-2">待续...</a></h3>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../../note/java/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../../note/java/springboot.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../../note/java/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../../note/java/springboot.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

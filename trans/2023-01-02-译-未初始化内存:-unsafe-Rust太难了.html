@@ -1,0 +1,369 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>2023-01-02-译-未初始化内存:-unsafe-Rust太难了 - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../favicon.svg">
+                        <link rel="shortcut icon" href="../favicon.png">
+                <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+                <link rel="stylesheet" href="../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html" class="active"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../note/java/java.html"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../note/java/springboot.html"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../note/frontend/http.html"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/magic/riscv.html"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../docs/rust/rust.html"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../draft/计算机网络.html"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <blockquote>
+<p>原文链接：https://lucumr.pocoo.org/2022/1/30/unsafe-rust/</p>
+<p><strong>翻译：<a href="https://github.com/trdthg">trdthg</a></strong></p>
+<p>选题：<a href="https://github.com/trdthg">trdthg</a></p>
+<p>本文由 <a href="https://Rustt.org">Rustt</a> 翻译，<a href="https://studyrust.org">StudyRust</a> 荣誉推出</p>
+</blockquote>
+<h1 id="未初始化内存unsafe-rust-太难了"><a class="header" href="#未初始化内存unsafe-rust-太难了">未初始化内存：unsafe Rust 太难了</a></h1>
+<p>Rust
+在很多意义上不仅仅是一个现代的系统编程语言，也是一个实用的语言。它承诺了自己的安全性，并且提供了一个完整的框架，使得创建安全的抽象成为可能，同时运行时开销很小甚至为
+0。你可以使用 unsafe 来明确的脱离安全的 Rust。</p>
+<p>如果你之前看过这篇文章，你会惊讶的发现，它和之前的版本大不相同。这篇文章的作者是被 unsafe
+的规则所困惑的受害者。我在文章中增加了一个例子，用来更好的展示其中的陷阱。我之前在 Twitter 上说过，编写 unsafe Rust 比 C / C++
+更困难，所以我想为我的观点作出一些解释。</p>
+<h2 id="从-c-到-rust"><a class="header" href="#从-c-到-rust">从 C 到 Rust</a></h2>
+<p>我们从下面的例子开始：我们有一个待初始化的结构体。比较有趣的字段是
+<code>name</code>。它是一个指针，指向一个已经分配好的字符串。除此之外，分配到哪里对我们并不重要，因此我们可以将这个结构体自身分配在栈上。我们的想法是，当这个结构体被初始化之后，它就可以被安全的传递和打印。</p>
+<pre><code class="language-cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdbool.h&gt;
+
+struct role {
+    char *name;
+    bool disabled;
+    int flag;
+};
+
+int main() {
+    struct role r;
+    r.name = strdup(&quot;basic&quot;);
+    r.flag = 1;
+    r.disabled = false;
+    printf(&quot;%s (%d, %s)\n&quot;, r.name, r.flag, r.disabled ? &quot;true&quot; : &quot;false&quot;);
+    free(r.name);
+}
+</code></pre>
+<p>接下来我们用 Rust 去实现上面的代码。现在我们并不需要过多的关注 Rust
+文档，只需要专注于一对一翻译即可。在你阅读下面的代码之前还有一点要注意：我们正在有意的创建一个对 Rust 程序员更熟悉的对象，并且可以被看作公共
+API。所以我们在这里直接使用 String，而不是 C 语言的字符串。</p>
+<pre><code class="language-rs">use std::mem;
+
+struct Role {
+    name: String,
+    disabled: bool,
+    flag: u32,
+}
+
+fn main() {
+    let role = unsafe {
+        let mut role: Role = mem::zeroed();
+        role.name = &quot;basic&quot;.to_string();
+        role.flag = 1;
+        role.disabled = false;
+        role
+    };
+
+    println!(&quot;{} ({}, {})&quot;, role.name, role.flag, role.disabled);
+}
+</code></pre>
+<p>看到这里，立即就有人想问，这里为什么需要
+unsafe？当然了，你的确不需要。但是这段代码使用了一个函数：<code>std::mem::zeroed</code>。如果你尝试在最近的 Rust
+编译器运行，应该会的得到这个错误：</p>
+<pre><code class="language-rs">thread 'main' panicked at 'attempted to zero-initialize type `Role`,
+  which is invalid', src/main.rs:11:30
+</code></pre>
+<p>老版本的编译器能够正常运行，但是那其实也是错误的。怎么解决呢？编译器又一次告诉我们解决之法：</p>
+<pre><code class="language-rs">warning: the type `Role` does not permit zero-initialization
+  --&gt; src/main.rs:11:30
+   |
+11 | let mut role: Role = mem::zeroed();
+   |                      ^^^^^^^^^^^^^
+   |                      |
+   |                      this code causes undefined behavior when executed
+   |                      help: use `MaybeUninit&lt;T&gt;` instead, and only call
+   |                         `assume_init` after initialization is done
+   |
+</code></pre>
+<p>为什么 <code>Role</code> 类型不支持使用 0 初始化呢？我们需要改动那些代码？我们能不能不初始化？</p>
+<p>有人可能会想，使用 <code>#[repr(C)]</code> 强制结构体使用 C 语言的内存布局，但是这不能解决问题。正如编译器给出的建议，我们需要
+<code>MaybeUninit</code>。</p>
+<pre><code class="language-rs">use std::mem::MaybeUninit;
+
+struct Role {
+    name: String,
+    disabled: bool,
+    flag: u32,
+}
+
+fn main() {
+    let role = unsafe {
+        let mut uninit = MaybeUninit::&lt;Role&gt;::zeroed();
+        let role = uninit.as_mut_ptr();
+        (*role).name = &quot;basic&quot;.to_string();
+        (*role).flag = 1;
+        (*role).disabled = false;
+        uninit.assume_init()
+    };
+
+    println!(&quot;{} ({}, {})&quot;, role.name, role.flag, role.disabled);
+}
+</code></pre>
+<p>将 <code>zeroed</code> 换为 <code>MaybeUninit::zeroed</code> 之后，一切都变了。现在我们不能直接使用结构体，而是要操作一个裸指针。由于裸指针没有实现
+<code>deref</code>，并且 Rust 中没有 <code>-&gt;</code> 操作符，我们需要手动解引用，并用这种笨拙的语法分配每一个字段。</p>
+<p>首先：这样做可行吗？答案是肯定的。但是它正确吗？不正确。</p>
+<p>答案在于，任何像可变引用（&amp;mut）或者是栈上的值本身这样的构造，在 unsafe 代码之外仍然需要一直处于有效的状态。<code>zeroed</code> 返回一个值为 0
+的结构，我们不能保证它可以有效的表示结构体或者任何其中的字段。在我们的例子中，我们的字符串在所有内容被清零的情况下是有效的，但是这并不能保证，而且是未定义行为。</p>
+<p>需要注意的一点是，一个可变引用永远不能指向一个无效的对象，所以在对象的所有字段都被初始化之前，下面的操作是错误的：</p>
+<pre><code class="language-rs">let role = &amp;mut *uninit.as_mut_ptr()
+</code></pre>
+<p>所以，让我们把 <code>zeroed</code> 改为 <code>uninit</code>。如果我们再次运行，程序就会崩溃。</p>
+<pre><code class="language-rs">// let mut uninit = MaybeUninit::&lt;Role&gt;::uninit();
+free(): invalid pointer
+</code></pre>
+<p>为什么会崩溃呢？答案是，通过给 name 赋值一个新的字符串，我们也 drop 了之前的旧字符串。我们之前只是碰巧没有遇到这种情况，因为 Drop
+碰巧能够处理一个被清零的字符串。但现在，我们深入了未定义行为。我们如何解决这个问题呢？我们需要以某种方式直接将字符串写到那里的指针。</p>
+<p>我们首先要接受 MaybeUninit 是必要的，现在我们要处理这里的裸指针。这有些麻烦，但是看起来不是特别难。现在我们有两个新问题：我们知道 <code>&amp;mut X</code>
+是不允许的，但是 <code>*mut X</code> 是允许的。我们如何在不使用 <code>&amp;mut X</code> 的情况下得到一个 <code>*mut X</code>? 讽刺的是，在 Rust 1.51
+之前，再不打破任何规则之前，这是不可能的，但是现在，你可以使用 <code>addr_of_mut!</code> 宏。</p>
+<pre><code class="language-rs">let name_ptr = std::ptr::addr_of_mut!((*role).name);
+</code></pre>
+<p>太棒了，现在我们拿到了 name 的指针，如何写入呢？我们可以使用 <code>write</code> 方法。</p>
+<pre><code class="language-rs">addr_of_mut!((*role).name).write(&quot;basic&quot;.to_string());
+</code></pre>
+<p>现在完成了吗？还记得我们是如何使用普通结构体的吗？如果阅读一下文档，你就会发现，结构体的内存布局没有任何保证。事实表明，<a href="https://github.com/rust-lang/reference/issues/1151">尽管目前的文档是这样说的</a>，但是我们可以依靠字段的对齐性。如果我们处理的是
+<code>#[repr(packed)]</code>，我们就必须使用 <code>write_unaligned</code> 方法来代替。如果 Rust
+选择的结构体的一个成员是不对齐的，这是合法的。</p>
+<p>最终的代码：</p>
+<pre><code class="language-rs">use std::mem::MaybeUninit;
+use std::ptr::addr_of_mut;
+
+struct Role {
+    name: String,
+    disabled: bool,
+    flag: u32,
+}
+
+fn main() {
+    let role = unsafe {
+        let mut uninit = MaybeUninit::&lt;Role&gt;::uninit();
+        let role = uninit.as_mut_ptr();
+        addr_of_mut!((*role).name).write(&quot;basic&quot;.to_string());
+        (*role).flag = 1;
+        (*role).disabled = false;
+        uninit.assume_init()
+    };
+
+    println!(&quot;{} ({}, {})&quot;, role.name, role.flag, role.disabled);
+}
+</code></pre>
+<h2 id="什么时候用-addr_of_mut"><a class="header" href="#什么时候用-addr_of_mut">什么时候用 <code>addr_of_mut!</code></a></h2>
+<p>一般有两种情况：未初始化的内存，未对齐的引用。Rust
+不允许用户创建一个未对齐的引用（即时只是暂时的），同时也不允许创建一个对未初始化内存的引用。那么，这些引用是什么时候被创建的呢？</p>
+<p>对于下面的代码：<code>(*flag).flag = 1</code>，根据 Rust 的规则，如果一个类型没有实现 Drop，这是可以的。如果该类型实现了
+Drop，这行代码会产生很多问题：当 <code>Drop::drop</code> 被调用时，并且调用在未初始化的内存上，这时我们就需要
+<code>addr_of_mut!</code>。这就是为什么我们可以直接为 flag 字段赋值，但是我们却需要通过 <code>addr_of_mut!</code> 来获取 name
+字段，因为它是一个字符串。</p>
+<h2 id="maybeuninit"><a class="header" href="#maybeuninit">MaybeUninit</a></h2>
+<p>对安全的理解随着时间的推移而不断改变。曾经，<code>mem::uninitialized</code> 被认为是一个健全的 API，但是在后来，<code>MaybeUninit</code>
+被引入去解决发现的缺点。但是，由于部分初始化的类型的存在，MaybeUninit 在实践中并不理想。虽然由于 <code>#[repr(transparent)]</code>，
+MaybeUninit 和 T 是内存兼容的，但是在嵌套使用时的效果并不佳。</p>
+<p>有时你需要结构体的某个字段上有一个 MaybeUninit，但是只后你又希望这个抽象不存在，这种情况并不罕见。实际上，在实践中使用 MaybeUninit
+是一个充满挑战的体验，但是这篇文章并没有体现出来。</p>
+<h2 id="我的-unsafe-代码正确吗"><a class="header" href="#我的-unsafe-代码正确吗">我的 unsafe 代码正确吗？</a></h2>
+<p>在 2022 年，我承认，我不再对编写 Rust 代码感到自信。unsafe 的规则可能可能都是如此复杂，但是从我多年来阅读过的 unsafe 代码来说，大多数
+unsafe 代码都不太关心这些规则，并且无视了它们。<code>addr_of_mut!</code>直到 1.53 才被添加到语言中是有原因的。即使到了今天，文档中都说它
+Rust 结构体 repr 的对齐方式没有任何保证。</p>
+<p>在过去的几年里，似乎发生了这样的事情：Rust 开发者在实践中编写 unsafe
+越来越困难，现在的规则是如此复杂，以至于对一个随意的程序员来说非常难以理解，围绕他的文档也很容易被曲解。我在这篇文章的<a href="https://github.com/mitsuhiko/lucumr/blob/48440d3cf151f0d774bc9ad62f903034ca2b30ff/2022/1/30/unsafe-rust.rst">上一个版本</a>中认为
+<code>addr_of_mut!</code> 的一些使用是必要的，但实际上并非如此。在有人指出这个错误之前，文章已经得到了大量关注。</p>
+<p>这些规则使得 Rust 最好的功能之一越来越难以接近，同时也越来越难以理解。要求存在 MaybeUninit，而不仅仅是过去的
+mem::uninitialized API 是显而易见的，但是却展示了语言规则是多么的复杂。</p>
+<p>我不认为这是好的。事实上，我认为这根本不是一个好的趋势，好像越来越少的人了解 unsafe Rust。与 C 的互操作性是让 Rust
+伟大的一个原因，但是我们现在正在创建巨大的屏障，这是不可取的。更重要的是：编译器在指出我的错误时没有什么帮助。</p>
+<p>让 unsafe 变得更符合人体工程学是一个困难的问题，但是它值得被解决。因为有一点很明确：人们不会很快停止编写 unsafe 代码。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../trans/2022-04-03-译-Rust-六边形架构/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../trans/2022-04-03-译-Rust-六边形架构/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

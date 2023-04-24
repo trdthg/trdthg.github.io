@@ -1,0 +1,705 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>rust - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../../favicon.svg">
+                        <link rel="shortcut icon" href="../../favicon.png">
+                <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+                <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/java/java.html"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../../note/java/springboot.html"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../../note/frontend/http.html"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/magic/riscv.html"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust.html" class="active"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../../draft/计算机网络.html"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <hr />
+<h2>sidebar_position: 1
+sidebar_label: Rust 语言
+sidebar_class_name: green</h2>
+<h1 id="rust-语言"><a class="header" href="#rust-语言">Rust 语言</a></h1>
+<h2 id="1-生命周期"><a class="header" href="#1-生命周期">1. 生命周期</a></h2>
+<h3 id="自动处理生命周期"><a class="header" href="#自动处理生命周期">自动处理生命周期</a></h3>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Only one reference in input, so the output must be derived from that input
+fn foo(&amp;A) -&gt; &amp;B; // sugar for:
+fn foo&lt;'a&gt;(&amp;'a A) -&gt; &amp;'a B;
+
+// Many inputs, assume they're all independent
+fn foo(&amp;A, &amp;B, &amp;C); // sugar for:
+fn foo&lt;'a, 'b, 'c&gt;(&amp;'a A, &amp;'b B, &amp;'c C);
+
+// Methods, assume all output lifetimes are derived from `self`
+fn foo(&amp;self, &amp;B, &amp;C) -&gt; &amp;D; // sugar for:
+fn foo&lt;'a, 'b, 'c&gt;(&amp;'a self, &amp;'b B, &amp;'c C) -&gt; &amp;'a D;
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="2-智能指针"><a class="header" href="#2-智能指针">2. 智能指针</a></h2>
+<h3 id="基本概念"><a class="header" href="#基本概念">基本概念</a></h3>
+<p>实现了 Deref Trait 和 Drop Trait 的就是智能指针</p>
+<ol>
+<li>Deref Trait: 具有指针语义</li>
+<li>Drop Trait：拥有内存自动管理的机制</li>
+</ol>
+<p>看一眼 Box 的实现</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[stable(feature = &quot;rust1&quot;, since = &quot;1.0.0&quot;)]
+impl&lt;T: ?Sized, A: Allocator&gt; Deref for Box&lt;T, A&gt; {
+    type Target = T;
+
+    fn deref(&amp;self) -&gt; &amp;T {
+        &amp;**self
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="简单实现"><a class="header" href="#简单实现">简单实现</a></h3>
+<p>我们实现一个智能指针（只实现了 Deref Trait）</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::ops::Deref;
+
+pub struct MySmartPointer&lt;T&gt; (T);
+
+impl&lt;T&gt; MySmartPointer&lt;T&gt; {
+    pub fn new(t: T) -&gt; Self {
+        MySmartPointer(t)
+    }
+}
+
+impl&lt;T&gt; Deref for MySmartPointer&lt;T&gt; {
+    type Target = T;
+    fn deref(&amp;self) -&gt; &amp;Self::Target {
+        &amp;self.0
+    }
+}
+// 调用*x 其实就是调用 *x.deref()
+let x = 5;
+let a = MySmartPointer::new(x);
+let b = Box::new(x);
+assert_eq!(x, *a.deref());
+assert_eq!(x, *a);
+assert_eq!(x, *b.deref());
+assert_eq!(x, *b);
+print!(&quot;{}&quot;, a.to_string())
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="自动解引用的时机"><a class="header" href="#自动解引用的时机">自动解引用的时机</a></h3>
+<ul>
+<li>
+<p>遇到*运算符自动接引用</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>assert_eq!(x, *a.deref());
+assert_eq!(x, *a);
+<span class="boring">}
+</span></code></pre></pre>
+</li>
+<li>
+<p>遇到 . 运算符接引用调用方法</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>print!(&quot;{}&quot;, a.to_string())
+<span class="boring">}
+</span></code></pre></pre>
+</li>
+<li>
+<p>参数传递自动解引用</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let s = String::from(&quot;aaaa&quot;);
+fn take_str(s: &amp;str) {
+    print!(&quot;{}&quot;, s);
+}
+take_str(&amp;s);
+
+#[stable(feature = &quot;rust1&quot;, since = &quot;1.0.0&quot;)]
+impl ops::Deref for String {
+    type Target = str;
+
+    #[inline]
+    fn deref(&amp;self) -&gt; &amp;str {
+        unsafe { str::from_utf8_unchecked(&amp;self.vec) }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+</li>
+</ul>
+<h3 id="自动管理内存"><a class="header" href="#自动管理内存">自动管理内存</a></h3>
+<p>自动化管理内存 (drop，作用域外自动释放内存)</p>
+<h2 id="2-atomic-在-rust-中的实践"><a class="header" href="#2-atomic-在-rust-中的实践">2. Atomic 在 rust 中的实践</a></h2>
+<p><a href="https://www.youtube.com/watch?v=rMGWeSjctlY">Crust of Rust: Atomics and Memory Ordering</a></p>
+<h3 id="使用-atomic-实现简单的-mutex"><a class="header" href="#使用-atomic-实现简单的-mutex">使用 Atomic 实现简单的 Mutex</a></h3>
+<pre><pre class="playground"><code class="language-rust">use std::{sync::atomic::{AtomicBool, Ordering, AtomicUsize}, thread::{self, spawn}, cell::UnsafeCell};
+
+const UNLOCKED: bool = true;
+const LOCKED: bool = false;
+
+struct Mutex&lt;T&gt; {
+    locked: AtomicBool,
+    v: UnsafeCell&lt;T&gt;
+}
+
+unsafe impl&lt;T&gt; Sync for Mutex&lt;T&gt; where T: Send {}
+
+impl&lt;T&gt; Mutex&lt;T&gt; {
+
+    pub fn new(v: T) -&gt; Self {
+        Self {
+            locked: AtomicBool::new(UNLOCKED),
+            v: UnsafeCell::new(v)
+        }
+    }
+
+    /// 暴露一个可变引用出去
+    ///
+    /// 当线程 A 和线程 B 同时执行时，A，B 可能同时拿到🔓，并同时上锁，这两个线程并没有`看到`对方页拿到了锁
+    /// 所以就出先了，线程 A 和 B 同时从寄存器拿到值 1，改为了 2，然后复制到寄存器内，后修改的会覆盖前一次修改
+    /// 为了解决上述问题，下面是一些解决方法
+    ///
+    /// 方案 1，使用`compare_exchange`合并加锁上锁过程
+    /// while self.locked.compare_exchange(UNLOCKED, LOCKED, Ordering::Relaxed, Ordering::Relaxed).is_err() {}
+    ///
+    /// #1 compare_exchange 是低效的，如果是多核都在同时争夺锁，8 个核中有一个和先拿到了锁
+    /// 那么剩下的 7 个核依然会互相竞争，这个变量的内存就会在多个核中不断拷贝
+    /// #2 相比于 mutex，mutex 拿不到锁就会阻塞线程，而 compare_exchange 拿不到就会返回一个 Err
+    /// #3 rust 中还提供了 compare_and_exchange_weak，最大的区别是
+    ///     compare_and_exchange 只允许在判断 Current v alue 和传入的值不一样时返回 Err
+    ///     compare_and_exchange_weak 即使在一样的时候也可能会返回 Err，这种细小的差别能够用于某些场景，让性能更好
+    ///     原因是由于在不同平台上的实现不同
+    ///         x86: compare_and_swap
+    ///         ARM: LDREX STREX
+    ///     在 x86 上 weak 与普通的相同，
+    ///     在 ARM 上：
+    ///         compare_and_exchange: impl using a loop of LDREX and STREX
+    ///         compare_and_exchange_weak: LDREX and STREX with no loop, it may be fake
+    pub fn with_lock&lt;R&gt;(&amp;self, f: impl FnOnce(&amp;mut T) -&gt; R) -&gt; R {
+        // 拿🔓 上🔓
+        // while self.locked.load(Ordering::Relaxed) != UNLOCKED {}
+        // self.locked.store(LOCKED, Ordering::Relaxed);
+
+        // 方案 1
+        // while self.locked.compare_exchange(UNLOCKED, LOCKED, Ordering::Relaxed, Ordering::Relaxed).is_err() {}
+
+        // 方案 2 在 arm 下有更好的性能
+        while self.locked.compare_exchange_weak(UNLOCKED, LOCKED, Ordering::Relaxed, Ordering::Relaxed).is_err() {
+            // 假如现在 current value 就是 UNLOCKED 状态，已经修改为 LOCKED 状态，那么就已经拿到了所有权
+            // 加入现在还没有修改完成，current value 依然是 UNLOCKED 状态，当前线程就会卡住，直到有别的线程成功拿到了所有权
+            while self.locked.load(Ordering::Relaxed) == LOCKED {
+                thread::yield_now();
+            }
+            thread::yield_now();
+        }
+
+        // 暴露数据
+        let ret = f(unsafe { &amp;mut *self.v.get() });
+        // 解🔓
+        self.locked.store(UNLOCKED, Ordering::Relaxed);
+        ret
+    }
+}
+
+fn main() {
+    let l: &amp;'static _ = Box::leak(Box::new(Mutex::new(0)));
+
+    let handles: Vec&lt;_&gt; = (0..1000).map(|_| {
+        thread::spawn(move || {
+            for _ in 0..1000 {
+                l.with_lock(|v| {
+                    *v += 1;
+                })
+            }
+        })
+    }).collect();
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    // 这里依然会报错
+    assert_eq!(l.with_lock(|v| *v), 1000 * 1000);
+
+}
+</code></pre></pre>
+<h3 id="acquire-与-release"><a class="header" href="#acquire-与-release">Acquire 与 Release</a></h3>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// 但是即使用了上面的东西也有可能会出问题，虽然在 X86 64 位系统上没有出现问题，这是因为他不支持！，他只支持 Seq 的，不过还是要说明问题
+/// 因为下面对变量 v 的修改和上锁释放锁的过程毫不相关，
+/// 所以下一行可能被重新排列在加锁之前，或者解锁之后，这两种都是不允许的，但是 cpu 和编译器就可能这样做
+///
+/// 对此需要使用 Acquire 和 Release
+pub fn with_lock2&lt;R&gt;(&amp;self, f: impl FnOnce(&amp;mut T) -&gt; R) -&gt; R {
+    // 任何之后的读写操作不会被重排到 Acquire 之前
+    // 别的线程中的写操作，对于这里的 Acquire 都是可见的
+    while self.locked.compare_exchange_weak(UNLOCKED, LOCKED, Ordering::Acquire, Ordering::Relaxed).is_err() {
+        while self.locked.load(Ordering::Relaxed) == LOCKED {
+            thread::yield_now();
+        }
+        thread::yield_now();
+    }
+    let ret = f(unsafe { &amp;mut *self.v.get() });
+
+    // 任何之前的读写操作不会被重排到 Release 之后
+    // 这个线程里的所有写操作对别的线程中的 Acquire 都是可见的
+    self.locked.store(UNLOCKED, Ordering::Release);
+    ret
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="必需用-seq-的场景"><a class="header" href="#必需用-seq-的场景">必需用 Seq 的场景</a></h3>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[test]
+fn seq_test() {
+    // fetch_add always succeed
+
+    let x: &amp;'static _ = Box::leak(Box::new(AtomicBool::new(false)));
+    let y: &amp;'static _ = Box::leak(Box::new(AtomicBool::new(false)));
+    let z: &amp;'static _ = Box::leak(Box::new(AtomicUsize::new(0)));
+    let tx = thread::spawn(move || {
+        x.store(true, Ordering::Release);                  // ！！！
+    });
+    let ty = thread::spawn(move || {
+        y.store(true, Ordering::Release);
+    });
+    let t1 = spawn(move || {
+        while !x.load(Ordering::Acquire) {}
+        if y.load(Ordering::Acquire) {
+            z.fetch_add(1, Ordering::Release);
+        }
+    });
+    let t2 = spawn(move || {
+        while !y.load(Ordering::Acquire) {}                    // 这行和下面一行可能重排 (或者说不是重排，单纯时可见性的问题，下面的 x 就是看到了 x 是 false)
+        if x.load(Ordering::Acquire) {                         // ！！！x 为 false，当 x 被修改为 true 后，也不会发生改变
+            z.fetch_add(1, Ordering::Release);
+        }
+    });
+    println!(&quot;{}&quot;, z.load(Ordering::SeqCst));
+
+    // What are the possibles for z?
+    // - is 0 possibly ?
+    //   经过判断，至少有下面的条件
+    //     t1 must run after tx
+    //     t2 must run after ty
+    //   几种排列组合应该是 1 或 2，没有 0
+    //   但是 0 还是可能的，
+    //           t2    t1,t2
+    //   MO(x)  false  true
+    //           t1    t1,t2
+    //   MO(y)  false  true
+    // - is 1 possibly ?
+    //   Yes: tx -&gt; t1 -&gt; ty -&gt; t2
+    // - is 2 possibly ?
+    //   Yes: tx -&gt; ty -&gt; t1 -&gt; t2
+
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="3-常用-trait"><a class="header" href="#3-常用-trait">3. 常用 Trait</a></h2>
+<h3 id="31-read"><a class="header" href="#31-read">3.1 Read</a></h3>
+<p>Read Trait 的功能是：从数据源拉取 (Pull) 一定数据到指定的缓冲区，返回读取的字节数。</p>
+<p><strong>关于阻塞：</strong> read 函数不保证 Read 是否会处于阻塞状态，如果一个 read 过程阻塞了而且等待失败，那他就会返回一个 [<code>Err</code>] 标记。</p>
+<p><strong>关于返回值：</strong> 如果<code>read()</code>返回的是 [<code>OK(n)</code>] , 它的实现就必须保证<code>0 &lt;- n &lt; buf.len()</code>。
+如果<code>n == 0</code>，那可能有两种情况：</p>
+<ol>
+<li>reader 已经到达了<code>the end of file</code>，而且这个<code>file</code>可能不会在产生新数据。注意，这里只是 likely，比如：在 linux
+系统中，read 可能对一个 [<code>TcpStream</code>] 调用了<code>recv</code>系统调用，0 代表这个连接已经被成功关闭，如果是对 [<code>File</code>] ,
+那就可能意味着确实读取到了文件的末尾，但是如果有更多的数据被追加 (append) 到文件末尾，那么未来的 read 操作依然能够正常返回被追加的数据</li>
+<li>缓冲区 (buffer) 大小确实就是 0</li>
+</ol>
+<p><code>n</code> 只要小于缓冲区的长度一般就不是个错误，即使文件还没有被读取完，这种情况可能会发生在，当前只有一部分数据是可用的，或者是 read 操作被一个信号打断了</p>
+<p><strong>关于安全性：</strong></p>
+<ul>
+<li>
+<p>因为实现这个 Trait 是安全的，调用者不能用 <code>n &lt; buf.len()</code> 去确保安全，使用 unsafe 是更要小心确保诸如越界问题是否会发生。</p>
+</li>
+<li>
+<p>read 不保证 buf 里的数据是对的，所以不推荐读取缓冲区里的数据，只推荐向缓冲区里写入数据</p>
+</li>
+<li>
+<p>相应的，调用者不能有任何假设，这个 buf 会被 read 怎么使用，read 函数也可能会从中读取内容。所以我们需要保证在调用 read 前，这个 buf
+已经被初始化过了，调用没有被初始化的 buf 是不安全的，可能会导致未定义的行为</p>
+</li>
+</ul>
+<p>*<strong>关于错误：</strong> 如果遇到了 Error，那就必须保证没有读取过任何字节，如果遇到了<code>ErrorKind::Interrupted</code>，而且不能作别的事时，
+读取过程就必须被回滚</p>
+<p>下面是一个来自 doc 的例子</p>
+<pre><pre class="playground"><code class="language-rust">use std::io;
+use std::io::prelude::*;
+use std::fs::File;
+fn main() -&gt; io::Result&lt;()&gt; {
+    let mut f = File::open(&quot;foo.txt&quot;)?;
+    let mut buffer = [0; 10];
+    // read up to 10 bytes
+    let n = f.read(&amp;mut buffer[..])?;
+    println!(&quot;The bytes: {:?}&quot;, &amp;buffer[..n]);
+    Ok(())
+}
+</code></pre></pre>
+<h3 id="32-write"><a class="header" href="#32-write">3.2 Write</a></h3>
+<p>Write 的基本功能就是向 writer 中写入一段 buf，返回写入的字节数 <strong>关于阻塞：</strong> write 会尝试向 writer 中写入整个 buf
+里的内容，但是写入可能不成功，或者写入时产生了一个错误，调用一次 write 意味着最多一次尝试写入 write 函数同样不保证 Write
+是否处于阻塞状态以等待数据被写入，如果一次写入阻塞了，他可能会返回一个 [<code>Err</code>]。</p>
+<p><strong>关于返回值：</strong> 如果<code>write()</code>返回的是 [<code>OK(n)</code>] , 它的实现就必须保证<code>0 &lt;- n &lt; buf.len()</code>。
+如果<code>n == 0</code>，那可能有两种情况：</p>
+<ol>
+<li>被写入的东西已经不会接受新数据了，之后也不一定会</li>
+<li>缓冲区 (buffer) 大小确实就是 0</li>
+</ol>
+<p><code>n</code> 只要小于缓冲区的长度一般就不是个错误，即使文件还没有被读取完，这种情况可能会发生在，当前只有一部分数据是可用的，或者是 read 操作被一个信号打断了</p>
+<p>*<strong>关于错误：</strong> 如果遇到了 Error，那就必须保证没有任何字节被成功写入 返回值小于 buf 的长度不被当成是错误
+如果遇到了<code>ErrorKind::Interrupted</code>，而且不能作别的事时，写入过程就必须被回滚</p>
+<p>同样是官方的 demo</p>
+<pre><pre class="playground"><code class="language-rust">use std::io::prelude::*;
+use std::fs::File;
+fn main() -&gt; std::io::Result&lt;()&gt; {
+    let mut buffer = File::create(&quot;foo.txt&quot;)?;
+    // Writes some prefix of the byte string, not necessarily all of it.
+    buffer.write(b&quot;some bytes&quot;)?;
+    Ok(())
+}
+</code></pre></pre>
+<h3 id="33-seek--bufreader--bufwriter"><a class="header" href="#33-seek--bufreader--bufwriter">3.3 Seek &amp; BufReader &amp; BufWriter</a></h3>
+<p>[<code>Read</code>] 和 [<code>Write</code>] 是最重要的两个 Trait，除此之外还有两个重要的 Trait[<code>Seek</code>] 和 [<code>BufRead</code>],
+这两个都建立在 reader 只上，用来控制 read 的过程。</p>
+<p>[<code>Seek</code>] 让你控制下一个字节将要读取的来自哪里</p>
+<pre><pre class="playground"><code class="language-rust">use std::io;
+use std::io::prelude::*;
+use std::io::SeekFrom;
+use std::fs::File;
+fn main() -&gt; io::Result&lt;()&gt; {
+    let mut f = File::open(&quot;foo.txt&quot;)?;
+    let mut buffer = [0; 10];
+    // skip to the last 10 bytes of the file
+    f.seek(SeekFrom::End(-10))?;
+    // read up to 10 bytes
+    let n = f.read(&amp;mut buffer)?;
+    println!(&quot;The bytes: {:?}&quot;, &amp;buffer[..n]);
+    Ok(())
+}
+</code></pre></pre>
+<p>基于 byte 的接口性能不佳，所以提供了很多基于 buffer 的接口 [<code>BufRead</code>] 就提供了更多 Read 相关的 API</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let f = File::open(&quot;foo.txt&quot;)?;
+let mut reader = BufReader::new(f);
+let mut buffer = String::new();
+// read a line into buffer
+reader.read_line(&amp;mut buffer)?;
+<span class="boring">}
+</span></code></pre></pre>
+<p>[<code>BufWriter</code>] 没有提供更多写入的方法，他只是缓冲了每次调用</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let f = File::create(&quot;foo.txt&quot;)?;
+{
+    let mut writer = BufWriter::new(f);
+
+    // write a byte to the buffer
+    writer.write(&amp;[42])?;
+
+} // the buffer is flushed once writer goes out of scope
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="4-其他"><a class="header" href="#4-其他">4. 其他</a></h2>
+<h3 id="2-rc--arc"><a class="header" href="#2-rc--arc">2. Rc &amp; Arc</a></h3>
+<h4 id="介绍"><a class="header" href="#介绍">介绍</a></h4>
+<blockquote>
+<p>The key to our design is the RefCell type. The heart of RefCell is a pair of
+methods:</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn borrow(&amp;self) -&gt; Ref&lt;'_, T&gt;;
+fn borrow_mut(&amp;self) -&gt; RefMut&lt;'_, T&gt;;
+<span class="boring">}
+</span></code></pre></pre>
+<blockquote>
+<p>Introducing inherited mutability roots to shared types Shared smart pointer
+types, including Rc and Arc, provide containers that can be cloned and shared
+between multiple parties. Because the contained values may be
+multiply-aliased, they can only be borrowed as shared references, not mutable
+references. Without cells it would be impossible to mutate data inside of
+shared boxes at all!</p>
+</blockquote>
+<blockquote>
+<p>It's very common then to put a RefCell inside shared pointer types to
+reintroduce mutability:</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust">use std::collections::HashMap;
+use std::cell::RefCell;
+use std::rc::Rc;
+fn main() {
+    let shared_map: Rc&lt;RefCell&lt;_&gt;&gt; = Rc::new(RefCell::new(HashMap::new()));
+    shared_map.borrow_mut().insert(&quot;africa&quot;, 92388);
+    shared_map.borrow_mut().insert(&quot;kyoto&quot;, 11837);
+    shared_map.borrow_mut().insert(&quot;piccadilly&quot;, 11826);
+    shared_map.borrow_mut().insert(&quot;marbles&quot;, 38);
+}
+</code></pre></pre>
+<blockquote>
+<p>Note that this example uses Rc and not Arc. RefCells are for single-threaded
+scenarios. Consider using Mutex if you need shared mutability in a
+multi-threaded situation</p>
+</blockquote>
+<h4 id="try_unwrap"><a class="header" href="#try_unwrap">try_unwrap()</a></h4>
+<blockquote>
+<p>Get T from Rc&lt;T&gt; try to use <code>try_unwrap()</code>, which moves out the contents
+of an Rc if its refcount is 1 ::: warning unwrap on Result requires that you
+can debug-print the error case. RefCell only implements Debug if T does. Node
+doesn't implement Debug. try:
+Rc::try_unwrap(old_head).ok().unwrap().into_inner().elem :::</p>
+</blockquote>
+<h3 id="4-cell--refcell"><a class="header" href="#4-cell--refcell">4. Cell &amp; RefCell</a></h3>
+<blockquote>
+<p>Shareable mutable containers.</p>
+<p>Values of the Cell and RefCell types may be mutated through shared references
+(i.e. the common &amp;T type), whereas most Rust types can only be mutated through
+unique (&amp;mut T) references. We say that Cell and RefCell provide 'interior
+mutability', in contrast with typical Rust types that exhibit 'inherited
+mutability'.</p>
+<p>Cell types come in two flavors: Cell and RefCell. Cell provides get and set
+methods that change the interior value with a single method call. Cell though
+is only compatible with types that implement Copy. For other types, one must
+use the RefCell type, acquiring a write lock before mutating.</p>
+<p>RefCell uses Rust's lifetimes to implement 'dynamic borrowing', a process
+whereby one can claim temporary, exclusive, mutable access to the inner value.
+Borrows for RefCells are tracked 'at runtime', unlike Rust's native reference
+types which are entirely tracked statically, at compile time. Because RefCell
+borrows are dynamic it is possible to attempt to borrow a value that is
+already mutably borrowed; when this happens it results in thread panic.</p>
+</blockquote>
+<h3 id="5-ref--refmut"><a class="header" href="#5-ref--refmut">5. Ref &amp; RefMut</a></h3>
+<h4 id="refmap"><a class="header" href="#refmap">Ref::map()</a></h4>
+<ol>
+<li>example1</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>map(Ref&lt; T&gt;, f: F) -&gt; Ref&lt;U&gt;
+// Get Ref&lt;T&gt; from Ref&lt;Node&lt;T&gt;&gt;
+// my example
+pub fn peek_front(&amp;self) -&gt; Option&lt;Ref&lt;T&gt;&gt; {
+    self.head.as_ref().map(|node| {
+        Ref::map(node.borrow(), |node| &amp;node.elem)
+    })
+}
+<span class="boring">}
+</span></code></pre></pre>
+<ol start="2">
+<li>example2</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Makes a new Ref for a component of the borrowed data.
+
+// The RefCell is already immutably borrowed, so this cannot fail.
+
+// This is an associated function that needs to be used as Ref::map(...). A method would interfere with methods of the same name on the contents of a RefCell used through Deref.
+
+use std::cell::{RefCell, Ref};
+
+let c = RefCell::new((5, 'b'));
+let b1: Ref&lt;(u32, char)&gt; = c.borrow();
+let b2: Ref&lt;u32&gt; = Ref::map(b1, |t| &amp;t.0);
+assert_eq!(*b2, 5)
+<span class="boring">}
+</span></code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../../docs/rust/rust_quiz.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../../docs/rust/print_into_detail.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../../docs/rust/rust_quiz.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../../docs/rust/print_into_detail.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

@@ -1,0 +1,1198 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>计算机网络 - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../favicon.svg">
+                        <link rel="shortcut icon" href="../favicon.png">
+                <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+                <link rel="stylesheet" href="../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../note/java/java.html"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../note/java/springboot.html"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../note/frontend/http.html"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/magic/riscv.html"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../docs/rust/rust.html"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../draft/计算机网络.html" class="active"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="计算机网络"><a class="header" href="#计算机网络">计算机网络</a></h1>
+<h2 id="1-概述"><a class="header" href="#1-概述">1. 概述</a></h2>
+<h2 id="2-应用层"><a class="header" href="#2-应用层">2. 应用层</a></h2>
+<h3 id="电路交换-circuit-switching"><a class="header" href="#电路交换-circuit-switching">电路交换 circuit-switching</a></h3>
+<p>频分，时分</p>
+<p>建立连接 - 数据传输 - 释放资源</p>
+<h3 id="分组-包-交换-package-switching"><a class="header" href="#分组-包-交换-package-switching">分组 (包) 交换 package-switching</a></h3>
+<p>为每一个连接只分配一小块资源，同时服务多个 (用户) 连接</p>
+<p>端到端</p>
+<ul>
+<li>
+<p>所有数据包都是利用的完整的带宽，带宽不用分片</p>
+</li>
+<li>
+<p>限制在交换机转发的能力</p>
+</li>
+<li>
+<p>不需要预留资源</p>
+</li>
+<li>
+<p>不需要提前和转发设备沟通，</p>
+</li>
+<li>
+<p>需要存储转发</p>
+</li>
+<li>
+<p>超过转发能力会有排队延迟，甚至产生丢包</p>
+<ul>
+<li>电路交换会限制发送速率，不会在中间产生不可用</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-传输层"><a class="header" href="#3-传输层">3. 传输层</a></h2>
+<h3 id="1-传输层服务"><a class="header" href="#1-传输层服务">1. 传输层服务</a></h3>
+<ol>
+<li>
+<p>传输层和网络层的区别</p>
+<ul>
+<li>网络层：主机间的逻辑通信</li>
+<li>传输层：进程间的逻辑通信</li>
+</ul>
+<p>传输层的服务 = 传输层的协议 + 网络层的服务</p>
+<p>不同主机进程间数据传输 = 传输层的协议 + 进程所在主机间数据传输</p>
+<p>发送端：</p>
+<ul>
+<li>接收应用层的消息</li>
+<li>设置报文头部字段的值</li>
+<li>创建报文段</li>
+<li>把报文端传递给对应 IP</li>
+</ul>
+<p>接收端：</p>
+<ul>
+<li>从某 IP 接收 报文段</li>
+<li>检查 header 的值</li>
+<li>解析应用层消息</li>
+<li>通过 socket 把数据多路分解到应用</li>
+</ul>
+</li>
+<li>
+<p>两个传输层协议</p>
+<p>TCP(Transmission Control Protocol):</p>
+<ul>
+<li>可靠传输 (reliable, in-order delivery)</li>
+<li>拥塞控制 (congestion control)</li>
+<li>流量控制 (flow control)：确保发送端不会发送过多数据导致接收端 buffer 溢出而丢包的机制</li>
+<li>面向建立</li>
+</ul>
+<p>UDP(User Datagram Protocol):</p>
+<ul>
+<li>不可靠传输 (unreliable, unordered delivery)</li>
+<li>尽力而为 (no-frills extension of &quot;best-effort&quot; IP)</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-多路复用--多路分解"><a class="header" href="#2-多路复用--多路分解">2. 多路复用 / 多路分解</a></h3>
+<blockquote>
+<p><em>Multiplexing/demultiplexing</em></p>
+</blockquote>
+<ul>
+<li>创建 socket 时需要指定本机端口号</li>
+<li>连接 UDP 时需要指定目的主机的 IP 和 端口号</li>
+<li>当接收端接收到 UDP 报文后会检查目的端口，然口投递到对应的进程</li>
+</ul>
+<p>TCP 面向连接，TCP socket 定义了一个四元组</p>
+<p>总结</p>
+<ul>
+<li>UDP 多路分解只使用端口号</li>
+<li>TCP 多路分解使用 源和目地的 IP 和 端口</li>
+<li>多路复用和多路分解发生在所有层</li>
+</ul>
+<h3 id="3-无连接传输-udp"><a class="header" href="#3-无连接传输-udp">3. 无连接传输 UDP</a></h3>
+<h4 id="udp-特点"><a class="header" href="#udp-特点">UDP 特点</a></h4>
+<ol>
+<li>
+<p>UDP 是一种尽力而为的协议</p>
+<ul>
+<li>UDP 报文段可能会丢失</li>
+<li>也可能会乱序</li>
+</ul>
+</li>
+<li>
+<p>无连接</p>
+<ul>
+<li>UDP 发送端和接收端不需要握手</li>
+<li>每一个 UDP 数据段都是独立的，上下可能没有关系</li>
+<li>只有 checkout 用于错误检验</li>
+</ul>
+</li>
+</ol>
+<h4 id="为什么需要-udp"><a class="header" href="#为什么需要-udp">为什么需要 UDP？</a></h4>
+<ol>
+<li>无连接简历（可能会增加延迟）</li>
+<li>简单，发送端和接收端不需要保存连接状态</li>
+<li>没有拥塞控制，UDP 会尽可能快的送达</li>
+</ol>
+<p>应用场景：</p>
+<p>流媒体 app</p>
+<ul>
+<li>低延迟</li>
+<li>速度敏感</li>
+</ul>
+<p>如何在 UDP 上个构建可靠传输：在应用层上构建可靠性</p>
+<h4 id="udp-报文段格式"><a class="header" href="#udp-报文段格式">UDP 报文段格式</a></h4>
+<pre><code class="language-txt">+---------+---------+
+| 源端口   | 目的端口 |
++---------+---------+
+| 长度     | 校验和   |
++---------+---------+
+| 应用数据（消息）     |
+|                   |
++-------------------+
+</code></pre>
+<ul>
+<li>长度：UDP 报文段的长度（包含 header）</li>
+<li>数据：上层协议数据，例如 DNS，SNMP</li>
+<li>checksum：错误检测（数学手段的冗余）</li>
+</ul>
+<h4 id="checksum-计算方法"><a class="header" href="#checksum-计算方法">checksum 计算方法</a></h4>
+<p>将所有数据求和</p>
+<ul>
+<li>假如发送 5 bit 数据 (7, 11, 12, 0, 6), 实际会发送 (7, 11, 12, 0, 6, 36)</li>
+<li>接收方重新计算数字之和，并与收到的比较</li>
+<li>发送方法送的是实际数据的反码 (-36), 被称为 checkout</li>
+</ul>
+<p>问题</p>
+<p>如何用 4 bit 表示 36 和 -36？</p>
+<p>答：1s 补运算</p>
+<ul>
+<li><code>36 = 0001 0100</code></li>
+<li><code>0100 + 0100 = 0110 = 6</code></li>
+<li><code>+6 = 0100 -6 = 1001 取反得到 -6</code></li>
+<li><code>-36 可以用 1001(9) 表示</code></li>
+</ul>
+<pre><code class="language-txt"> 1110 0110 0110 0110
+ 1101 0101 0101 0101
+
+11011 1011 1011 1011
+ 1011 1011 1011 1100
+</code></pre>
+<h3 id="4-可靠传输"><a class="header" href="#4-可靠传输">4. 可靠传输</a></h3>
+<h4 id="rdt"><a class="header" href="#rdt">rdt</a></h4>
+<p>Rdt1.0:</p>
+<ol>
+<li>下层的 channel 是可靠的
+<ul>
+<li>不会发生比特翻转</li>
+<li>不会丢包</li>
+</ul>
+</li>
+<li>为 sender，receiver 设置不同的 FSM
+<ul>
+<li>sender 和 receiver 分别从下层的 channel 发送和接收数据</li>
+</ul>
+</li>
+</ol>
+<p>Rdt2.0:</p>
+<ul>
+<li>发送端发送数据</li>
+<li>接收端接收数据，如果接收到的数据正确，返回 ACK，如果数据错误，返回 NAK。</li>
+<li>发送端根据收到的是 ACK 还是 NAK，选择重传</li>
+</ul>
+<p>问题：</p>
+<ol>
+<li>出现比特翻转
+<ul>
+<li>使用 checksum 检测错误</li>
+<li>ack/nak 确认</li>
+<li>重传</li>
+</ul>
+</li>
+<li>如何从错误恢复：
+<ul>
+<li>自动请求重传</li>
+</ul>
+</li>
+<li>新的状态机
+<ul>
+<li>sender 使用 udt_send 发送数据，发送完毕后等待接收 ACK。</li>
+<li>如果接收到了 ACK，就是成功。</li>
+<li>如果接收到了 NAK，就会重传。</li>
+</ul>
+</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>如果接收方成功接收，但是返回失败，会导致消息不一致</li>
+</ol>
+<p>rdt2.1:</p>
+<p>解决同步问题 和 ACK/NAK 出错：</p>
+<ul>
+<li>发送端发送的数据除了数据和 checksum 之外还有一个序列号</li>
+<li>在接收端返回 ACK 或 NAK 是，还会返回序列号</li>
+<li>发送端直到收到正确的序列化才会转换到下一个状态</li>
+<li>是需要 0 和 1 两个状态其实就够了，区分新包和旧包</li>
+</ul>
+<p>rdt2.2:</p>
+<p>去掉 NAK，都用 ACK 表示：</p>
+<ul>
+<li>发送方发送 ACK</li>
+<li>接收方接收到数据，如果正确，返回原本的 ACK，如果错误，返回其他数据表示错误。</li>
+<li>发送方检查 ACK，如果 ACK 相同，则切换到下一个状态</li>
+</ul>
+<p>rdt3.0:</p>
+<ol>
+<li>可能发送丢包
+<ul>
+<li>发送端等待一段时间，可能是数据丢了 或者 ACK 丢了，无法区分，统一重传</li>
+<li>等待多久，准本计数器，等待超时</li>
+</ul>
+</li>
+</ol>
+<h4 id="pipelined-protocols-流水线"><a class="header" href="#pipelined-protocols-流水线">Pipelined protocols (流水线)</a></h4>
+<p>提高效率，在发送端收到确认后可以发送更多数据</p>
+<p>每次发送多份数据，当份数提高到一定程度，利用率就到 100%, 无法继续提高效率</p>
+<ol>
+<li>
+<p>go-Back-N</p>
+<p>滑动窗口，重传很多</p>
+<p>积累确认机制</p>
+<ul>
+<li>
+<p>发送方发送 5 个数据包</p>
+</li>
+<li>
+<p>假如第 3 个丢失，接收方会返回错误的序号</p>
+</li>
+<li>
+<p>发送端从这里重新发送</p>
+</li>
+<li>
+<p>在接收方</p>
+</li>
+<li>
+<p>如果到达分组是按序到达，那么发送 ACK，发送方正常移动窗口</p>
+</li>
+<li>
+<p>如果不是按序到达，那么接收方丢弃所有失序分组；丢弃一个正确接收的失序分组可能会导致更多的重传</p>
+</li>
+<li>
+<p>如果某个确认丢失，后续的确认（只有发送端正确接收到了数据才可能会有后续的确认）也能使发送端正常移动窗口</p>
+</li>
+</ul>
+</li>
+<li>
+<p>selective repeat(选择重传)</p>
+<ul>
+<li>接收方因为有 buffer，所以不用按序接收分组，失序的分组会被缓存</li>
+<li>发送方的 buffer，每个数据包都有各自的计数器，不用重传多的数据包</li>
+</ul>
+<p>为了防止误判数据包</p>
+<p>ACK 编号数量至少要 = 发送窗口 + 接收窗口</p>
+</li>
+</ol>
+<h3 id="tcp"><a class="header" href="#tcp">TCP</a></h3>
+<p><img src="./computer_network/tcp_segment_format.jpg" alt="TCP" /></p>
+<ul>
+<li>源端口和目的端口字段：各占 2 字节。端口是运输层与应用层的服务接口。运输层的复用和分用功能都要通过端口才能实现。</li>
+<li>序号字段：占 4 字节。TCP 连接中传送的数据流中的每一个字节都编上一个序号。序号字段的值则指的是本报文段所发送的数据的第一个字节的序号。</li>
+<li>确认号字段：占 4 字节，是期望收到对方的下一个报文段的数据的第一个字节的序号。</li>
+<li>数据偏移（即首部长度）：占 4 位，它指出 TCP 报文段的数据起始处距离 TCP 报文段的起始处有多远。“数据偏移”的单位是 32 位字（以 4 字节为计算单位）。</li>
+<li>保留字段：占 6 位，保留为今后使用，但目前应置为 0。</li>
+<li>紧急 URG：当 URG  1 时，表明紧急指针字段有效。它告诉系统此报文段中有紧急数据，应尽快传送 (相当于高优先级的数据)。</li>
+<li>确认 ACK：只有当 ACK  1 时确认号字段才有效。当 ACK  0 时，确认号无效。</li>
+<li>推送 PSH (PuSH)：接收 TCP 收到 PSH = 1 的报文段，就尽快地交付接收应用进程，而不再等到整个缓存都填满了后再向上交付。</li>
+<li>复位 RST (ReSeT) ：当 RST  1 时，表明 TCP 连接中出现严重差错（如由于主机崩溃或其他原因），必须释放连接，然后再重新建立运输连接。</li>
+<li>同步 SYN：同步 SYN = 1 表示这是一个连接请求或连接接受报文。</li>
+<li>终止 FIN (FINis) ：用来释放一个连接。FIN  1 表明此报文段的发送端的数据已发送完毕，并要求释放运输连接。</li>
+<li>窗口字段：占 2 字节，用来让对方设置发送窗口的依据，单位为字节。</li>
+<li>检验和：占 2 字节。检验和字段检验的范围包括首部和数据这两部分。在计算检验和时，要在 TCP 报文段的前面加上 12 字节的伪首部。</li>
+<li>紧急指针字段：占 16 位，指出在本报文段中紧急数据共有多少个字节（紧急数据放在本报文段数据的最前面）。</li>
+<li>选项字段：长度可变。TCP 最初只规定了一种选项，即最大报文段长度 MSS。MSS 告诉对方 TCP：“我的缓存所能接收的报文段的数据字段的最大长度是 MSS 个字节。</li>
+</ul>
+<p>TCP seq 序列号</p>
+<h4 id="tcp-feature"><a class="header" href="#tcp-feature">TCP Feature</a></h4>
+<ul>
+<li>Point to Point (单播，单发送者，单接收者)</li>
+<li>reliable, in-order byte stream</li>
+<li>pipelined（拥塞控制，流量控制）</li>
+<li>send &amp; receive buffers</li>
+<li>full deplex data(全双工，双向数据传输，MSS(最大报文长度))</li>
+<li>connection-orinted(握手，初始化 sender 和 receiver 的状态)</li>
+<li>flow controlled(发送端不能超过接收端的处理能力)</li>
+</ul>
+<h3 id="flow-control"><a class="header" href="#flow-control">Flow Control</a></h3>
+<p>为什么需要流量控制？</p>
+<ul>
+<li>发送者接收者的速率不一定匹配，如果发的快，可能产生消息堆积</li>
+</ul>
+<p>如何解决？</p>
+<ul>
+<li>接收端需要通知发送端自己的缓冲区大小，让它不要发送太多。对应的就是 TCP 协议中规定的 Receive Window (接收窗口) 字段</li>
+</ul>
+<blockquote>
+<p>注意滑动窗口 (发送窗口)，接收窗口，以及之后的拥塞窗口的区别</p>
+</blockquote>
+<h3 id="congestion-control"><a class="header" href="#congestion-control">Congestion Control</a></h3>
+<h4 id="拥塞"><a class="header" href="#拥塞">拥塞</a></h4>
+<ul>
+<li>太多发送源发送了太多的数据，超过了网络的承载能力</li>
+<li>对资源需求的总和 &gt; 可用资源</li>
+<li>与流量控制不同</li>
+<li>表现
+<ul>
+<li>丢包</li>
+<li>高延迟</li>
+</ul>
+</li>
+<li>top-10 question!</li>
+</ul>
+<h4 id="解决方法"><a class="header" href="#解决方法">解决方法</a></h4>
+<ol>
+<li>
+<p>端到端</p>
+<ul>
+<li>没有来自网络的明确反馈</li>
+<li>端系统通过丢包和延迟推测出可能通过拥塞</li>
+<li>TCP 采用这种方法</li>
+</ul>
+</li>
+<li>
+<p>网络层辅助</p>
+<ul>
+<li>路由主动反馈给端系统
+<ul>
+<li>由 1 个 bit 指出网络存在拥塞 (SNA, DECbit, TCP/IP ECN, ATM)</li>
+<li>发送端需要以一个固定的速率发送数据</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="./computer_network/congestion_ctl.png" alt="congestion_ctl" /></p>
+<h4 id="三大问题"><a class="header" href="#三大问题">三大问题</a></h4>
+<ol>
+<li>
+<p>如何限制发送速度？</p>
+<ul>
+<li>
+<p>Last Byte Sent(上一个发送的字节) - Last Byte Acked(最后确认的字节) &lt; CongWin(拥塞窗口)</p>
+</li>
+<li>
+<p>rate(发送速率) = CongWIn / RTT B/s</p>
+</li>
+</ul>
+</li>
+<li>
+<p>如何检测到拥塞？
+loss event = timeout or 3 duplicate acks</p>
+</li>
+<li>
+<p>应该发送多快？</p>
+<ul>
+<li>
+<p>AIMD</p>
+<ul>
+<li>加法增加，乘法减小 (additive increase, multiplicative decrease)</li>
+<li>增加有一个单位（1 字节，1k），一般以 MSS 数量为单位</li>
+<li>图像表现为锯齿状</li>
+</ul>
+</li>
+<li>
+<p>slow start</p>
+<ul>
+<li>连接开始时，CongWin 为 1MSS，
+<ul>
+<li>每次接收到 ACK，CongWin 就会乘 2</li>
+<li>慢启动其实并不慢，增加的速度很快</li>
+</ul>
+</li>
+<li>速度增加有一定得阈值，当超过阈值后，到达新阶段，一般称为 &quot;拥塞避免&quot;，每次只会增加 1 个 MSS。</li>
+</ul>
+</li>
+<li>
+<p>conservative after timeout events</p>
+<ul>
+<li>发生丢包后
+<ul>
+<li>窗口掉回 1 MSS</li>
+<li>线性增加</li>
+</ul>
+</li>
+<li>收到 3 个重复的 ACK
+<ul>
+<li>窗口砍半</li>
+<li>线性增加</li>
+<li>快速重传</li>
+</ul>
+</li>
+<li>新的阈值都为上次阈值的一半</li>
+</ul>
+<blockquote>
+<p>丢包相对于 3 个重复的 ACK 更严重</p>
+</blockquote>
+</li>
+<li>
+<p>TCP CUBIC</p>
+<ul>
+<li>窗口减半后，增加的速度改为 <code>x^3</code> 的曲线</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="tcp-公平性"><a class="header" href="#tcp-公平性">TCP 公平性</a></h3>
+<p>AIMD 具有较好的公平性，使得不同连接占有的带宽相等</p>
+<blockquote>
+<p>如果 TCP 和 UDP 同时竞争会怎样？TCP 会主动降低速度，UDP 则不管
+想要可靠传输，不想要拥塞控制怎么办？在 UDP 的基础上自行实现可靠传输 (QUIC 就是这么干)</p>
+</blockquote>
+<h2 id="4-网络层"><a class="header" href="#4-网络层">4. 网络层</a></h2>
+<h3 id="简介"><a class="header" href="#简介">简介</a></h3>
+<ul>
+<li>提供主机间的数据传输</li>
+<li>发送端将段 (segments) 封装为数据报，接收端把 segments 发送到传输层</li>
+<li>网络层协议在各个主机和路由间</li>
+<li>router 会确认经过他的所有 IP 数据报的 header 字段</li>
+</ul>
+<h3 id="转发--路由"><a class="header" href="#转发--路由">转发 &amp; 路由</a></h3>
+<p>路由：决定从发送源发送的 packets 到目的地的路径</p>
+<ul>
+<li>路由选择算法</li>
+</ul>
+<p>转发：把 packets 从路由的输入转发到合适的输出</p>
+<ul>
+<li>如何通过某一个交换机</li>
+</ul>
+<h3 id="数据平面控制平面"><a class="header" href="#数据平面控制平面">数据平面，控制平面</a></h3>
+<ol>
+<li>
+<p>数据平面</p>
+<ul>
+<li>局部的</li>
+</ul>
+</li>
+<li>
+<p>控制平面</p>
+<ul>
+<li>全局的</li>
+<li>Per-router control plane
+<ul>
+<li>每一个路由设备单独实现路由算法</li>
+</ul>
+</li>
+<li>Software-Defined Networking(SDN) control plane
+<ul>
+<li>由一个集中式的计算机计算路由并向下发送了路由表</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="是否建立连接"><a class="header" href="#是否建立连接">是否建立连接</a></h3>
+<ul>
+<li>三种重要的网络架构
+<ul>
+<li>ATM, frame relay, X.25</li>
+</ul>
+</li>
+<li>在数据报流动前，两个主机以及它们之间的路由会建立虚拟连接</li>
+<li>网络层和传输层连接的区别
+<ul>
+<li>网络层：两个主机之间 (也可能包含之间的交换机)</li>
+<li>传输层：两个进程之间</li>
+</ul>
+</li>
+</ul>
+<h3 id="虚电路--数据报"><a class="header" href="#虚电路--数据报">虚电路 &amp; 数据报</a></h3>
+<ul>
+<li>
+<p>虚电路</p>
+<ul>
+<li>有连接</li>
+</ul>
+</li>
+<li>
+<p>数据报</p>
+<ul>
+<li>无连接</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>网络层应该是面向连接的还是无连接的？
+在计算机通信中，可靠交付应该由谁来负责？是网络还是端系统？</p>
+</blockquote>
+<p>转发表的建立</p>
+<p>对于虚电路，转发表会在建立连接时产生</p>
+<h3 id="ip-地址"><a class="header" href="#ip-地址">IP 地址</a></h3>
+<blockquote>
+<p><em>addressing, forwarding, routing</em></p>
+</blockquote>
+<ul>
+<li>地址块如何设计</li>
+<li>对存储和转发的影响</li>
+</ul>
+<h4 id="ip-地址的编址方法"><a class="header" href="#ip-地址的编址方法">IP 地址的编址方法</a></h4>
+<p>分类的 IP 地址</p>
+<ul>
+<li>每一类地址都由两个固定长度的字段组成
+<ul>
+<li>网络号 net-id: 标志主机（或路由器）连接到的网络</li>
+<li>主机号 host-id：标志该主机或路由器</li>
+</ul>
+</li>
+<li>两级的 IP 地址可以记为：<code>IP 地址 ::= { &lt;网络号&gt;, &lt;主机号&gt;}</code></li>
+</ul>
+<blockquote>
+<p><code>::=</code> 表示 &quot;定义为&quot;</p>
+</blockquote>
+<table><thead><tr><th>网络类别</th><th>首部</th><th>地址范围</th></tr></thead><tbody>
+<tr><td>A 类</td><td>0</td><td>1.0.0.0 - 127.255.255.255</td></tr>
+<tr><td>B 类</td><td>10</td><td>128.0.0.0 - 191.255.255.255</td></tr>
+<tr><td>C 类</td><td>110</td><td>192.0.0.0 - 223.255.255.255</td></tr>
+<tr><td>D 类</td><td>1110</td><td>224.0.0.0 - 239.255.255.255</td></tr>
+<tr><td>E 类</td><td>1111</td><td></td></tr>
+</tbody></table>
+<p>| 类别 | 最大网络数 | 第一个可用的网络号 | 最后一个可用的网络号 | 每个网络中的最大主技术 |
+| A |  126(2^7 - 2)     | 1       | 126         | 16,777,214 |
+| B | 16383(2^14 - 1)   | 128.1   | 191.255     | 65,534 |
+| C | 2097151(2^21 - 1) | 192.0.1 | 223.255.255 | 254 |</p>
+<ul>
+<li>
+<p>私有地址</p>
+<ul>
+<li>A: 10.0.0.0 - 10.255.255.255(10.0.0.0/8 prefix)</li>
+<li>B: 172.16.0.0 - 172.31.255.255(172.16.0.0/12 prefix)</li>
+<li>C: 192.168.0.0 - 192.168.255.255(192.168.0.0/16 prefix)</li>
+</ul>
+</li>
+<li>
+<p>127.0.0.1: loopback</p>
+</li>
+<li>
+<p>255.255.255.255:</p>
+</li>
+<li>
+<p>0.0.0.0:</p>
+</li>
+</ul>
+<p>子网的划分</p>
+<p>CIDR 方案</p>
+<ul>
+<li>无分类的编制方法</li>
+</ul>
+<h4 id="ip-地址的一些重要特点"><a class="header" href="#ip-地址的一些重要特点">IP 地址的一些重要特点</a></h4>
+<ul>
+<li>IP 地址是 &quot;分等级&quot; 的地质结构
+<ul>
+<li>方便了 IP 管理：IP 管理机构分配 IP 时只分配网络号，剩下的交由单位自行管理</li>
+<li>减小了路由表的大小：路由器仅根据网络号来转发路由（不用考虑目的主机号），减少了路由表项数，减小了存储空间。</li>
+</ul>
+</li>
+<li>实际上 IP 地址标志一个主机和一条链路的接口
+<ul>
+<li>当一个主机同时连接到两个网络上时，它必须同时有两个 IP 地址，并且 net-id 必须不同（称为多归属主机）</li>
+<li>一个路由器至少要连接到两个网络，才能将 IP 数据报总一个网络转发到另一个网络。因此路由器至少有两个不同的 IP 地址</li>
+</ul>
+</li>
+<li>用转发器或者网桥连接起来的若干局域网仍属以一个网络，这些局域网有相同的 net-id</li>
+</ul>
+<h4 id="分类-ip-地址的路由转发"><a class="header" href="#分类-ip-地址的路由转发">分类 IP 地址的路由转发</a></h4>
+<ul>
+<li>direct delivery 直接投递/交付</li>
+<li>indirect delivery 间接投递/交付</li>
+<li>Route based，基于路径（构建转发表困难，维护难度大）</li>
+<li>Next hop based，基于下一跳（类似于 &quot;路牌&quot;）</li>
+</ul>
+<ol>
+<li>
+<p>如果多个源 IP 有相同的下一跳，他们的目的地址可以合并</p>
+</li>
+<li>
+<p>Default routing（缺省（默认）路由）</p>
+</li>
+</ol>
+<h4 id="划分子网和构造超网"><a class="header" href="#划分子网和构造超网">划分子网和构造超网</a></h4>
+<ol>
+<li>
+<p>从两极 IP 到 三级 IP 地址
+原因：</p>
+<ul>
+<li>IP 地址利用率低</li>
+<li>为每一个物理网络分配一个网络号会使路由表变大，降低性能</li>
+<li>两极 IP 地址不够灵活</li>
+</ul>
+</li>
+<li>
+<p>子网掩码</p>
+</li>
+</ol>
+<p>子网掩码前一部分为 1，后一部分全为 0，将子网掩码与 IP 地址进行 &quot;与&quot; 运算，就能找到 IP 地址的子网部分。</p>
+<p>可以用来区分 net-id 和 host-id 或者 subnet-id 和 host-id</p>
+<p>不同的子网掩码可以得到相同的网络地址，但是不同的掩码的效果是不同的。如果使用，路由器给出目的的网络地址外，还必须同时给出该网络的子网掩码。</p>
+<p>若一个路由器连接在两个子网上，他就有两个网络地址和子网掩码</p>
+<h4 id="无分类编址-cidr"><a class="header" href="#无分类编址-cidr">无分类编址 CIDR</a></h4>
+<ol>
+<li>
+<p>CIDR 特点</p>
+<ul>
+<li>消除了 A，B，C 类地址，以及划分子网的概念</li>
+<li>使用各种长度的 &quot;网络前缀&quot; 代替分类地址中的网络号和子网号。</li>
+<li>从三级编制（取消子网掩码）变回二级编制</li>
+</ul>
+</li>
+<li>
+<p>无分类的两级编址</p>
+<ul>
+<li>IP 记法：<code>IP 地址 ::= {&lt;网络前缀&gt;, &lt;主机号&gt;}</code></li>
+<li>CIDR 还是用斜线记法：在 IP 地址面加一个 <code>/</code>，后面跟上网络前缀所占的位数。（对应子网掩码中 1 的个数）</li>
+<li>举例：128.14.32.0/20 <code>min: 128.14.32.0, max: 128.14.47.255</code></li>
+<li>全 0 和全 1 一般不使用</li>
+</ul>
+</li>
+<li>
+<p>可变掩码长度向右移能划分为小块，向左移合并为大块</p>
+</li>
+<li>
+<p>路由聚合减少了路由表的表项</p>
+</li>
+</ol>
+<h3 id="ip-配置"><a class="header" href="#ip-配置">IP 配置</a></h3>
+<ul>
+<li>
+<p>系统管理员将 IP 硬编码到文件中
+UNIX: /etc/rc.config</p>
+</li>
+<li>
+<p>DHCP: Dynamic Host Configuration Protocal:</p>
+<p>从服务器动态获取 IP</p>
+</li>
+</ul>
+<p>目的：允许主机加入网络后，从网络服务器，动态获取自己的 IP 地址。</p>
+<ul>
+<li>支持重置，复用，手机用户</li>
+</ul>
+<h3 id="dhcp"><a class="header" href="#dhcp">DHCP</a></h3>
+<p>Overview</p>
+<ul>
+<li>主机广播 &quot;DHCP discover&quot; 消息</li>
+<li>DHCP 服务器回复 &quot;DHCP offer&quot; 消息</li>
+<li>主机请求 IP 地址：&quot;DHCP request&quot; 消息</li>
+<li>DHCP 服务器发送地址：&quot;DHCP ack&quot; 消息</li>
+</ul>
+<h3 id="nat-网络地址转换"><a class="header" href="#nat-网络地址转换">NAT 网络地址转换</a></h3>
+<h4 id="动机"><a class="header" href="#动机">动机</a></h4>
+<p>对外部世界而言，本地网络只使用一个 IP 地址</p>
+<ul>
+<li>不需要 ISP 提供一系列地址，所有设别共用一个 IP 地址。</li>
+<li>无需通知外部实际就可以更换本地网络的设备 IP.</li>
+<li>可以在不改变本地设备 IP 情况下更换 ISP.</li>
+<li>内网对外不设备不可见。</li>
+</ul>
+<h4 id="实现"><a class="header" href="#实现">实现</a></h4>
+<p>NAT 路由必须</p>
+<ul>
+<li>
+<p>将每个向外发送数据报的源 IP 地址，端口替换为 NAT 的 IP 地址，新端口</p>
+<p>. .远程客户/服务器将使用 NAT 的 IP 地址，新端口作为目标地址进行响应。</p>
+</li>
+<li>
+<p>在 NAT 转换表中记录每一个源 IP 地址，端口到 NAT IP 地址，新端口的映射</p>
+</li>
+<li>
+<p>传入的数据报，将 NAT IP 地址和端口替换为 NAT 表中相应的源 IP 地址，端口。</p>
+</li>
+</ul>
+<h4 id="nat-的缺点"><a class="header" href="#nat-的缺点">NAT 的缺点</a></h4>
+<ul>
+<li>16 位端口号：60000 同时连接到同一个地址</li>
+<li>NAT 有争议
+<ul>
+<li>routers should only process up to layer 3</li>
+<li>violates end-to-end argument(违背 e2e 原则)</li>
+<li>NAT possibility must be taken into account by app designers, eg, P2P applications</li>
+<li>address shortage should instead be solved by IPv6</li>
+</ul>
+</li>
+</ul>
+<h4 id="nat-的问题"><a class="header" href="#nat-的问题">NAT 的问题</a></h4>
+<p>外部的客户端如何访问内网地址？</p>
+<ul>
+<li>
+<ol>
+<li>静态配置端口转发</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Universal Plug and Play (UPnP) Internet Gateway Device (IGD) Protocol.</li>
+</ol>
+<ul>
+<li>learn public IP address (138.76.29.7)</li>
+<li>enumerate existing port mappings</li>
+<li>add/remove port mappings (with lease times)</li>
+</ul>
+<blockquote>
+<p>自动配置静态端口映射</p>
+</blockquote>
+</li>
+<li>
+<ol start="3">
+<li>中继 (Skype 使用)</li>
+</ol>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<h3 id="ip-数据报格式"><a class="header" href="#ip-数据报格式">IP 数据报格式</a></h3>
+<p>首部 (20 字节固定 + 变长) + 数据</p>
+<ul>
+<li>版本——占 4 位，指 IP 协议的版本，目前的 IP 协议版本号为 4 (即 IPv4)</li>
+<li>首部长度——占 4 位，可表示的最大数值是 15 个单位 (一个单位为 4 字节) 因此 IP 的首部长度的最大值是 60 字节。</li>
+<li>区分服务——占 8 位，用来获得更好的服务在旧标准中叫做服务类型，但实际上一直未被使用过。1998 年这个字段改名为区分服务。只有在使用区分服务（DiffServ）时，这个字段才起作用。在一般的情况下都不使用这个字段</li>
+<li>总长度——占 16 位，指首部和数据之和的长度，单位为字节，因此数据报的最大长度为 65535 字节。总长度必须不超过最大传送单元 MTU。</li>
+<li>标识 (identification) 占 16 位，它是一个计数器，用来产生数据报的标识。</li>
+<li>标志 (flag) 占 3 位，目前只有前两位有意义。标志字段的最低位是 MF (More Fragment)。
+<ul>
+<li>MF = 1 表示后面“还有分片”。</li>
+<li>MF = 0 表示最后一个分片。</li>
+<li>标志字段中间的一位是 DF (Don't Fragment) 。只有当 DF = 0 时才允许分片。</li>
+</ul>
+</li>
+<li>片偏移 (12 位) 指出：较长的分组在分片后某片在原分组中的相对位置。片偏移以 8 个字节为偏移单位。</li>
+<li>生存时间 (8 位) 记为 TTL (Time To Live) 数据报在网络中可通过的路由器数的最大值。</li>
+<li>协议 (8 位) 字段指出此数据报携带的数据使用何种协议以便目的主机的 IP 层将数据部分上交给哪个处理过程</li>
+<li>首部检验和 (16 位) 字段只检验数据报的首部不检验数据部分。这里不采用 CRC 检验码而采用简单的计算方法。</li>
+<li>源地址和目的地址都各占 4 字节</li>
+</ul>
+<h3 id="路由"><a class="header" href="#路由">路由</a></h3>
+<h4 id="路由算法"><a class="header" href="#路由算法">路由算法</a></h4>
+<ul>
+<li>
+<p>全局的</p>
+<ul>
+<li>链路状态 (link state) 算法</li>
+<li>所有路由器都有完整的拓扑结构和链路成本信息</li>
+</ul>
+</li>
+<li>
+<p>分布式的</p>
+<ul>
+<li>路径向量 (distance vector) 算法</li>
+<li>路由器知道有物理连接的邻居，与邻居的链接成本</li>
+<li>迭代计算的过程，与邻居交换信息</li>
+</ul>
+</li>
+<li>
+<p>静态</p>
+<ul>
+<li>路径更新缓慢</li>
+</ul>
+</li>
+<li>
+<p>动态</p>
+<ul>
+<li>路径更新更快</li>
+<li>定期更新</li>
+<li>应对链路变化的成本</li>
+</ul>
+</li>
+</ul>
+<h4 id="dijkstra-算法"><a class="header" href="#dijkstra-算法">Dijkstra 算法</a></h4>
+<p>算法复杂性：N 个节点</p>
+<ul>
+<li>每次迭代：需要检查所有的节点，w，不在 N 中的节点 n(n+1)/2 的比较。O(n2)</li>
+<li>可能有更有效的实现。O(nlogn)</li>
+</ul>
+<p>有可能出现震荡：例如，链路成本=承载流量的数量</p>
+<h4 id="distance-vector-算法"><a class="header" href="#distance-vector-算法">Distance Vector 算法</a></h4>
+<p><code>d(x, y) = min { c(x, v) + d(v, y) }</code></p>
+<h4 id="对比"><a class="header" href="#对比">对比</a></h4>
+<p>link state(LS):</p>
+<ul>
+<li>把距离向量告诉所有人</li>
+</ul>
+<p>distance vector(DV):</p>
+<ul>
+<li>把距离向量只告诉邻居</li>
+</ul>
+<p>实际上都有缺点：</p>
+<ul>
+<li>这两个算法都只适合规模较小的网络</li>
+<li>路由器不一定能执行统一的路由算法</li>
+</ul>
+<h3 id="分层路由"><a class="header" href="#分层路由">分层路由</a></h3>
+<p>引入 AS 自治系统，使用内部外部两套路由算法</p>
+<ul>
+<li>AS 以内：使用 intra-AS 路由算法</li>
+<li>AS 之间：inter-AS 算法</li>
+</ul>
+<h4 id="intra-as-路由"><a class="header" href="#intra-as-路由">Intra-AS 路由</a></h4>
+<p>也称为 (Interior Gateway Protocols) IGP 内部网关协议</p>
+<ul>
+<li>
+<p>RIP</p>
+<ul>
+<li>distance vector</li>
+<li>最远经过 15 个路由器</li>
+<li>每 20 秒交换一次路由</li>
+<li>适用于小型网络</li>
+</ul>
+</li>
+<li>
+<p>OSPF</p>
+<ul>
+<li>Dij</li>
+<li>OSPF 是分层的，具有可扩展性</li>
+<li>通告放在 UDP 里</li>
+</ul>
+</li>
+<li>
+<p>IGRP</p>
+</li>
+</ul>
+<h4 id="inter-as-路由"><a class="header" href="#inter-as-路由">Inter-AS 路由</a></h4>
+<p>(Border Gateway Protocol) BGP 边缘网关协议</p>
+<p>通告是路径向量 (Path Vector)，从 AS-a 到 AS-b 的路径向</p>
+<p>基于策略路由，方便管理，不是为了找到最优路由</p>
+<p>通告放在 TCP 里</p>
+<h2 id="链路层"><a class="header" href="#链路层">链路层</a></h2>
+<p>链路的类型</p>
+<ul>
+<li>点对点</li>
+<li>广播或共享式链路</li>
+<li>交换式</li>
+</ul>
+<p>问题：</p>
+<ol>
+<li>
+<p>帧</p>
+<ul>
+<li>把上层的数据组装成帧</li>
+</ul>
+<p>解决透明传输</p>
+<ul>
+<li>比特填充</li>
+<li>字节</li>
+</ul>
+</li>
+<li>
+<p>检错</p>
+<p>奇偶校验</p>
+<p>CRC: 循环冗余校验</p>
+</li>
+<li>
+<p>可靠传输</p>
+</li>
+<li>
+<p>广播的特有问题</p>
+<ul>
+<li>多路控制</li>
+<li>地址区分</li>
+</ul>
+</li>
+</ol>
+<h3 id="多路访问协议-multi-access-protocol"><a class="header" href="#多路访问协议-multi-access-protocol">多路访问协议 (multi access protocol)</a></h3>
+<p>接收端同时接受两个以上信号时会发生冲突，多路访问需要解决这个问题</p>
+<p>多路访问特点：</p>
+<p>解决方法：</p>
+<ul>
+<li>信道划分 (Channel Partitioning)
+<ul>
+<li>时分：可能会产生浪费</li>
+<li>频分：不够灵活</li>
+<li>码分 (CDMA):</li>
+</ul>
+</li>
+<li>随机访问 (Random Access)
+<ul>
+<li>可能产生冲突</li>
+<li>需要从冲突中恢复</li>
+</ul>
+</li>
+<li>轮转 (&quot;Taking turn&quot;)
+<ul>
+<li>节点多的时候轮转时间会变长</li>
+</ul>
+</li>
+</ul>
+<h4 id="随机访问"><a class="header" href="#随机访问">随机访问</a></h4>
+<p>如何检错，如何恢复？</p>
+<ol>
+<li>
+<p>ALOHA:</p>
+<ul>
+<li>有数据就发，有冲突就停止</li>
+<li>最大利用率 37%</li>
+</ul>
+</li>
+<li>
+<p>Pure ALOHA:</p>
+<ul>
+<li>最大利用率 18%</li>
+</ul>
+</li>
+<li>
+<p>CSMA (载波监听，多点接入):</p>
+<ul>
+<li>先去监听是否有其他人发数据，没有了再发</li>
+</ul>
+</li>
+<li>
+<p>CSMA/CD (Collision detection)</p>
+<ul>
+<li>带有冲突检测，一边发一边检测</li>
+</ul>
+</li>
+</ol>
+<h4 id="轮流访问"><a class="header" href="#轮流访问">轮流访问</a></h4>
+<ul>
+<li>
+<p>轮询 (Polling)</p>
+</li>
+<li>
+<p>令牌传递 (Token passing)</p>
+</li>
+</ul>
+<h3 id="mac-地址"><a class="header" href="#mac-地址">MAC 地址</a></h3>
+<p>一般直接写入网卡</p>
+<ul>
+<li>48 bit</li>
+</ul>
+<p>广播地址：<code>FF-FF-FF-FF-FF-FF</code></p>
+<h3 id="arp-address-resolution-protocol"><a class="header" href="#arp-address-resolution-protocol">ARP (address resolution protocol)</a></h3>
+<p>ARP 地址解析协议</p>
+<p>通过 ARP 表将 ip 解析为 MAC 地址</p>
+<table><thead><tr><th>IP addr</th><th>MAC addr</th><th>TTL</th></tr></thead><tbody>
+<tr><td></td><td></td><td></td></tr>
+</tbody></table>
+<p>如何构建 ARP 表？</p>
+<ol>
+<li>
+<p>广播：A 通过广播发送 ARP 请求</p>
+</li>
+<li>
+<p>响应：B 响应时是单播，返回自己的 MAC 地址</p>
+</li>
+<li>
+<p>保存：A 将收到的数据放入自己的 ARP 表</p>
+</li>
+</ol>
+<p>路由器不会改变源 IP 和目的 IP, 目的 MAC 地址则会一直改变</p>
+<ol>
+<li>发送方是主机，要把 IP 数据报发送到本网络上的另一个 主机。这时用 ARP 找到目的主机的硬件地址。</li>
+<li>发送方是主机，要把 IP 数据报发送到另一个网络上的一 个主机。这时用 ARP 找到本网络上的一个路由器的硬件 地址。剩下的工作由这个路由器来完成。</li>
+<li>发送方是路由器，要把 IP 数据报转发到本网络上的一个 主机。这时用 ARP 找到目的主机的硬件地址。</li>
+<li>发送方是路由器，要把 IP 数据报转发到另一个网络上的 一个主机。这时用 ARP 找到本网络上另一个路由器的硬 件地址。剩下的工作由这个路由器来完成。</li>
+</ol>
+<h3 id="repeaters-中继器"><a class="header" href="#repeaters-中继器">Repeaters (中继器)</a></h3>
+<h3 id="hubs集线器"><a class="header" href="#hubs集线器">Hubs(集线器)</a></h3>
+<ul>
+<li>和中继器是同一类设备，只不过端口数量更多</li>
+<li>集线器会将从一个链路传来的数据转发到所有其他链路</li>
+<li>所有连接的链路都会发生冲突</li>
+<li>用集线器组成的更大局域网都在一个碰撞域里，所以总吞吐量并未提高</li>
+</ul>
+<h3 id="bridge网桥"><a class="header" href="#bridge网桥">Bridge(网桥)</a></h3>
+<h3 id="switch交换机"><a class="header" href="#switch交换机">Switch(交换机)</a></h3>
+<ul>
+<li>多端口的网桥</li>
+<li>智能化转发，自动学习</li>
+</ul>
+<p>交换机可以分割冲突域</p>
+<p>Switch Table (交换表)</p>
+<p>| MAC address of host | interface to reach MAC | time stamp |</p>
+<ul>
+<li>交换机一定不能成环，否则会产生广播风暴</li>
+</ul>
+<table><thead><tr><th></th><th>集线器</th><th>交换机</th><th>路由器</th></tr></thead><tbody>
+<tr><td>分割冲突域</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>分割广播域</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>即插即用</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>最有路径</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>直通转发</td><td>1</td><td>1</td><td>0</td></tr>
+</tbody></table>
+<h3 id="vlan"><a class="header" href="#vlan">VLAN</a></h3>
+<ul>
+<li>虚拟局域网</li>
+<li>可以跨交换机</li>
+<li>跨 VLAN 的流量都需要经过路由器转发</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../draft/组成原理.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../draft/译-pkg_mng.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../draft/组成原理.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../draft/译-pkg_mng.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

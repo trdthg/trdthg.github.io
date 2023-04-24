@@ -1,0 +1,1364 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>riscv - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../../favicon.svg">
+                        <link rel="shortcut icon" href="../../favicon.png">
+                <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+                <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/java/java.html"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../../note/java/springboot.html"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../../note/frontend/http.html"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/magic/riscv.html" class="active"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust.html"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../../draft/计算机网络.html"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="risc-v"><a class="header" href="#risc-v">RISC-V</a></h1>
+<h2 id="risc-v-特点"><a class="header" href="#risc-v-特点">RISC-V 特点</a></h2>
+<ol>
+<li>增量 ISA(指令集架构)</li>
+</ol>
+<ul>
+<li>核心是名为 RV32I 的核心 ISA，它是固定的永远不会改变</li>
+<li>可以增加拓展，例如 RV32IMDF 将乘法 (RV32M),单精度浮点 (RV32D) 和双精度浮点 (RV32D) 的拓展添加到了基础指令集中。</li>
+<li>RISC-V 编译器可以根据拓展生成当前硬件环境下的最佳代码</li>
+</ul>
+<h2 id="isa"><a class="header" href="#isa">ISA</a></h2>
+<h3 id="isa-设计"><a class="header" href="#isa-设计">ISA 设计</a></h3>
+<ul>
+<li>成本</li>
+<li>简洁性
+<ul>
+<li>ISA 的简洁性，从而缩小实现 ISA 的处理器的尺寸</li>
+</ul>
+</li>
+<li>性能</li>
+<li>架构和具体实现的分离</li>
+<li>提升空间</li>
+<li>程序大小</li>
+<li>易于编程/编译/链接</li>
+</ul>
+<h3 id="rv32i-指令格式"><a class="header" href="#rv32i-指令格式">RV32I 指令格式</a></h3>
+<p>六种基本指令格式分别是：</p>
+<ul>
+<li>用于 <code>寄存器-寄存器</code> 操作的 R 类型指令</li>
+<li>用于短立即数和访存 load 操作的 I 型指令</li>
+<li>用于访存 store 操作的 S 型指令</li>
+<li>用于条件跳转操作的 B 类型指令</li>
+<li>用于长立即数的 U 型指令</li>
+<li>用于无条件跳转的 J 型指令</li>
+</ul>
+<p>优势：</p>
+<ul>
+<li>指令只有六种格式，并且所有的指令都是 32 位长，这简化了指令解码</li>
+<li>第二，RISC-V 指令提供三个寄存器操作数，而不是像 x86-32 一样，让源操作数和目的操作数共享一个字段。(节约了 1 条 move（搬运）指令)</li>
+</ul>
+<h3 id="寄存器"><a class="header" href="#寄存器">寄存器</a></h3>
+<ul>
+<li>RV32I 有 31 寄存器加上一个值恒为 0 的 x0 寄存器。</li>
+<li>ARM-32 只有 16 个寄存器</li>
+<li>x86-32 甚至只有 8 个寄存器。</li>
+</ul>
+<ol>
+<li>
+<p>为常量 0 单独分配一个寄存器是 RISC-V ISA 能如此简单的一个很
+大的因素。而 ARM-32 和 x86-32 指令集中没有零寄存器。</p>
+</li>
+<li>
+<p>程序计数器（PC）是 ARM-32 的 16 个寄存器之一，这意味着任何改变寄存器的指令
+都有可能导致分支跳转。PC 作为一个寄存器使硬件分支预测变得复杂，因为在典型的 ISA
+中，仅 10%-20% 的指令为分支指令，而在 ARM-32 中，任何指令都有可能是分支指令。而
+分支预测的准确性对于良好的流水线性能至关重要。另外将 PC 作为一个寄存器也意味着
+可用的通用寄存器少了一个。</p>
+</li>
+</ol>
+<table><thead><tr><th>寄存器</th><th>功能</th></tr></thead><tbody>
+<tr><td>x0 / szero</td><td>硬连线到 0 (Hardwired zero)</td></tr>
+<tr><td>x1 / ra</td><td>返回地址 (Return address)</td></tr>
+<tr><td>x2 / sp</td><td>栈指针 (Stack pointer)</td></tr>
+<tr><td>x3 / gp</td><td>全局指针 (Global pointer)</td></tr>
+<tr><td>x4 / tp</td><td>线程指针 (Thread pointer)</td></tr>
+<tr><td>x5 / t0</td><td>临时 (Temporary)</td></tr>
+<tr><td>x6 / t1</td><td>临时</td></tr>
+<tr><td>x7 / t2</td><td>临时</td></tr>
+<tr><td>x8 / s0 / fp</td><td>保存寄存器 (saved register) / frame pointer</td></tr>
+<tr><td>x9 / s1</td><td>保存寄存器</td></tr>
+<tr><td>x10 / a0</td><td>函数参数 (Function argument), 返回地址</td></tr>
+<tr><td>x11 / a1</td><td>函数参数，返回地址</td></tr>
+<tr><td>x12 / a2</td><td>函数参数</td></tr>
+<tr><td>x13 / a3</td><td>函数参数</td></tr>
+<tr><td>x14 / a4</td><td>函数参数</td></tr>
+<tr><td>x15 / a5</td><td>函数参数</td></tr>
+<tr><td>x16 / a6</td><td>函数参数</td></tr>
+<tr><td>x17 / a7</td><td>函数参数</td></tr>
+<tr><td>x18 / s2</td><td>保存寄存器</td></tr>
+<tr><td>x19 / s3</td><td>保存寄存器</td></tr>
+<tr><td>x20 / s4</td><td>保存寄存器</td></tr>
+<tr><td>x21 / s5</td><td>保存寄存器</td></tr>
+<tr><td>x22 / s6</td><td>保存寄存器</td></tr>
+<tr><td>x23 / s7</td><td>保存寄存器</td></tr>
+<tr><td>x24 / s8</td><td>保存寄存器</td></tr>
+<tr><td>x25 / s9</td><td>保存寄存器</td></tr>
+<tr><td>x26 / s10</td><td>保存寄存器</td></tr>
+<tr><td>x27 / s11</td><td>保存寄存器</td></tr>
+<tr><td>x28 / t3</td><td>临时</td></tr>
+<tr><td>x29 / t4</td><td>临时</td></tr>
+<tr><td>x30 / t5</td><td>临时</td></tr>
+<tr><td>x31 / t6</td><td>临时</td></tr>
+<tr><td></td><td></td></tr>
+<tr><td>PS</td><td>程序计数器</td></tr>
+</tbody></table>
+<p>保存寄存器和临时寄存器为什么不是连续编号的？</p>
+<p>为了支持 RV32E——一个只有 16 个寄存器的嵌入式版本的 RISC-V（参见第 11 章），只使用寄存器 x0 到 x15——一部分保存寄存器和一部分临时寄存器都在这个范围内。其它的保存寄存器和临时寄存器在剩余 16 个寄存器内。RV32E 较小，但由于和 RV32I 不匹配，目前还没有编译器支持。</p>
+<h2 id="计算机中的指令表示"><a class="header" href="#计算机中的指令表示">计算机中的指令表示</a></h2>
+<h3 id="指令"><a class="header" href="#指令">指令</a></h3>
+<p><img src="./riscv/instructions_size.jpg" alt="size" />
+<img src="./riscv/instructions_usage.jpg" alt="usage" />
+<img src="./riscv/instructions_format.jpg" alt="format" />
+<img src="./riscv/instructions_binary2asm.jpg" alt="binary2asm" /></p>
+<h3 id="计算指令"><a class="header" href="#计算指令">计算指令</a></h3>
+<ul>
+<li>简单计算：add, sub</li>
+<li>逻辑指令：and, or, xor</li>
+<li>移位指令：sll, srl, sra</li>
+<li>小于时置位：slt, altu (unsigned), 立即数版 (slti，sltiu)</li>
+</ul>
+<h3 id="决策指令"><a class="header" href="#决策指令">决策指令</a></h3>
+<h4 id="判断-if-then-else"><a class="header" href="#判断-if-then-else">判断 (if-then-else)</a></h4>
+<pre><code class="language-c">// f,   g,   h,   i,   j
+// x19, x20, x21, x22, x23
+
+if (i == g)
+    f = g + h;
+else
+    f = g - h;
+</code></pre>
+<p>除了 Else 标签之外，还需要有一个 Exit 的标签，用于 If 执行完跳过 Else。</p>
+<pre><code class="language-assembly">    bne x22, x23, Else  // if
+    add x19, x20, x21
+    beq x0, x0, Exit    // 无条件分支的一种实现方法
+Else: sub x19, x20. x21 // else
+Exit:
+</code></pre>
+<h4 id="循环-for--while"><a class="header" href="#循环-for--while">循环 (for / while)</a></h4>
+<pre><code class="language-c">// i: x22, k: x24, save: x25
+while (save[i] == k)
+    i += 1;
+</code></pre>
+<ul>
+<li>将 <code>save[i]</code> 加载到临时寄存器里。
+<ul>
+<li>加载 <code>save[i]</code> 前还需要得到它的地址，将 i 加到 save 的基址上。</li>
+<li>由于字节寻址问题，i 还需要乘 8。这个可以通过左移实现</li>
+<li>添加 Loop 标签</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-asm">      slid x10, x22, 3  ; i * 8, 并存到 x10 里
+      add x10, x10, x25 ; 在加上 save 基址
+      ld x9, 0(x10)     ; 将 x10 存储到临时寄存器
+Loop: bne x9, x24, Exit ; 比较
+      addi x22, x22, 1  ; i = i + １
+      beq x0, x0, Loop  ; 继续循环
+Exit：
+</code></pre>
+<h4 id="case--switch"><a class="header" href="#case--switch">case / switch</a></h4>
+<p>实现方法：</p>
+<ol>
+<li>转换为一系列 if-then-else</li>
+<li>更高效的方法：使用分支地址表或分支表。</li>
+</ol>
+<h3 id="过程指令-函数"><a class="header" href="#过程指令-函数">过程指令 (函数)</a></h3>
+<h4 id="过程调用时的寄存器的分配"><a class="header" href="#过程调用时的寄存器的分配">过程调用时的寄存器的分配</a></h4>
+<ul>
+<li><code>x0</code> 硬连线为 0</li>
+<li><code>x10 - x17</code>: 参数寄存器，用于传递参数或者返回值</li>
+<li><code>x1</code>: 一个返回地址寄存器</li>
+</ul>
+<h4 id="跳转指令"><a class="header" href="#跳转指令">跳转指令</a></h4>
+<ul>
+<li><code>jal</code>: 跳转 - 链接指令</li>
+</ul>
+<pre><code class="language-asm">jal x1, ProcedureAddress
+</code></pre>
+<p>跳转到 ProcedureAddress 并把下一条指令的返回值保存到目标寄存器 <strong><code>rd</code></strong>.</p>
+<blockquote>
+<p>在存储程序中，总需要一个寄存器存储当前指令的地址，这个寄存器被称为 &quot;程序计数器&quot;, 缩写为 &quot;PC&quot;.所以 <code>jal</code> 指令实际上是将 <code>PC + 4</code> 写入到 x1 中</p>
+</blockquote>
+<ul>
+<li><code>jalr</code> 间接跳转，可以用于处理 case 语句。</li>
+</ul>
+<pre><code class="language-asm">jalr x0, 0(x1)
+</code></pre>
+<p>由于 x0 硬连线到 0，所以其效果是丢弃返回地址</p>
+<p>当用户 <code>jal x1 X</code> <code>jalr x0, 0(x1)</code></p>
+<h4 id="使用更多寄存器"><a class="header" href="#使用更多寄存器">使用更多寄存器</a></h4>
+<p>假设一个过程需要比 8 个更多的寄存器，需要将寄存器换出到存储器。</p>
+<p>换出寄存器的理想结构是栈，栈中需要一个指针，指向下一个过程应该放置寄存器的位置（或者旧寄存器值的存放位置）。在 RISC-V 中，栈指针是 <code>x2</code> 也称 <code>sp</code>。</p>
+<pre><code class="language-c">// g: x10, h: x11, i: x12, j: x13
+// f: x20
+// 临时寄存器：x5, x6
+long long int leaf_example(long long int g, long long int h, long long int i, long long int k) {
+    long long int f;
+    f = (g + h) - (i + j);
+    return f;
+}
+</code></pre>
+<p>汇编：</p>
+<pre><code class="language-asm">leaf_example:
+    ; 压栈 (sd 从寄存器取双字到存储器)
+    addi sp, sp, -24
+    sd x5, 16(sp)        ; tmp1
+    sd x6, 8(sp)         ; tmp2
+    sd x20, 0(sp)        ; f
+
+    ; 计算
+    add x5, x10, x11     ; x5 = g + h
+    add x6, x12, x13     ; x6 = i + j
+    sub x20, x5, x6      ; f = x5 - x6
+
+    ; 把返回值复制到一个参数寄存器
+    addi x10, x20, 0     ; f -&gt; x10
+
+    ; 弹栈 (ld 从存储器取双字到寄存器)
+    ld x20, 0(sp)
+    ld x6, 8(sp)
+    ld x5, 16(sp)
+    addi sp, sp, 24
+
+    ; 返回
+    jalr x0, 0(x1)
+</code></pre>
+<p>上面使用了 x5 和 x6 作为临时寄存器，并假设它的旧值必须被保存和恢复。为了避免保存和恢复一个其值从没被用过的寄存器 (通常称为临时寄存器), RISC-V 把寄存器分为类两组：</p>
+<ul>
+<li>x5 ~ x7, x28 ~ x31: 临时寄存器，在过程调用时，不会被调用者保存。</li>
+<li>x8 ~ x9, x18 ~ x27: 保存寄存器 (saved register), 在过程调用中，必须被保存。</li>
+</ul>
+<p>这一约定，减少了寄存器换出，x5, x6 不用保存，减少了两次存储和载入，x20 必须保存和恢复。</p>
+<h4 id="嵌套过程"><a class="header" href="#嵌套过程">嵌套过程</a></h4>
+<p>不调用其他过程的过程称为 leaf 进程</p>
+<p>如何解决嵌套？</p>
+<p>将其他所有必须保存的寄存器压栈。调用者将所有参数寄存器 (x10 ~ x17) 或临时寄存器 (x5~x7 和 x28 ~ x31) 压栈，被调用者将返回地址寄存器 x1 和被调用者使用的保存寄存器 (x8~x9 和 x18 ~ x27) 压栈。</p>
+<pre><code class="language-c">long long int fact(long long int n) {
+    if (n &lt; 1)
+        return 1;
+    else
+        return n * fact(n - 1);
+}
+</code></pre>
+<p>汇编：</p>
+<pre><code class="language-asm">fact:
+    ; 压栈
+    addi sp, sp, -16   ; 参数 n 和返回地址 x1
+    sd x1, 8(sp)       ; 把返回地址 x1 存到 8[sp] 中
+    sd x10, 0(sp)      ; 把 x10 [[参数 n]] 存到 0[sp] 中
+
+    ; 判断
+    addi x5, x10, -1   ; x5 = n - 1
+    bge x5, x0, L1     ; if (n - 1 &gt;= 0) goto L1;
+
+    ; true
+    addi x10, x0, 1    ; x10 = 1
+
+    addi sp, sp, 16    ; 弹栈
+    jalr x0, 0(x1)     ; 跳回去 x1
+L1:
+    ; false
+    addi x10, x10, -1  ; [[x10 = n - 1]]
+    jal x1, fact       ; fact // 这里发生递归
+
+    addi x6, x10, 0    ; 把计算结果存到 x6
+
+    ld x10, 0(sp)
+    ld x1, 8(sp)
+    addi sp, sp, 16    ; 弹栈
+
+    mul x10, x10, x6   ; return n * fact(n - 1)
+    jalr x0, 0(x1)
+</code></pre>
+<p>通过把返回地址 (PC + 4) 存到栈上实现了返回。</p>
+<h4 id="尾递归"><a class="header" href="#尾递归">尾递归</a></h4>
+<pre><code class="language-c">long long int sum(long long int n, long long int acc) {
+    if (n &gt; 0)
+        return sum(n - 1, acc + n);
+    else
+        return acc;
+}
+</code></pre>
+<p>这种求和的递归可以用迭代高效实现</p>
+<pre><code class="language-asm">    ; 假设 x10 = n, x11 = acc, 结果放入 x12
+sum:
+    ble x10, x0, sum_exit
+    add x11, x11, x10
+    addi x10, x10, -1
+    jal x0, sum
+sum_exit:
+    addi x12, x11, 0
+    jalr x0, 0(x1)
+</code></pre>
+<h3 id="字符处理指令"><a class="header" href="#字符处理指令">字符处理指令</a></h3>
+<p>RISC-V 中一系列指令可以从双字中提取一个字节</p>
+<ul>
+<li><code>lbu</code> (加载无符号字节): 从内存中加载一个字节，放到寄存器的最右边八位</li>
+<li><code>sb</code> (存储字节): 从存储器最右边八位取一个字节并写入内存</li>
+</ul>
+<pre><code class="language-asm">lbu x12 0(x10) // read from x10
+sb x12 0(x11)  // write to x11
+</code></pre>
+<p>字符串的设计：</p>
+<ol>
+<li>字符串第一位保留，表示字符串长度</li>
+<li>附加长度的变量（如结构体）</li>
+<li>字符串的结尾用一个字符标记结尾</li>
+</ol>
+<p><code>strcpy</code> 的汇编实现</p>
+<pre><code class="language-c">void strcpy(char x[], char y[]) {
+    size_t i;
+    i = 0;
+    while ((x[i] = y[i]) != '\0') { // copy &amp; test byte
+        i += 1;
+    }
+}
+</code></pre>
+<p>假设 x: x10, y: x11, i: x19</p>
+<pre><code class="language-asm">strcpy:
+    addi sp, sp, -8   ; 压栈
+    sd x19, 0(sp)     ; 保存 i
+    add x19, 0, 0;    ; i = 0 + 0
+L1:
+    add x5, x19, x11  ; 计算 数组基址 + 偏移量 (i)
+    lbu x6, 0(x5)     ; 加载对应字节，注意：这里不用 *8，因为是字节数组
+
+    bep x6, x0, L2
+    addi x19, x19, 1  ; if (== '\0')
+    jal x0, L1
+L2:
+    ld x19, 0(sp)     ; else
+    addi sp, sp, 8    ; 弹栈
+    jalr x0, 0(x1)    ; 返回
+</code></pre>
+<h3 id="大立即数"><a class="header" href="#大立即数">大立即数</a></h3>
+<p>假如常量超过了 12 位怎么办？</p>
+<p>RISC-V 提供了 lui (load upper immediate) 指令 (取高位立即数)，能够将 20 位常量加载到寄存器的第 31 到 12 位。</p>
+<p>将以下 64 位常量加载到寄存器 x19：</p>
+<pre><code class="language-asm">; 00000000 00000000 00000000 00000000 00000000 00111101 00000101 00000000
+
+
+; 加载前 20 位
+lui x19, 976                   ; 976: 00000000 00111101
+
+; 此时 x19
+; 00000000 00000000 00000000 00000000 00000000 00111101 00000000 00000000
+
+; 加载后 12 位
+addi x19, x19, 1280                             ; 1280: 00000101 00000000
+</code></pre>
+<h3 id="swap-和-排序"><a class="header" href="#swap-和-排序">swap 和 排序</a></h3>
+<h4 id="swap"><a class="header" href="#swap">swap</a></h4>
+<pre><code class="language-c">void swap(long long int v[], size_t k) {
+    long long int temp;
+    temp = v[k];
+    v[k] = v[k + 1];
+    v[k + 1] = temp;
+}
+</code></pre>
+<p>手动把 C 翻译为 ASM 时，我们遵循一下步骤：</p>
+<ol>
+<li>为程序中的变量分配寄存器</li>
+<li>为过程生成汇编代码</li>
+<li>保存过程调用间的寄存器</li>
+</ol>
+<p>下面是详细过程：</p>
+<p>寄存器的分配。RISC-V 参数传递默认使用 x10 和 x17 寄存器，由于 swap 只有两个参数，所以可以在 x10 和 x17 保存。</p>
+<p>还剩一个变量 temp，我们用 x5 保存它。</p>
+<p>剩下的 C 过程代码：</p>
+<pre><code class="language-c">temp     = v[k];
+v[k]     = v[k + 1];
+v[k + 1] = tmep;
+</code></pre>
+<p>对应的 ASM:</p>
+<pre><code class="language-asm">; 使用数组基址 + 8 * i 计算地址
+alli x6, x11, 3     ; reg x6 = k * 8
+add  x6, x10, x6    ; reg x6 = x6 + (k * 8)
+
+; 加载数组数据到寄存器
+ld x5, 0(x6)        ; reg x5 (temp) = v[k]
+ld x7, 8(x6)        ; reg x7        = v[k + 1]
+
+; 把寄存器数据存入数组
+sd x7, 0(x6)        ; v[k]     = reg x7
+sd x5, 8(x6)        ; v[k + 1] = reg x5 (temp)
+</code></pre>
+<p>RISC-V 是字节寻址，双字之间相差了 8 个字节。</p>
+<h4 id="sort"><a class="header" href="#sort">sort</a></h4>
+<pre><code class="language-c">void sort(long long int v[], size_t int n) {
+    size_t i, j;
+    for (int i = 0; i &lt; n; i += 1) {
+        for (j = i - 1; j &gt;= 0 &amp;&amp; v[j] &gt; v[j + 1]; j -= 1) {
+            swap(v, j);
+        }
+    }
+}
+</code></pre>
+<ol>
+<li>
+<p>寄存器的分配：</p>
+<p>v 和 n 两个参数保存在 x10 和 x11 中，我们将 i 和 j 两个临时寄存器分配在 x19 和 x20 (都是保存寄存器).</p>
+</li>
+<li>
+<p>翻译过程体代码：</p>
+<p>过程体由两层 for 循环和一个 swap 调用组成，我们从外到内展开代码。</p>
+</li>
+</ol>
+<h5 id="第一层-for-循环"><a class="header" href="#第一层-for-循环">第一层 for 循环</a></h5>
+<p><code>for (int i = 0; i &lt; n; i += 1) {</code>:</p>
+<p>for 循环分三步，对 i 做初始化，判断 <code>i &lt; n</code> 和 <code>i += 1</code>, 分别对应下面的汇编指令：</p>
+<pre><code class="language-asm">; 初始化
+li x19, 0         ; li 是汇编器提供的伪指令, 目的是简化汇编的编写
+
+; i += 1
+addi x19, x19, 1
+
+; 判断 i &lt; n
+for1tst:
+    beg x19, x11, exit1 ; 如果 i &gt;= 0, 则退出
+    j for1tst
+exit1:
+</code></pre>
+<p>经过排序后：</p>
+<pre><code class="language-asm">li x19, 0
+for1tst:
+    bge x19, x11, exit1 ; 如果 i &gt;= 0, 则退出
+    ...
+    ; i 循环的 body
+    ...
+    addi x19, x19, 1  ; i += 1
+    j for1tst         ; 继续循环
+exit1:
+</code></pre>
+<h5 id="第二层循环"><a class="header" href="#第二层循环">第二层循环</a></h5>
+<p><code>for (j = i - 1; j &gt;= 0 &amp;&amp; v[j] &gt; v[j + 1]; j -= 1) {</code></p>
+<pre><code class="language-asm">; 初始化
+addi x20, x19, -1
+
+; j -= 1
+addi x20, x20, -1
+
+; 判断条件,任意一个为假都要推出循环
+for2tst:
+    ; 判断 j &gt;= 0
+    ble x20, 0, exit2
+
+    ; 判断 v[j]&gt; v[j + 1]
+    ; 先计算地址
+    slii x5, x20, 8    ; reg x5 = j * 8
+    add x5, x10, x5    ; reg x5 = v = j * 8
+    ld x6, 0(x5)       ; 加载 v[j]
+    ld x7, 8(x5)       ; 加载 v[j + 1]
+    bge x6, x7, exit2  ; 比较
+    ...
+    (第二个循环的内容)
+    ...
+    addi x20, x20, -1  ; j -= 1
+    j for2tst          ; 重复循环
+exit2:
+</code></pre>
+<h5 id="调用-swap"><a class="header" href="#调用-swap">调用 swap</a></h5>
+<p>调用 swap 很容易： <code>j x1 swap</code></p>
+<p>swap 需要 x10 (v) 和 x11 (k) 中的值，其中一种方法是：将 swap 的参数提前复制到其他寄存器中，使得 x10 和 x11 在调用 swap 时可用。</p>
+<pre><code class="language-asm">mv x21, x10 ; 把 x10 复制到 x21
+mv x22, x11 ; 把 x11 复制到 x20
+</code></pre>
+<p>然后将这两个参数传递给 swap:</p>
+<pre><code class="language-asm">mv x10, x21 ; 把 x10 从 x21 恢复回去
+mv x11, x20 ; ?
+</code></pre>
+<p>保留 sort 中的寄存器</p>
+<pre><code class="language-asm">sort:
+    addi sp, sp, -40
+    sd x1, 32(sp)       ; 返回地址
+    sd x22, 24(sp)      ; 把 x22 保存到栈
+    sd x21, 16(sp)      ; 同上
+    sd x20, 8(sp)       ; 同上
+    sd x19, 0(sp)       ; 同上
+</code></pre>
+<h5 id="完整过程"><a class="header" href="#完整过程">完整过程</a></h5>
+<pre><code class="language-c">void sort(long long int v[], size_t int n) {
+    size_t i, j;
+    for (int i = 0; i &lt; n; i += 1) {
+        for (j = i - 1; j &gt;= 0 &amp;&amp; v[j] &gt; v[j + 1]; j -= 1) {
+            swap(v, j);
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>v 和 n 两个参数保存在 x10 和 x11 中，</li>
+<li>i 和 j 两个临时寄存器分配在 x19 和 x20 (都是保存寄存器).</li>
+</ul>
+<pre><code class="language-asm">
+sort:
+    addi sp, sp, -40
+    sd x1, 32(sp)       ; 返回地址
+    sd x22, 24(sp)      ; 把 x22 保存到栈
+    sd x21, 16(sp)      ; 同上
+    sd x20, 8(sp)       ; 同上
+    sd x19, 0(sp)       ; 同上
+
+    ; 为 swap 保存参数
+    mv x21, x10 ; 把 x10 (v) 复制到 x21
+    mv x22, x11 ; 把 x11 (k) 复制到 x22
+
+    ; 初始化 i = 0
+    li x19, 0
+for1tst:
+    bge x19, x22, exit1 ; 如果 i &gt;= 0, 则退出
+    ; 初始化 j = i - 1
+    addi x20, x19, -1   ; j = i - 1
+for2tst:
+    ; 判断 j &gt;= 0
+    ble x20, 0, exit2
+
+    ; 判断 v[j]&gt; v[j + 1]
+    ; 先计算地址
+    slii x5, x20, 8    ; reg x5 = j * 8
+    add x5, x10, x5    ; reg x5 = v = j * 8
+    ld x6, 0(x5)       ; 加载 v[j]
+    ld x7, 8(x5)       ; 加载 v[j + 1]
+    bge x6, x7, exit2  ; 如果 v[j] &gt; v[j + 1], 则退出
+
+    ; 恢复寄存器, 并调用 swap
+    mv x10, x21
+    mv x11, x20
+    jal x1, swap
+
+    addi x20, x20, -1  ; j -= 1
+    j for2tst          ; 重复循环
+exit2:
+    addi x19, x19, 1  ; i += 1
+    j for1tst         ; 继续循环
+exit1:
+    ld x19, 0(sp)
+    ld x20, 8(sp)
+    ld x21, 16(sp)
+    ld x22, 24(sp)
+    ld x1, 32(sp)
+    addi sp, sp, 40
+    jalr x0, 0(x1)
+</code></pre>
+<pre><code class="language-asm">swap:
+    ; 使用数组基址 + 8 * i 计算地址
+    alli x6, x11, 3     ; reg x6 = k * 8
+    add  x6, x10, x6    ; reg x6 = x6 + (k * 8)
+
+    ; 加载数组数据到寄存器
+    ld x5, 0(x6)        ; reg x5 (temp) = v[k]
+    ld x7, 8(x6)        ; reg x7        = v[k + 1]
+
+    ; 把寄存器数据存入数组
+    sd x7, 0(x6)        ; v[k]     = reg x7
+    sd x5, 8(x6)        ; v[k + 1] = reg x5 (temp)
+</code></pre>
+<h3 id="数组和指针"><a class="header" href="#数组和指针">数组和指针</a></h3>
+<pre><code class="language-c">clear1(long long int array[], size_t int size) {
+    size_t i;
+    for (i = 0; i &lt; size; i += 1) {
+        array[i] = 0;
+    }
+}
+clear2(long long int *array, size_t int size) {
+    long long int *p
+    for (p = &amp;array[0]; p &lt; &amp;array[size]; p = p + 1) {
+        *p = 0;
+    }
+}
+</code></pre>
+<p>假设 array: x10, size: x11, i: x5</p>
+<pre><code class="language-asm">    li x5, 0            ; i = 0
+loop1:
+    slii x6, x5, 3      ; i * 8
+    add x7, x10, x6
+    sd 0, 0(x7)         ; array[i] = 0
+    addi x5, x5, 1
+    ble x5, x11, loop1  ; if i &lt; size; goto loop1
+</code></pre>
+<p>指针实现</p>
+<pre><code class="language-asm">    mv x5, x10          ; p(x5) = x10
+loop2:
+    sd x0, 0(x5)        ; 加载 *p
+    addi x5, x5, 8      ; p = p + 8
+    slli x6, x11, 3     ; x6 = size + 8
+    add x7, x10, x6     ; x7 = &amp;array[size]
+    bltu x5, x7, loop2
+</code></pre>
+<p>这段代码可以优化，将计算 <code>&amp;array[size]</code> 移动到外部：</p>
+<pre><code class="language-asm">    mv x5, x10          ; p(x5) = x10
+    slli x6, x11, 3     ; x6 = size + 8
+    add x7, x10, x6     ; x7 = &amp;array[size]
+loop2:
+    sd x0, 0(x5)        ; 加载 *p
+    addi x5, x5, 8      ; p = p + 8
+    bltu x5, x7, loop2
+</code></pre>
+<p>减少了两条指令，这种优化对应分别于两种编译器优化：</p>
+<ul>
+<li>&quot;强度削弱&quot;: 使用移位代替乘法</li>
+<li>循环变量消除：消除循环内的数组地址计算</li>
+</ul>
+<h2 id="并发"><a class="header" href="#并发">并发</a></h2>
+<p>这里介绍上锁 (lock) 和解锁 (unlock) 的同步实现</p>
+<p>在多处理器中实现同步所需的关键是一组硬件原语，它们能够提供以原子方式读取和修改内存单元的能力。也就是说在内存单元的读取和写人之间不能插人其他任何操作。</p>
+<blockquote>
+<p>如果没有这样的能力，构建基本同步原语的成本将会很高并会随着处理器数量的增加而急剧增加。</p>
+</blockquote>
+<p>有许多基本硬件原语的实现方案，所有这些都提供了原子读和原子写的能力以及一些判断读写是否是原子操作的力法。</p>
+<blockquote>
+<p>通常，体系结构设计人员不希望用户使用基本的硬件原语而是期望系统程序员使用原语来构建同步库，这个过程通常复杂且棘手。</p>
+</blockquote>
+<p>我们从 <strong>原子交换</strong> (atomic exchange 或 atomic swap) 原语开始展示如何使用它来构建 基本同步原语。它是构建同步机制的一种典型操作，它将寄存器中的值与存储器中的值进行交换。</p>
+<p>为了了解如何使用它来构建基木同步原语，假设要构建一个简单的锁变量，其中用 0 表示锁可用，用 1 用于表示锁已被占用。</p>
+<p>处理器尝试通过将寄存器中的 1 与该锁变量对应的内存地址的值进行交换来设置加锁。如果某个其他处理器已声明访间该锁变量则交换指令的返回值为 1 表明该锁已被其他处理器占用，否则为 0 表示加锁成功。在后一种情况下，锁变量的值变为 1 以防止其他处理器也加锁成功</p>
+<p>现在考虑两个处理器尝试同时进行交换操作：这种竞争会被阻止。因为其中一个处理器将首先执行交换并返回。而第二个处理器在进行交换时将返回 1。使用交换原语实现同步的关键是操作的原子性：交换是不可分割的．硬件将对两个同时发生的交换进行排序，尝试以这种方式设置同步变量的两个处理器都不可能认为它们同时设置了变量。</p>
+<p>实现单个的原子存储操作为处理器的设计带来了一些挑战，因为它要求在单条不可中断的指令中完成存储器的读和写操作</p>
+<p>另一种方法是使用指令对其中第二条指令返回一个值，该值表示该指令对是否被原子执行。如果任何处理器执行的所有其他操作都发生在该对指令之前或之后，则该指令对实际上是原子的。因此，当指令对实际上是原子操作时没有其他处理器可以在指令对之间改变值。</p>
+<p>在 RISC-V 中，这对指令指的是一个称为 <strong>保留加载 (load-reserved) 双字 (1 rd)</strong> 的特殊加载指令，和一个称为 <strong>条件存储 (store-conditional) 双字 (sc.d)</strong> 的特殊存储指令。这些指令按序使用：</p>
+<ul>
+<li>如果保留加载指令指定的内存位置的内容在条件存储指令执行到同一地址之前发生了变化，则条件存储指令失败且不会将值写人内存。</li>
+<li>条件存储指令定义为将（可能是不同的）寄存器的值存储在内存中，如果成功则将另一个寄存器的值更改为 0 ,如果失败则更改为非零值。</li>
+</ul>
+<p>因此，sc.d 指定了三个寄存器：</p>
+<ul>
+<li>一个用于保存地址</li>
+<li>一个用于指示原子操作的失败或成功</li>
+<li>还有一个用于如果成功则将值存储在内存中。</li>
+</ul>
+<p>由于保留加载指令返回初始位，并且条件存储指令仅在成功时返回 0，因此以下序列在寄存器 x20 中指定的内存位置上实现原子交换</p>
+<pre><code class="language-asm">again:
+    lr.d x10, (x20)         ; 保留加载 load-reserved
+    sc.d x11, x23, (x20)    ; 条件存储 store-conditional
+    bne  x11, x0, again     ; 失败则重试
+    addi x23, x10, 0        ; 保存加载到的值到 x23
+</code></pre>
+<p>详细阐述：虽然同步是为多处理器而提出的，但原子交换对于单个处理器操作系统中处理多个进程也很有用。为了确保单个处理器中的执行不受任何干扰，如果处理器在<strong>两个指令对之间进行上下文切换</strong>，则条件存储也会失败</p>
+<p>详细阐述：保留加载/条件存储机制的一个优点是可以用于构建其他同步原语，例如原子的比较和交换 (atomic compare and swap) 或原子的取后加 (atomic fetch-and-increment), 这在一些并行编程模型中使用。这些同步原语的实现需要在 <code>lr.d</code> 和 <code>sc.d</code> 之间插入更多指令，但不会太多</p>
+<p>由于条件存储会在另一个 store 尝试加载保留地址或异常之后失败，因此必须注意选择在两个指令之间插入哪些指令。特别是，只有保留加载/条件存储块中的整点算术、前向分支和后向分支被允许执行且不会出现问题；否则，可能会产生死锁情况 - 由于重复的页错误，处理器永远无法完成 <code>sc.d</code>。此外，保留加载和条件存储之间的指令数应该很少，以将由于不相关事件或竞争处理器导致条件存储频繁失败的可能性降至最低。</p>
+<p>详细阐述：虽然上面的代码实现了原子交换，但下面的代码可以更有效地获取寄存器 x20 对应存储中的锁变量，其中值 0 表示锁变量是空闲的，值 1 表示锁变量被占用：</p>
+<pre><code class="language-asm">    addi x12, x0, 1         ; x12 设为 1
+again:
+    lr.d x10, (x20)         ; 读取锁状态
+    bne x10, x0, again      ; 如果是 0
+    sc.d x11, x12, (x20)    ; 把 1 存到 x20, 把 x20 返回到 x11
+    bne x11, 0, again       ; 如果 x11 为 1, 说明已经被上锁, again
+    sd x0, 0(x20)           ; 使用普通的存储指令就能释放锁
+</code></pre>
+<h2 id="向量-or-simd"><a class="header" href="#向量-or-simd">向量 or SIMD？</a></h2>
+<p>数组是一个常见的例子。虽然它是科学应用的基础，但它也被多媒体程序使
+用。前者使用单精度和双精度浮点数据，后者通常使用 8 位和 16 位整数数据。</p>
+<h3 id="simd"><a class="header" href="#simd">SIMD</a></h3>
+<p>最著名的数据级并行架构是单指令多数据 (SIMD，Single Instruction Multiple Data)。
+SIMD</p>
+<ul>
+<li>它将 64 位寄存器的数据分成许多个 8 位、16 位或 32 位的部分，
+然后并行地计算它们。</li>
+<li>操作码提供了数据宽度和操作类型。</li>
+<li>数据传输只用单个（宽）SIMD 寄存器的 load 和 store 进行。</li>
+</ul>
+<h3 id="向量"><a class="header" href="#向量">向量</a></h3>
+<ul>
+<li>计算机从内存中中收集数据并将它们放入长的，顺序的向量寄存器中。在这些向
+量寄存器上，流水线执行单元可以高效地执行运算。</li>
+<li>向量架构将结果从向量寄存器中取出，并将其并分散地存回主存。</li>
+<li>向量寄存器的大小由实现决定，而不是像 SIMD 中那样嵌入操作码中。</li>
+</ul>
+<h3 id="对比"><a class="header" href="#对比">对比</a></h3>
+<p><strong>将向量的长度和每个时钟周期可以进行的最大操作数分离，是向量体系结构的关键所在</strong>：</p>
+<ul>
+<li>向量微架构可以灵活地设计数据并行硬件而不会影响到程序员，程序员可以不用重写代码就享受到长向量带来的好处。</li>
+<li>向量架构比 SIMD 架构拥有更少的指令数量。</li>
+<li>与 SIMD 不同，向量架构有着完善的编译器技术。</li>
+</ul>
+<blockquote>
+<p>向量架构不如 SIMD 架构受欢迎的一个原因是：大家担心增加大型向量寄存器会延长中断时保存和恢复程序（上下文切换）的时间。动态寄存器类型对此很有帮助。程序员必须告诉处理器正在使用哪些向量寄存器，这意味着处理器需要在上下文切换中仅保存和恢复那些寄存器。RV32V 约定在不使用向量指令的时候禁用所有向量寄存器，这意味着处理器既可以具有向量寄存器的性能优势，又仅会在向量指令执行过程中发生中断时才会带来额外的上下文切换开销。早期的向量架构在发生中断时，不得不忍受保存和恢复全部向量寄存器的最大的上下文切换开销。</p>
+</blockquote>
+<h2 id="高级专题"><a class="header" href="#高级专题">高级专题</a></h2>
+<h3 id="cjava-与-jit"><a class="header" href="#cjava-与-jit">C，Java 与 Jit</a></h3>
+<p>为了保持可移植性并提高执行速度，Java 发展的下一阶段目标 是设计在程序运行时翻译的编译器。</p>
+<p>这样的 <strong>即时编译器（JIT)</strong> 通常会对正在运行的程序进行剖视，以找到 &quot;热点&quot; 方法所在的位置，然后将它们翻译成（运行虚拟机的）宿主机对应的指令。编译过的部分将在下次运行程序时保存，以便每次运行时速度更快。这种解释和编译的平衡随着时间的推移而发展，因此经常运行的 Java 程序几乎没有解释的开销。</p>
+<p>随着计算机的速度变得越来越快，编译器也变得更为强大，并且随着研究人员发明出更 好的动态编译 Java 的方法，Java 与 C 或 C+＋之间的性能差距正在缩小。</p>
+<h3 id="其他-ips"><a class="header" href="#其他-ips">其他 IPS</a></h3>
+<h3 id="总结"><a class="header" href="#总结">总结</a></h3>
+<ol>
+<li><strong>简单源于规整</strong>。规整性使 RISC-V 指令系统具有很多特点：所有指令都保持单一长度、算术指令中总是使用寄存器作为操作数、所有指令格式中寄存器字段都保持在相同位置。</li>
+<li><strong>更少则更决</strong>。对速度的要求导致 RISC-V 有 32 个寄存器而不是更多。</li>
+<li><strong>优秀的设计需要适当的折中</strong>。一个 RISC-V 的例子是，在指令中提供更大的地址和常 数．与保持所有的指令具有相同的长度之间的折中。</li>
+</ol>
+<p>每种类型的 RISC-v 指令都与编程语言中出现的结构相关：</p>
+<ul>
+<li>算术指令对应于赋值语句中的操作</li>
+<li>传输指令最有可能发生在处理数组或结构体等数据结构时。</li>
+<li>条件分支用于 if 语句和循环中。</li>
+<li>无条件分支用于过程调用和返回，以及 case/switch 语句</li>
+</ul>
+<p>这些指令出现频率不相等，少数常用指令在大多数指令中占主导地位。下图展示了 SPEC CPU 2006 的每类指令的出现频率。指令的不同出现频率在数据路径、控制和流水线中起着重要作用</p>
+<table><thead><tr><th>指令类别</th><th>RISC-V 实例</th><th>对应的高级语言</th><th>整数频率</th><th>浮点频率</th></tr></thead><tbody>
+<tr><td>算术</td><td>add, sub, addi</td><td>赋值语句中的操作</td><td>6%</td><td>48%</td></tr>
+<tr><td>数据传输</td><td>ld, sd, lw, sw, lh, sh, lb, sb, lui</td><td>对存储器中数据结构的引用</td><td>35%</td><td>36%</td></tr>
+<tr><td>逻辑</td><td>and, or, xor, sll, srl, sra</td><td>赋值语句中的操作</td><td>12%</td><td>14%</td></tr>
+<tr><td>分支</td><td>beq, bne, blt, bge, bltu, bgeu</td><td>if 语句；循环</td><td>34%</td><td>8%</td></tr>
+<tr><td>跳转</td><td>jal, jalr</td><td>过程调用&amp;返回；switch 语句</td><td>2%</td><td>0%</td></tr>
+</tbody></table>
+<h2 id="翻译并启动程序"><a class="header" href="#翻译并启动程序">翻译并启动程序</a></h2>
+<h3 id="编译器"><a class="header" href="#编译器">编译器</a></h3>
+<p>函数调用过程</p>
+<p>函数调用过程通常分为 6 个阶段：</p>
+<ol>
+<li>将参数存储到函数能够访问到的位置；</li>
+<li>跳转到函数开始位置 (使用 RV32I 的 jal 指令)；</li>
+<li>获取函数需要的局部存储资源，按需保存寄存器；</li>
+<li>执行函数中的指令；</li>
+<li>将返回值存储到调用者能够访问到的位置，恢复寄存器，释放局部存储资源；</li>
+<li>返回调用函数的位置 (使用 ret 指令);</li>
+</ol>
+<h3 id="汇编器"><a class="header" href="#汇编器">汇编器</a></h3>
+<p>ret 实际上是一个伪指令，汇编器会用 jalr x0, x1, 0 来替换它。大多数的 RISC-V 伪指令依赖于 x0。因此，把一个寄存器硬编码为 0 便于将许多常用指令——如跳转 (jump）、返回 (return)、等于 0 时转移 (branch on equal to zero)——作为伪指令，进而简化 RISC-V 指令集。</p>
+<p><img src="./riscv/instructions_fakes.png" alt="fakes" />
+<img src="./riscv/instructions_fakes2.png" alt="fakes2" /></p>
+<p>hello.c</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+int main() {
+    printf(&quot;hello, %s\n&quot;, &quot;world&quot;);
+    return 0;
+}
+</code></pre>
+<p>hello.s</p>
+<pre><code class="language-asm">    ; Directive: enter text section         指示符: 进入代码段
+    .text
+    ; Directive: align code to 2^2 bytes    指示符: 按 2^2 字节对齐代码
+    .align 2
+    ; Directive: declare global symbol main 指示符: 声明全局符号 main
+    .globl main
+; label for start of main                   main 的开始标记
+main:
+    ; allocate stack frame                  分配栈帧
+    addi sp, sp, -16
+    ; save return address                   存储返回地址
+    sw ra, 12(sp)
+    ; compute address of string1            计算 string1 的地址
+    lui a0, %hi(string1)
+    ;   string1
+    addi a0, a0, %lo(string1)
+    ; compute address of string2            计算 string2 的地址
+    lui a1, %hi(string2)
+    ;   string2
+    addi a1, a1, %lo(string2)
+    ; call function printf                  调用 printf 函数
+    call printf
+
+    ; restore return address                恢复返回地址
+    lw ra, 12(sp)
+    ; deallocate stack frame                释放栈帧
+    addi sp, sp, 16
+    ; load return value 0                   读取返回值
+    li a0, 0
+    ; return                                返回
+    ret
+
+    ; Directive: enter read-only data section   指示符: 进入只读数据段
+    .section .rodata
+    ; Directive: align data section to 4 bytes  指示符: 按 4 字节对齐数据
+    .balign 4
+; label for first string                        第一个字符串标记
+string1:
+    ; Directive: null-terminated string         指示符: 空字符结尾的字符串
+    .string &quot;Hello, %s\n&quot;
+; label for second string                       第二个字符串标记
+string2:
+    ; Directive: null-terminated string         指示符: 空字符结尾的字符串
+    .string &quot;world&quot;
+</code></pre>
+<p>hello.o</p>
+<pre><code class="language-asm">00000000 &lt;main&gt; :
+ 0: ff010113 addi   sp, sp, -16
+ 4: 00112623 sw     ra, 12(sp)
+ 8: 00000537 lui    a0, 0x0
+ c: 00050513 mv     a0, a0
+10: 000005b7 lui    a1, 0x0
+14: 00058593 mv     a1, a1
+18: 00000097 auipc  ra, 0x0
+1c: 000080e7 jalr   ra
+20: 00c12083 lw     ra, 12(sp)
+24: 01010113 addi   sp, sp, 16
+28: 00000513 li     a0, 0
+2c: 00008067 ret
+</code></pre>
+<p>位置 8 到 1c 的这几条指令的地址为 0, 将被链接器填充。</p>
+<h2 id="特权架构"><a class="header" href="#特权架构">特权架构</a></h2>
+<h3 id="简介"><a class="header" href="#简介">简介</a></h3>
+<p>为什么需要特权机架构？</p>
+<ol>
+<li>
+<p>管理，保护共享资源</p>
+<ul>
+<li>共享资源：例如内存，IO 设备（音响，声卡输出），处理器核心</li>
+</ul>
+</li>
+<li>
+<p>对上层用户屏蔽下层实现细节</p>
+</li>
+</ol>
+<p>如何管理，保护：</p>
+<ul>
+<li>内存：使用虚拟内存地址</li>
+<li>IO 设备：也使用虚拟内存地址</li>
+<li>访问权限：</li>
+</ul>
+<p>特权等级：</p>
+<ul>
+<li>M：机器（Machine）</li>
+<li>U：用户（程序执行）（User）</li>
+<li>S：监管（Supervisor）</li>
+<li>U：虚拟</li>
+</ul>
+<p>不同的芯片有不同的使用场景，有不同的价格，实现了不同的特权机别</p>
+<p>两种权限模式</p>
+<ul>
+<li>运行最可信的代码的机器模式（machine mode）M-mode</li>
+<li>以及为 Linux，FreeBSD 和 Windows 等操作系统提供支持的监管者模式（supervisor mode）。</li>
+</ul>
+<blockquote>
+<p>处理器通常大部分时间都运行在权限最低的模式下，处理中断和异常时会将控制权移交到更高权限的模式。</p>
+</blockquote>
+<h3 id="特权级的组合"><a class="header" href="#特权级的组合">特权级的组合</a></h3>
+<h4 id="m-mode"><a class="header" href="#m-mode">M-mode</a></h4>
+<p>机器模式（缩写为 M 模式，M-mode）是 RISC-V 中 hart（hardware thread，硬件线
+程）可以执行的最高权限模式。</p>
+<ul>
+<li>
+<p>在 M 模式下运行的 hart 对内存，I/O 和一些对于启动和配置系统来说必要的底层功能有着完全的使用权。</p>
+</li>
+<li>
+<p>是所有标准 RISC-V 处理器都必须实现的权限模式。实际上简单的 RISC-V 微控制器仅支持 M 模式。</p>
+</li>
+<li>
+<p>可以在没有外部输入的情况下自己运行，没有什么外部网络接入（即程序在烧写之后也不会更新，上面的代码绝对安全），这时就不需要区分特权台和用户态，代码运行在最高权限下，应用层代码对 CPU 有完全的控制权，成本最低。</p>
+</li>
+<li>
+<p>M 态也可以运行例如 FreeRTOS 之类的操作系统实现分时多任务调度，但是因为没有实现内存保护，操作系统可能会被应用程序搞垮</p>
+</li>
+</ul>
+<h4 id="m--u"><a class="header" href="#m--u">M + U</a></h4>
+<ul>
+<li>增加了内存保护，操作系统可以运行在受保护的内存段里。运行在 U 态的应用程序无法修改运行在 M 态的操作系统。</li>
+<li>可以接入网络，甚至能自己升级</li>
+<li>应用程序出错不会影响操作系统，操作系统可以对出错做一些处理（善后工作）</li>
+</ul>
+<h4 id="m--s--u"><a class="header" href="#m--s--u">M + S + U</a></h4>
+<ul>
+<li>引入了页表，从而可以实现虚拟内存等高级功能，实现了安全上的保障。</li>
+</ul>
+<h4 id="对比--其他"><a class="header" href="#对比--其他">对比 &amp; 其他</a></h4>
+<p>特权级为什么不在操作系统层实现？</p>
+<ul>
+<li>也可以，不过太常用，下放到了硬件</li>
+<li>软件无法模拟（对内存的访问）</li>
+</ul>
+<p>更高级别的特权级更强大</p>
+<ul>
+<li>可以执行更多指令</li>
+<li>可以操作更多 CSR（Control/State Register）</li>
+</ul>
+<blockquote>
+<p>不同的 CSR 在不同的特权级可能会有不同的副本，例如 mtvec 和 stvec，一个是 M 态，一个是 S 态</p>
+</blockquote>
+<h4 id="各特权态的指令"><a class="header" href="#各特权态的指令">各特权态的指令</a></h4>
+<ol>
+<li>
+<p>各特权级都有的指令</p>
+<ul>
+<li>
+<p>ECALL</p>
+<ul>
+<li>实现特权级别的切换，通常是在 U 态（用户态）调用来陷入 S 态，在 S 态调用陷入 M 态。
+<blockquote>
+<p>不过为了实现这种陷入关系，还需要额外的配置，见下文</p>
+</blockquote>
+</li>
+<li>ECALL 是单向的，需要用 SRET 返回</li>
+</ul>
+</li>
+<li>
+<p>EBREAK</p>
+<ul>
+<li>产生断点异常，对于程序调试有帮助</li>
+</ul>
+</li>
+<li>
+<p>FENCE.L</p>
+<ul>
+<li>产生一个内存读写屏障</li>
+</ul>
+</li>
+<li>
+<p>SRET</p>
+<ul>
+<li>从 S 态返回 U 态（只有在支持在 S 态的 CPU 上才可以）</li>
+</ul>
+<blockquote>
+<p>还有一个 URET 指令</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>S 态引入的指令</p>
+<ul>
+<li>SFENCE.VMA
+<ul>
+<li>刷页表</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>M 态引入的指令</p>
+<ul>
+<li>WFI
+<ul>
+<li>让当前处理器进入休眠状态</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="各特权态的-csr"><a class="header" href="#各特权态的-csr">各特权态的 CSR</a></h4>
+<ul>
+<li>CSR 寄存器有一套独立的地址空间，访问 CSR 需要使用专有指令</li>
+<li>每一个处理器核心都有自己的一套独立的 4K CSR，均分给了 4 各特权态，对于每一个特权态，最多有 1024 个 CSR 寄存器可以使用。</li>
+<li>访问没有权限的，不存在的，写只读的 CSR 都会 Trap。</li>
+</ul>
+<p>RISC-V 只分配了 4K 的地址空间给 CSR，这 4K 空间的第 <code>[9:8]</code> 两个 bit 表示了 CSR 输入那个特权级</p>
+<h3 id="内存地址翻译虚拟内存"><a class="header" href="#内存地址翻译虚拟内存">内存地址翻译：虚拟内存</a></h3>
+<ul>
+<li>在 RISC-V 下，页表最小为 4K</li>
+<li>有多种地址映射方式（如 Sv32, Sv39, Sv48, 它们的虚拟地址的位宽不同，最大寻址范围也不同）</li>
+<li>巨页！</li>
+</ul>
+<h4 id="页表项结构"><a class="header" href="#页表项结构">页表项结构</a></h4>
+<p>一个 RV32 Sv32 页表项</p>
+<pre><code class="language-txt">|32    20|19    10|9   8|7|6|5|4|3|2|1|0|
+| PPN[1] | PPN[0] | RSW |D|A|G|U|X|W|R|V|
+</code></pre>
+<p>一个 RV32 Sv39 页表项</p>
+<pre><code class="language-txt">|63      54|53    28|27    19|18    10|9   8|7|6|5|4|3|2|1|0|
+| Reserved | PPN[2] | PPN[1] | PPN[0] | RSW |D|A|G|U|X|W|R|V|
+</code></pre>
+<ul>
+<li>
+<p>V: 其他位是否有效（V=1 有效），如果 V = 0，则便利到该页表的会直接产生错误</p>
+</li>
+<li>
+<p>R | W | X：可读可写可执行。如果都是 0，则这个页表项是指向下一级页表的指针，否则它是页表树的一个页节点</p>
+</li>
+<li>
+<p>U：是否为用户界面。如果 U = 0，则 U 模式不能访问，但 S 可以，如果 U = 1，则 U 模式可以访问，但 S 不可以。对于云服务，用户数据安全也很重要，用户的私有数据也不是操作系统可以随便访问的。</p>
+</li>
+<li>
+<p>G：这个映射是否对所有虚拟内存都有效，硬件根据它提高地址转换性能</p>
+</li>
+<li>
+<p>A：是否被访问过（从上次清除开始）</p>
+</li>
+<li>
+<p>D：是否被写入过（从上次清除开始）</p>
+</li>
+</ul>
+<blockquote>
+<p>A 和 D 可以用来判断缺页，mmap 文件映射到地址，判断是否要加载，是否要刷新</p>
+</blockquote>
+<ul>
+<li>RSW：留给操作系统使用，会被硬件忽略</li>
+<li>PPN:包含物理页号，是物理地址的一部分。
+<ul>
+<li>若这个页表是一个页节点，则 PPN 是转换后物理地址的一部分</li>
+<li>否则，是下一个页表的地址</li>
+</ul>
+</li>
+</ul>
+<h4 id="内存屏障"><a class="header" href="#内存屏障">内存屏障</a></h4>
+<p>S 态唯一引入的指令：SFENCE.VMA</p>
+<p>只会刷新当前处理器的快表（页表缓存），如果是多核环境，还需要核间通信同步刷新其他核心的页表缓存</p>
+<h4 id="内存保护"><a class="header" href="#内存保护">内存保护</a></h4>
+<p>有两种机制</p>
+<ul>
+<li>如果处理器支持，并且开启了内存地址转换（也就利用了页表），就可以通过页表里的权限位控制每个内存页的访问</li>
+<li>如果不支持 S 态，可以通过 PMP（物理内存保护单元）。粒度大，保护区域小</li>
+<li>虚拟内存优先于 PMP</li>
+</ul>
+<h3 id="中断与异常"><a class="header" href="#中断与异常">中断与异常</a></h3>
+<p>机器模式最重要的特性是拦截和处理异常（不寻常的运行时事件）的能力。</p>
+<p>RISC-V 将异常分为两类：</p>
+<ul>
+<li>
+<p>（同步）异常</p>
+<ul>
+<li>同步事件</li>
+<li>发生原因明确，由具体的某一条指令导致。这类异常在指令执行期间产生，如访问了无效的存储器地址或执行了具有无效操作码的指令时。</li>
+</ul>
+</li>
+<li>
+<p>中断。</p>
+<ul>
+<li>异步事件。它是与指令流异步的外部事件，比如鼠标的单击。</li>
+<li>有三种标准的中断源：软件、时钟和外部来源。软件中断通过向内存映射寄存器中存数来触发</li>
+</ul>
+</li>
+<li>
+<p>中断和异常的处理流程几乎是一样的</p>
+</li>
+</ul>
+<h3 id="和事件处理有关的-csr"><a class="header" href="#和事件处理有关的-csr">和事件处理有关的 CSR</a></h3>
+<p>（说事件是因为它们异常和中断都能处理）</p>
+<ul>
+<li>
+<p>stvec, mtved(Trap-Vector Base-Address Register)</p>
+<ul>
+<li>
+<p>设置事件处理函数的地址，事件发生后会跳转到这里并执行对应的处理函数</p>
+</li>
+<li>
+<p>跳转策略有两种</p>
+<ul>
+<li>无论发生什么时间，都跳到同一个固定的位置执行处理函数</li>
+</ul>
+<blockquote>
+<p>然后再分发，虽然性能低，但是代码灵活</p>
+</blockquote>
+<ul>
+<li>通过向量表，根据事件编号跳到不同的地址。</li>
+</ul>
+<blockquote>
+<p>通常第二种的跳转效率比较高，但是逻辑死板</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>medeleg，mideleg（Trap Delegation Register)</p>
+<ul>
+<li>决定发生事件时跳到那个特权级</li>
+</ul>
+</li>
+<li>
+<p>scause，mcause（Cause Register）</p>
+<ul>
+<li>存储时间发生原因的 ID，最高位是 1 表示中断，最高位 0 表示异常。</li>
+</ul>
+</li>
+<li>
+<p>stval，mtval（Trap Value Register）</p>
+<ul>
+<li>存储和事件相关的外部信息，例如非法地址，非法操作数，</li>
+</ul>
+</li>
+<li>
+<p>sepc，sstatus（Exception Program Register）</p>
+<ul>
+<li>记录从高特权级别返回低特权级时，要返回到的地址</li>
+</ul>
+</li>
+<li>
+<p>mstatus，sstatus（Status Register）</p>
+<ul>
+<li>记录一些常用的标志位</li>
+</ul>
+</li>
+</ul>
+<h3 id="trap-的代理机制"><a class="header" href="#trap-的代理机制">Trap 的代理机制</a></h3>
+<p>通常事件发生就会直接跳转到 M 态，但是没必要。</p>
+<p>一般是 <code>U -&gt; S -&gt; M</code></p>
+<p>直接调用 ECALL 会无条件跳转到 M 态，通过设置 medeleg 和 mideleg 能够实现在 U 态执行 ECALL 跳转到 S 态，在 S 态执行 ECALL 会跳转到 M 态。</p>
+<h3 id="异常"><a class="header" href="#异常">异常</a></h3>
+<p>RISC-V 中实现精确例外：保证异常之前的所有指令都完整地执行了，而后续的指令都没有开始执行（或等同于没有执行）。</p>
+<p>在 M 模式运行期间可能发生的同步例外有五种：</p>
+<ul>
+<li>访问错误异常：当物理内存的地址不支持访问类型时发生（例如尝试写入 ROM）。</li>
+<li>断点异常：在执行 <code>ebreak</code> 指令，或者地址或数据与调试触发器匹配时发生。</li>
+<li>环境调用异常：在执行 <code>ecall</code> 指令时发生。</li>
+<li>非法指令异常：在译码阶段发现无效操作码时发生。</li>
+<li>非对齐地址异常：在有效地址不能被访问大小整除时发生，例如地址为 0x12 的 <code>amoadd.w</code>.</li>
+</ul>
+<p>不同的异常对应不同的操作码</p>
+<h3 id="机器模式下的异常处理"><a class="header" href="#机器模式下的异常处理">机器模式下的异常处理</a></h3>
+<p>八个控制状态寄存器（CSR）是机器模式下异常处理的必要部分：</p>
+<ul>
+<li>mtvec（Machine Trap Vector）它保存发生异常时处理器需要跳转到的地址。</li>
+<li>mepc（Machine Exception PC）它指向发生异常的指令。</li>
+<li>mcause（Machine Exception Cause）它指示发生异常的种类。</li>
+<li>mie（Machine Interrupt Enable）它指出处理器目前能处理和必须忽略的中断。</li>
+<li>mip（Machine Interrupt Pending）它列出目前正准备处理的中断。</li>
+<li>mtval（Machine Trap Value）它保存了陷入（trap）的附加信息：地址例外中出错
+的地址、发生非法指令例外的指令本身，对于其他异常，它的值为 0。</li>
+<li>mscratch（Machine Scratch）它暂时存放一个字大小的数据。</li>
+<li>mstatus（Machine Status）它保存全局中断使能，以及许多其他的状态</li>
+</ul>
+<h2 id="页表"><a class="header" href="#页表">页表</a></h2>
+<ul>
+<li>动态的申请内存</li>
+<li>虚拟内存空洞</li>
+<li>虚拟内存地址（VA），物理地址（PA）</li>
+</ul>
+<pre><code class="language-txt">| VA | PA | Size |
+|    |    |      |
+</code></pre>
+<p>页表没有存在 PCB 中，位于一块单独的内存中。PCK 是一个相对紧凑的结构，里面存储了进程的状态，里面存储了页表的指针。当 CPU 切换进程时，还需要同时切换页表。</p>
+<p>如何优化 VA 到 PA 的转换：</p>
+<ul>
+<li>让硬件自动完成查表和转换</li>
+<li>优化列表的存储数据结构，加快查找。</li>
+</ul>
+<p>两种方案选择哪个呢？当然是两者都要 \doge。</p>
+<h3 id="硬件查表"><a class="header" href="#硬件查表">硬件查表</a></h3>
+<p>引入了一个 MMU 的硬件电路来实现。为了让 MMU 也能查的更快，也需要给 MMU 提供一种更加优化的数据结构。</p>
+<p>TLB 是 MLU 的一个子电路，包含了页表缓存，TLB 可以实现的很复杂，例如用硬件电路实现的 哈希表，LRU 算法等。</p>
+<p>当切换进程时，TLB 也需要被清空吗？</p>
+<p>TLB 如果足够复杂的话，它里面可以设置进程的标志位，不同的区块存储不同进程的页表缓存</p>
+<h3 id="优化存储数据结构"><a class="header" href="#优化存储数据结构">优化存储数据结构</a></h3>
+<p>内存地址转换的最小单位是什么，或者说 Size 一列最小是多少。
+假如以 1 字节为单位进行映射，那么映射以字节就需要存储 VA, PA, Size 一共 <code>3 * 4 = 12</code> 字节，属于是本末倒置了。</p>
+<p>从而出现了页的概念。通常每个页的大小为 4KB，超过 4KB 的被称为巨页。最小的映射单元就是页。</p>
+<p>我们把上面 VA 到 PA 的映射叫做页表，页表里的每一行映射关系被称为页表项。</p>
+<h4 id="暴力存储"><a class="header" href="#暴力存储">暴力存储</a></h4>
+<p>按照 VA 从小到大排序，检索时二分查找，复杂度 O(logN)</p>
+<h4 id="页表存储"><a class="header" href="#页表存储">页表存储</a></h4>
+<p>限制 Size 只能是 4KB，一次性把整个虚拟空间建立好映射关系</p>
+<ul>
+<li>Size 列可以去除</li>
+<li>排序自然是排好的</li>
+<li>复杂度为 O(1)，直接除 4096</li>
+<li>映射表的 VA 列也不需要了，他可以用数组下标表示</li>
+</ul>
+<p>以 32 位机器为例，4GB 的 VA，一共包含了 1M 个 4KB 页。等于要申请一个长度为 <code>1M = 1024 * 1024</code> 的大数组，每个数组元素是 PA，占 32bit，所以整个页表占 <code>1M * 4B = 4MB</code></p>
+<p>缺点</p>
+<ul>
+<li>上面的是 Sv32，对于 Sv39，每个进程就要分配 512MB 内存，10 个进程就是 5GB</li>
+<li>页表利用率低？</li>
+</ul>
+<h4 id="多级页表"><a class="header" href="#多级页表">多级页表</a></h4>
+<p>不是多有的进程都会使用完整的内存空间，虚拟地址空间里有很多的空洞，我们只需要把进程用到的 VA 做映射。所以我们现在的的目的是优化如何存储一个非常稀疏的数组。</p>
+<p>地址是一个数，<strong>越高位表示的范围就越大</strong>，这是一种编码的思路。</p>
+<p>具体到页表上，我们也可以把 32 各比特位划分为 <code>10 + 10 + 12</code> 三段，实现多级页表。前十位指向一级页表，中间 10 位指向二级页表，最后 10 位指向物理地址。</p>
+<p>异同：</p>
+<ul>
+<li>需要查两次表，但是从时间复杂度上来看，这是一个常数级别的操作，仍然是 O(1)</li>
+<li>由于构造的是树形结构，刚开始只需要存储树根，某些二级页表的 VA 从来没有被使用过，所以这一部分对应的的二级页表就不用存储。需要时随便找到一块 4KB 的空间就行，具有高效的插入和删除。</li>
+</ul>
+<h4 id="risc-v-中的实现"><a class="header" href="#risc-v-中的实现">RISC-V 中的实现</a></h4>
+<p>Sv32，Sv39，Sv48 各种页表都有不同的划分</p>
+<p>RISC-V 32 实际上有 34 位 12 + 10 + 12。芯片引用到 16 GB 的内存，但是进程依然只能访问 4GB 的空间。</p>
+<p>一级、二级页表本身的地位都为 0，这些位被拿来做其他事了，提供了更丰富的功能，不只是地址映射，具体见 <a href="#%E9%A1%B5%E8%A1%A8%E9%A1%B9%E7%BB%93%E6%9E%84">页表项结构</a>。</p>
+<h4 id="如何在多进程间切换页表"><a class="header" href="#如何在多进程间切换页表">如何在多进程间切换页表？</a></h4>
+<p>每个进程都有自己的页表，每个页表都是一棵树，都有一个树根，这个树根也是一个大小为 4KB 的内存区域，只要我们能够知道这个区域（树根）的首地址，就相当于知道了整个页表</p>
+<p>所以在 RISC-V 里，S 态引入了一个叫做 satp 的寄存器，apt 是 <code>Address.Translation and Protection</code>，即地址翻译和保护。这个地方存储的就是当前进程的根页表的页号，切换时就修改它的值。</p>
+<h4 id="copy-on-write-的实现"><a class="header" href="#copy-on-write-的实现">Copy On Write 的实现</a></h4>
+<p>当进行 fork 时，操作系统会把父进程的页表项都设置为只读，并把父进程的页表项复制一份给子进程（这里指的应该是一级页表）。所以子进程和父进程其实共享相同的物理内存（两个进程各自的 VA 映射到同一个 PA）。</p>
+<p>只要父进程和子进程都只进行读操作，那么就无事发生。假如进行写操作，因为现在父子进程都是只读的，会触发一个异常，从 U 态陷入 S 态。此时有操作系统接管执行权，根据异常的原因发现是要修改共享的内存，于是操作系统就：</p>
+<ul>
+<li>为子进程重新分配一个页面</li>
+<li>然后把子进程的页表项指向新的页面</li>
+<li>并把这块内存在父子进程中都改为可读可写</li>
+<li>最后返回用户态。</li>
+</ul>
+<blockquote>
+<p>回顾中断和异常，这里的就是异常，trap 处理结束后会重新跳到导致异常的指令（即重试），程序就像什么都没发生一样。</p>
+</blockquote>
+<p>通过这种方式我们就实现了 COW，以 4KB 为单位，用多少内存就复制多少内存。</p>
+<h4 id="mmap-的实现"><a class="header" href="#mmap-的实现">Mmap 的实现</a></h4>
+<p>也是通过设置页表权限，然后引发异常，操作系统做一番操作。</p>
+<p>当用户要把硬盘上的某个文件映射到内存的某个地址空间里时，就可以先在页表项里把这一段 VA 对应的内存映射到一块物理内存上，然后把硬盘文件里的数据加载到对应的物理内存对应的区域里。</p>
+<p>如果映射的文件很小，那就可以把文件一次性读到内存。</p>
+<p>如果文件很大，我们可以先在 VA 里把文件的内存空间都分配好页表，但是不指向具体的物理内存，同时设置读写权限。</p>
+<ul>
+<li>当程序读内存时，同样会触发陷入，然后操作系统会根据读写的地址将磁盘文件对应的区块加载到内存里，然后再修改页表。</li>
+<li>当写内存时，对应的页表项的 D 标志位被设为 1，操作系统会有一个后台线程定期检查哪些页表是脏的，并把脏页刷回到内存。</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../../docs/magic/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../../docs/magic/haskell.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../../docs/magic/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../../docs/magic/haskell.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

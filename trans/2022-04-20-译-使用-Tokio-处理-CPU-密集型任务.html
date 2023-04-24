@@ -1,0 +1,386 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>2022-04-20-译-使用-Tokio-处理-CPU-密集型任务 - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../favicon.svg">
+                        <link rel="shortcut icon" href="../favicon.png">
+                <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+                <link rel="stylesheet" href="../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html" class="active"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../note/java/java.html"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../note/java/springboot.html"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../note/frontend/http.html"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/magic/riscv.html"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../docs/rust/rust.html"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../draft/计算机网络.html"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <blockquote>
+<p>原文链接：https://thenewstack.io/using-rustlangs-async-tokio-runtime-for-cpu-bound-tasks/</p>
+<p><strong>翻译：<a href="https://github.com/trdthg">trdthg</a></strong></p>
+<p>选题：<a href="https://github.com/Akagi201">Akagi201</a></p>
+<p>本文由 <a href="https://Rustt.org">Rustt</a> 翻译，<a href="https://studyrust.org">StudyRust</a> 荣誉推出</p>
+</blockquote>
+<h1 id="使用-tokio-处理-cpu-密集型任务"><a class="header" href="#使用-tokio-处理-cpu-密集型任务">使用 Tokio 处理 CPU 密集型任务</a></h1>
+<p>尽管 async 通常都被应用于异步网络 I/O，但是在这篇文章里，我会像你介绍为什么使用 Tokio 处理 CPU
+密集型任务（比如数据分析引擎等）也是一个不错的选择。</p>
+<h2 id="tokio-是什么"><a class="header" href="#tokio-是什么">Tokio 是什么？</a></h2>
+<p>Rust 本身提供了一个类似于 JavaScript 的异步编程模型。</p>
+<p>为了充分利用多核和异步 I/O。一个运行时是必须的，尽管社区有很多异步运行时的选择，但是 Tokio 是事实上的标准。尽管 Tokio 在官网上描述到它是
+Rust 语言的一个异步运行时，并且提供了编写网络服务所需要的模块，它也可以被用在其它场景。</p>
+<h2 id="为什么使用-tokio-处理-cpu-密集型任务"><a class="header" href="#为什么使用-tokio-处理-cpu-密集型任务">为什么使用 Tokio 处理 CPU 密集型任务</a></h2>
+<p>现代化的数据分析引擎总是不可避免的要处理来自客户端的网络请求，以及通过网络和对象存储系统（比如 ASW S3、GCP Cloud、Azure
+等）进行通信。因此，任何使用 Rust 实现的系统，大多都会用 Tokio 去处理这部分网络相关的服务，或者是一部分文件 I/O 服务。</p>
+<p>除了应对网络外，数据分析引擎还需要做大量繁重的的 CPU 计算，消耗大量 CPU
+资源去进行诸如：重新组织数据存储、提前计算各种索引、或者是直接回复客户端请求等工作。这些复杂计算通常会被切成许多单独的块（我把它们称为
+&quot;任务&quot;），然后被并行的处理，以利用到现代 CPU 的多核特性。</p>
+<p>任务调度器会决定哪个任务应该在什么时候运行，它会将任务映射到合适的 CPU 内核或者是线程上。</p>
+<p>学术界和工业界对于各种任务调度器、工作池、线程池等已经积累了很多年的研究。</p>
+<p>我自己已经实现并且使用过几个自定义的任务调度器。他们在大多数时间 (99.9%)
+都工作的很好，但是在处理边缘情况（比如快速停机、任务取消、清理等）时，他们的效果非常不尽人意。由于这些任务调度器使用了较低级别的线程原语，出现线程间竞争的情况比比皆是，所以我不建议这样做。</p>
+<p>因此，当我在 Rust 生态中寻找一个任务调度器时，你会很自然的选择 Tokio。Tokio 有很多优势：</p>
+<ol>
+<li>你只需要 Tokio，并不需要添加其他依赖项。</li>
+<li>Tokio 实现了一个复杂的 <a href="https://tokio.rs/blog/2019-10-scheduler">支持任务窃取的调度器</a>。</li>
+<li>Tokio 内部实现了对 async/await 的支持。并且有许多相对成熟的库去处理流、异步锁、管道、异步取消等。</li>
+<li>Tokio 在 Rust 生态系统中经过了良好测试，并且有着大量使用案例。</li>
+<li>Tokio 通常会将正在运行的任务和 <code>Future</code> 放在同一个执行器内，这有利于实现局部缓存。</li>
+<li>Tokio 的 <a href="https://tokio.rs/tokio/tutorial">文档</a> 很完善，并且在积极更新维护。</li>
+</ol>
+<p>因此，选择 Tokio 作为 CPU 密集型任务的任务调度程序是理所应当的，对吧？WROOOOOOOONG！</p>
+<h2 id="使用-tokio-的反对意见"><a class="header" href="#使用-tokio-的反对意见">使用 Tokio 的反对意见</a></h2>
+<p>选择 Tokio 在我们团队中变成了一个热门话题，到现在依然不是所有人都认可这个决定。在我们做 DataFusion 和 InfluxDB IOx
+的早期，我们很担心这个问题。以下是一些反对意见：</p>
+<h3 id="tokio-文档的警告"><a class="header" href="#tokio-文档的警告">Tokio 文档的警告：</a></h3>
+<p>老版本的 Tokio 文档（比如 1.10 版）里面有一条著名的警告：</p>
+<blockquote>
+<p>If your code is CPU-bound and you wish to limit the number of threads used to
+run it, you should run it on another thread pool such as Rayon.</p>
+</blockquote>
+<p>如果你的代码要处理 CPU 密集型任务，并且想要尽量减少使用到的线程数，你应该将这些任务分配到另一个线程池比如 Rayon。</p>
+<p>这个警告对我们团队和社区都造成了很大的困惑。很多人读了之后都以为 Tokio 永远不应该用来处理 CPU
+密集型任务。但是文档的关键其实是说，一个运行时实例（同一个线程池）不应该同时用于 I/O 和 CPU
+计算，我们之后澄清了<a href="https://docs.rs/tokio/1.14.0/tokio/#cpu-bound-tasks-and-blocking-code">文档</a>
+的意图。</p>
+<blockquote>
+<p>顺便说一句，Tokio 文档建议用 Rayon 处理 CPU 密集型任务。Rayon
+对于很多程序都是很好的解决方案，但是它并不支持异步。如果你的代码中哪怕只有一点需要使用异步，那你就不得不跨过同步和异步的痛苦边界。我还发现实现一个
+<a href="http://justinjaffray.com/query-engines-push-vs.-pull/">基于拉取的执行器模型</a>
+会更困难，这种模型要求某个任务必须等待所有的输入都准备好在能在 Rayon 中运行</p>
+</blockquote>
+<h3 id="尾部延迟会拖累你"><a class="header" href="#尾部延迟会拖累你">尾部延迟会拖累你</a></h3>
+<p>聪明的人会说：使用 Tokio 处理 CPU
+密集型任务会增加请求的<a href="https://medium.com/swlh/hedged-requests-tackling-tail-latency-9cea0a05f577">尾部延迟</a>，这是难以令人接受的。</p>
+<p>尾部延迟？🙄</p>
+<p>你可能认为：我正在编写一个数据库，尾部延迟听起来像是对于高负载的 Web 服务器的一个学术问题……”</p>
+<p>但其实，这也是需要考虑的：思考一下健康检查，健康检查对于使用容器编排系统（比如 Kubernetes）部署的服务是必不可少的。检查的方式通常是发送一个 HTTP
+请求到某个 API，例如 <code>/health</code>。如果该请求已经被分派到某一个任务队列中，但是 Tokio 正在忙于使用 CPU 进行大量数据处理任务，那么
+Kubernetes 将不能及时得到“系统正常”的响应，你的进程就会被 K8s 杀死。因此得到结论：由于尾部延迟，你不能将 Tokio 用于 CPU
+密集型任务。</p>
+<p>但是，就像 Tokio 在文档中阐述的，想要防止你的程序在 CPU 完全饱和的情况下被 K8s
+误杀，你应该使用两个独立的线程池。一个用来执行对尾部延迟敏感的任务，就比如响应 <code>/health</code> 接口。另一个用来执行 CPU
+密集型任务。这些线程池的的最佳线程数需要根据具体需求去调整。</p>
+<p>如果你将 Tokio 运行时只是视为一个复杂点的线程池，那么使用多个运行时实例的想法可能更容易接受，我们将在最后使用专用的执行器演示如何实现这个想法。</p>
+<h3 id="单任务开销很高"><a class="header" href="#单任务开销很高">单任务开销很高</a></h3>
+<p>Tokio 的每个任务开销很高。</p>
+<p>对于这点，我一点也不惊讶。人们总是可以实现比 Tokio 运行速度更快的线程池。但是，这些线程池并不是足够稳定，难以应对生产环境的负载，并且他们也不具备像
+Tokio 一样的庞大生态系统。</p>
+<p>在许多场景下，单任务的开销可以使用“矢量化处理”
+来分摊。意思是每个任务回同时处理几千行数据而不是单单一行，你需要将任务分成合理大小的块。你也不能分摊所有工作场景下的开销。但是，对于我们的程序关心的实例来说，Tokio
+的任务开销已经微乎其微了</p>
+<h2 id="实践"><a class="header" href="#实践">实践</a></h2>
+<p>假设你已经被说服了使用 Tokio 去处理 CPU 密集型任务是可行的。现在你应该怎么做？</p>
+<p>首先，至关重要的一点是，你的代码应该符合以下原则：异步代码永远不应该花费很长时间才能完成，这一点请参考 Alice Ryhl 的
+<a href="https://ryhl.io/blog/async-what-is-blocking/">Async: What is blocking?</a>。这是为了让调度器有机会安排其他事情，比如任务窃取等。</p>
+<p>当然了，这个“很长时间”取决于你的程序；Ryhl 建议在优化响应的尾部延迟时，单个异步任务完成时间应该在 10 ~ 100 微秒。我认为在针对 CPU
+进行优化时 10~100 毫秒也能有不错的效果。但是在我的测试
+<a href="https://github.com/alamb/rust_tokio_overhead">estimated per-task Tokio overhead</a>
+中，Tokio 单任务的开销在约 10 纳秒范围内，因此几乎不可能用 10 毫秒的任务来测量 Tokio 运行时开销。</p>
+<p>其次，将任务分派到一个单独的执行器</p>
+<h3 id="专用的执行器"><a class="header" href="#专用的执行器">专用的执行器</a></h3>
+<p>这里是一个简单的例子，演示了我们如何在 InfluxDB IOx 上将任务分配到一个单独的 Tokio
+运行时上（完整代码可以在我们的<a href="https://github.com/influxdata/influxdb_iox/blob/fe155e15fb2ad166aee66b0458e63c24a8128dd4/query/src/exec/task.rs#L101-L118">仓库</a>里查看，里面还有关于清理、停机、合并的内容）</p>
+<pre><code class="language-rs">pub struct DedicatedExecutor {
+    state: Arc&lt;Mutex&lt;State&gt;&gt;,
+}
+
+/// Runs futures (and any `tasks` that are `tokio::task::spawned` by
+/// them) on a separate Tokio Executor
+struct State {
+    /// Channel for requests -- the dedicated executor takes requests
+    /// from here and runs them.
+    requests: Option&lt;std::sync::mpsc::Sender&lt;Task&gt;&gt;,
+
+    /// Thread which has a different Tokio runtime
+    /// installed and spawns tasks there
+    thread: Option&lt;std::thread::JoinHandle&lt;()&gt;&gt;,
+}
+
+impl DedicatedExecutor {
+    /// Creates a new `DedicatedExecutor` with a dedicated Tokio
+    /// executor that is separate from the threadpool created via
+    /// `[tokio::main]`.
+    pub fn new(thread_name: &amp;str, num_threads: usize) -&gt; Self {
+        let thread_name = thread_name.to_string();
+
+        let (tx, rx) = std::sync::mpsc::channel::&lt;Task&gt;();
+
+        let thread = std::thread::spawn(move || {
+            // Create a new Runtime to run tasks
+            let runtime = Tokio::runtime::Builder::new_multi_thread()
+                .enable_all()
+                .thread_name(&amp;thread_name)
+                .worker_threads(num_threads)
+                // Lower OS priority of worker threads to prioritize main runtime
+                .on_thread_start(move || set_current_thread_priority_low())
+                .build()
+                .expect(&quot;Creating Tokio runtime&quot;);
+
+         // Pull task requests off the channel and send them to the executor
+         runtime.block_on(async move {
+                while let Ok(task) = rx.recv() {
+                    Tokio::task::spawn(async move {
+                        task.run().await;
+                    });
+                }
+
+        let state = State {
+            requests: Some(tx),
+            thread: Some(thread),
+        };
+
+        Self {
+            state: Arc::new(Mutex::new(state)),
+        }
+    }
+</code></pre>
+<p>这段代码会在一个新线程 <code>std::thread</code>，并在这个线程里创建了一个新的 Tokio 运行时。运行时会从 <code>channel</code> 获取任务并运行。</p>
+<p>注意：这个新的线程很关键，如果你尝试在主线程里或者是任何已经创建过 Tokio 运行时的线程里再次创建新的运行时，程序就会报错，因为已经有一个运行时了。</p>
+<p>下面的代码将任务分派到第二个运行时。</p>
+<pre><code class="language-rs">impl DedicatedExecutor {
+
+    /// Runs the specified Future (and any tasks it spawns) on the
+    /// `DedicatedExecutor`.
+    pub fn spawn&lt;T&gt;(&amp;self, task: T) -&gt; Job&lt;T::Output&gt;
+    where
+        T: Future + Send + 'static,
+        T::Output: Send + 'static,
+    {
+        let (tx, rx) = tokio::sync::oneshot::channel();
+
+        let fut = Box::pin(async move {
+            let task_output = task.await;
+            tx.send(task_output).ok()
+        });
+        let mut state = self.state.lock();
+        let task = Task {
+            fut,
+        };
+
+        if let Some(requests) = &amp;mut state.requests {
+            // would fail if someone has started shutdown
+            requests.send(task).ok();
+        } else {
+            warn!(&quot;tried to schedule task on an executor that was shutdown&quot;);
+        }
+
+        Job { rx, cancel }
+    }
+}
+</code></pre>
+<p>上面的代码使用了一个名为 Job 的结构体，它是一个对 Future 的简单包装，Job 能够将 Future
+的执行结果从单独的执行器内传输回主线程。相关代码如下。</p>
+<pre><code class="language-rs">#[pin_project(PinnedDrop)]
+pub struct Job&lt;T&gt; {
+    #[pin]
+    rx: Receiver&lt;T&gt;,
+}
+
+impl&lt;T&gt; Future for Job&lt;T&gt; {
+    type Output = Result&lt;T, Error&gt;;
+
+    fn poll(
+        self: Pin&lt;&amp;mut Self&gt;,
+        cx: &amp;mut std::task::Context&lt;'_&gt;,
+    ) -&gt; std::task::Poll&lt;Self::Output&gt; {
+        let this = self.project();
+        this.rx.poll(cx)
+    }
+}
+</code></pre>
+<p>就是这样！你可以在
+<a href="https://gist.github.com/alamb/bd0e086448ef9b438aeebd6f550e23ed">Github gist</a>
+中找到所有代码。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                                                    <a rel="next" href="../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                                    <a rel="next" href="../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

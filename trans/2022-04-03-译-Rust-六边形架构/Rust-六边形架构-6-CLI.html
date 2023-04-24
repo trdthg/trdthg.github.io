@@ -1,0 +1,545 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Rust-六边形架构-6-CLI - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../../favicon.svg">
+                        <link rel="shortcut icon" href="../../favicon.png">
+                <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+                <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html" class="active"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/java/java.html"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../../note/java/springboot.html"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../../note/frontend/http.html"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/magic/riscv.html"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust.html"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../../draft/计算机网络.html"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <blockquote>
+<p>原文链接：https://alexis-lozano.com/hexagonal-architecture-in-rust-6/</p>
+<p>翻译：<a href="https://github.com/trdthg">trdthg</a></p>
+<p>选题：<a href="https://github.com/trdthg">trdthg</a></p>
+<p>本文由 <a href="https://Rustt.org">Rustt</a> 翻译，<a href="https://studyrust.org">StudyRust</a> 荣誉推出</p>
+</blockquote>
+<h1 id="2021-10-09---rust-六边形架构-6---cli"><a class="header" href="#2021-10-09---rust-六边形架构-6---cli">2021-10-09 - Rust 六边形架构 #6 - CLI</a></h1>
+<p>嘿，好久不见！上次，我们实现了剩余的用例，并将它们连接到我们的 API。现在，我想添加另一种方式来使用我们的程序。我们将使用 CLI。CLI 是
+Command Line Interface (命令行接口) 的意思，它只是一个缩写词，意思是：“让我们通过终端使用这个程序”。</p>
+<h2 id="搭建脚手架"><a class="header" href="#搭建脚手架">搭建脚手架</a></h2>
+<p>构建 CLI 意味着我们需要在项目中添加新的依赖和一个新文件夹。让我们从添加依赖开始。我们需要一种方法，再运行之前需要提示用户是运行 CLI 还是 HTTP
+API。我们将使用 <code>clap</code> 添加命令行开关让用户选择启动方式，同时还会使用 <code>dialoguer</code> 去创建提示信息。</p>
+<p>打开 Cargo.toml，并添加：</p>
+<pre><code class="language-toml">[dependencies]
+...
+clap = &quot;2.33.3&quot;
+dialoguer = &quot;0.8.0&quot;
+</code></pre>
+<p>当你再读这篇文章时可以将依赖换为最新的。现在让我们添加一些命令行开关，打开 <em>main.rs</em>:</p>
+<pre><code class="language-rs">#[macro_use]
+extern crate clap;
+
+use clap::{App, Arg};
+And then we can use it:
+
+fn main() {
+    let repo = Arc::new(InMemoryRepository::new());
+
+    let matches = App::new(crate_name!())
+        .version(crate_version!())
+        .author(crate_authors!())
+        .arg(Arg::with_name(&quot;cli&quot;).long(&quot;cli&quot;).help(&quot;Runs in CLI mode&quot;))
+        .get_matches();
+
+    match matches.occurrences_of(&quot;cli&quot;) {
+        0 =&gt; api::serve(&quot;localhost:8000&quot;, repo),
+        _ =&gt; unreachable!(),
+    }
+}
+</code></pre>
+<p>所以，首先我们创建了存储库。然后我们创建一个处理 CLI 的 clap 应用程序。如果在运行程序时添加 <code>--cli</code> 标志，程序现在将
+panic。如果没有添加，就会运行 API。正如我之前所说，<code>clap</code> 能让我们快速创建一个 CLI。您可以通过运行来尝试：</p>
+<pre><code class="language-rs">cargo run -- --help
+
+pokedex 0.1.0
+Alexis Lozano &lt;alexis.pascal.lozano@gmail.com&gt;
+
+USAGE:
+    pokedex [FLAGS]
+
+FLAGS:
+        --cli        Runs in CLI mode
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+</code></pre>
+<p>非常不错是吧 :)</p>
+<p>现在我们要把 <code>unreachable!()</code> 替换为 <code>cli::run(repo)</code>。我们现在要创建一个 <code>cli</code> 模块，所有和 cli
+相关的代码都会在该模块里。在 <em>main.rs</em> 里引入模块：</p>
+<pre><code class="language-rs">mod cli;
+</code></pre>
+<p>接着让我们创建 <em>src/cli</em> 文件夹，并在其中添加一个 <em>mod.rs</em> 文件。在 <em>cli/mod.rs</em> 中添加以下代码：</p>
+<pre><code class="language-rs">use crate::repositories::pokemon::Repository;
+use std::sync::Arc;
+
+pub fn run(repo: Arc&lt;dyn Repository&gt;) {}
+</code></pre>
+<p>现在运行 <code>cargo run -- --cli</code> 应该不会 panic 了。</p>
+<p>接着让我们创建一个循环：</p>
+<pre><code class="language-rs">use dialoguer::{theme::ColorfulTheme, Select};
+
+pub fn run(repo: Arc&lt;dyn Repository&gt;) {
+    loop {
+        let choices = [
+            &quot;Fetch all Pokemons&quot;,
+            &quot;Fetch a Pokemon&quot;,
+            &quot;Create a Pokemon&quot;,
+            &quot;Delete a Pokemon&quot;,
+            &quot;Exit&quot;,
+        ];
+        let index = match Select::with_theme(&amp;ColorfulTheme::default())
+            .with_prompt(&quot;Make your choice&quot;)
+            .items(&amp;choices)
+            .default(0)
+            .interact()
+        {
+            Ok(index) =&gt; index,
+            _ =&gt; continue,
+        };
+
+        match index {
+            4 =&gt; break,
+            _ =&gt; continue,
+        };
+    }
+}
+</code></pre>
+<p>我们列出了所有用户能够运行的命令。如果用户选择 <code>Exit</code>，程序就会退出。否则，程序暂时什么都不会做。别担心，我们马上就会实现其他的命令。</p>
+<h2 id="创建一个宝可梦"><a class="header" href="#创建一个宝可梦">创建一个宝可梦</a></h2>
+<p>让我们从创建开始。如果我们能够有方法向存储库中添加宝可梦，后面的测试就更容易做了：</p>
+<pre><code class="language-rs">match index {
+    2 =&gt; create_pokemon::run(repo.clone()),
+    ...
+};
+</code></pre>
+<p>现在我们需要创建一个新的模块：</p>
+<pre><code class="language-rs">mod create_pokemon;
+</code></pre>
+<p>好了，在 <em>cli/create_pokemon.rs</em> 中填加上对应的函数签名：</p>
+<pre><code class="language-rs">use crate::repositories::pokemon::Repository;
+use std::sync::Arc;
+
+pub fn run(repo: Arc&lt;dyn Repository&gt;) {}
+</code></pre>
+<p>为了创建一个宝可梦，CLI 需要向用户询问宝可梦的 编号、名称和类型。为了方便这个过程，并且提高提示信息的复用性，我们会为这些信息分别实现各自的提示函数：</p>
+<pre><code class="language-rs">use crate::cli::{prompt_name, prompt_number, prompt_types};
+
+pub fn run(repo: Arc&lt;dyn Repository&gt;) {
+    let number = prompt_number();
+    let name = prompt_name();
+    let types = prompt_types();
+}
+</code></pre>
+<p>接着在 <em>cli/mod.rs</em> 中实现：</p>
+<pre><code class="language-rs">use dialoguer::{..., Input, MultiSelect};
+
+pub fn prompt_number() -&gt; Result&lt;u16, ()&gt; {
+    match Input::new().with_prompt(&quot;Pokemon number&quot;).interact_text() {
+        Ok(number) =&gt; Ok(number),
+        _ =&gt; Err(()),
+    }
+}
+
+pub fn prompt_name() -&gt; Result&lt;String, ()&gt; {
+    match Input::new().with_prompt(&quot;Pokemon name&quot;).interact_text() {
+        Ok(name) =&gt; Ok(name),
+        _ =&gt; Err(()),
+    }
+}
+
+pub fn prompt_types() -&gt; Result&lt;Vec&lt;String&gt;, ()&gt; {
+    let types = [&quot;Electric&quot;, &quot;Fire&quot;];
+    match MultiSelect::new()
+        .with_prompt(&quot;Pokemon types&quot;)
+        .items(&amp;types)
+        .interact()
+    {
+        Ok(indexes) =&gt; Ok(indexes
+            .into_iter()
+            .map(|index| String::from(types[index]))
+            .collect::&lt;Vec&lt;String&gt;&gt;()),
+        _ =&gt; Err(()),
+    }
+}
+</code></pre>
+<blockquote>
+<p>提示：多选框按空格选中</p>
+</blockquote>
+<p>如你所见，所有的提示都可能失败，让我们回到 <em>cli/create_pokemon.rs</em>，有了用户的输入信息，我们可以将它封装为用例中需要的
+<code>Request</code> 结构体：</p>
+<pre><code class="language-rs">use crate::domain::create_pokemon;
+
+pub fn run(repo: Arc&lt;dyn Repository&gt;) {
+    ...
+    let req = match (number, name, types) {
+        (Ok(number), Ok(name), Ok(types)) =&gt; create_pokemon::Request {
+            number,
+            name,
+            types,
+        },
+        _ =&gt; {
+            println!(&quot;An error occurred during the prompt&quot;);
+            return;
+        }
+    };
+</code></pre>
+<p>当发生输入错误时，我们会退回到主菜单。现在有了 <code>Request</code> 结构体，我们就能调用创建宝可梦的用例了：</p>
+<pre><code class="language-rs">pub fn run(repo: Arc&lt;dyn Repository&gt;) {
+    ...
+    match create_pokemon::execute(repo, req) {
+        Ok(res) =&gt; {},
+        Err(create_pokemon::Error::BadRequest) =&gt; println!(&quot;The request is invalid&quot;),
+        Err(create_pokemon::Error::Conflict) =&gt; println!(&quot;The Pokemon already exists&quot;),
+        Err(create_pokemon::Error::Unknown) =&gt; println!(&quot;An unknown error occurred&quot;),
+    };
+}
+</code></pre>
+<p>我们处理了所有的错误类型，每种错误都会反馈到用户的终端上。当用例执行成功时，我们会返回一个 <code>Response</code>：</p>
+<pre><code class="language-rs">#[derive(Debug)]
+struct Response {
+    number: u16,
+    name: String,
+    types: Vec&lt;String&gt;,
+}
+
+pub fn run(repo: Arc&lt;dyn Repository&gt;) {
+    ...
+    match create_pokemon::execute(repo, req) {
+        Ok(res) =&gt; println!(
+            &quot;{:?}&quot;,
+            Response {
+                number: res.number,
+                name: res.name,
+                types: res.types,
+            }
+        ),
+        ...
+    };
+}
+</code></pre>
+<p>好了，让我们测试一下！打开终端，以命令行模式运行：</p>
+<pre><code class="language-rs">✔ Make your choice · Create a Pokemon
+Pokemon number: 25
+Pokemon name: Pikachu
+Pokemon types: Electric
+Response { number: 25, name: &quot;Pikachu&quot;, types: [&quot;Electric&quot;] }
+Great! First command implemented, let's do the next one!
+</code></pre>
+<h2 id="获取所有宝可梦"><a class="header" href="#获取所有宝可梦">获取所有宝可梦</a></h2>
+<p>现在我们去实现获取所有宝可梦！首先我们在对应的 <code>index</code> 添加相应的处理函数：</p>
+<pre><code class="language-rs">match index {
+    0 =&gt; fetch_all_pokemons::run(repo.clone()),
+    ...
+};
+</code></pre>
+<p>创建模块</p>
+<pre><code class="language-rs">mod fetch_all_pokemons;
+</code></pre>
+<p>现在实现具体的功能：</p>
+<pre><code class="language-rs">use crate::domain::fetch_all_pokemons;
+use crate::repositories::pokemon::Repository;
+use std::sync::Arc;
+
+#[derive(Debug)]
+struct Response {
+    number: u16,
+    name: String,
+    types: Vec&lt;String&gt;,
+}
+
+pub fn run(repo: Arc&lt;dyn Repository&gt;) {
+    match fetch_all_pokemons::execute(repo) {
+        Ok(res) =&gt; res.into_iter().for_each(|p| {
+            println!(
+                &quot;{:?}&quot;,
+                Response {
+                    number: p.number,
+                    name: p.name,
+                    types: p.types,
+                }
+            );
+        }),
+        Err(fetch_all_pokemons::Error::Unknown) =&gt; println!(&quot;An unknown error occurred&quot;),
+    };
+}
+</code></pre>
+<p>我已经详细的解释过第一个例子，这里就没必要一步一步说明了。这个命令不需要任何参赛，所以也不需要任何提示信息，我们只需要从存储库拿到结果，依次打印即可。</p>
+<h2 id="查询一个宝可梦"><a class="header" href="#查询一个宝可梦">查询一个宝可梦</a></h2>
+<p>和之前一样，创建一个模块：</p>
+<pre><code class="language-rs">mod fetch_pokemon;
+
+...
+
+match index {
+    ...
+    1 =&gt; fetch_pokemon::run(repo.clone()),
+    ...
+};
+</code></pre>
+<p>创建对应的处理函数</p>
+<pre><code class="language-rs">use crate::cli::prompt_number;
+use crate::domain::fetch_pokemon;
+use crate::repositories::pokemon::Repository;
+use std::sync::Arc;
+
+#[derive(Debug)]
+struct Response {
+    number: u16,
+    name: String,
+    types: Vec&lt;String&gt;,
+}
+
+pub fn run(repo: Arc&lt;dyn Repository&gt;) {
+    let number = prompt_number();
+
+    let req = match number {
+        Ok(number) =&gt; fetch_pokemon::Request { number },
+        _ =&gt; {
+            println!(&quot;An error occurred during the prompt&quot;);
+            return;
+        }
+    };
+    match fetch_pokemon::execute(repo, req) {
+        Ok(res) =&gt; println!(
+            &quot;{:?}&quot;,
+            Response {
+                number: res.number,
+                name: res.name,
+                types: res.types,
+            }
+        ),
+        Err(fetch_pokemon::Error::BadRequest) =&gt; println!(&quot;The request is invalid&quot;),
+        Err(fetch_pokemon::Error::NotFound) =&gt; println!(&quot;The Pokemon does not exist&quot;),
+        Err(fetch_pokemon::Error::Unknown) =&gt; println!(&quot;An unknown error occurred&quot;),
+    }
+}
+</code></pre>
+<p>这里，我们先向用户询问了编号，如果获取失败了就输出错误信息。接着构建 Request 结构体，调用用例，成功就打印结果，否则打印错误信息。</p>
+<h1 id="删除一个宝可梦"><a class="header" href="#删除一个宝可梦">删除一个宝可梦</a></h1>
+<p>最后一个命令！</p>
+<pre><code class="language-rs">mod delete_pokemon;
+
+...
+
+match index {
+    ...
+    3 =&gt; delete_pokemon::run(repo.clone()),
+    ...
+};
+</code></pre>
+<p>创建新模块：</p>
+<pre><code class="language-rs">use crate::cli::prompt_number;
+use crate::domain::delete_pokemon;
+use crate::repositories::pokemon::Repository;
+use std::sync::Arc;
+
+pub fn run(repo: Arc&lt;dyn Repository&gt;) {
+    let number = prompt_number();
+
+    let req = match number {
+        Ok(number) =&gt; delete_pokemon::Request { number },
+        _ =&gt; {
+            println!(&quot;An error occurred during the prompt&quot;);
+            return;
+        }
+    };
+    match delete_pokemon::execute(repo, req) {
+        Ok(()) =&gt; println!(&quot;The Pokemon has been deleted&quot;),
+        Err(delete_pokemon::Error::BadRequest) =&gt; println!(&quot;The request is invalid&quot;),
+        Err(delete_pokemon::Error::NotFound) =&gt; println!(&quot;The Pokemon does not exist&quot;),
+        Err(delete_pokemon::Error::Unknown) =&gt; println!(&quot;An unknown error occurred&quot;),
+    }
+}
+</code></pre>
+<p>和查询一个宝可梦基本一样，只不过不需要返回信息。</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>现在您无需直接发送 HTTP 请求即可在终端中享受使用程序 : D
+但是你知道我们缺少什么吗？一个真正存储我们的宝可梦的地方。目前，它们只存在于内存中，因此每次我们运行程序时存储库都是空的。从 CLI 创建我们的宝可梦然后从
+API 获取它们会很酷 : ) 下一篇将是本系列的最后一篇文章：实现一个长期保存的存储库。</p>
+<p>代码可以在 <a href="https://github.com/alexislozano/pokedex/tree/article-6">Github</a> 上查看</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

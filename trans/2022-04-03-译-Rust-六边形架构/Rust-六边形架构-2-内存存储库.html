@@ -1,0 +1,540 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Rust-六边形架构-2-内存存储库 - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../../favicon.svg">
+                        <link rel="shortcut icon" href="../../favicon.png">
+                <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+                <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html" class="active"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/java/java.html"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../../note/java/springboot.html"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../../note/frontend/http.html"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/magic/riscv.html"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust.html"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../../draft/计算机网络.html"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <blockquote>
+<p>原文链接：https://alexis-lozano.com/hexagonal-architecture-in-rust-2/</p>
+<p>翻译：<a href="https://github.com/trdthg">trdthg</a></p>
+<p>选题：<a href="https://github.com/trdthg">trdthg</a></p>
+<p>本文由 <a href="https://Rustt.org">Rustt</a> 翻译，<a href="https://studyrust.org">StudyRust</a> 荣誉推出</p>
+</blockquote>
+<h1 id="2021-08-24---rust-六边形架构-2---内存中的存储库"><a class="header" href="#2021-08-24---rust-六边形架构-2---内存中的存储库">2021-08-24 - Rust 六边形架构 #2 - 内存中的存储库</a></h1>
+<p>这篇文章是下面系列的一部分</p>
+<ul>
+<li><a href="https://alexis-lozano.com/hexagonal-architecture-in-rust-1/">Hexagonal architecture in Rust #1 - Domain</a></li>
+<li><a href="https://alexis-lozano.com/hexagonal-architecture-in-rust-2/">Hexagonal architecture in Rust #2 - In-memory repository</a></li>
+<li><a href="https://alexis-lozano.com/hexagonal-architecture-in-rust-3/">Hexagonal architecture in Rust #3 - HTTP API</a></li>
+<li><a href="https://alexis-lozano.com/hexagonal-architecture-in-rust-4/">Hexagonal architecture in Rust #4 - Refactoring</a></li>
+<li><a href="https://alexis-lozano.com/hexagonal-architecture-in-rust-5/">Hexagonal architecture in Rust #5 - Remaining use-cases</a></li>
+<li><a href="https://alexis-lozano.com/hexagonal-architecture-in-rust-6/">Hexagonal architecture in Rust #6 - CLI</a></li>
+<li><a href="https://alexis-lozano.com/hexagonal-architecture-in-rust-7/">Hexagonal architecture in Rust #7 - Long-lived repositories</a></li>
+</ul>
+<blockquote>
+<p>免责声明：在本文中，我对存储库会使用到一个简单的可变引用，因为现在我们只是在测试中使用它。在下一篇文章，我会进行一些优化 : )</p>
+</blockquote>
+<p>在上一篇文章中，我们已经开始搭建基本的项目架构。我们已经有了域模块，里面包含一个用例和一些实体：</p>
+<pre><code>src
+├── domain
+│   ├── create_pokemon.rs
+│   ├── entities.rs
+│   └── mod.rs
+└── main.rs
+</code></pre>
+<h2 id="内存存储库"><a class="header" href="#内存存储库">内存存储库</a></h2>
+<p>让我们回到我们的 <code>create_pokemon</code> 用例。
+目前，它可以在成功时返回宝可梦的数量，当请求参数不符合业务规则时会返回一个错误。现在我们并没有一个实际存储宝可梦的地方。让我们来解决这个问题！你应该知道我喜欢从什么开始：一个测试
+: )。这个测试将检查我们不能有两个相同编号的宝可梦。</p>
+<pre><code class="language-rs">use crate::repositories::pokemon::InMemoryRepository;
+
+#[test]
+fn it_should_return_a_conflict_error_when_pokemon_number_already_exists() {
+    let number = PokemonNumber::try_from(25).unwrap();
+    let name = PokemonName::try_from(String::from(&quot;Pikachu&quot;)).unwrap();
+    let types = PokemonTypes::try_from(vec![String::from(&quot;Electric&quot;)]).unwrap();
+    let mut repo = InMemoryRepository::new();
+    repo.insert(number, name, types);
+    let req = Request {
+        number: 25,
+        name: String::from(&quot;Charmander&quot;),
+        types: vec![String::from(&quot;Fire&quot;)],
+    };
+
+    let res = execute(&amp;mut repo, req);
+
+    match res {
+        Response::Conflict =&gt; {}
+        _ =&gt; unreachable!(),
+    }
+}
+</code></pre>
+<p>在个用例的测试中，我们直接在存储库中插入一个宝可梦。然后我们尝试使用用例再次插入一个具有相同编号的宝可梦。用例应该返回一个冲突错误。</p>
+<p>像之前一样，它现在还不能通过编译，因为这里的很多代码都没有实现。让我们首先将 <code>Conflict</code> 错误添加到 <code>Response</code> 枚举中：</p>
+<pre><code class="language-rs">enum Response {
+    ...
+    Conflict,
+}
+</code></pre>
+<p>接着，在宝可梦类型中增加一个火属性</p>
+<pre><code class="language-rs">enum PokemonType {
+    Electric,
+    Fire,
+}
+
+impl TryFrom&lt;String&gt; for PokemonType {
+    type Error = ();
+
+    fn try_from(t: String) -&gt; Result&lt;Self, Self::Error&gt; {
+        match t.as_str() {
+            &quot;Electric&quot; =&gt; Ok(Self::Electric),
+            &quot;Fire&quot; =&gt; Ok(Self::Fire),
+            _ =&gt; Err(()),
+        }
+    }
+}
+</code></pre>
+<p>您可能想知道内存中的存储库是什么。它是在我们不知道客户将要使用什么作为存储库时，暂时使用的存储库。这是我们的第一个实现，它主要用于测试。因为它可以像真正的存储库一样工作，所以我们能够使用它去向客户展示我们的进度并要求他提供反馈。如你所见，存储库
+<code>repo</code> 被当作参数传递给用例：</p>
+<pre><code class="language-rs">use crate::repositories::pokemon::Repository;
+
+fn execute(repo: &amp;mut dyn Repository, req: Request) -&gt; Response {
+</code></pre>
+<p>这里需要注意的一点是，<code>execute</code> 函数并不会得到具体的存储库实现，而是任何实现了 <code>Reposity</code> 特征的结构体。让我们在之前的两个测试用例中也补充
+repo 参数：</p>
+<pre><code class="language-rs">#[test]
+fn it_should_return_a_bad_request_error_when_request_is_invalid() {
+    let mut repo = InMemoryRepository::new();
+    let req = Request {
+    ...
+    let res = execute(&amp;mut repo, req);
+    ...
+}
+
+#[test]
+fn it_should_return_the_pokemon_number_otherwise() {
+    let mut repo = InMemoryRepository::new();
+    let number = 25;
+    ...
+    let res = execute(&amp;mut repo, req);
+    ...
+}
+</code></pre>
+<p>接下来，我们将在新模块 <em>repositories/pokemon.rs</em> 中去定义 <code>InMemoryRepository</code> 结构体 和
+<code>Repository</code> 特征：</p>
+<pre><code>src
+├── domain
+│   ├── create_pokemon.rs
+│   ├── entities.rs
+│   └── mod.rs
+├── repositories
+│   ├── mod.rs
+│   └── pokemon.rs
+└── main.rs
+</code></pre>
+<pre><code class="language-rs">pub trait Repository {}
+
+pub struct InMemoryRepository;
+
+impl Repository for InMemoryRepository {}
+</code></pre>
+<p>不要忘了引用模块</p>
+<pre><code class="language-rs">// main.rs
+mod repositories;
+
+// repositories/mod.rs
+pub mod pokemon;
+</code></pre>
+<p>接下来，让我们实现 <code>InMemoryRepository</code> 的 <code>new</code> 方法。在这里，<code>InMemoryRepository</code>
+内部只是简单的存储了一个宝可梦列表</p>
+<pre><code class="language-rs">use crate::domain::entities::Pokemon;
+
+pub struct InMemoryRepository {
+    pokemons: Vec&lt;Pokemon&gt;,
+}
+
+impl InMemoryRepository {
+    pub fn new() -&gt; Self {
+        let pokemons: Vec&lt;Pokemon&gt; = vec![];
+        Self { pokemons }
+    }
+}
+</code></pre>
+<p>现在，终于是实现 <code>Pokemon</code> 实体的时候了：</p>
+<pre><code class="language-rs">pub struct Pokemon {
+    pub number: PokemonNumber,
+    name: PokemonName,
+    types: PokemonTypes,
+}
+
+impl Pokemon {
+    pub fn new(number: PokemonNumber, name: PokemonName, types: PokemonTypes) -&gt; Self {
+        Self {
+            number,
+            name,
+            types
+        }
+    }
+}
+</code></pre>
+<p>同时，我们需要将 <code>entities.rs</code> 转为公开的：</p>
+<pre><code class="language-rs">// domain/mod.rs
+pub mod entities;
+</code></pre>
+<p>现在唯一没有被实现的就剩下 <code>insert</code> 方法了，我们希望能够在任何实现了 <code>Repository</code> 特征的存储库上都能调用该方法，所以需要在 Trait
+上添加一个函数签名，并为 <code>InMemoryRepository</code> 结构体实现 <code>insert</code> 方法：</p>
+<pre><code class="language-rs">use crate::domain::entities::{Pokemon, PokemonName, PokemonNumber, PokemonTypes};
+
+pub trait Repository {
+    fn insert(&amp;self, number: PokemonNumber, name: PokemonName, types: PokemonTypes) -&gt; PokemonNumber;
+}
+
+impl Repository for InMemoryRepository {
+    fn insert(&amp;self, number: PokemonNumber, name: PokemonName, types: PokemonTypes) -&gt; PokemonNumber {
+        number
+    }
+}
+</code></pre>
+<p>让我们尝试运行测试：</p>
+<pre><code>cargo test
+running 3 tests
+test it_should_return_a_bad_request_error_when_request_is_invalid ... ok
+test it_should_return_the_pokemon_number_otherwise ... ok
+test it_should_return_a_conflict_error_when_pokemon_number_already_exists ... FAILED
+</code></pre>
+<p>第三个测试失败了，插入成功时，insert 应该返回一个宝可梦的编号，如果对应的编号已经存在，需要返回一个冲突的错误。所以我们现在要填加一个 <code>Insert</code>
+结构体表示这两种结果，同时要将原本的不可边借用变为可变借用：</p>
+<pre><code class="language-rs">pub enum Insert {
+    Ok(PokemonNumber),
+    Conflict,
+}
+
+pub trait Repository {
+    fn insert(&amp;mut self, number: PokemonNumber, name: PokemonName, types: PokemonTypes) -&gt; Insert;
+}
+</code></pre>
+<p>接下来实现 InMemoryRepository 的 insert 方法：</p>
+<pre><code class="language-rs">impl Repository for InMemoryRepository {
+    fn insert(&amp;mut self, number: PokemonNumber, name: PokemonName, types: PokemonTypes) -&gt; Insert {
+        if self.pokemons.iter().any(|pokemon| pokemon.number == number) {
+            return Insert::Conflict;
+        }
+
+        let number_clone = number.clone();
+        self.pokemons.push(Pokemon::new(number_clone, name, types));
+        Insert::Ok(number)
+    }
+}
+</code></pre>
+<p>为了让 <code>clone</code> 和 <code>==</code> 通过编译，我们还要为 <code>PokemonNumber</code> 实现 <code>PartialEq</code> 和 <code>Clone</code> 两个特征：</p>
+<pre><code class="language-rs">use std::cmp::PartialEq;
+
+#[derive(PartialEq, Clone)]
+pub struct PokemonNumber(u16);
+</code></pre>
+<p>最后，让 <code>execute</code> 函数调用 insert 方法</p>
+<pre><code class="language-rs">fn execute(repo: &amp;mut dyn Repository, req: Request) -&gt; Response {
+    match (
+        PokemonNumber::try_from(req.number),
+        PokemonName::try_from(req.name),
+        PokemonTypes::try_from(req.types),
+    ) {
+        (Ok(number), Ok(name), Ok(types)) =&gt; match repo.insert(number, name, types) {
+            Insert::Ok(number) =&gt; Response::Ok(u16::from(number)),
+            Insert::Conflict =&gt; Response::Conflict,
+        },
+        _ =&gt; Response::BadRequest,
+    }
+}
+</code></pre>
+<p>再次运行测试</p>
+<pre><code>cargo test
+running 3 tests
+test it_should_return_a_bad_request_error_when_request_is_invalid ... ok
+test it_should_return_the_pokemon_number_otherwise ... ok
+test it_should_return_a_conflict_error_when_pokemon_number_already_exists ... ok
+</code></pre>
+<p>太棒了，冲突测试也通过了！</p>
+<h2 id="以为已经结束了吗"><a class="header" href="#以为已经结束了吗">以为已经结束了吗？</a></h2>
+<p>没有。在存储库中还有一种问题会发生。假设由于某些意外，存储库无法正常工作。如果是数据库，那就是连接错误，如果是 API，那就是网络错误。我们也应该处理这种情况。</p>
+<p>你知道我现在要做什么：写一个测试！</p>
+<pre><code class="language-rs">#[test]
+fn it_should_return_an_error_when_an_unexpected_error_happens() {
+    let mut repo = InMemoryRepository::new().with_error();
+    let number = 25;
+    let req = Request {
+        number,
+        name: String::from(&quot;Pikachu&quot;),
+        types: vec![String::from(&quot;Electric&quot;)],
+    };
+
+    let res = execute(&amp;mut repo, req);
+
+    match res {
+        Response::Error =&gt; {}
+        _ =&gt; unreachable!(),
+    };
+}
+</code></pre>
+<p>这个测试有两个不同点。第一，我们添加了 <code>with_error</code> 方法表示存储库连接异常。第二，我们需要检查 Respnse 是否发生异常。</p>
+<p>首先为 Response 添加一个新的类型</p>
+<pre><code class="language-rs">enum Response {
+    ...
+    Error,
+}
+</code></pre>
+<p>现在我们要实现 <code>with_error</code> 方法，我的想法是在 <code>InMemoryRepository</code> 中增加一个 <code>error</code>
+字段，表示是否会在连接存储库时进行检查。如果 <code>error</code> 为 <code>true</code> 我们就返回一个错误，否则返回正常结果：</p>
+<pre><code class="language-rs">pub enum Insert {
+    ...
+    Error,
+}
+
+pub struct InMemoryRepository {
+    error: bool,
+    pokemons: Vec&lt;Pokemon&gt;,
+}
+
+impl InMemoryRepository {
+    pub fn new() -&gt; Self {
+        let pokemons: Vec&lt;Pokemon&gt; = vec![];
+        Self {
+            error: false,
+            pokemons,
+        }
+    }
+
+    pub fn with_error(self) -&gt; Self {
+        Self {
+            error: true,
+            ..self
+        }
+    }
+}
+
+impl Repository for InMemoryRepository {
+    fn insert(&amp;mut self, number: PokemonNumber, name: PokemonName, types: PokemonTypes) -&gt; Insert {
+        if self.error {
+            return Insert::Error;
+        }
+
+        if self.pokemons.iter().any(|pokemon| pokemon.number == number) {
+            return Insert::Conflict;
+        }
+
+        let number_clone = number.clone();
+        self.pokemons.push(Pokemon::new(number_clone, name, types));
+        Insert::Ok(number)
+    }
+}
+</code></pre>
+<p>同样的，在 <code>execute</code> 中处理这种情况</p>
+<pre><code class="language-rs">fn execute(repo: &amp;mut dyn Repository, req: Request) -&gt; Response {
+    match (
+        PokemonNumber::try_from(req.number),
+        PokemonName::try_from(req.name),
+        PokemonTypes::try_from(req.types),
+    ) {
+        (Ok(number), Ok(name), Ok(types)) =&gt; match repo.insert(number, name, types) {
+            Insert::Ok(number) =&gt; Response::Ok(u16::from(number)),
+            Insert::Conflict =&gt; Response::Conflict,
+            Insert::Error =&gt; Response::Error,
+        },
+        _ =&gt; Response::BadRequest,
+    }
+}
+</code></pre>
+<p>让我们运行测试</p>
+<pre><code>cargo test
+running 4 tests
+test it_should_return_a_bad_request_error_when_request_is_invalid ... ok
+test it_should_return_a_conflict_error_when_pokemon_number_already_exists ... ok
+test it_should_return_an_error_when_an_unexpected_error_happens ... ok
+test it_should_return_the_pokemon_number_otherwise ... ok
+</code></pre>
+<p>\o/</p>
+<h2 id="下一步"><a class="header" href="#下一步">下一步</a></h2>
+<p>这篇文章的长度已经足够了，让我们暂时停到这里。下一次，我将为前端部分先实现 HTTP
+API。之后我会处理其他的用例。我们之后还会实现更多的存储库和前端接口，这些功能会通过添加不同的命令行参数进行开启。</p>
+<p>和以前一样，我会在 <a href="https://github.com/alexislozano/pokedex/tree/article-2">github</a>
+上创建一个包含所有更改的分支。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

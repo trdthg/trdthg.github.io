@@ -1,0 +1,890 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Rust-六边形架构-5-其他用例 - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../../favicon.svg">
+                        <link rel="shortcut icon" href="../../favicon.png">
+                <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+                <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html" class="active"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/java/java.html"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../../note/java/springboot.html"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../../note/frontend/http.html"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/magic/riscv.html"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust.html"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../../draft/计算机网络.html"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <blockquote>
+<p>原文链接：https://alexis-lozano.com/hexagonal-architecture-in-rust-5/</p>
+<p>翻译：<a href="https://github.com/trdthg">trdthg</a></p>
+<p>选题：<a href="https://github.com/trdthg">trdthg</a></p>
+<p>本文由 <a href="https://Rustt.org">Rustt</a> 翻译，<a href="https://studyrust.org">StudyRust</a> 荣誉推出</p>
+</blockquote>
+<h1 id="2021-09-12---rust-六边形架构-5---其他用例"><a class="header" href="#2021-09-12---rust-六边形架构-5---其他用例">2021-09-12 - Rust 六边形架构 #5 - 其他用例</a></h1>
+<p>上次，我们做了一些重构。不知何故，我们的客户对我们很生气……我的意思是，他应该高兴，代码现在比以前更干净了。</p>
+<p>在吃完一块蛋糕之后 (显然，这是我们应得的)，让我们继续实现剩下的用例。这篇文章可能会有点长，但是，嘿，如果你不想阅读整个过程，代码在 github 上 : )
+我们将实现的用例是：</p>
+<ul>
+<li>获取所有宝可梦</li>
+<li>查询一只宝可梦</li>
+<li>删除一只宝可梦</li>
+</ul>
+<h2 id="获取所有宝可梦"><a class="header" href="#获取所有宝可梦">获取所有宝可梦</a></h2>
+<p>像往常一样，我们将从测试开始。让我们首先创建一个新的用例 文件：<em>domain/fetch_all_pokemons.rs</em>：</p>
+<pre><code class="language-rs">// domain/mod.rs
+pub mod fetch_all_pokemons;
+</code></pre>
+<p>让我们考虑一下这个用例有哪些可能的结果？</p>
+<ol>
+<li>成功了，我们得到了宝可梦</li>
+<li>存储库中发生了未知错误，我们无法得到我们的宝可梦</li>
+</ol>
+<p>让我们先从错误案例开始：</p>
+<pre><code class="language-rs">#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::repositories::pokemon::InMemoryRepository;
+
+    #[test]
+    fn it_should_return_an_unknown_error_when_an_unexpected_error_happens() {
+        let repo = Arc::new(InMemoryRepository::new().with_error());
+
+        let res = execute(repo);
+
+        match res {
+            Err(Error::Unknown) =&gt; {}
+            _ =&gt; unreachable!(),
+        };
+    }
+}
+</code></pre>
+<p>如您所见，我仍然没有写一行代码，只写了测试。当然，现在还不能通过编译。这里有两件事很有趣：</p>
+<ul>
+<li>这里的测试和创建宝可梦那里几乎一样</li>
+<li>这里不需要 repo 之外的其他参数</li>
+</ul>
+<p>接下来让我们添加一些必要的代码让测试通过：</p>
+<pre><code class="language-rs">use crate::repositories::pokemon::Repository;
+use std::sync::Arc;
+
+pub enum Error {
+    Unknown,
+}
+
+pub fn execute(repo: Arc&lt;dyn Repository&gt;) -&gt; Result&lt;(), Error&gt; {
+    Err(Error::Unknown)
+}
+</code></pre>
+<p>接着继续添加下一个测试：</p>
+<pre><code class="language-rs">#[test]
+fn it_should_return_all_the_pokemons_ordered_by_increasing_number_otherwise() {
+    let repo = Arc::new(InMemoryRepository::new());
+    repo.insert(
+        PokemonNumber::pikachu(),
+        PokemonName::pikachu(),
+        PokemonTypes::pikachu(),
+    )
+    .ok();
+    repo.insert(
+        PokemonNumber::charmander(),
+        PokemonName::charmander(),
+        PokemonTypes::charmander(),
+    )
+    .ok();
+
+    let res = execute(repo);
+
+    match res {
+        Ok(res) =&gt; {
+            assert_eq!(res[0].number, u16::from(PokemonNumber::charmander()));
+            assert_eq!(res[0].name, String::from(PokemonName::charmander()));
+            assert_eq!(res[0].types, Vec::&lt;String&gt;::from(PokemonTypes::charmander()));
+            assert_eq!(res[1].number, u16::from(PokemonNumber::pikachu()));
+            assert_eq!(res[1].name, String::from(PokemonName::pikachu()));
+            assert_eq!(res[1].types, Vec::&lt;String&gt;::from(PokemonTypes::pikachu()));
+        }
+        _ =&gt; unreachable!(),
+    };
+}
+</code></pre>
+<p>在测试里，我按照 <code>number</code> 递减的顺序插入了宝可梦，所以存储库中宝可梦的排序应该是确定的。当存储库没有输出错误时，我们应该能从用例中得到一个
+<code>Vec&lt;Response&gt;</code>。现在我们要为用例加入 <code>Response</code>，并编写一部分用例函数的内容：</p>
+<pre><code class="language-rs">pub struct Response {
+    pub number: u16,
+    pub name: String,
+    pub types: Vec&lt;String&gt;,
+}
+
+pub fn execute(repo: Arc&lt;dyn Repository&gt;) -&gt; Result&lt;Vec&lt;Response&gt;, Error&gt; {
+    match repo.fetch_all() {
+        Ok(pokemons) =&gt; Ok(pokemons
+            .into_iter()
+            .map(|p| Response {
+                number: u16::from(p.number),
+                name: String::from(p.name),
+                types: Vec::&lt;String&gt;::from(p.types),
+            })
+            .collect::&lt;Vec&lt;Response&gt;&gt;()),
+        Err(FetchAllError::Unknown) =&gt; Err(Error::Unknown),
+    }
+}
+</code></pre>
+<p>然后再为存储库添加并实现 <code>fetch_all</code> 方法：</p>
+<pre><code class="language-rs">pub enum FetchAllError {
+    Unknown,
+}
+
+pub trait Repository: Send + Sync {
+    fn fetch_all(&amp;self) -&gt; Result&lt;Vec&lt;Pokemon&gt;, FetchAllError&gt;;
+}
+
+impl Repository for InMemoryRepository {
+    fn fetch_all(&amp;self) -&gt; Result&lt;Vec&lt;Pokemon&gt;, FetchAllError&gt; {
+        if self.error {
+            return Err(FetchAllError::Unknown);
+        }
+
+        let lock = match self.pokemons.lock() {
+            Ok(lock) =&gt; lock,
+            _ =&gt; return Err(FetchAllError::Unknown),
+        };
+
+        let mut pokemons = lock.to_vec();
+        pokemons.sort_by(|a, b| a.number.cmp(&amp;b.number));
+        Ok(pokemons)
+    }
+}
+</code></pre>
+<p>为了实现宝可梦按照 <code>number</code> 排序，<code>PokemonNumber</code> 需要实现 <code>PartialEq</code>、 <code>Eq</code>、<code>PartialOrd</code>、<code>Ord</code>
+这 4 个 Trait</p>
+<pre><code class="language-rs">#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct PokemonNumber(u16);
+</code></pre>
+<p>运行 c<code>argo test</code>：</p>
+<pre><code>cargo test
+running 6 tests
+...
+it_should_return_an_unknown_error_when_an_unexpected_error_happens ... ok
+it_should_return_all_the_pokemons_ordered_by_increasing_number_otherwise ... ok
+</code></pre>
+<p>我们已经完成了这个用例 :) 现在让我们快速实现 api。在 <em>api/mod.rs</em> 中，添加以下内容：</p>
+<pre><code class="language-rs">mod fetch_all_pokemons;
+
+// in the router macro
+(GET) (/) =&gt; {
+    fetch_all_pokemons::serve(repo.clone())
+}
+</code></pre>
+<p>接着实现具体的 handler api/fetch_all_pokemons.rs：</p>
+<pre><code class="language-rs">use crate::api::Status;
+use crate::domain::fetch_all_pokemons;
+use crate::repositories::pokemon::Repository;
+use rouille;
+use serde::Serialize;
+use std::sync::Arc;
+
+#[derive(Serialize)]
+struct Response {
+    number: u16,
+    name: String,
+    types: Vec&lt;String&gt;,
+}
+
+pub fn serve(repo: Arc&lt;dyn Repository&gt;) -&gt; rouille::Response {
+    match fetch_all_pokemons::execute(repo) {
+        Ok(res) =&gt; rouille::Response::json(
+            &amp;res.into_iter()
+                .map(|p| Response {
+                    number: p.number,
+                    name: p.name,
+                    types: p.types,
+                })
+                .collect::&lt;Vec&lt;Response&gt;&gt;(),
+        ),
+        Err(fetch_all_pokemons::Error::Unknown) =&gt; {
+            rouille::Response::from(Status::InternalServerError)
+        }
+    }
+}
+</code></pre>
+<p>现在您可以运行 <code>cargo run</code>，并使用你最喜欢的 HTTP 客户端 (curl、postman、...)。通过在 <code>/</code> 上发送 POST
+请求来创建一些宝可梦。然后您可以使用浏览器访问 http://localhost:8000。这是我得到的：</p>
+<pre><code class="language-json">[
+  {
+    &quot;number&quot;: 4,
+    &quot;name&quot;: &quot;Charmander&quot;,
+    &quot;types&quot;: [
+      &quot;Fire&quot;
+    ]
+  },
+  {
+    &quot;number&quot;: 25,
+    &quot;name&quot;: &quot;Pikachu&quot;,
+    &quot;types&quot;: [
+      &quot;Electric&quot;
+    ]
+  }
+]
+</code></pre>
+<h2 id="查询一只宝可梦"><a class="header" href="#查询一只宝可梦">查询一只宝可梦</a></h2>
+<p>第二个用例！现在我们想通过给系统一个宝可梦的编号来获取一个宝可梦。让我们创建一个新的用例文件 <em>domain/fetch_pokemon.rs</em>：</p>
+<pre><code class="language-rs">// domain/mod.rs
+pub mod fetch_pokemon;
+</code></pre>
+<p>让我们思考一下用例运行时可能遇到什么情况。</p>
+<ol>
+<li>存储库可能会引发未知错误。</li>
+<li>请求参数可能是不合法的。</li>
+<li>用户给定的编号可能对应没有宝可梦。</li>
+<li>获得宝可梦成功了</li>
+</ol>
+<p>让我们从未知错误的测试开始。新建 <em>domain/fetch_pokemon.rs</em> 并添加以下内容：</p>
+<pre><code class="language-rs">use crate::domain::entities::PokemonNumber;
+use std::sync::Arc;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::repositories::pokemon::InMemoryRepository;
+
+    #[test]
+    fn it_should_return_an_unknown_error_when_an_unexpected_error_happens() {
+        let repo = Arc::new(InMemoryRepository::new().with_error());
+        let req = Request::new(PokemonNumber::pikachu());
+
+        let res = execute(repo, req);
+
+        match res {
+            Err(Error::Unknown) =&gt; {}
+            _ =&gt; unreachable!(),
+        };
+    }
+}
+</code></pre>
+<p>接着，为测试实现必要的类型和函数：</p>
+<pre><code class="language-rs">pub struct Request {
+    pub number: u16,
+}
+
+pub enum Error {
+    Unknown
+}
+</code></pre>
+<p>为了让测试更清晰，我们还为 <code>Request</code> 实现了一个 <code>new</code> 方法，当然只在测试时使用：</p>
+<pre><code class="language-rs">#[cfg(test)]
+mod tests {
+    ...
+
+    impl Request {
+        fn new(number: PokemonNumber) -&gt; Self {
+            Self {
+                number: u16::from(number),
+            }
+        }
+    }
+}
+</code></pre>
+<p>最后，再实现一个只用满足这项测试的 <code>execute</code> 函数即可：</p>
+<pre><code class="language-rs">use crate::repositories::pokemon::Repository;
+
+pub fn execute(repo: Arc&lt;dyn Repository&gt;, req: Request) -&gt; Result&lt;(), Error&gt; {
+    Err(Error::Unknown)
+}
+</code></pre>
+<p>让我们运行 <code>cargo test fetch_pokemon</code>:</p>
+<pre><code>test it_should_return_an_unknown_error_when_an_unexpected_error_happens ... ok
+</code></pre>
+<p>好的。我们可以开始下一个测试了。让我们来看一下请求格式错误的情况：</p>
+<pre><code class="language-rs">#[test]
+fn it_should_return_a_bad_request_error_when_request_is_invalid() {
+    let repo = Arc::new(InMemoryRepository::new());
+    let req = Request::new(PokemonNumber::bad());
+
+    let res = execute(repo, req);
+
+    match res {
+        Err(Error::BadRequest) =&gt; {}
+        _ =&gt; unreachable!(),
+    };
+}
+</code></pre>
+<p>首先，让我们在 <code>PokemonNumber</code> 中创建 <code>bad</code> 函数。在 <em>domain/entities.rs</em> 中添加以下内容：</p>
+<pre><code class="language-rs">#[cfg(test)]
+impl PokemonNumber {
+    ...
+    pub fn bad() -&gt; Self {
+        Self(0)
+    }
+}
+</code></pre>
+<p>接着，在 <code>Error</code> 中添加 <code>Badrequest</code> 类型与之对应：</p>
+<pre><code class="language-rs">pub enum Error {
+    BadRequest,
+    ...
+}
+</code></pre>
+<p>现在已经能够通过编译，但是测试尚且不能通过，实际上，我们的 <code>execute</code> 函数暂时只能返回 <code>Unknown</code> 类型：</p>
+<pre><code class="language-rs">use std::convert::TryFrom;
+
+pub fn execute(repo: Arc&lt;dyn Repository&gt;, req: Request) -&gt; Result&lt;(), Error&gt; {
+    match PokemonNumber::try_from(req.number) {
+        Ok(number) =&gt; Err(Error::Unknown),
+        _ =&gt; Err(Error::BadRequest),
+    }
+}
+</code></pre>
+<p>现在两个测试都通过了！我们现在可以进行第三个测试：在存储库中找不到宝可梦时，应该返回 <code>NotFound</code>:</p>
+<pre><code class="language-rs">#[test]
+fn it_should_return_a_not_found_error_when_the_repo_does_not_contain_the_pokemon() {
+    let repo = Arc::new(InMemoryRepository::new());
+    let req = Request::new(PokemonNumber::pikachu());
+
+    let res = execute(repo, req);
+
+    match res {
+        Err(Error::NotFound) =&gt; {}
+        _ =&gt; unreachable!(),
+    };
+}
+</code></pre>
+<p>同样，在 <code>Error</code> 中补充 <code>NotFound</code> 错误类型：</p>
+<pre><code class="language-rs">pub enum Error {
+    ...
+    NotFound,
+    ...
+}
+</code></pre>
+<p>像之前一样，测试没有通过。我们需要在 <code>execute</code> 函数中处理对应的错误类型：</p>
+<pre><code class="language-rs">use crate::repositories::pokemon::{FetchOneError, ...};
+
+Ok(number) =&gt; match repo.fetch_one(number) {
+    Ok(_) =&gt; Ok(()),
+    Err(FetchOneError::NotFound) =&gt; Err(Error::NotFound),
+    Err(FetchOneError::Unknown) =&gt; Err(Error::Unknown),
+}
+</code></pre>
+<p>接着在 <em>repositories/pokemon.rs</em> 中补充对应的方法和错误类型：</p>
+<pre><code class="language-rs">pub enum FetchOneError {
+    NotFound,
+    Unknown,
+}
+
+pub trait Repository: Send + Sync {
+    ...
+    fn fetch_one(&amp;self, number: PokemonNumber) -&gt; Result&lt;(), FetchOneError&gt;;
+}
+
+impl Repository for InMemoryRepository {
+    ...
+    fn fetch_one(&amp;self, number: PokemonNumber) -&gt; Result&lt;(), FetchOneError&gt; {
+        if self.error {
+            return Err(FetchOneError::Unknown);
+        }
+
+        Err(FetchOneError::NotFound)
+    }
+}
+</code></pre>
+<p>Et voilà，测试通过了！最后去处理获取成功的测试吧：</p>
+<pre><code class="language-rs">#[cfg(test)]
+mod tests {
+    use crate::domain::entities::{PokemonName, PokemonTypes};
+
+    #[test]
+    fn it_should_return_the_pokemon_otherwise() {
+        let repo = Arc::new(InMemoryRepository::new());
+        repo.insert(
+            PokemonNumber::pikachu(),
+            PokemonName::pikachu(),
+            PokemonTypes::pikachu(),
+        )
+        .ok();
+        let req = Request::new(PokemonNumber::pikachu());
+
+        let res = execute(repo, req);
+
+        match res {
+            Ok(res) =&gt; {
+                assert_eq!(res.number, u16::from(PokemonNumber::pikachu()));
+                assert_eq!(res.name, String::from(PokemonName::pikachu()));
+                assert_eq!(res.types, Vec::&lt;String&gt;::from(PokemonTypes::pikachu()));
+            }
+            _ =&gt; unreachable!(),
+        };
+    }
+}
+</code></pre>
+<p>首先创建 <code>Response</code> 类型，并改变 <code>execute</code> 的返回值类型：</p>
+<pre><code class="language-rs">pub struct Response {
+    pub number: u16,
+    pub name: String,
+    pub types: Vec&lt;String&gt;,
+}
+
+pub fn execute(repo: Arc&lt;dyn Repository&gt;, req: Request) -&gt; Result&lt;Response, Error&gt; {
+</code></pre>
+<p>现在，我们去处理 <code>Ok(_)</code> 的部分：</p>
+<pre><code class="language-rs">use crate::domain::entities::{Pokemon, ...};
+
+Ok(Pokemon {
+    number,
+    name,
+    types,
+}) =&gt; Ok(Response {
+    number: u16::from(number),
+    name: String::from(name),
+    types: Vec::&lt;String&gt;::from(types),
+})
+</code></pre>
+<p>最后修改存储库的 <code>fetch_one</code> 函数：</p>
+<pre><code class="language-rs">pub trait Repository: Send + Sync {
+    fn fetch_one(&amp;self, number: PokemonNumber) -&gt; Result&lt;Pokemon, FetchOneError&gt;;
+}
+
+impl Repository for InMemoryRepository {
+    fn fetch_one(&amp;self, number: PokemonNumber) -&gt; Result&lt;Pokemon, FetchOneError&gt; {
+        if self.error {
+            return Err(FetchOneError::Unknown);
+        }
+
+        let lock = match self.pokemons.lock() {
+            Ok(lock) =&gt; lock,
+            _ =&gt; return Err(FetchOneError::Unknown),
+        };
+
+        match lock.iter().find(|p| p.number == number) {
+            Some(pokemon) =&gt; Ok(pokemon.clone()),
+            None =&gt; Err(FetchOneError::NotFound),
+        }
+    }
+}
+</code></pre>
+<p>所有的测试都通过了现在：</p>
+<pre><code>test it_should_return_a_not_found_error_when_the_repo_does_not_contain_the_pokemon ... ok
+test it_should_return_the_pokemon_otherwise ... ok
+test it_should_return_a_bad_request_error_when_request_is_invalid ... ok
+test it_should_return_an_unknown_error_when_an_unexpected_error_happens ... ok
+</code></pre>
+<p>让我们现在向 API 中前加一个新路由：</p>
+<pre><code class="language-rs">mod fetch_pokemon;
+
+// in the router macro
+(GET) (/{number: u16}) =&gt; {
+    fetch_pokemon::serve(repo.clone(), number)
+}
+</code></pre>
+<p>接着再 <em>api/fetch_pokemon.rs</em> 创建对应的 <code>serve</code> 函数：</p>
+<pre><code class="language-rs">use crate::api::Status;
+use crate::domain::fetch_pokemon;
+use crate::repositories::pokemon::Repository;
+use rouille;
+use serde::Serialize;
+use std::sync::Arc;
+
+#[derive(Serialize)]
+struct Response {
+    number: u16,
+    name: String,
+    types: Vec&lt;String&gt;,
+}
+
+pub fn serve(repo: Arc&lt;dyn Repository&gt;, number: u16) -&gt; rouille::Response {
+    let req = fetch_pokemon::Request { number };
+    match fetch_pokemon::execute(repo, req) {
+        Ok(fetch_pokemon::Response {
+            number,
+            name,
+            types,
+        }) =&gt; rouille::Response::json(&amp;Response {
+            number,
+            name,
+            types,
+        }),
+        Err(fetch_pokemon::Error::BadRequest) =&gt; rouille::Response::from(Status::BadRequest),
+        Err(fetch_pokemon::Error::NotFound) =&gt; rouille::Response::from(Status::NotFound),
+        Err(fetch_pokemon::Error::Unknown) =&gt; rouille::Response::from(Status::InternalServerError),
+    }
+}
+</code></pre>
+<p>现在您可以运行应用程序，打开您的 HTTP 客户端并将一些宝可梦添加到存储库中。然后，您应该能够通过在网址末尾添加宝可梦的数量来一一获取它们。
+例如，在我的计算机上，http://localhost:8000/25 上的 GET 请求返回了：</p>
+<pre><code class="language-json">{
+  &quot;number&quot;: 25,
+  &quot;name&quot;: &quot;Pikachu&quot;,
+  &quot;types&quot;: [
+    &quot;Electric&quot;
+  ]
+}
+</code></pre>
+<h2 id="删除一只宝可梦"><a class="header" href="#删除一只宝可梦">删除一只宝可梦</a></h2>
+<p>我保证，我们很快就会完成。删除宝可梦是我们的最后一个用例。这个用例的结果有四种可能：</p>
+<ul>
+<li>成功</li>
+<li>请求格式错误</li>
+<li>没有找到对应的宝可梦</li>
+<li>未知错误</li>
+</ul>
+<p>您应该已经注意到，它们与获取 Pokemon 用例中的完全相同。我会解释更快一些。现在就开始了。让我们直接编写所有测试：</p>
+<pre><code class="language-rs">// domain/mod.rs
+pub mod delete_pokemon;
+
+// domain/delete_pokemon.rs
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::domain::entities::{PokemonName, PokemonTypes};
+    use crate::repositories::pokemon::InMemoryRepository;
+
+    #[test]
+    fn it_should_return_an_unknown_error_when_an_unexpected_error_happens() {
+        let repo = Arc::new(InMemoryRepository::new().with_error());
+        let req = Request::new(PokemonNumber::pikachu());
+
+        let res = execute(repo, req);
+
+        match res {
+            Err(Error::Unknown) =&gt; {}
+            _ =&gt; unreachable!(),
+        };
+    }
+
+    #[test]
+    fn it_should_return_a_bad_request_error_when_request_is_invalid() {
+        let repo = Arc::new(InMemoryRepository::new());
+        let req = Request::new(PokemonNumber::bad());
+
+        let res = execute(repo, req);
+
+        match res {
+            Err(Error::BadRequest) =&gt; {}
+            _ =&gt; unreachable!(),
+        };
+    }
+
+    #[test]
+    fn it_should_return_a_not_found_error_when_the_repo_does_not_contain_the_pokemon() {
+        let repo = Arc::new(InMemoryRepository::new());
+        let req = Request::new(PokemonNumber::pikachu());
+
+        let res = execute(repo, req);
+
+        match res {
+            Err(Error::NotFound) =&gt; {}
+            _ =&gt; unreachable!(),
+        };
+    }
+
+    #[test]
+    fn it_should_return_ok_otherwise() {
+        let repo = Arc::new(InMemoryRepository::new());
+        repo.insert(
+            PokemonNumber::pikachu(),
+            PokemonName::pikachu(),
+            PokemonTypes::pikachu(),
+        )
+        .ok();
+        let req = Request::new(PokemonNumber::pikachu());
+
+        let res = execute(repo, req);
+
+        match res {
+            Ok(()) =&gt; {},
+            _ =&gt; unreachable!(),
+        };
+    }
+
+    impl Request {
+        fn new(number: PokemonNumber) -&gt; Self {
+            Self {
+                number: u16::from(number),
+            }
+        }
+    }
+}
+</code></pre>
+<p>除了成功情况下的测试，其他的测试基本上是对 <em>domain/fetch_pokemon.rs</em> 的复制粘贴。接下来是类型：</p>
+<pre><code class="language-rs">pub struct Request {
+    pub number: u16,
+}
+
+pub enum Error {
+    BadRequest,
+    NotFound,
+    Unknown,
+}
+</code></pre>
+<p>我们不需要定义 <code>Response</code> 类型，因为在 <code>Ok</code> 情况下我们不会返回任何内容。让我们定义 <code>execute</code> 函数：</p>
+<pre><code class="language-rs">use crate::domain::entities::PokemonNumber;
+use crate::repositories::pokemon::{DeleteError, Repository};
+use std::convert::TryFrom;
+use std::sync::Arc;
+
+pub fn execute(repo: Arc&lt;dyn Repository&gt;, req: Request) -&gt; Result&lt;(), Error&gt; {
+    match PokemonNumber::try_from(req.number) {
+        Ok(number) =&gt; match repo.delete(number) {
+            Ok(()) =&gt; Ok(()),
+            Err(DeleteError::NotFound) =&gt; Err(Error::NotFound),
+            Err(DeleteError::Unknown) =&gt; Err(Error::Unknown),
+        },
+        _ =&gt; Err(Error::BadRequest),
+    }
+}
+</code></pre>
+<p>太好了！现在我们只剩下实现存储库了，我们很快就会完成：</p>
+<pre><code class="language-rs">pub enum DeleteError {
+    NotFound,
+    Unknown,
+}
+
+pub trait Repository: Send + Sync {
+    fn delete(&amp;self, number: PokemonNumber) -&gt; Result&lt;(), DeleteError&gt;;
+}
+
+impl Repository for InMemoryRepository {
+    fn delete(&amp;self, number: PokemonNumber) -&gt; Result&lt;(), DeleteError&gt; {
+        if self.error {
+            return Err(DeleteError::Unknown);
+        }
+
+        let mut lock = match self.pokemons.lock() {
+            Ok(lock) =&gt; lock,
+            _ =&gt; return Err(DeleteError::Unknown),
+        };
+
+        let index = match lock.iter().position(|p| p.number == number) {
+            Some(index) =&gt; index,
+            None =&gt; return Err(DeleteError::NotFound),
+        };
+
+        lock.remove(index);
+        Ok(())
+    }
+}
+</code></pre>
+<p>运行测试：</p>
+<pre><code>test it_should_return_a_bad_request_error_when_request_is_invalid ... ok
+test it_should_return_a_not_found_error_when_the_repo_does_not_contain_the_pokemon ... ok
+test it_should_return_an_unknown_error_when_an_unexpected_error_happens ... ok
+test it_should_return_ok_otherwise ... ok
+We can now add the new route in our API. Let's add the following to api/mod.rs:
+</code></pre>
+<p>现在我们可以在 API 中添加新路由：</p>
+<pre><code class="language-rs">mod delete_pokemon;
+
+// in the router macro
+(DELETE) (/{number: u16}) =&gt; {
+    delete_pokemon::serve(repo.clone(), number)
+}
+
+enum Status {
+    Ok,
+    ...
+}
+impl From&lt;Status&gt; for rouille::Response {
+    fn from(status: Status) -&gt; Self {
+        let status_code = match status {
+            Status::Ok =&gt; 200,
+            ...
+</code></pre>
+<p>我在 <code>Status</code> 中补充一个 OK 类型用来表示没有相应体的 200 状态码，现在添加对应的 <code>serve</code> 函数：</p>
+<pre><code class="language-rs">use crate::api::Status;
+use crate::domain::delete_pokemon;
+use crate::repositories::pokemon::Repository;
+use rouille;
+use std::sync::Arc;
+
+pub fn serve(repo: Arc&lt;dyn Repository&gt;, number: u16) -&gt; rouille::Response {
+    let req = delete_pokemon::Request { number };
+    match delete_pokemon::execute(repo, req) {
+        Ok(()) =&gt; rouille::Response::from(Status::Ok),
+        Err(delete_pokemon::Error::BadRequest) =&gt; rouille::Response::from(Status::BadRequest),
+        Err(delete_pokemon::Error::NotFound) =&gt; rouille::Response::from(Status::NotFound),
+        Err(delete_pokemon::Error::Unknown) =&gt; rouille::Response::from(Status::InternalServerError),
+    }
+}
+</code></pre>
+<p>通过使用 HTTP 客户端，现在你应该能够删除宝可梦了 :)</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>我希望它不会太长......但现在我们的客户很高兴！耶！下一次，我们将为我们的用例实现另一个前端。现在我们只有一个 HTTP API，如果还能有一个 CLI
+来管理我们的宝可梦就好了 :)</p>
+<p>代码可以在 <a href="https://github.com/alexislozano/pokedex/tree/article-5">Github</a> 上查看</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>2023-01-03-译-Rust冒险:-滥用-Serde - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../favicon.svg">
+                        <link rel="shortcut icon" href="../favicon.png">
+                <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+                <link rel="stylesheet" href="../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html" class="active"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../note/java/java.html"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../note/java/springboot.html"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../note/frontend/http.html"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/magic/riscv.html"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../docs/rust/rust.html"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../draft/计算机网络.html"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <blockquote>
+<p>原文链接：https://lucumr.pocoo.org/2021/11/14/abusing-serde/</p>
+<p><strong>翻译：<a href="https://github.com/trdthg">trdthg</a></strong></p>
+<p>选题：<a href="https://github.com/trdthg">trdthg</a></p>
+<p>本文由 <a href="https://Rustt.org">Rustt</a> 翻译，<a href="https://studyrust.org">StudyRust</a> 荣誉推出</p>
+</blockquote>
+<h1 id="rust-冒险滥用-serde"><a class="header" href="#rust-冒险滥用-serde">Rust 冒险：滥用 Serde</a></h1>
+<p>当你让一个 Rust 程序员指出自己最喜欢的东西时，他们会很快的指出 serde 是一个让工作愉快好帮手。serde 是一个 Rust
+的序列化和反序列化框架。它的格式相对独立，可以让你处理 JSON，YAML 以及一系列不同的格式。</p>
+<p>除了上面的之外，还有很多东西可以用 serve 完成。我认为有一些用例相当有趣，值得分享。</p>
+<h2 id="滥用序列化"><a class="header" href="#滥用序列化">滥用序列化</a></h2>
+<p><em>Abusing Serialization</em></p>
+<p>其中一个有趣的用例是用 serde 作为某种形式的反射框架，将结构体暴露给其他的不能原生支持 Rust
+结构体的环境。在这些情况下，作为一个开发者，你序列化了一个可以被序列化的对象，接着立即以某种稍微不同的格式再次反序列化它。相比于反序列化，我们也可以自定义一个序列化器用来
+'捕获' 序列化的调用。这是在 IPC，模板引擎上下文、格式转换中常用的模式。</p>
+<p>这在实践中大概是什么样呢？让我们从用户的角度看一下我写的 <a href="https://github.com/mitsuhiko/minijinja">MiniJinja</a>
+模板引擎。MiniJinja 使用 serde 作为核心数据模型，将结构化的数据传递给模板，以便它们可以在运行时进行评估。下面是一些给开发者的示例代码：</p>
+<pre><code class="language-rs">#[derive(Serialize, Debug)]
+pub struct User {
+    name: String,
+}
+
+fn main() {
+    let mut env = Environment::new();
+    env.add_template(&quot;hello.txt&quot;, &quot;Hello {{ user.name }}!&quot;)
+        .unwrap();
+    let template = env.get_template(&quot;hello.txt&quot;).unwrap();
+    let user = User {
+        name: &quot;John&quot;.into(),
+    };
+    println!(&quot;{}&quot;, template.render(context!(user)).unwrap());
+}
+</code></pre>
+<p>如你所见，我们定义了一个叫 User 的结构体，可以使用默认的 Serialize 实现将它序列化。这个对象接着被传递到
+<code>context!()</code>。<code>context!()</code> 所做的就是创建了一个 map，然后将一个键设为
+user，接着设置为该变量的值。这样做的目的是允许模板引擎访问到 user 的 '属性'，例如 name。Rust
+不是动态语言，这意味着通常在运行时做这样的事情是不可能的。但是由于 serde 为 User 实现了
+Seralize，我们可以这样做。具体的实现大致如下（伪代码）：</p>
+<pre><code class="language-rs">impl Serialize for User {
+    fn serialize(&amp;self, serializer: S) -&gt; Result&lt;S::Ok, S::Error&gt;
+        where S: Serializer
+    {
+        let s = serializer.serialize_struct(&quot;User&quot;, 1);
+        s.serialize_field(&quot;name&quot;, &amp;self.name)?;
+        s.end()
+    }
+}
+</code></pre>
+<p>正常情况下，serializer 是一个类似于 JSON 序列化器的东西，它可以将结构体写入到一个字符串或者是文件，在这个过程中把它编码为 JSON。但是
+serde 提供的接口并不要求用户必须这样。实际上，MiniJinja 直接将结构体编码为一个内存中的结构，模板引擎可以解析它。</p>
+<p>这种模式并不新颖，serde 本身其实也有使用。当你使用 serde 的 flatter 功能时，serde 会启用一个内部缓冲模式，数据会被存储在一个内部的
+Context 类型中，Context 类型可以表示 serde 数据模型的全部内容。然后这个 context 可以被传递给另一个序列化器中。</p>
+<p>我不仅在 MiniJinja，同时也在 <a href="https://insta.rs/">insta</a>
+（一个快照测试工具）使用到这种模式。为了避免由于非确定性数据导致的测试快照的不稳定性，我首先将其序列化为一种内部的格式，接着在该格式上进行一个再加工，最后再将其序列化为最终的格式（例如
+YAML）。</p>
+<h2 id="tls-恶作剧"><a class="header" href="#tls-恶作剧">TLS 恶作剧</a></h2>
+<p><em>TLS Shenanigans</em></p>
+<blockquote>
+<p>TLS：Thread Local Storage，Shenanigans：恶作剧</p>
+</blockquote>
+<p>然而，MiniJinja 在此处使用 serde 的有趣之处在于，它允许在序列化和序列化器之间传递不兼容的数据。如前所述，serde
+有一个特定的数据模型，不符合该数据模型的东西都会遇到这个问题。例如，serde 可以编码的最大整型是
+i128。如果你需要一个任意精度的整型，那就不走运了。但是还是有办法的，你可以使用
+<a href="https://en.wikipedia.org/wiki/In-band_signaling">带内信令（in-band signalling）</a>传递额外数据。例如，serde
+JSON 序列化器能够表示任意精度整型，因为它在单值对象中保留了一个特殊的键，并用它去指示 JSON 序列化 /
+反序列化器组合，决定这个任意精度的整型是否要被序列化。它看起来像这样：</p>
+<pre><code class="language-json">{ &quot;$serde_json::private::Number&quot;: &quot;value&quot; }
+</code></pre>
+<p>但是你应该能发现，如果一个人给出了这样的 JSON 文档，serde JSON 会把它当作任意精度的整形去解析，这意味着 'value' 部分本身也需要于
+serde 兼容。对于任意精度的整型，这没有问题，因为它可以用字符串表示。但是假如你想在序列化和反序列化中传递的东西根本不能序列化呢？</p>
+<p>这时，巧妙地利用 <strong>thread local</strong> 就是一种变通方法。</p>
+<p>在 MiniJinja 中，运行时值的内部表示是一个叫做 <code>Value</code>
+的结构体。正如你所期望的，它可以容纳整型，浮点数，字符串，列表，对象等等。然而，他也可以容纳一些 serde
+完全无法解析的类型。特别是它可以保存一种特殊类型的字符串，称为 <code>'safe' string</code>, 它是一个存储了安全的 HTML
+代码的字符串，不需要转义，也不需要所谓的 '动态值'。后者特别有趣，因为它不能被序列化。</p>
+<p>什么是动态值？它实际上是具有状态的对象的句柄，应该直接传递给模板。这里的一个例子是 MiniJinja 中的 loop 变量：</p>
+<pre><code class="language-rs">&lt;ul&gt;
+{% for item in seq %}
+    &lt;li&gt;{{ loop.index }}: {{ item }}&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+</code></pre>
+<p>MiniJinja（类似于 Jinja2）提供了一个特殊的 loop 变量可以访问循环的状态。例如，你可以通过 <code>loop.index</code>
+来获取当前循环的迭代次数。在 MiniJinja 的工作原理中，'循环控制器' 本身会被直接传递给模板，并且把值本身当作引用计数存进去。</p>
+<pre><code class="language-rs">pub struct LoopState {
+    len: AtomicUsize,
+    idx: AtomicUsize,
+}
+
+let controller = Rc::new(LoopState {
+    idx: AtomicUsize::new(!0usize),
+    len: AtomicUsize::new(len),
+});
+</code></pre>
+<p>当循环迭代时，控制器上的索引会 +1。</p>
+<pre><code class="language-rs">controller.idx.fetch_add(1, Ordering::Relaxed);
+</code></pre>
+<p>控制器本身会被直接添加到上下文中：</p>
+<pre><code class="language-rs">let template_side_controller = Value::from_object(controller);
+</code></pre>
+<p>为了达到这个目的，控制器需要实现 MiniJinja 内部的 <code>Object</code> 特征，下面是一个最小实现：</p>
+<pre><code class="language-rs">impl Object for LoopState {
+    fn attributes(&amp;self) -&gt; &amp;[&amp;str] {
+        &amp;[&quot;index&quot;, &quot;length&quot;][..]
+    }
+
+    fn get_attr(&amp;self, name: &amp;str) -&gt; Option&lt;Value&gt; {
+        let idx = self.idx.load(Ordering::Relaxed) as u64;
+        let len = self.len.load(Ordering::Relaxed) as u64;
+        match name {
+            &quot;index&quot; =&gt; Some(Value::from(idx + 1)),
+            &quot;length&quot; =&gt; Some(Value::from(len)),
+            _ =&gt; None,
+        }
+    }
+}
+</code></pre>
+<p>在模板引擎那一边，系统知道当 <code>index</code> 属性被使用时，需要调用 <code>get_attr()</code> 方法。</p>
+<p>到目前为止我们所说的都是理论，serde 究竟是如何做的呢？当 <code>Value::from_object</code> 调用时，传入的值会被 <code>move</code> 到 value
+对象里。这样做不需要特殊处理，特别是由于已经使用了引用计数。但是现在的问题是，对于像 <code>LoopState</code> 这样本身没有实现 <code>Serialize</code>
+的东西，它的值是如何被序列化的？答案是线程本地存储（thread local storage）和一个合作的（co-operating）序列化和反序列化器。</p>
+<h2 id="越过边界的-state"><a class="header" href="#越过边界的-state">越过边界的 State</a></h2>
+<p><em>Out of Bound State</em></p>
+<p>隐藏在 MiniJinja 的 Value 实现有这样一段代码：</p>
+<pre><code class="language-rs">const VALUE_HANDLE_MARKER: &amp;str = &quot;\x01__minijinja_ValueHandle&quot;;
+thread_local! {
+     static INTERNAL_SERIALIZATION: AtomicBool = AtomicBool::new(false);
+     static LAST_VALUE_HANDLE: AtomicUsize = AtomicUsize::new(0);
+     static VALUE_HANDLES: RefCell&lt;BTreeMap&lt;usize, Value&gt;&gt; = RefCell::new(BTreeMap::new());
+ }
+
+fn in_internal_serialization() -&gt; bool {
+    INTERNAL_SERIALIZATION.with(|flag| flag.load(atomic::Ordering::Relaxed))
+}
+</code></pre>
+<p>它们的用处是，Value
+自身能够感知到什么时候使用内部序列化的特殊形式。这种内部序列化是一种特殊形式的序列化，我们明确知道我们的序列化数据的接收者是一个可以理解该数据的反序列化器。我们没有直接对数据进行序列化，而是将其存入到
+TLS 中，然后把数据的句柄序列化到 serde 序列化器中。反序列化器会先反序列化句柄，接着再从 TLS 中提取值。</p>
+<p>因此，我们的循环控制器序列化的实现大致如下：</p>
+<pre><code class="language-rs">impl Serialize for Value {
+    fn serialize&lt;S&gt;(&amp;self, serializer: S) -&gt; Result&lt;S::Ok, S::Error&gt;
+    where
+        S: Serializer,
+    {
+        // enable round tripping of values
+        if in_internal_serialization() {
+            use serde::ser::SerializeStruct;
+            let handle = LAST_VALUE_HANDLE.with(|x| x.fetch_add(1, atomic::Ordering::Relaxed));
+            VALUE_HANDLES.with(|handles| handles.borrow_mut().insert(handle, self.clone()));
+            let mut s = serializer.serialize_struct(VALUE_HANDLE_MARKER, 1)?;
+            s.serialize_field(&quot;handle&quot;, &amp;handle)?;
+            return s.end();
+        }
+
+        // ... here follows implementation for serializing to JSON etc.
+    }
+}
+</code></pre>
+<p>如果它被序列化为 JSON，我们大致能看到这样的东西：</p>
+<pre><code class="language-json">{ &quot;\u0001__minijinja_ValueHandle&quot;: 1 }
+</code></pre>
+<p>而真正的循环控制器将被存储在 <code>VALUE_HANDLES</code> 中句柄为 1 处。现在我们如何从里面的到数值呢？在 MiniJinja
+中，反序列化其实从未发生，只有序列化。而且序列化也只是将内存中的对象组装起来。因此，我们只需要让序列化器理解带内信令如何处理，并以此找到带外的值。</p>
+<pre><code class="language-rs">impl ser::SerializeStruct for SerializeStruct {
+    type Ok = Value;
+    type Error = Error;
+
+    fn serialize_field&lt;T: ?Sized&gt;(&amp;mut self, key: &amp;'static str, value: &amp;T) -&gt; Result&lt;(), Error&gt;
+    where
+        T: Serialize,
+    {
+        let value = value.serialize(ValueSerializer)?;
+        self.fields.insert(key, value);
+        Ok(())
+    }
+
+    fn end(self) -&gt; Result&lt;Value, Error&gt; {
+        match self.name {
+            VALUE_HANDLE_MARKER =&gt; {
+                let handle_id = self.fields[&quot;handle&quot;].as_usize();
+                Ok(VALUE_HANDLES.with(|handles| {
+                    let mut handles = handles.borrow_mut();
+                    handles
+                        .remove(&amp;handle_id)
+                        .expect(&quot;value handle not in registry&quot;)
+                }))
+            }
+            _ =&gt; /* regular struct code */
+        }
+    }
+}
+</code></pre>
+<h2 id="ser-to-de"><a class="header" href="#ser-to-de">Ser-to-De</a></h2>
+<p>上面的例子是你可以滥用的一种方式，但是同样的模式在真实的序列化和反序列化中也可以用到。在 MiniJinja
+中，我可以不使用序列化，因为我有效地利用了序列化代码，从一种内存格式转换到另一种内存格式。如果你想在进程间传递数据，情况就会变得棘手一些，实际的序列化就是必要的。例如，你想建立一个
+IPC
+系统，在进程之间交换数据，这里的挑战是，出于性能的考虑，对于比较大的内存段，你必须使用共享内存，或者是以文件描述符的形式传递打开的文件（因为这些文件有可能是
+socket）。在我的实验性 <a href="https://github.com/mitsuhiko/unix-ipc">unix-ipc</a> crate
+中，我就是这样做的。</p>
+<p>我在这里建立了一个二级缓冲区，它可以放置文件描述符。同样，这里必须使用 TLS。</p>
+<p>API 大致如下：</p>
+<pre><code class="language-rs">pub fn serialize&lt;S: Serialize&gt;(s: S) -&gt; io::Result&lt;(Vec&lt;u8&gt;, Vec&lt;RawFd&gt;)&gt; {
+    let mut fds = Vec::new();
+    let mut out = Vec::new();
+    enter_ipc_mode(|| bincode::serialize_into(&amp;mut out, &amp;s), &amp;mut fds)
+        .map_err(bincode_to_io_error)?;
+    Ok((out, fds))
+}
+</code></pre>
+<p>从用户的角度来看，这些都是透明的。当一个 Serailize 实现遇到了一个文件对象时，它可以检查是否应该使用 IPC 的序列化，如果是，它可以把 FD
+存起来，<code>enter_ipc_mode</code> 基本上将 fds 绑定到了一个线程局部变量里，接着调用 <code>register_fd</code>
+注册它。例如，下面展示了内部句柄的序列化方式：</p>
+<pre><code class="language-rs">impl&lt;F: IntoRawFd&gt; Serialize for Handle&lt;F&gt; {
+    fn serialize&lt;S&gt;(&amp;self, serializer: S) -&gt; Result&lt;S::Ok, S::Error&gt;
+    where
+        S: ser::Serializer,
+    {
+        if is_ipc_mode() {
+            // effectively a weird version of `into_raw_fd` that does
+            // consume
+            let fd = self.extract_raw_fd();
+            let idx = register_fd(fd);
+            idx.serialize(serializer)
+        } else {
+            Err(ser::Error::custom(&quot;can only serialize in ipc mode&quot;))
+        }
+    }
+}
+</code></pre>
+<p>然后是反序列化：</p>
+<pre><code class="language-rs">impl&lt;'de, F: FromRawFd + IntoRawFd&gt; Deserialize&lt;'de&gt; for Handle&lt;F&gt; {
+    fn deserialize&lt;D&gt;(deserializer: D) -&gt; Result&lt;Handle&lt;F&gt;, D::Error&gt;
+    where
+        D: de::Deserializer&lt;'de&gt;,
+    {
+        if is_ipc_mode() {
+            let idx = u32::deserialize(deserializer)?;
+            let fd = lookup_fd(idx).ok_or_else(|| de::Error::custom(&quot;fd not found in mapping&quot;))?;
+            unsafe { Ok(Handle(Mutex::new(Some(FromRawFd::from_raw_fd(fd))))) }
+        } else {
+            Err(de::Error::custom(&quot;can only deserialize in ipc mode&quot;))
+        }
+    }
+}
+</code></pre>
+<p>从用户的角度来看，他只需要通过 IPC channel 传递一个 <code>Handle::new(my_file)</code> 就能实现。</p>
+<h2 id="serde-的现状"><a class="header" href="#serde-的现状">Serde 的现状</a></h2>
+<p><em>State of Serde</em></p>
+<p>不幸的是，上面所有的东西都依赖线程本地变量和对内信令。整体上都不是很好，如果有一天出了 serde 2.0，我希望有更好的方法实现上面的内容。</p>
+<p>实际上，现在的 serde 仍然有不少问题和上述的 Hack 行为相关。</p>
+<ul>
+<li><a href="https://github.com/serde-rs/serde/issues/1463">serde requires in-band signalling</a></li>
+<li><a href="https://github.com/serde-rs/serde/issues/1183">Internal buffering disrupts format-specific deserialization features</a></li>
+<li><a href="https://github.com/serde-rs/json/issues/721">serde_json's arbitrary precision feature incompatible with flatten</a></li>
+</ul>
+<p>说到这里，在我们需要重写 serde 之前，肯定还有进一步可以被滥用的地方。但是现在是时候应该慢慢考虑 serve
+未来版本的设想了它应该对数据模型的支持更友好，可以用更少的 Hack 来脱离规定框架。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../trans/2023-01-01-译-拓展-Rust-中的-Map.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../trans/2023-01-01-译-拓展-Rust-中的-Map.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

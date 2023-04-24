@@ -1,0 +1,807 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>springboot - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../../favicon.svg">
+                        <link rel="shortcut icon" href="../../favicon.png">
+                <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+                <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/java/java.html"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../../note/java/springboot.html" class="active"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../../note/frontend/http.html"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/magic/riscv.html"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust.html"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../../draft/计算机网络.html"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="sprintboot"><a class="header" href="#sprintboot">SprintBoot</a></h1>
+<h2 id="统一参数校验"><a class="header" href="#统一参数校验">统一参数校验</a></h2>
+<h3 id="增加对枚举的校验规则"><a class="header" href="#增加对枚举的校验规则">增加对枚举的校验规则</a></h3>
+<p><a href="https://www.zhangshengrong.com/p/zAaOQQOrXd/">springboot validator 枚举值校验功能实现</a></p>
+<h3 id="全局处理校验失败"><a class="header" href="#全局处理校验失败">全局处理校验失败</a></h3>
+<p><a href="https://bbs.huaweicloud.com/blogs/188118">全局处理响应数据</a></p>
+<h2 id="mybatisplus"><a class="header" href="#mybatisplus">MybatisPlus</a></h2>
+<h3 id="1-配置引入"><a class="header" href="#1-配置引入">1. 配置引入</a></h3>
+<p>1.1 pom.xml</p>
+<pre><code class="language-xml">&lt;!--基础依赖--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.baomidou&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis-plus-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;3.4.2&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;!--生成器依赖--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.baomidou&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis-plus-generator&lt;/artifactId&gt;
+    &lt;version&gt;3.3.2&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;  &lt;!--生成器模板 Velocity(默认) FreeMarker Beetl--&gt;
+    &lt;groupId&gt;org.apache.velocity&lt;/groupId&gt;
+    &lt;artifactId&gt;velocity&lt;/artifactId&gt;
+    &lt;version&gt;1.7&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>1.2 yml</p>
+<pre><code class="language-yml">mybatis-plus:
+  # 打印 sql 语句
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # @EnumValue 配置
+  type-enums-package: com.southwind.mybatis_plus.enums
+  # @TableLogic
+  global-config:
+    db-config:
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+</code></pre>
+<h3 id="2-源码"><a class="header" href="#2-源码">2. 源码</a></h3>
+<p>META-INF/spring.factories</p>
+<pre><code class="language-java">@ConfigurationProperties(
+    prefix = &quot;spring.datasource&quot;
+)
+public class DataSourceProperties implements BeanClassLoaderAware, InitializingBean {
+    private ClassLoader classLoader;
+    private String name;
+    private boolean generateUniqueName = true;
+    private Class&lt;? extends DataSource&gt; type;
+    private String driverClassName;
+    private String url;
+    ...
+// mybatis_plus 舍弃了 xml 文档的配置方式，采用配置类读取 yml
+</code></pre>
+<h3 id="3-注解"><a class="header" href="#3-注解">3. 注解</a></h3>
+<ul>
+<li>
+<p>基本注解</p>
+<pre><code class="language-java">@TableName(value = &quot;mybatis_plus_user&quot;) //tablename=value
+@TableId(value = &quot;id&quot;, type = IdType.NONE)  // 默认雪花 id, entity 要 Long，数据库要 bigint 类型才能存进去
+@TableField(value = &quot;age&quot;, select = false, exist = false) // 是否查询，是否存在
+</code></pre>
+</li>
+<li>
+<p>自动填充</p>
+<pre><code class="language-java">// (create_time, update_time 等),需要配置 MetaObjectHandler
+@TableField(fill = FieldFill.INSERT_UPDATE)
+private Date createTime;
+
+    @Component
+    public class MyMetaObjectHandler implements MetaObjectHandler {
+        @Override
+        public void insertFill(MetaObject metaObject) {
+            this.setFieldValByName(&quot;createTime&quot;, new Date(), metaObject);
+            this.setFieldValByName(&quot;updateTime&quot;, new Date(), metaObject);
+        }
+        @Override
+        public void updateFill(MetaObject metaObject) {
+            this.setFieldValByName(&quot;updateTime&quot;, new Date(), metaObject);
+        }
+    }
+</code></pre>
+</li>
+<li>
+<p>乐观锁</p>
+<pre><code class="language-java">//  where version = 1..., 配置 OptimisticLockerConfig，增加 version 字段
+@Version  // 每次 update 后，version 都会自增 1,
+private int version;
+
+    @Configuration
+    public class MybatisPlusConfig {
+        @Bean
+        public MybatisPlusInterceptor optimisticLocerInceptor() {
+            MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
+            mybatisPlusInterceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+            return mybatisPlusInterceptor;
+        }
+    }
+</code></pre>
+</li>
+<li>
+<p>枚举映射</p>
+<pre><code class="language-java">@EnumValue
+private StatusEnum statusEnum;
+public enum StatusEnum {
+    // 1. 实体类加注解，yml 需配置
+    WORK(1, &quot;上班&quot;),
+    REST(0, &quot;休息&quot;);
+    StatusEnum(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+    @EnumValue
+    private Integer code;  // 状态
+    private String msg;    // 描述
+}
+/* mybatis-plus:
+*   type-enums-package: com.southwind.mybatis_plus.enums
+*/
+public enum StatusEnum2 implements IEnum {
+    // 2. 实体类实现接口，yml 无需配置
+    WORK(1, &quot;上班&quot;),
+    REST(0, &quot;休息&quot;);
+    StatusEnum2(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+    // 不用加 @EnumValue 注解
+    private Integer code;  // 状态
+    private String msg;    // 描述
+    // 需要重写方法
+    @Override
+    public Serializable getValue() {
+        return this.code;
+    }
+}
+
+// 5. 逻辑删除 where deleted=0
+@TableLogic // 增加 deleted 字段
+private Integer deleted;
+</code></pre>
+</li>
+</ul>
+<h3 id="4-crud"><a class="header" href="#4-crud">4. CRUD</a></h3>
+<ul>
+<li>
+<p>条件查询</p>
+<pre><code class="language-java">mapper.selectList(null);  // 查询全部
+QueryWrapper wrapper = new QueryWrapper();
+
+wrapper.eq(&quot;name&quot;, &quot;张三&quot;); // ==
+wrapper.lt(&quot;age&quot;, 3); // &lt;
+wrapper.gt(&quot;age&quot;, 3); // &gt;
+wrapper.ge(&quot;age&quot;, 3); // &gt;=
+wrapper.ne(&quot;age&quot;, 3); // &lt;&gt;
+
+Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+map.put(&quot;name&quot;, &quot;张三&quot;);
+map.put(&quot;age&quot;, 13);
+wrapper.allEq(map);
+</code></pre>
+</li>
+<li>
+<p>模糊查询</p>
+<pre><code class="language-java">wrapper.like(&quot;name&quot;, &quot;红&quot;); // 模糊查询 (name like 红)
+wrapper.likeLeft(&quot;name&quot;, &quot;红&quot;); // 模糊查询 (name like %红) 以红开头
+wrapper.likeRight(&quot;name&quot;, &quot;红&quot;); // 模糊查询 (name like 红%) 以红结尾
+
+wrapper.inSql(&quot;age&quot;, &quot;sql 语句&quot;); // (where age in ResultSet)
+wrapper.orderByAsc(&quot;age&quot;); //升序
+
+wrapper.orderByDesc(&quot;age&quot;); //升序
+wrapper.having(&quot;age &gt; 8&quot;); // 两句可以叠加
+mapper.selectList(wrapper);
+
+mapper.selectMaps(wrapper); // 结果以 Map 形式返回
+</code></pre>
+</li>
+<li>
+<p>分页查询 (配置拦截器)</p>
+<pre><code class="language-java">Page&lt;Mybatis_plus_user&gt; page = new Page&lt;&gt;(1, 3); // 每一页取两条记录
+Page&lt;Mybatis_plus_user&gt; result = mapper.selectPage(page, null);
+result.getRecords().forEach(System.out::println);
+
+@Bean
+public PaginationInnerInterceptor paginationInnerInterceptor() {
+    return new PaginationInnerInterceptor();
+}
+</code></pre>
+</li>
+</ul>
+<h3 id="5-自定义-sql"><a class="header" href="#5-自定义-sql">5. 自定义 SQL</a></h3>
+<pre><code>```java
+@Select(&quot;Select p.*, u.id userId, u.name userName from mybatis_plus_product p, mybatis_plus_user u where p.id=#{id}&quot;)
+List&lt;UserVO&gt; findVOsById(Integer id);
+// 适用于 VO 且 u.id, u.name 没有被封装为一个对象，用 UserName 代替 user 与实体类对应
+```
+</code></pre>
+<h3 id="6-generator"><a class="header" href="#6-generator">6. Generator</a></h3>
+<pre><code>```java
+public class MybatisPlusGenerator {
+    public static void main(String[] args) {
+        AutoGenerator autoGenerator = new AutoGenerator();
+        // 数据源
+        autoGenerator.setDataSource(new DataSourceConfig()
+                .setDbType(DbType.MYSQL)
+                .setUrl(&quot;jdbc:mysql://localhost:3306/library?serverTimezone=GMT&quot;)
+                .setUsername(&quot;root&quot;)
+                .setPassword(&quot;123&quot;)
+                .setDriverName(&quot;com.mysql.cj.jdbc.Driver&quot;)
+        );
+        // 全局配置
+        autoGenerator.setGlobalConfig(new GlobalConfig()
+                .setOutputDir( &quot;src/main/java&quot;)
+                .setOpen(false)
+                .setAuthor(&quot;trdthg&quot;)
+                .setServiceName(&quot;%sService&quot;)  // 设定 service 类名不带 I
+        );
+        // 包信息
+        autoGenerator.setPackageInfo(new PackageConfig()
+                .setParent(&quot;com.southwind.mybatis_plus&quot;)
+                .setModuleName(&quot;generator&quot;)
+                .setController(&quot;controller&quot;)
+                .setEntity(&quot;entity&quot;)
+                .setMapper(&quot;mapper&quot;)
+                .setService(&quot;service&quot;)
+                .setServiceImpl(&quot;service.impl&quot;)
+        );
+        // 策略配置
+        autoGenerator.setStrategy(new StrategyConfig()
+                .setEntityLombokModel(true)
+                .setColumnNaming(NamingStrategy.underline_to_camel) //数据库下划线自动转 entity 驼峰
+                .setNaming(NamingStrategy.underline_to_camel)
+        );
+        autoGenerator.execute();
+    }
+}
+
+```
+</code></pre>
+<h2 id="redis"><a class="header" href="#redis">Redis</a></h2>
+<ul>
+<li>pom.xml</li>
+</ul>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;version&gt;2.4.4&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-pool2&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<ul>
+<li>yml</li>
+</ul>
+<pre><code class="language-yml">sprint:
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+</code></pre>
+<ul>
+<li>controller</li>
+</ul>
+<pre><code class="language-java">@RestController
+public class RedisController {
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @PostMapping(&quot;/set&quot;)
+    public void set(@RequestBody Student student) {
+        redisTemplate.opsForValue().set(&quot;student&quot;, student);
+        System.out.println(&quot;设置完成&quot;);
+    }
+
+    @GetMapping(&quot;/get/{key}&quot;)
+    public Student get(@PathVariable(&quot;key&quot;) String key) {
+        return (Student) redisTemplate.opsForValue().get(key);
+    }
+
+    @DeleteMapping(&quot;/delete/{key}&quot;)
+    public boolean delete(@PathVariable(&quot;key&quot;) String key) {
+        return !redisTemplate.delete(key);
+    }
+
+    @GetMapping(&quot;/string&quot;)
+    public String string() {
+        redisTemplate.opsForValue().set(&quot;string&quot;, &quot;hello world&quot;);
+        return (String) redisTemplate.opsForValue().get(&quot;string&quot;);
+    }
+
+    @GetMapping(&quot;/list&quot;)
+    public List&lt;String&gt; list() {
+        ListOperations&lt;String, String&gt; listOperations = redisTemplate.opsForList();
+        listOperations.leftPush(&quot;list&quot;, &quot;aaa&quot;);
+        listOperations.leftPush(&quot;list&quot;, &quot;bbb&quot;);
+        listOperations.leftPush(&quot;list&quot;, &quot;ccc&quot;);
+        return listOperations.range(&quot;list&quot;, 0, 1);
+    }
+
+    @GetMapping(&quot;/set&quot;)
+    public Set&lt;String&gt; set() {
+        SetOperations&lt;String, String&gt; setOperations = redisTemplate.opsForSet();
+        setOperations.add(&quot;set&quot;, &quot;集合 1&quot;);
+        setOperations.add(&quot;set&quot;, &quot;集合 4&quot;);
+        return setOperations.members(&quot;set&quot;);
+    }
+
+    @GetMapping(&quot;/zset&quot;)
+    public Set&lt;String&gt; zset() {
+        ZSetOperations&lt;String, String&gt; zSetOperations = redisTemplate.opsForZSet();
+        //zSetOperations.add(&quot;zset&quot;, &quot;hello&quot;, 1);
+        zSetOperations.add(&quot;zset&quot;, &quot;hello&quot;, 2);
+        zSetOperations.add(&quot;zset&quot;, &quot;world&quot;, 1);
+        zSetOperations.add(&quot;zset&quot;, &quot;hello&quot;, 3);
+        return zSetOperations.range(&quot;zset&quot;, 0, 2);
+    }
+
+    @GetMapping(&quot;/hash&quot;)
+    public String hash() {
+        HashOperations hashOperations = redisTemplate.opsForHash();
+        hashOperations.put(&quot;hash&quot;, &quot;id&quot;, &quot;1&quot;);
+        hashOperations.put(&quot;hash&quot;, &quot;name&quot;, &quot;张三&quot;);
+        hashOperations.put(&quot;hash&quot;, &quot;score&quot;, &quot;1.345&quot;);
+        return (String) hashOperations.get(&quot;hash&quot;, &quot;name&quot;);
+    }
+
+}
+</code></pre>
+<h2 id="shiro"><a class="header" href="#shiro">Shiro</a></h2>
+<h3 id="核心组件"><a class="header" href="#核心组件">核心组件</a></h3>
+<ol>
+<li>UsernamePasswordToken: 封装用户登录信息，根据信息创建令牌 token</li>
+<li>SecurityManager：核心部分，负责安全认证和授权</li>
+<li>Subject：抽象概念，包含了用户信息</li>
+<li>Realm：开发者自定义模块，登录授权的逻辑具体实现</li>
+<li>Authenticationinfo：用户角色信息，认证时使用</li>
+<li>Authorization：角色权限信息，授权时使用</li>
+<li>DefaultWebSecurityManager：开发者将 Realm 注入其中才能生效</li>
+<li>ShiroFilterFactoryBean：过滤器对象，shiro 通过创建 filter 对象执行开发者定义的过滤规则 ::: tip
+用户与权限没有直接关联 用户 - 角色 - 权限 三者之间为多对多关系 :::</li>
+</ol>
+<h3 id="依赖"><a class="header" href="#依赖">依赖</a></h3>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;
+    &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt;
+    &lt;version&gt;1.7.1&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h3 id="过滤器的实现"><a class="header" href="#过滤器的实现">过滤器的实现</a></h3>
+<pre><code class="language-java">public class ShiroUserRealm extends AuthorizingRealm {
+
+    @Autowired
+    ShiroUserService shiroUserService;
+    // 授权
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        return null;
+    }
+    // 验证
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
+        ShiroUser shiroUser = shiroUserService.findByUsername(usernamePasswordToken.getUsername());
+        if (shiroUser != null) {
+            // 密码是否正确不用手动验证，丢进去就行
+            // 不正确会抛出密码错误异常
+            return new SimpleAuthenticationInfo(shiroUser, shiroUser.getPassword(), getName());
+        }
+        // 会自动抛出账户不存在的异常
+        return null;
+    }
+}
+</code></pre>
+<h3 id="配置类"><a class="header" href="#配置类">配置类</a></h3>
+<ol>
+<li>Realm Manager Factory 三层注入</li>
+<li>@Qualifier(&quot;defaultWebSecurityManager&quot;) 按照名字查询 Bean</li>
+</ol>
+<pre><code class="language-java">@Configuration
+public class ShiroConfig {
+
+    @Bean
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier(&quot;defaultWebSecurityManager&quot;) DefaultWebSecurityManager defaultWebSecurityManager) {
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
+        return shiroFilterFactoryBean;
+    }
+
+    @Bean
+    public DefaultWebSecurityManager defaultWebSecurityManager(@Qualifier(&quot;shiroUserRealm&quot;) ShiroUserRealm shiroUserRealm) {
+        DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
+        defaultWebSecurityManager.setRealm(shiroUserRealm);
+        return defaultWebSecurityManager;
+    }
+
+    @Bean
+    public ShiroUserRealm shiroUserRealm() {
+        return new ShiroUserRealm();
+    }
+
+}
+</code></pre>
+<h3 id="授权认证规则"><a class="header" href="#授权认证规则">授权认证规则</a></h3>
+<ol>
+<li>认证过滤器
+<ul>
+<li>anon：无需认证</li>
+<li>authc：必须认证</li>
+<li>authcBasic：需要通过 HttpBasic 认证</li>
+<li>user：不一定需要认证，只需要被记录就不需要再次认证</li>
+</ul>
+</li>
+<li>授权过滤器
+<ul>
+<li>perms：必须拥有某个权限</li>
+<li>role：必须拥有某个角色</li>
+<li>port：请求端口必须是指定值</li>
+<li>rest：请求必须基于 Restful，GET、POST、PUT、DELETE</li>
+<li>ssl：必须是安全的 URL 请求，协议是 HTTPS</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-java">@Bean
+public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier(&quot;defaultWebSecurityManager&quot;) DefaultWebSecurityManager defaultWebSecurityManager) {
+    ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+    shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
+    // 权限设置
+    Map&lt;String, String&gt; map = new Hashtable&lt;&gt;();
+    map.put(&quot;/index&quot;, &quot;anon&quot;);
+    map.put(&quot;/userspace&quot;, &quot;authc&quot;);
+    map.put(&quot;/manage&quot;, &quot;perms[manager]&quot;);
+    map.put(&quot;/root&quot;, &quot;roles[vip]&quot;);
+    map.put(&quot;/special&quot;, &quot;authc, roles[vip]&quot;);
+    shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
+    shiroFilterFactoryBean.setLoginUrl(&quot;shiroUser/login&quot;);
+    return shiroFilterFactoryBean;
+}
+</code></pre>
+<h2 id="spring-cloud-alibaba"><a class="header" href="#spring-cloud-alibaba">Spring-Cloud-Alibaba</a></h2>
+<h3 id="服务治理-nacos"><a class="header" href="#服务治理-nacos">服务治理 Nacos</a></h3>
+<p><a href="https://nacos.io/zh-cn/docs/quick-start.html">官网教程</a> Nacos 网页使用
+nacos 默认需要配置 nginx 才能通过网页访问，执行<code>sh startup.sh -m standalone</code>可以直接访问</p>
+<ol>
+<li>服务注册
+<ul>
+<li>在 SpringBoot 下新建<code>Provider</code>子模块，继承<code>SCAlbaba</code>父项目，</li>
+</ul>
+<pre><code class="language-xml">&lt;parent&gt;
+    &lt;!--&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;--&gt;
+    &lt;!--&lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;--&gt;
+    &lt;!--&lt;version&gt;2.4.5&lt;/version&gt;--&gt;
+    &lt;!--&lt;relativePath/&gt; &amp;lt;!&amp;ndash; lookup parent from repository &amp;ndash;&amp;gt;--&gt;
+    &lt;groupId&gt;com.example&lt;/groupId&gt;
+    &lt;artifactId&gt;southwind_springcloudalibaba&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+&lt;/parent&gt;
+</code></pre>
+<ul>
+<li>加上 web 依赖，加上 nacos-discovery 依赖</li>
+</ul>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;/artifactId&gt;
+    &lt;version&gt;2021.1&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<ul>
+<li>配置 yml</li>
+</ul>
+<pre><code class="language-yml">spring:
+cloud:
+    nacos:
+    discovery:
+        server-addr: localhost:8848
+application:
+    name: provider
+server:
+port: 8082
+</code></pre>
+</li>
+</ol>
+<p>::: tip 提示 Idea 通过编辑配置可以多开应用 ::: 2. 服务发现 -
+在 SpringBoot 下新建<code>Consumer</code>子模块，继承<code>SCAlbaba</code>父项目， - 继承和依赖同上 - yml 只用配端口
+<code>yml server: port: 8082</code> - controller ```java @RestController public class
+ConsumerController {</p>
+<pre><code>        @Autowired
+        private DiscoveryClient discoveryClient;
+
+        @GetMapping(&quot;/getInstance&quot;)
+        public List&lt;ServiceInstance&gt; getInstance() {
+            return this.discoveryClient.getInstances(&quot;provider&quot;);
+        }
+
+    }
+```
+</code></pre>
+<h3 id="负载均衡"><a class="header" href="#负载均衡">负载均衡</a></h3>
+<ol>
+<li>服务调用 Privider 中提供了 getPort 方法，多个 Provider 实例由 Consumer 调用 Provider</li>
+</ol>
+<pre><code class="language-java">@RestController
+public class ProviderController {
+
+    @Value(&quot;${server.port}&quot;)   // el 表达式，读取 yml 文件中的内容
+    private String port;
+
+    @GetMapping(&quot;/getPort&quot;)
+    public String getPort() {
+        return port;
+    }
+
+}
+</code></pre>
+<p>Consumer</p>
+<pre><code class="language-java">@RestController
+@Slf4j // 日志打印
+public class ConsumerController {
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
+    @Autowired
+    private RestTemplate restTemplate;  // 需要手动装载
+
+    @GetMapping(&quot;/port&quot;)
+    public String getPort() {
+        // 1. 获取随机一个 provider 实例
+        List&lt;ServiceInstance&gt; providers = discoveryClient.getInstances(&quot;provider&quot;);
+        int randomIndex = ThreadLocalRandom.current().nextInt(providers.size());
+        ServiceInstance provider = providers.get(randomIndex);
+        String uri = provider.getUri().toString();  // uri： ip + port
+        String url = uri + &quot;/getPort&quot;;
+        // 2. 接口调用
+        log.info(&quot;调用的端口是&quot; + provider.getHost());
+        String port = restTemplate.getForObject(url, String.class);
+        return &quot;调用 Consumer，调用了端口为&quot; + port + &quot;的 Provider 的 getPort&quot;;
+    }
+}
+</code></pre>
+<p>::: warning restTemplte 无法自动注入，需要手动注入 :::</p>
+<pre><code class="language-java">@Configuration
+public class ConsumerConfiguration {
+
+    // 放到 Main 下也可
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+</code></pre>
+<ol start="2">
+<li>
+<p>Ribbon 负载均衡</p>
+<ul>
+<li>config 配置</li>
+</ul>
+<pre><code class="language-java">@Bean
+@LoadBalanced
+public RestTemplate restTemplate() {
+    return new RestTemplate();
+}
+</code></pre>
+<ul>
+<li>controller</li>
+</ul>
+<pre><code class="language-java">// Ribbon 负载均衡
+@GetMapping(&quot;/getPort2&quot;)
+public String getPort2() {
+    // 默认轮询算法
+    String port = restTemplate.getForObject(&quot;http://provider/getPort&quot;, String.class);
+    return &quot;调用 Consumer，调用了端口为&quot; + port + &quot;的 Provider 的 getPort&quot;;
+}
+</code></pre>
+<ul>
+<li>负载均衡算法（可自定义）</li>
+</ul>
+<pre><code class="language-java">@Bean
+public IRule myRule(){
+	return new RandomRule();
+}
+</code></pre>
+<ol>
+<li>RoundRobinRule：	轮询</li>
+<li>RandomRule：	随机</li>
+<li>AvaliabilityFilteringRule：	会先过滤由于多次访问故障而处于断路器跳闸的状态的服务和并发的连接数量超过阈值的服务，然后对剩余的服务列表按照轮询策略</li>
+<li>WeightedResponseTimeRule：	根据平均响应时间计算所有服务的权重，响应时间越快服务权重越大</li>
+<li>RetryRule：	先按照 RoundRobinRule 策略获取服务，如果获取服务失败会在指定时间内重试</li>
+<li>BestAvailableRule：	会先过滤掉由于多次访问故障二处于断路器跳闸状态的服务，然后选择一个并发量最小的服务</li>
+<li>ZoneAvoidanceRule：	默认规则，复合判断 server 所在的区域的性能和 server 的可用性选择服务器</li>
+</ol>
+</li>
+</ol>
+<h3 id="待续"><a class="header" href="#待续">待续...</a></h3>
+<h2 id="待续-1"><a class="header" href="#待续-1">待续...</a></h2>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../../note/java/java.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../../note/java/spring.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../../note/java/java.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../../note/java/spring.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

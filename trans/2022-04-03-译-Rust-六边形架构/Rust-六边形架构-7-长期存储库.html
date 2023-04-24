@@ -1,0 +1,943 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Rust-六边形架构-7-长期存储库 - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../../favicon.svg">
+                        <link rel="shortcut icon" href="../../favicon.png">
+                <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+                <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html" class="active"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/java/java.html"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../../note/java/springboot.html"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../../note/frontend/http.html"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/magic/riscv.html"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust.html"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../../draft/计算机网络.html"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <blockquote>
+<p>原文链接：https://alexis-lozano.com/hexagonal-architecture-in-rust-7/</p>
+<p>翻译：<a href="https://github.com/trdthg">trdthg</a></p>
+<p>选题：<a href="https://github.com/trdthg">trdthg</a></p>
+<p>本文由 <a href="https://Rustt.org">Rustt</a> 翻译，<a href="https://studyrust.org">StudyRust</a> 荣誉推出</p>
+</blockquote>
+<h1 id="2021-10-17---rust-六边形架构-7---长期存储库"><a class="header" href="#2021-10-17---rust-六边形架构-7---长期存储库">2021-10-17 - Rust 六边形架构 #7 - 长期存储库</a></h1>
+<p>这里是本系列的最后一篇文章了。非常感谢你，在七篇文章之后仍然在这里的匿名读者。我们已经介绍了很多东西：我们有一个域，我们能够存储数据，我们可以使用 CLI 和
+HTTP 服务器来操作我们的程序。那么我们还需要做什么呢？哦，我看到客户了，我们问问他吧。</p>
+<ul>
+<li>嘿，最近好吗？</li>
+<li>我很好，但你的软件不是很好。</li>
+<li>哦... 有什么问题吗？</li>
+<li>当我重启程序时，所有的数据都丢失了。</li>
+<li>啊，对，那很正常。我们现在依然是在直接操作内存。</li>
+<li>你能让这些数据得以长期保存吗？</li>
+<li>这些数据？当然可以。您能给我们提供保存的地方吗？</li>
+<li>嗯，我不知道。我要去找人问问。你能不能让程序暂时把数据存储再硬盘上？</li>
+<li>马上完成！</li>
+</ul>
+<p>好的，我们想要把数据保存在一个地方，当程序重启后也不会被删除。我们需要使用文件，同时因为我们想要使用一种可靠的方式去查询数据，我们将使用 SQL。文件和
+SQL... 有东西在我脑海里尖叫者 <strong>SQLite</strong></p>
+<p>有一点好处是，我们现在已经实现了一个存储库系统，我们只需要填加一个新的存储库，以及一个命令行开关去决定使用那种存储库即可。因为有六边形架构，我们的域完全不用修改
+: D</p>
+<h2 id="使用-sqlite-作为本地存储"><a class="header" href="#使用-sqlite-作为本地存储">使用 SQLite 作为本地存储</a></h2>
+<h3 id="创建数据库"><a class="header" href="#创建数据库">创建数据库</a></h3>
+<p>首先我们要使用 sqlite3 提供的命令行工具创建一个数据库：</p>
+<pre><code>sqlite3 path/to/the/database.sqlite
+</code></pre>
+<p>你应该已经得到了 SQLite 的提示。现在我们要创建两张表。为什么是两张？因为一个宝可梦有很多种类型。所以我们不能再一列中存储所有的类型。</p>
+<p>实际上，宝可梦表与类型表是多对多的关系：</p>
+<ul>
+<li>一只宝可梦有多种类型</li>
+<li>一个类型可以对应多个宝可梦</li>
+</ul>
+<p>所以完整的数据库应该是下面的样子，它一共有 3 张表：</p>
+<pre><code>pokemons           | number          | name     |
+
+types              | id              | name     |
+
+pokemons_to_types  | pokemons.number | types.id |
+</code></pre>
+<p>但是在这个例子里，因为我们有类型的 <code>id</code>，暂时我们只需要两张表：</p>
+<pre><code>pokemons | number          | name |
+
+types    | pokemons.number | name |
+</code></pre>
+<p>让我们回到 SQLite 的命令行中。首先我们要激活外键 (默认是关闭的)。</p>
+<blockquote>
+<p>注意：这个操作只会在本次连接中生效，</p>
+</blockquote>
+<pre><code class="language-sql">pragma foreign_keys = 1;
+</code></pre>
+<p>现在我们开始创建数据表：</p>
+<pre><code class="language-sql">create table pokemons (
+    number integer primary key,
+    name text
+);
+
+create table types (
+    pokemon_number integer,
+    name text,
+    foreign key (pokemon_number) references pokemons (number) on delete cascade,
+    primary key (pokemon_number, name)
+);
+</code></pre>
+<p><code>on delete cascade</code> 的效果是当一个宝可梦被删除时，类型表中所有 <code>pokemon_number</code> 和 <code>number</code>
+相同的行也会被删除。这样我们在程序中就不用在关心了：) 现在你可以使用 Ctrl-D 退出 SQLite 了。</p>
+<h2 id="添加选择存储库的开关"><a class="header" href="#添加选择存储库的开关">添加选择存储库的开关</a></h2>
+<p>现在我们有 SQLite 作为数据库，我们要再添加一个命令行参数告诉程序我们想使用 SQLite。大概效果是这样</p>
+<pre><code>pokedex --sqlite path/to/the/database.sqlite
+</code></pre>
+<p>当你使用 cargo run 时需要改为这样：</p>
+<pre><code>cargo run -- --sqlite path/to/the/database.sqlite
+</code></pre>
+<pre><code class="language-rs">fn main() { let repo = Arc::new(InMemoryRepository::new());
+
+    let matches = App::new(crate_name!())
+        .version(crate_version!())
+        .author(crate_authors!())
+        .arg(Arg::with_name(&quot;cli&quot;).long(&quot;cli&quot;).help(&quot;Runs in CLI mode&quot;))
+        .arg(Arg::with_name(&quot;sqlite&quot;).long(&quot;sqlite&quot;).value_name(&quot;PATH&quot;))
+        .get_matches();
+
+    match matches.occurrences_of(&quot;cli&quot;) {
+        0 =&gt; api::serve(&quot;localhost:8000&quot;, repo),
+        _ =&gt; cli::run(repo),
+    }
+}
+</code></pre>
+<p>现在数据库开关已经加上了，通过 <code>--help</code> 查看：</p>
+<pre><code>OPTIONS: --sqlite &lt;PATH&gt;
+</code></pre>
+<p>接下来我们去初始化一个暂时还没有实现的 <code>SqliteRepository</code>：</p>
+<pre><code class="language-rs">use repositories::pokemon::{..., SqliteRepository};
+
+fn main() {
+    let matches = ...
+
+    let repo = build_repo(matches.value_of(&quot;sqlite&quot;));
+
+    match matches.occurrences_of(&quot;cli&quot;) {
+        0 =&gt; api::serve(&quot;localhost:8000&quot;, repo),
+        _ =&gt; cli::run(repo),
+    }
+
+}
+
+fn build_repo(sqlite_value: Option&lt;&amp;str&gt;) -&gt; Arc&lt;dyn Repository&gt; {
+    if let Some(path) = sqlite_value {
+        match SqliteRepository::try_new(path) {
+            Ok(repo) =&gt; return Arc::new(repo),
+            _ =&gt; panic!(&quot;Error while creating sqlite repo&quot;),
+        }
+    }
+
+    Arc::new(InMemoryRepository::new())
+}
+</code></pre>
+<p>当 <code>--sqlite</code> 打开时，程序会尝试初始化 SQLite 存储库。如果初始化失败，程序就会崩溃并打印错误信息。如果没有开启 <code>--sqlite</code>
+就会使用默认的内存存储库。</p>
+<h2 id="实现-sqlite-存储库"><a class="header" href="#实现-sqlite-存储库">实现 SQlite 存储库</a></h2>
+<p>我从文章一开始就在谈论 SQLite。现在我们需要一种从 Rust 调用数据库的方法。我们将使用 <code>rusqlite</code> 去实现。让我们在
+<code>Cargo.toml</code> 中导入它：</p>
+<pre><code class="language-toml">[dependencies]
+rusqlite = &quot;0.26.0&quot;
+</code></pre>
+<p>现在我们要实现 <code>SQLiteRepository</code>，我要在 <code>InMemoryRepository</code> 所在的文加中创建
+<code>SQLiteRepository</code>。当然，这不是强制的，你也可以根据去要把它放在一个新文件中：</p>
+<pre><code class="language-rs">use rusqlite::Connection;
+
+pub struct SqliteRepository { connection: Mutex&lt;Connection&gt;, }
+</code></pre>
+<p><em>main.rs</em> 中的 <code>use</code> 现在应该不会报错了，接着实现 <code>try_new</code> 方法：</p>
+<pre><code class="language-rs">use rusqlite::{..., OpenFlags};
+
+impl SqliteRepository {
+    pub fn try_new(path: &amp;str) -&gt; Result&lt;Self, ()&gt; {
+        let connection = match Connection::open_with_flags(path, OpenFlags::SQLITE_OPEN_READ_WRITE)
+        {
+            Ok(connection) =&gt; connection,
+            _ =&gt; return Err(()),
+        };
+
+        match connection.execute(&quot;pragma foreign_keys = 1&quot;, []) {
+            Ok(_) =&gt; Ok(Self {
+                connection: Mutex::new(connection),
+            }),
+            _ =&gt; Err(()),
+        }
+    }
+
+}
+</code></pre>
+<p>首先，我们调用 <code>rusqlite</code> 去新建一个对数据文件的连接。而且我们通过 <code>OpenFlags</code> 去明确禁止当文件不存在时 <code>rusqulite</code>
+去自动创建数据文件。如果连接成功，我们就会执行只前提到的命令，确保外键开启。最后我们去返回这个存储库。</p>
+<p>如果你现在尝试运行程序，还不能通过编译，为什么？因为我们还没有实现 <code>Repository</code> Trait 定义的的所有方法：</p>
+<pre><code class="language-rs">impl Repository for SqliteRepository {
+    fn insert(
+        &amp;self,
+        number: PokemonNumber,
+        name: PokemonName,
+        types: PokemonTypes,
+    ) -&gt; Result&lt;Pokemon, InsertError&gt; {
+        Err(InsertError::Unknown)
+    }
+
+    fn fetch_all(&amp;self) -&gt; Result&lt;Vec&lt;Pokemon&gt;, FetchAllError&gt;{
+        Err(FetchAllError::Unknown)
+    }
+
+    fn fetch_one(&amp;self, number: PokemonNumber) -&gt; Result&lt;Pokemon, FetchOneError&gt; {
+        Err(FetchOneError::Unknown)
+    }
+
+    fn delete(&amp;self, number: PokemonNumber) -&gt; Result&lt;(), DeleteError&gt; {
+        Err(DeleteError::Unknown)
+    }
+}
+</code></pre>
+<p>编译通过了，但是我们的存储库依然没什么用现在。接下来我们要实现那些方法 :)</p>
+<h2 id="辅助函数"><a class="header" href="#辅助函数">辅助函数</a></h2>
+<p>在我们实现存储库需要的函数之前，让我们先定义两个辅助函数。我们想要查询一个或者是所有宝可梦，用 SQL 语句描述就是一个
+<code>select</code>。我们创建的辅助函数能够把这两个查询逻辑整合到一起。</p>
+<p>首先，我们编写一个能够拿到所有宝可梦编号和名字的函数。这个函数接受一个已经拿到锁的存储库，也可能会需要一个宝可梦的编号。如果函数接收到了编号，那么就会在 SQL
+语句上添加 <code>where</code> 子句。这个函数会被添加到 <code>impl SqliteRepository</code> 块内，因为它不是 <code>Repository Trait</code>
+的一部分。另外，我们将直接返回原始数据 ( <code>u16</code> 和 <code>String</code> )，而且这个函数应该是私有的。</p>
+<pre><code class="language-rs">use std::sync::{..., MutexGuard};
+
+fn fetch_pokemon_rows(
+    lock: &amp;MutexGuard&lt;'_, Connection&gt;,
+    number: Option&lt;u16&gt;,
+) -&gt; Result&lt;Vec&lt;(u16, String)&gt;, ()&gt; {
+    // code will go here
+}
+</code></pre>
+<p>让我们开始吧。首先，我们要根据数字是否存在来定义查询语句和查询参数：</p>
+<pre><code class="language-rs">let (query, params) = match number {
+    Some(number) =&gt; (
+        &quot;select number, name from pokemons where number = ?&quot;,
+        vec![number],
+    ),
+    _ =&gt; (&quot;select number, name from pokemons&quot;, vec![]),
+};
+</code></pre>
+<p>相当简单吧？现在我们必须准备一个 <code>statment</code> 并传递我们的参数：</p>
+<pre><code class="language-rs">use rusqlite::{..., params_from_iter};
+
+...
+let mut stmt = match lock.prepare(query) {
+    Ok(stmt) =&gt; stmt,
+    _ =&gt; return Err(()),
+};
+
+let mut rows = match stmt.query(params_from_iter(params)) {
+    Ok(rows) =&gt; rows,
+    _ =&gt; return Err(()),
+};
+</code></pre>
+<p>我们已经得到查询结果，现在需要把结果转换为一个 <code>(u16, String)</code> 类型的元组 再把他们汇集到一个向量里返回</p>
+<pre><code class="language-rs">...
+let mut pokemon_rows = vec![];
+
+while let Ok(Some(row)) = rows.next() {
+    match (row.get::&lt;usize, u16&gt;(0), row.get::&lt;usize, String&gt;(1)) {
+        (Ok(number), Ok(name)) =&gt; pokemon_rows.push((number, name)),
+        _ =&gt; return Err(()),
+    };
+}
+
+Ok(pokemon_rows)
+</code></pre>
+<p>对 <code>types</code> 表也一样，这个辅助函数接收一个数据库连接和一个 <code>number</code>，查询成功会返回一个字符串向量，表示某一只宝可梦的类型：</p>
+<pre><code class="language-rs">fn fetch_type_rows(lock: &amp;MutexGuard&lt;'_, Connection&gt;, number: u16) -&gt; Result&lt;Vec&lt;String&gt;, ()&gt; {
+    // code will go here
+}
+</code></pre>
+<p>准备查询语句，带着参数进行查询：</p>
+<pre><code class="language-rs">let mut stmt = match lock.prepare(&quot;select name from types where pokemon_number = ?&quot;) {
+    Ok(stmt) =&gt; stmt,
+    _ =&gt; return Err(()),
+};
+
+let mut rows = match stmt.query([number]) {
+    Ok(rows) =&gt; rows,
+    _ =&gt; return Err(()),
+};
+</code></pre>
+<p>依次从结果中提取出类型：</p>
+<pre><code class="language-rs">let mut type_rows = vec![];
+
+while let Ok(Some(row)) = rows.next() {
+    match row.get::&lt;usize, String&gt;(0) {
+        Ok(name) =&gt; type_rows.push(name),
+        _ =&gt; return Err(()),
+    };
+}
+Ok(type_rows)
+</code></pre>
+<p>Aaaand，顺利完成！这两个功能现在都实现了。使用它们去实现 <code>fetch_one</code> 和 <code>fetch_all</code> 会更容易:)</p>
+<h2 id="查询一只宝可梦"><a class="header" href="#查询一只宝可梦">查询一只宝可梦</a></h2>
+<p>我们会一步一步来，首先处理下面的方法：</p>
+<pre><code class="language-rs">fn fetch_one(&amp;self, number: PokemonNumber) -&gt; Result&lt;Pokemon, FetchOneError&gt; {
+    // code will go here
+}
+</code></pre>
+<p>首先，我们要先拿到锁，并通过调用之前的辅助函数去查询宝可梦：</p>
+<pre><code class="language-rs">let lock = match self.connection.lock() {
+    Ok(lock) =&gt; lock,
+    _ =&gt; return Err(FetchOneError::Unknown),
+};
+
+let mut pokemon_rows = match Self::fetch_pokemon_rows(&amp;lock, Some(u16::from(number.clone()))) {
+    Ok(pokemon_rows) =&gt; pokemon_rows,
+    _ =&gt; return Err(FetchOneError::Unknown),
+};
+</code></pre>
+<p>当查询结果为空时，我们就返回 <code>NotFound</code>，否则返回查询结果的第一个：</p>
+<pre><code class="language-rs">...
+if pokemon_rows.is_empty() {
+    return Err(FetchOneError::NotFound);
+}
+
+let pokemon_row = pokemon_rows.remove(0);
+</code></pre>
+<p>不错。现在我们去查询宝可梦类型：</p>
+<pre><code class="language-rs">let type_rows = match Self::fetch_type_rows(&amp;lock, pokemon_row.0) {
+    Ok(type_rows) =&gt; type_rows,
+    _ =&gt; return Err(FetchOneError::Unknown),
+};
+</code></pre>
+<p>我们已经有宝可梦的编号、名称和类型。总是时候把他们封装为 <code>Response</code> 了：</p>
+<pre><code class="language-rs">...
+match (
+    PokemonNumber::try_from(pokemon_row.0),
+    PokemonName::try_from(pokemon_row.1),
+    PokemonTypes::try_from(type_rows),
+) {
+    (Ok(number), Ok(name), Ok(types)) =&gt; Ok(Pokemon::new(number, name, types)),
+    _ =&gt; Err(FetchOneError::Unknown),
+}
+</code></pre>
+<h2 id="查询所有宝可梦"><a class="header" href="#查询所有宝可梦">查询所有宝可梦</a></h2>
+<pre><code class="language-rs">fn fetch_all(&amp;self) -&gt; Result&lt;Vec&lt;Pokemon&gt;, FetchAllError&gt; {
+    // code will go here
+}
+</code></pre>
+<p>首先获取锁并查询所有宝可梦：</p>
+<pre><code class="language-rs">let lock = match self.connection.lock() {
+    Ok(lock) =&gt; lock,
+    _ =&gt; return Err(FetchAllError::Unknown),
+};
+
+let pokemon_rows = match Self::fetch_pokemon_rows(&amp;lock, None) {
+    Ok(pokemon_rows) =&gt; pokemon_rows,
+    _ =&gt; return Err(FetchAllError::Unknown),
+};
+</code></pre>
+<p>你可以注意到，我们把 <code>number</code> 参数设置为了 <code>None</code>，对每个宝可梦，我们会单独查询它的类型，最终封装为一个列表：</p>
+<pre><code class="language-rs">...
+let mut pokemons = vec![];
+
+for pokemon_row in pokemon_rows {
+    let type_rows = match Self::fetch_type_rows(&amp;lock, pokemon_row.0) {
+        Ok(type_rows) =&gt; type_rows,
+        _ =&gt; return Err(FetchAllError::Unknown),
+    };
+
+    let pokemon = match (
+        PokemonNumber::try_from(pokemon_row.0),
+        PokemonName::try_from(pokemon_row.1),
+        PokemonTypes::try_from(type_rows),
+    ) {
+        (Ok(number), Ok(name), Ok(types)) =&gt; Pokemon::new(number, name, types),
+        _ =&gt; return Err(FetchAllError::Unknown),
+    };
+
+    pokemons.push(pokemon);
+}
+
+Ok(pokemons)
+</code></pre>
+<h2 id="插入一只宝可梦"><a class="header" href="#插入一只宝可梦">插入一只宝可梦</a></h2>
+<pre><code class="language-rs">fn insert(
+    &amp;self,
+    number: PokemonNumber,
+    name: PokemonName,
+    types: PokemonTypes,
+) -&gt; Result&lt;Pokemon, InsertError&gt; {
+    // code will go here
+}
+</code></pre>
+<p>首先，我们从连接中获取锁：</p>
+<pre><code class="language-rs">let mut lock = match self.connection.lock() {
+    Ok(lock) =&gt; lock,
+    _ =&gt; return Err(InsertError::Unknown),
+};
+</code></pre>
+<p>接着我们创建了一个事务。为什么我们没有直接执行一条命令？因为我们需要向 <code>pokemons</code> 中插入一只宝可梦，同时要想 <code>types</code>
+中插入它的类型。如果这两次插入有一个失败了，这次插入最好能回滚。使用事务时，你需要先创建 <code>SQL</code> 语句，之后提交。如果有错误发生，<code>rusqlite</code>
+会自动完成回滚。</p>
+<pre><code class="language-rs">let transaction = match lock.transaction() {
+    Ok(transaction) =&gt; transaction,
+    _ =&gt; return Err(InsertError::Unknown),
+};
+</code></pre>
+<p>现在我们要向事务中添加第一条命令。我们要插入一只宝可梦。如果已经存在，我们希望函数执行失败并返回一个错误：</p>
+<pre><code class="language-rs">use rusqlite::{..., Error::SqliteFailure, params};
+
+...
+match transaction.execute(
+    &quot;insert into pokemons (number, name) values (?, ?)&quot;,
+    params![u16::from(number.clone()), String::from(name.clone())],
+) {
+    Ok(_) =&gt; {}
+    Err(SqliteFailure(_, Some(message))) =&gt; {
+        if message == &quot;UNIQUE constraint failed: pokemons.number&quot; {
+            return Err(InsertError::Conflict);
+        } else {
+            return Err(InsertError::Unknown);
+        }
+    }
+    _ =&gt; return Err(InsertError::Unknown),
+};
+</code></pre>
+<p>在这里，我们使用 <code>rusqlite</code> 返回的错误信息来检查错误是否是由于冲突引起的。现在宝可梦的插入逻辑完成了。</p>
+<p>接下来要处理插入类型。我们需要为 <code>PokemonTypes</code> 参数中的每种类型都分别执行一次插入操作：</p>
+<pre><code class="language-rs">...
+for _type in Vec::&lt;String&gt;::from(types.clone()) {
+    if let Err(_) = transaction.execute(
+        &quot;insert into types (pokemon_number, name) values (?, ?)&quot;,
+        params![u16::from(number.clone()), _type],
+    ) {
+        return Err(InsertError::Unknown);
+    }
+}
+</code></pre>
+<p>现在，我们可以提交这个事务，并返回结果。</p>
+<pre><code class="language-rs">...
+match transaction.commit() {
+    Ok(_) =&gt; Ok(Pokemon::new(number, name, types)),
+    _ =&gt; Err(InsertError::Unknown),
+}
+</code></pre>
+<h2 id="删除一只宝可梦"><a class="header" href="#删除一只宝可梦">删除一只宝可梦</a></h2>
+<pre><code class="language-rs">fn delete(&amp;self, number: PokemonNumber) -&gt; Result&lt;(), DeleteError&gt; {
+    // code will go here
+}
+</code></pre>
+<pre><code class="language-rs">let lock = match self.connection.lock() {
+    Ok(lock) =&gt; lock,
+    _ =&gt; return Err(DeleteError::Unknown),
+};
+</code></pre>
+<pre><code class="language-rs">match lock.execute(
+    &quot;delete from pokemons where number = ?&quot;,
+    params![u16::from(number)],
+) {
+    Ok(0) =&gt; Err(DeleteError::NotFound),
+    Ok(_) =&gt; Ok(()),
+    _ =&gt; Err(DeleteError::Unknown),
+}
+</code></pre>
+<p>这里需要注意两点：第一，我们不需要再关注删除宝可梦时记得删除类型信息，在创建数据表时我们已经设置了 <code>on delete cascade</code> 让 sqlite
+去自动处理。第二，我们使用删除操作返回的行数去判断是否删除成功，如果数量是 0，就表示删除失败。</p>
+<p>你现在应该能使用你的 SQLite 数据库作为存储库了，而且能通过 CLI 和 HTTP API 两种方式访问。你可以尝试从 CLI 创建一些新的宝可梦，并从
+HTTP API 去获取他们 :)</p>
+<h2 id="小插曲"><a class="header" href="#小插曲">小插曲</a></h2>
+<p>🙀 我看到客户了，他正朝着我这边来。</p>
+<ul>
+<li>你好 Alexis！</li>
+<li>你好 客户！我已经实现了一个持久化的存储库，它把数据存储在计算机的硬盘上。</li>
+<li>哦，太好了！虽然现在我知道了我们将使用什么作为存储库。</li>
+<li>不错，速度很快。是 PostgreSQL 吗？还是 Mysql？</li>
+<li>都不是，我们的公司希望它是水平可拓展的。</li>
+<li>嗯，这让我想起了一个<a href="https://www.youtube.com/watch?v=b2F-DItXtZs">恐怖故事</a>。那好吧，你们公司打算使用什么技术？</li>
+<li>他们想使用 Airtable，一个类似于 Excel 的在线表格。</li>
+<li>哦... 让我看看我能做的。</li>
+</ul>
+<h2 id="使用-airtable-实现弹性存储库"><a class="header" href="#使用-airtable-实现弹性存储库">使用 Airtable 实现弹性存储库</a></h2>
+<p>好吧，现在我们必须创建另一个存储库了。生活就是如此。所以我们现在可以去 Airtable
+网站看看它是怎么使用的。你必须创建一个账户，并且新建一个工作区。在这个工作区里，你应该有一个默认的工作表。把他重命名为
+<code>pokemons</code>。你可以把表格的列改为下面的样子：</p>
+<pre><code>number:
+    选择 Number 类型
+    选择 Integer 子类型
+    关闭允许负数
+name:
+    选择 Single line text 类型
+types:
+    选择 Multiple select 类型
+    再选项里添加 Electric 和 Fire
+</code></pre>
+<p>我们能用一张数据表去为我们的数据建模了 : )</p>
+<p>现在我们需要知道我们的程序怎样和 Airtable 进行交互。让我们去阅读一下 API 文档。在那里你应该能看到 Airtable
+现在支持的客户端，撰写本文时并没有提供 Rust 的，所以我们要尝试使用它们的 HTTP API。我们的程序现在需要一个 HTTP 客户端，这里我们使用
+<code>ureq</code>:</p>
+<pre><code class="language-toml">[dependencies]
+ureq = { version = &quot;2.2.0&quot;, features = [&quot;json&quot;] }
+</code></pre>
+<p>开启 <code>json</code> 特性能够帮我们把 HTTP 响应转化为 结构体 ( 感谢 <code>serde</code> )。但是再我们实现存储库之前，我们要再程序开始前让用户能够选择使用
+Airtable 作为存储库。</p>
+<h3 id="添加启动开关"><a class="header" href="#添加启动开关">添加启动开关</a></h3>
+<p>首先让我们看一下如何使用 API。这里是文档给出的一个请求示例：</p>
+<pre><code>curl https://api.airtable.com/v0/&lt;WORKSPACE_ID&gt;/pokemons -H &quot;Authorization: Bearer &lt;API_KEY&gt;&quot;
+</code></pre>
+<p>好的，所以我们的程序需要两个参数 <code>api_key</code> 和 <code>workspace_id</code>：</p>
+<pre><code class="language-rs">fn main() {
+    let matches = App::new(crate_name!())
+        .version(crate_version!())
+        .author(crate_authors!())
+        .arg(Arg::with_name(&quot;cli&quot;).long(&quot;cli&quot;).help(&quot;Runs in CLI mode&quot;))
+        .arg(Arg::with_name(&quot;sqlite&quot;).long(&quot;sqlite&quot;).value_name(&quot;PATH&quot;))
+        .arg(
+            Arg::with_name(&quot;airtable&quot;)
+                .long(&quot;airtable&quot;)
+                .value_names(&amp;[&quot;API_KEY&quot;, &quot;WORKSPACE_ID&quot;]),
+        )
+        .get_matches();
+}
+</code></pre>
+<p>现在，运行 <code>pokedex --airtable &lt;API_KEY&gt; &lt;WORKSPACE_ID&gt;</code> 就能设置 Airtable 作为存储库，使用 cargo
+run 启动的话，你可以输入 <code>cargo run -- --airtable &lt;API_KEY&gt; &lt;WORKSPACE_ID&gt;</code>。可以使用 <code>--help</code>
+检查是否生效：</p>
+<pre><code>OPTIONS:
+        --airtable &lt;API_KEY&gt; &lt;WORKSPACE_ID&gt;
+</code></pre>
+<p>接下来，让我们更新 build_repo 函数，使它能够创建一个 AirtableRepository：</p>
+<pre><code class="language-rs">use clap::{..., Values};
+use repositories::pokemon::{AirtableRepository, ...};
+
+fn main() {
+    ...
+    let repo = build_repo(matches.value_of(&quot;sqlite&quot;), matches.values_of(&quot;airtable&quot;));
+    ...
+}
+
+fn build_repo(sqlite_value: Option&lt;&amp;str&gt;, airtable_values: Option&lt;Values&gt;) -&gt; Arc&lt;dyn Repository&gt; {
+    if let Some(values) = airtable_values {
+        if let [api_key, workspace_id] = values.collect::&lt;Vec&lt;&amp;str&gt;&gt;()[..] {
+            match AirtableRepository::try_new(api_key, workspace_id) {
+                Ok(repo) =&gt; return Arc::new(repo),
+                _ =&gt; panic!(&quot;Error while creating airtable repo&quot;),
+            }
+        }
+    }
+    ...
+}
+</code></pre>
+<p>所以现在如果设置了 <code>--airtable</code> 标志，我们将使用 Airtable 作为存储库。如果设置了 <code>--sqlite</code> 标志，我们将使用
+SQLite。否则我们使用内存存储库。现在让我们实现存储库；）</p>
+<h3 id="实现存储库"><a class="header" href="#实现存储库">实现存储库</a></h3>
+<blockquote>
+<p>注意：网站的 API 经常发生变动，如果下面的测试失败了，请到<a href="https://airtable.com/api/meta">官网</a>查看最新的 API。</p>
+</blockquote>
+<p>我将在 <em>repositories/pokemon.rs</em> 中添加
+<code>AirtableRepository</code>。像以前一样，您可以将其放在新的文件中。让我们首先创建结构体：</p>
+<pre><code class="language-rs">pub struct AirtableRepository {
+    url: String,
+    auth_header: String,
+}
+</code></pre>
+<p>我们依然需要实现 <code>try_new</code> 函数。我们将使用 <code>workspace_id</code> 创建 <code>url</code>，使用 <code>api_key</code> 创建
+<code>auth_header</code>。接着还要发出请求以确保我们可以连接到我们的数据库：</p>
+<pre><code class="language-rs">impl AirtableRepository {
+    pub fn try_new(api_key: &amp;str, workspace_id: &amp;str) -&gt; Result&lt;Self, ()&gt; {
+        let url = format!(&quot;https://api.airtable.com/v0/{}/pokemons&quot;, workspace_id);
+        let auth_header = format!(&quot;Bearer {}&quot;, api_key);
+
+        if let Err(_) = ureq::get(&amp;url).set(&quot;Authorization&quot;, &amp;auth_header).call() {
+            return Err(());
+        }
+
+        Ok(Self { url, auth_header })
+    }
+}
+</code></pre>
+<p>接着我们要为它实现 <code>Repository</code> Trait：</p>
+<pre><code class="language-rs">impl Repository for AirtableRepository {
+    fn insert(
+        &amp;self,
+        number: PokemonNumber,
+        name: PokemonName,
+        types: PokemonTypes,
+    ) -&gt; Result&lt;Pokemon, InsertError&gt; {
+        Err(InsertError::Unknown)
+    }
+
+    fn fetch_all(&amp;self) -&gt; Result&lt;Vec&lt;Pokemon&gt;, FetchAllError&gt; {
+        Err(FetchAllError::Unknown)
+    }
+
+    fn fetch_one(&amp;self, number: PokemonNumber) -&gt; Result&lt;Pokemon, FetchOneError&gt; {
+        Err(FetchOneError::Unknown)
+    }
+
+    fn delete(&amp;self, number: PokemonNumber) -&gt; Result&lt;(), DeleteError&gt; {
+        Err(DeleteError::Unknown)
+    }
+}
+</code></pre>
+<h4 id="辅助函数-1"><a class="header" href="#辅助函数-1">辅助函数</a></h4>
+<p>你现在应该已经习惯了，这次我们只需要一个辅助函数。这个函数能让我们从 Airtable 中获取某一行或者多行数据。它的参数 <code>&amp;self</code> 和 一个可选的
+<code>number</code>。它的返回值可能是个 <code>json</code> 或者是个 <code>Error</code>。它依然是个私有的方法，再 <code>impl AirtableRepository</code>
+块中实现。有了 <code>serde</code> 我们能将 <code>json</code> 直接转化为结构体，首先我们需要定义对应的结构体：</p>
+<pre><code class="language-rs">#[derive(Deserialize)]
+struct AirtableJson {
+    records: Vec&lt;AirtableRecord&gt;,
+}
+
+#[derive(Deserialize)]
+struct AirtableRecord {
+    id: String,
+    fields: AirtableFields,
+}
+
+#[derive(Deserialize)]
+struct AirtableFields {
+    number: u16,
+    name: String,
+    types: Vec&lt;String&gt;,
+}
+</code></pre>
+<p>接着是辅助函数：</p>
+<pre><code class="language-rs">fn fetch_pokemon_rows(&amp;self, number: Option&lt;u16&gt;) -&gt; Result&lt;AirtableJson, ()&gt; {
+    // code will go here
+}
+</code></pre>
+<p>第一步要根据用户传来的 <code>number</code> 去创建请求链接：</p>
+<pre><code class="language-rs">let url = match number {
+    Some(number) =&gt; format!(&quot;{}?filterByFormula=number%3D{}&quot;, self.url, number),
+    None =&gt; format!(&quot;{}?sort%5B0%5D%5Bfield%5D=number&quot;, self.url),
+};
+</code></pre>
+<p>请求参数看起来稍微有一点奇怪。第一个是依靠 <code>number</code> 进行过滤，第二个是根据 <code>number</code> 对数据排序。现在我们能用 <code>ureq</code> 尝试发出请求了：</p>
+<pre><code class="language-rs">let res = match ureq::get(&amp;url)
+    .set(&quot;Authorization&quot;, &amp;self.auth_header)
+    .call()
+{
+    Ok(res) =&gt; res,
+    _ =&gt; return Err(()),
+};
+</code></pre>
+<p>我们在返回值中接收到了 <code>json</code> ，接着我们把它转换为 <code>AirtableJson</code>:</p>
+<pre><code class="language-rs">match res.into_json::&lt;AirtableJson&gt;() {
+    Ok(json) =&gt; Ok(json),
+    _ =&gt; Err(()),
+}
+</code></pre>
+<p>辅助函数完成了 : )</p>
+<h4 id="查询一个宝可梦"><a class="header" href="#查询一个宝可梦">查询一个宝可梦</a></h4>
+<pre><code class="language-rs">fn fetch_one(&amp;self, number: PokemonNumber) -&gt; Result&lt;Pokemon, FetchOneError&gt; {
+    // code will go here
+}
+</code></pre>
+<p>首先，我们让使用我们之前实现的函数获取 <code>json</code> ：</p>
+<pre><code class="language-rs">let mut json = match self.fetch_pokemon_rows(Some(u16::from(number.clone()))) {
+    Ok(json) =&gt; json,
+    _ =&gt; return Err(FetchOneError::Unknown),
+};
+</code></pre>
+<p>现在，如果 <code>json</code> 记录为空，则意味着我们想要的宝可梦不存在。所以我们会返回一个错误。否则，我们取第一条记录：</p>
+<pre><code class="language-rs">...
+if json.records.is_empty() {
+    return Err(FetchOneError::NotFound);
+}
+
+let record = json.records.remove(0);
+</code></pre>
+<p>最后，我们需要做的是把这条记录转换为宝可梦：</p>
+<pre><code class="language-rs">...
+match (
+    PokemonNumber::try_from(record.fields.number),
+    PokemonName::try_from(record.fields.name),
+    PokemonTypes::try_from(record.fields.types),
+) {
+    (Ok(number), Ok(name), Ok(types)) =&gt; Ok(Pokemon::new(number, name, types)),
+    _ =&gt; Err(FetchOneError::Unknown),
+}
+</code></pre>
+<h4 id="获取所有宝可梦"><a class="header" href="#获取所有宝可梦">获取所有宝可梦</a></h4>
+<pre><code class="language-rs">fn fetch_all(&amp;self) -&gt; Result&lt;Vec&lt;Pokemon&gt;, FetchAllError&gt; {
+    // code will go here
+}
+</code></pre>
+<p>首先，依然是使用辅助函数获取 <code>json</code> ：</p>
+<pre><code class="language-rs">let json = match self.fetch_pokemon_rows(None) {
+    Ok(json) =&gt; json,
+    _ =&gt; return Err(FetchAllError::Unknown),
+};
+</code></pre>
+<p>这一次，我没有给辅助函数提供 <code>number</code> 。现在让我们将这些记录转换为 <code>Pokemons</code> 并返回：</p>
+<pre><code class="language-rs">...
+let mut pokemons = vec![];
+
+for record in json.records.into_iter() {
+    match (
+        PokemonNumber::try_from(record.fields.number),
+        PokemonName::try_from(record.fields.name),
+        PokemonTypes::try_from(record.fields.types),
+    ) {
+        (Ok(number), Ok(name), Ok(types)) =&gt; {
+            pokemons.push(Pokemon::new(number, name, types))
+        }
+        _ =&gt; return Err(FetchAllError::Unknown),
+    }
+}
+
+Ok(pokemons)
+</code></pre>
+<h4 id="插入一只宝可梦-1"><a class="header" href="#插入一只宝可梦-1">插入一只宝可梦</a></h4>
+<pre><code class="language-rs">fn insert(
+    &amp;self,
+    number: PokemonNumber,
+    name: PokemonName,
+    types: PokemonTypes,
+) -&gt; Result&lt;Pokemon, InsertError&gt; {
+    // code will go here
+}
+</code></pre>
+<p>Airtable 本身存在一个问题：<code>AirtableRecord</code> 的主键并不能保证数据的唯一性。或许你已经注意到了 <code>AirtableRecord</code> 中的
+<code>id</code> 字段 :) 因此，我们不能尝试插入记录并等待返回错误，Airtable
+只会负责在表中添加新行。然后我们要做的是首先尝试获取相同编号的宝可梦，如果此请求的结果不为空，则返回错误。</p>
+<pre><code class="language-rs">let json = match self.fetch_pokemon_rows(Some(u16::from(number.clone()))) {
+    Ok(json) =&gt; json,
+    _ =&gt; return Err(InsertError::Unknown),
+};
+
+if !json.records.is_empty() {
+    return Err(InsertError::Conflict);
+}
+</code></pre>
+<p>现在我们已经做到了，我们能保证没有记录共享相同的 <code>number</code> ，所以我们可以插入我们的宝可梦。为此，我们需要创建一个 <code>json</code> 请求：</p>
+<pre><code class="language-rs">...
+let body = ureq::json!({
+    &quot;records&quot;: [{
+        &quot;fields&quot;: {
+            &quot;number&quot;: u16::from(number.clone()),
+            &quot;name&quot;: String::from(name.clone()),
+            &quot;types&quot;: Vec::&lt;String&gt;::from(types.clone()),
+        },
+    }],
+});
+</code></pre>
+<p>最后，我们要带上 <code>body</code> 发出请求，并在成功时返回 <code>Pokemon</code> ：</p>
+<pre><code class="language-rs">...
+if let Err(_) = ureq::post(&amp;self.url)
+    .set(&quot;Authorization&quot;, &amp;self.auth_header)
+    .send_json(body)
+{
+    return Err(InsertError::Unknown);
+}
+
+Ok(Pokemon::new(number, name, types))
+</code></pre>
+<h4 id="删除一只宝可梦-1"><a class="header" href="#删除一只宝可梦-1">删除一只宝可梦</a></h4>
+<pre><code class="language-rs">fn delete(&amp;self, number: PokemonNumber) -&gt; Result&lt;(), DeleteError&gt; {
+    // code will go here
+}
+</code></pre>
+<p>和插入时一样，我们必须首先尝试查询与我们传递的 <code>number</code> 相同的记录。当记录为空时，我们会返回一个错误，我们不能删除不存在的记录 : )
+否则，我们将拿到第一条记录。</p>
+<pre><code class="language-rs">let mut json = match self.fetch_pokemon_rows(Some(u16::from(number.clone()))) {
+    Ok(json) =&gt; json,
+    _ =&gt; return Err(DeleteError::Unknown),
+};
+
+if json.records.is_empty() {
+    return Err(DeleteError::NotFound);
+}
+
+let record = json.records.remove(0);
+</code></pre>
+<p>现在，我们将使用记录的 id 字段来删除记录：</p>
+<pre><code class="language-rs">...
+match ureq::delete(&amp;format!(&quot;{}/{}&quot;, self.url, record.id))
+    .set(&quot;Authorization&quot;, &amp;self.auth_header)
+    .call()
+{
+    Ok(_) =&gt; Ok(()),
+    _ =&gt; Err(DeleteError::Unknown),
+}
+</code></pre>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>你现在应该能使用 内存，Airtable，或者是一个 SQLite 数据库作为程序的存储库。而且你能通过 CLI 和 HTTP API 两种方式去操作 :D</p>
+<p>那是本系列的最后一篇文章。感谢您一直看到这里 :) 我希望这些文章对您有用。</p>
+<p>该代码依然在 <a href="https://github.com/alexislozano/pokedex/tree/article-7">github</a> 上查看。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>

@@ -1,0 +1,745 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>http - Trdthg&#x27;s Self</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../../favicon.svg">
+                        <link rel="shortcut icon" href="../../favicon.png">
+                <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+                <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">trans</li><li class="chapter-item expanded "><a href="../../trans/2022-04-20-译-使用-Tokio-处理-CPU-密集型任务.html"><strong aria-hidden="true">1.</strong> 2022-04-20-译-使用-Tokio-处理-CPU-密集型任务</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-03-译-Rust冒险:-滥用-Serde.html"><strong aria-hidden="true">2.</strong> 2023-01-03-译-Rust冒险:-滥用-Serde</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-01-译-拓展-Rust-中的-Map.html"><strong aria-hidden="true">3.</strong> 2023-01-01-译-拓展-Rust-中的-Map</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-01-译-search_engine.html"><strong aria-hidden="true">4.</strong> 2022-04-01-译-search_engine</a></li><li class="chapter-item expanded "><a href="../../trans/2022-05-04-译-可视化-Rust-各数据类型的内存布局.html"><strong aria-hidden="true">5.</strong> 2022-05-04-译-可视化-Rust-各数据类型的内存布局</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-13-译-tail_latency.html"><strong aria-hidden="true">6.</strong> 2022-04-13-译-tail_latency</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-30-译-什么时候不应该使用-Rust-？.html"><strong aria-hidden="true">7.</strong> 2022-04-30-译-什么时候不应该使用-Rust-？</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-11-译-异步-Rust：协作与抢占式调度.html"><strong aria-hidden="true">8.</strong> 2022-04-11-译-异步-Rust：协作与抢占式调度</a></li><li class="chapter-item expanded "><a href="../../trans/2023-01-02-译-未初始化内存:-unsafe-Rust太难了.html"><strong aria-hidden="true">9.</strong> 2023-01-02-译-未初始化内存:-unsafe-Rust太难了</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.</strong> 2022-04-03-译-Rust-六边形架构</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-4-重构.html"><strong aria-hidden="true">10.1.</strong> Rust-六边形架构-4-重构</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-2-内存存储库.html"><strong aria-hidden="true">10.2.</strong> Rust-六边形架构-2-内存存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-7-长期存储库.html"><strong aria-hidden="true">10.3.</strong> Rust-六边形架构-7-长期存储库</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-1-域.html"><strong aria-hidden="true">10.4.</strong> Rust-六边形架构-1-域</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-5-其他用例.html"><strong aria-hidden="true">10.5.</strong> Rust-六边形架构-5-其他用例</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-6-CLI.html"><strong aria-hidden="true">10.6.</strong> Rust-六边形架构-6-CLI</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/Rust-六边形架构-3-HTTP-API.html"><strong aria-hidden="true">10.7.</strong> Rust-六边形架构-3-HTTP-API</a></li><li class="chapter-item expanded "><a href="../../trans/2022-04-03-译-Rust-六边形架构/index.html"><strong aria-hidden="true">10.8.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">note</li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.</strong> java</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/java/java.html"><strong aria-hidden="true">11.1.</strong> java</a></li><li class="chapter-item expanded "><a href="../../note/java/springboot.html"><strong aria-hidden="true">11.2.</strong> springboot</a></li><li class="chapter-item expanded "><a href="../../note/java/spring.html"><strong aria-hidden="true">11.3.</strong> spring</a></li><li class="chapter-item expanded "><a href="../../note/java/sourceread.html"><strong aria-hidden="true">11.4.</strong> sourceread</a></li><li class="chapter-item expanded "><a href="../../note/java/index.html"><strong aria-hidden="true">11.5.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.</strong> frontend</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../note/frontend/mini_bundle.html"><strong aria-hidden="true">12.1.</strong> mini_bundle</a></li><li class="chapter-item expanded "><a href="../../note/frontend/js_advanced.html"><strong aria-hidden="true">12.2.</strong> js_advanced</a></li><li class="chapter-item expanded "><a href="../../note/frontend/mini_vue.html"><strong aria-hidden="true">12.3.</strong> mini_vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vue.html"><strong aria-hidden="true">12.4.</strong> vue</a></li><li class="chapter-item expanded "><a href="../../note/frontend/list.html"><strong aria-hidden="true">12.5.</strong> list</a></li><li class="chapter-item expanded "><a href="../../note/frontend/http.html" class="active"><strong aria-hidden="true">12.6.</strong> http</a></li><li class="chapter-item expanded "><a href="../../note/frontend/flutter.html"><strong aria-hidden="true">12.7.</strong> flutter</a></li><li class="chapter-item expanded "><a href="../../note/frontend/css.html"><strong aria-hidden="true">12.8.</strong> css</a></li><li class="chapter-item expanded "><a href="../../note/frontend/vdom.html"><strong aria-hidden="true">12.9.</strong> vdom</a></li><li class="chapter-item expanded "><a href="../../note/frontend/index.html"><strong aria-hidden="true">12.10.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">blog</li><li class="chapter-item expanded "><a href="../../blog/index.html"><strong aria-hidden="true">13.</strong> README</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">docs</li><li class="chapter-item expanded "><a href="../../docs/log.html"><strong aria-hidden="true">14.</strong> log</a></li><li class="chapter-item expanded "><a href="../../docs/intro.html"><strong aria-hidden="true">15.</strong> intro</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.</strong> magic</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/magic/riscv.html"><strong aria-hidden="true">16.1.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/magic/haskell.html"><strong aria-hidden="true">16.2.</strong> haskell</a></li><li class="chapter-item expanded "><a href="../../docs/magic/bash.html"><strong aria-hidden="true">16.3.</strong> bash</a></li><li class="chapter-item expanded "><a href="../../docs/magic/memory_ordering.html"><strong aria-hidden="true">16.4.</strong> memory_ordering</a></li><li class="chapter-item expanded "><a href="../../docs/magic/linuxIO.html"><strong aria-hidden="true">16.5.</strong> linuxIO</a></li><li class="chapter-item expanded "><a href="../../docs/magic/cicd.html"><strong aria-hidden="true">16.6.</strong> cicd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/fd.html"><strong aria-hidden="true">16.7.</strong> fd</a></li><li class="chapter-item expanded "><a href="../../docs/magic/hadoop.html"><strong aria-hidden="true">16.8.</strong> hadoop</a></li><li class="chapter-item expanded "><a href="../../docs/magic/go.html"><strong aria-hidden="true">16.9.</strong> go</a></li><li class="chapter-item expanded "><a href="../../docs/magic/async.html"><strong aria-hidden="true">16.10.</strong> async</a></li><li class="chapter-item expanded "><a href="../../docs/magic/index.html"><strong aria-hidden="true">16.11.</strong> README</a></li><li class="chapter-item expanded "><a href="../../docs/magic/software_arch.html"><strong aria-hidden="true">16.12.</strong> software_arch</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">17.</strong> riscv</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.</strong> common</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/common/pgsql.html"><strong aria-hidden="true">18.1.</strong> pgsql</a></li><li class="chapter-item expanded "><a href="../../docs/common/git.html"><strong aria-hidden="true">18.2.</strong> git</a></li><li class="chapter-item expanded "><a href="../../docs/common/linux.html"><strong aria-hidden="true">18.3.</strong> linux</a></li><li class="chapter-item expanded "><a href="../../docs/common/datastructure.html"><strong aria-hidden="true">18.4.</strong> datastructure</a></li><li class="chapter-item expanded "><a href="../../docs/common/docker.html"><strong aria-hidden="true">18.5.</strong> docker</a></li><li class="chapter-item expanded "><a href="../../docs/common/analyze.html"><strong aria-hidden="true">18.6.</strong> analyze</a></li><li class="chapter-item expanded "><a href="../../docs/common/oci.html"><strong aria-hidden="true">18.7.</strong> oci</a></li><li class="chapter-item expanded "><a href="../../docs/common/unsorted.html"><strong aria-hidden="true">18.8.</strong> unsorted</a></li><li class="chapter-item expanded "><a href="../../docs/common/oauth2.html"><strong aria-hidden="true">18.9.</strong> oauth2</a></li><li class="chapter-item expanded "><a href="../../docs/common/vim.html"><strong aria-hidden="true">18.10.</strong> vim</a></li><li class="chapter-item expanded "><a href="../../docs/common/python.html"><strong aria-hidden="true">18.11.</strong> python</a></li><li class="chapter-item expanded "><a href="../../docs/common/index.html"><strong aria-hidden="true">18.12.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.</strong> rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/rust/mini_tokio.html"><strong aria-hidden="true">19.1.</strong> mini_tokio</a></li><li class="chapter-item expanded "><a href="../../docs/rust/wasm.html"><strong aria-hidden="true">19.2.</strong> wasm</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust_quiz.html"><strong aria-hidden="true">19.3.</strong> rust_quiz</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rust.html"><strong aria-hidden="true">19.4.</strong> rust</a></li><li class="chapter-item expanded "><a href="../../docs/rust/print_into_detail.html"><strong aria-hidden="true">19.5.</strong> print_into_detail</a></li><li class="chapter-item expanded "><a href="../../docs/rust/net-piercer.html"><strong aria-hidden="true">19.6.</strong> net-piercer</a></li><li class="chapter-item expanded "><a href="../../docs/rust/rs_channel.html"><strong aria-hidden="true">19.7.</strong> rs_channel</a></li><li class="chapter-item expanded "><a href="../../docs/rust/lists.html"><strong aria-hidden="true">19.8.</strong> lists</a></li><li class="chapter-item expanded "><a href="../../docs/rust/index.html"><strong aria-hidden="true">19.9.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.</strong> riscv</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../docs/riscv/index.html"><strong aria-hidden="true">20.1.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">other</li><li class="chapter-item expanded "><a href="../../other/2023-04-12-remote-usb.html"><strong aria-hidden="true">21.</strong> 2023-04-12-remote-usb</a></li><li class="chapter-item expanded "><a href="../../other/resources.html"><strong aria-hidden="true">22.</strong> resources</a></li><li class="chapter-item expanded "><a href="../../other/i3wm.html"><strong aria-hidden="true">23.</strong> i3wm</a></li><li class="chapter-item expanded "><a href="../../other/lsm.html"><strong aria-hidden="true">24.</strong> lsm</a></li><li class="chapter-item expanded "><a href="../../other/site_update_log.html"><strong aria-hidden="true">25.</strong> site_update_log</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.</strong> ioclub</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/ioclub/share_1.html"><strong aria-hidden="true">26.1.</strong> share_1</a></li><li class="chapter-item expanded "><a href="../../other/ioclub/index.html"><strong aria-hidden="true">26.2.</strong> README</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">27.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">27.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">27.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">27.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">27.4.</strong> backend_4</a></li></ol></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.</strong> 2021-后端</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_1.html"><strong aria-hidden="true">28.1.</strong> backend_1</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_2.html"><strong aria-hidden="true">28.2.</strong> backend_2</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_3.html"><strong aria-hidden="true">28.3.</strong> backend_3</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/backend_4.html"><strong aria-hidden="true">28.4.</strong> backend_4</a></li><li class="chapter-item expanded "><a href="../../other/2021-后端/index.html"><strong aria-hidden="true">28.5.</strong> README</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">draft</li><li class="chapter-item expanded "><a href="../../draft/组成原理.html"><strong aria-hidden="true">29.</strong> 组成原理</a></li><li class="chapter-item expanded "><a href="../../draft/计算机网络.html"><strong aria-hidden="true">30.</strong> 计算机网络</a></li><li class="chapter-item expanded "><a href="../../draft/译-pkg_mng.html"><strong aria-hidden="true">31.</strong> 译-pkg_mng</a></li><li class="chapter-item expanded "><a href="../../draft/DistributedSystem.html"><strong aria-hidden="true">32.</strong> DistributedSystem</a></li><li class="chapter-item expanded "><a href="../../draft/oscamp2022.html"><strong aria-hidden="true">33.</strong> oscamp2022</a></li><li class="chapter-item expanded "><a href="../../draft/compile.html"><strong aria-hidden="true">34.</strong> compile</a></li><li class="chapter-item expanded "><a href="../../draft/test.html"><strong aria-hidden="true">35.</strong> test</a></li><li class="chapter-item expanded "><a href="../../draft/ld.html"><strong aria-hidden="true">36.</strong> ld</a></li><li class="chapter-item expanded "><a href="../../draft/数据库设计.html"><strong aria-hidden="true">37.</strong> 数据库设计</a></li><li class="chapter-item expanded "><a href="../../draft/index.html"><strong aria-hidden="true">38.</strong> README</a></li><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.</strong> computer_network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../draft/computer_network/index.html"><strong aria-hidden="true">39.1.</strong> README</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Trdthg&#x27;s Self</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="http-相关"><a class="header" href="#http-相关">HTTP 相关</a></h1>
+<h2 id="压缩"><a class="header" href="#压缩">压缩</a></h2>
+<h3 id="后端-gzip"><a class="header" href="#后端-gzip">后端 gzip</a></h3>
+<pre><code>网址 trdthg.github.io 检测结果
+是否压缩是
+压缩类型 gzip
+原始文件大小 23146 字节
+压缩后文件大小 3454 字节
+压缩率（估计值）85.08%
+</code></pre>
+<h4 id="配置压缩"><a class="header" href="#配置压缩">配置压缩</a></h4>
+<ol start="2">
+<li>在 nginx 配置压缩效果
+<a href="http://nginx.org/en/docs/http/ngx_http_gzip_module.html">官方 doc</a>
+<a href="https://www.cnblogs.com/Renyi-Fan/p/11047490.html">博客</a></li>
+</ol>
+<pre><code>gzip on;  #是否开启 gzip 模块 on 表示开启 off 表示关闭
+gzip_buffers 4 16k;  #设置压缩所需要的缓冲区大小
+gzip_comp_level 6;  #压缩级别 1-9，数字越大压缩的越好，也越占用 CPU 时间
+gzip_min_length 100k;  #设置允许压缩的最小字节
+gzip_http_version 1.1;  #设置压缩 http 协议的版本，默认是 1.1
+gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;  #设置压缩的文件类型
+gzip_vary on;  #是否在 http header 中添加`Vary: Accept-Encoding`，辅助选择不同压缩算法产生的副本
+</code></pre>
+<p>注意一些不常用的资源，比如字体，有需要也应该加入 gzip_type</p>
+<pre><code>字体类型扩展名	Content-type
+.eot	application/vnd.ms-fontobject
+.ttf	font/ttf
+.otf	font/opentype
+.woff	font/x-woff
+.svg	image/svg+xml
+</code></pre>
+<p><strong>怎么选择合适的压缩比</strong></p>
+<pre><code>gzip_comp_level 0: 0，94840, 63 [ms], 29%
+gzip_comp_level 1: 2.43，39005, 248 [ms], 100%
+gzip_comp_level 2: 2.51，37743, 273 [ms], 100%
+gzip_comp_level 3; 2.57，36849, 327 [ms], 100%
+gzip_comp_level 4; 2.73，34807, 370 [ms], 100%
+gzip_comp_level 5; 2.80，33898, 491 [ms], 100%
+gzip_comp_level 6; 2.82，33686, 604 [ms], 100%
+gzip_comp_level 7; 2.82，33626, 659 [ms], 100%
+gzip_comp_level 8; 2.82，33626, 698 [ms], 100%
+gzip_comp_level 9; 2.82，33626, 698 [ms], 100%
+- 随着压缩级别的升高，压缩比有所提高，但到了级别 6 后，很难再提高；
+- 随着压缩级别的升高，处理时间明显变慢；
+- gzip 很消耗 cpu 的性能，高并发情况下 cpu 达到 100%
+</code></pre>
+<p>注意事项</p>
+<ul>
+<li>不是压缩级别越高越好，其实 gzip_comp_level 1 的压缩能力已经够用了，后面级别越高，压缩的比例其实增长不大，反而很吃处理性能。</li>
+<li>压缩一定要和静态资源缓存相结合，缓存压缩后的版本，否则每次都压缩高负载下服务器肯定吃不住。</li>
+<li>图片/mp3 这样的二进制文件，不必压缩，因为压缩率比较小，比如 100 只能压缩到 80 字节，而且压缩也是耗费 CPU 资源的。</li>
+<li>比较小的文件不必压缩，意义不存在。</li>
+</ul>
+<h4 id="配置压缩缓存"><a class="header" href="#配置压缩缓存">配置压缩缓存</a></h4>
+<p>这里的缓存控制主要是针对图片，css,js 等变化周期较短的静态文件; 第一次访问 以图片为例，当我们第一次访问这张图片时，服务器返回的是
+200，同时在响应头返回了两个键，</p>
+<ul>
+<li>Etag:即该文件的'指纹'(唯一标识)</li>
+<li>Last-Modified:'文件的修改时间'; 此时浏览器，以及其他的缓存服务器就会把这张图片给缓存起来;</li>
+</ul>
+<p>第二次访问 再次请求这张图片时，请求头增加了两个键值，</p>
+<ul>
+<li>If-Modified-Since:上次发生改变的时间;</li>
+<li>If-None-Match:上次文件本身的 Etag 值，服务器根据这两个键值判断其 Etag 和
+Last-Modified，如果都没发生改变就不返回这张图片，只返回一个 304 的状态码，服务器接收到这个 304
+的状态码就会自己去从缓存里面找这个被缓存的图片;</li>
+</ul>
+<p>可以减少服务器的带宽压力以及提升了网站访问速度;</p>
+<pre><code class="language-conf">location ~* ^.+\.(ico|gif|jpg|jpeg|png)$ {
+  access_log   off;
+  expires      30d;
+}
+
+location ~* ^.+\.(css|js|txt|xml|swf|wav)$ {
+  access_log   off;
+  expires      24h;
+}
+
+location ~* ^.+\.(html|htm)$ {
+  expires      1h;
+}
+</code></pre>
+<h3 id="terser-压缩"><a class="header" href="#terser-压缩">terser 压缩</a></h3>
+<ul>
+<li>去除多余字符：空格，换行及注释
+<ul>
+<li>多行代码压缩到一行时要注意行尾分号</li>
+</ul>
+</li>
+<li>压缩变量名：变量名，函数名及属性名
+<ul>
+<li>缩短变量的命名也需要 AST 支持，不至于在作用域中造成命名冲突。</li>
+</ul>
+</li>
+<li>解析程序逻辑：合并声明以及布尔值简化
+<pre><code class="language-js">// 压缩前
+const a = 3;
+const b = 4;
+
+// 压缩后
+const a = 3, b = 4;
+
+// 压缩前
+!b &amp;&amp; !c &amp;&amp; !d &amp;&amp; !e;
+
+// 压缩后
+!(b || c || d || e);
+</code></pre>
+<ul>
+<li>解析程序逻辑：编译预计算</li>
+</ul>
+<pre><code class="language-js">// 压缩前
+const ONE_YEAR = 365 * 24 * 60 * 60;
+// 压缩后
+const ONE_YAAR = 31536000;
+
+// 压缩前
+function hello() {
+  console.log(&quot;hello, world&quot;);
+}
+hello();
+// 压缩后
+console.log(&quot;hello, world&quot;);
+</code></pre>
+</li>
+</ul>
+<h4 id="库"><a class="header" href="#库">库</a></h4>
+<p>uglify、terser 与 swc</p>
+<h3 id="tree-shaking"><a class="header" href="#tree-shaking">tree shaking</a></h3>
+<ul>
+<li>依赖于 webpack 静态分析，结合 AST 删除不必要的节点</li>
+<li>对引入的 json 文件做静态分析
+<ul>
+<li>需要使用 wabpack 插件<code>webpack-json-access-optimizer</code></li>
+<li>把 json 转换为 array，并删除不必要的内容
+<pre><code class="language-js">// strings.json
+[&quot;Hello world!&quot;, &quot;Hello world again!&quot;];
+
+// index.js
+const strings = require(&quot;./strings.json&quot;);
+console.log(strings[0], strings[1]);
+</code></pre>
+</li>
+</ul>
+</li>
+<li>对 css，下面用到了 style-loader，会把 css 加到 style 标签里
+<pre><code class="language-js">{
+    test: /\.css$/,
+    use: ['style-loader', 'css-loader'],
+}
+// You just have to add the sideEffects: true property to it.
+
+{
+    test: /\.css$/,
+    use: ['style-loader', 'css-loader'],
+    sideEffects: true
+}
+</code></pre>
+</li>
+<li>sideeffect 能直接跳过整个模块/文件
+<img src="https://blog.logrocket.com/tree-shaking-json-files-webpack/" alt="Webpack - Tree Shaking" />
+<img src="https://blog.logrocket.com/tree-shaking-json-files-webpack/" alt="JSON-CSS" /></li>
+</ul>
+<h2 id="http-缓存"><a class="header" href="#http-缓存">http 缓存</a></h2>
+<h3 id="介绍"><a class="header" href="#介绍">介绍</a></h3>
+<p>更少的请求，更少的流量，更少的峰值带宽，从而节省一大笔服务器或者 CDN 的费用。</p>
+<ul>
+<li>减少请求次数</li>
+<li>减少峰值带宽 控制 HTTP 缓存只需要使用 Cache-control 控制</li>
+</ul>
+<blockquote>
+<p>Expires：是 http1.0 的规范，它的值是一个绝对时间的 GMT 格式的时间字符串。比如网页的 Expires 值是：expires:Mar,
+06 Apr 2020 10:47:02 GMT。问题：到期时间是由服务端生成的，如果客户端时间跟服务器时间不一致，这就会导致缓存命中的误差。
+<strong>两者同时存在的话，Cache-Control 优先级高于 Expires</strong></p>
+</blockquote>
+<h3 id="cache-control"><a class="header" href="#cache-control">Cache-Control</a></h3>
+<pre><code>1) max-age：用来设置资源（representations）可以被缓存多长时间，单位为秒；
+2) s-maxage：和 max-age 是一样的，不过它只针对代理服务器缓存而言；**s-maxage 的优先级高于 max-age**
+
+3) public：可以被所有的用户缓存，包括用户浏览器和 CDN 等中间代理服务器。
+4) private：只能被用户浏览器缓存，而不能被代理服务器缓存；
+
+5) no-cache：no-cache 是会被缓存的，但是依然强制客户端直接向服务器发送请求，只不过每次在向客户端（浏览器）提供响应数据时，缓存都要向服务器评估缓存响应的有效性。当服务器接收到请求，会判断资源是否变更，变更则返回新内容，否则返回 304。
+6) no-store：禁止一切缓存（响应真的不被缓存）。
+
+7) max-stale：能容忍的最大过期时间。max-stale 指令标示了客户端愿意接收一个已经过期了的响应。如果指定了 max-stale 的值，则最大容忍时间为对应的秒数。如果没有指定，那么说明浏览器愿意接收任何 age 的响应（age 表示响应由源站生成或确认的时间与当前时间的差值）。
+8) min-fresh：能够容忍的最小新鲜度。min-fresh 标示了客户端不愿意接受新鲜度不多于当前的 age 加上 min-fresh 设定的时间之和的响应。
+</code></pre>
+<h3 id="什么是指纹"><a class="header" href="#什么是指纹">什么是指纹</a></h3>
+<p><img src="https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202122340765.png" alt="" />
+如图所示，指纹就是文件的 hash 值</p>
+<ul>
+<li>main.js 带有 hash 值，属于带指纹的永久资源 (强缓存)</li>
+<li>index.js 不带 hash 值，虽然设置了 no-chche，但是依然是协商缓存</li>
+</ul>
+<p>区别下面两种缓存就是依靠指纹 (是不是永久缓存)，而 cache-control 值是决定对缓存的处理策略 (存不存，用不用)</p>
+<h3 id="文件指纹生成策略"><a class="header" href="#文件指纹生成策略">文件指纹生成策略</a></h3>
+<h4 id="生成策略"><a class="header" href="#生成策略">生成策略</a></h4>
+<ul>
+<li>hash：当有文件修改，整个项目构建的 hash 值就会更新。 <code>filename: '[name]-[hash].bundle.css'</code></li>
+<li>chunkhash：和 webpack 打包的 chunk 相关，不同的 entry 会生成不同的 hash，一般用于 js 的打包。
+<code>filename: '[name]-[chunkhash].bundle.css'</code></li>
+<li>contenthash：根据文件内容来定义 hash，文件内容不变，contenthash 不变。例如 css 的打包，由于 修改 js 或 html
+文件，但是没有修改引入的 css 样式时，文件不需要生成新的哈希值，所以可适用于 css 的打包。
+<code>filename: '[name]-[contenthash:8].bundle.css'</code></li>
+</ul>
+<blockquote>
+<p>可以在哈希末尾配置哈希值的长度
+<a href="https://webpack.js.org/configuration/output/#template-strings">filename 配置格式</a></p>
+</blockquote>
+<h4 id="js-chunkhash"><a class="header" href="#js-chunkhash">js-chunkhash</a></h4>
+<pre><code class="language-js">JS 文件指纹设置：
+chunkhash;
+module.export = {
+  entry: {
+    index: &quot;./src/index.js&quot;,
+    search: &quot;./src/search.js&quot;,
+  },
+  output: {
+    path: path.resolve(__dirname, &quot;dist&quot;),
+    filename: &quot;[name][chunkhash:8].js&quot;,
+  },
+};
+</code></pre>
+<h3 id="css-contenthash"><a class="header" href="#css-contenthash">css-contenthash</a></h3>
+<p>CSS 文件指纹：contenthash --（min-css-extract-plugin 可以生产 css 文件）
+1.直接使用'style-loader'方式通过 style 标签将 CSS 插入到 head 中并没有生成单独的 CSS 文件，因此也不存在
+使用指纹时候可以更新文件，所以这里通过'min-css-extract-plugin'插件将 CSS 提取成单独的 CSS 文件，并添加文件指纹。2.安装依赖
+mini-css-extract-plugin -- 'npm i mini-css-extract-plugin -D'</p>
+<pre><code class="language-js">const MiniCssExtractPlugin = require(&quot;mini-css-extract-plugin&quot;);
+module.export = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          &quot;css-loader&quot;,
+        ],
+      },
+    ],
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: &quot;[name][contenthash:8].css&quot;,
+    }),
+  ],
+};
+</code></pre>
+<h4 id="img-hash"><a class="header" href="#img-hash">img-hash</a></h4>
+<p>图片文件指纹设置：hash 1.其中，hash 对应的是文件内容的哈希值，默认为 md5 生成，不同于前面所说的 hash 值。</p>
+<pre><code class="language-js">module.export = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/,
+        use: [{
+          loader: &quot;file-loader&quot;,
+          options: {
+            name: &quot;img/[name][hash:8].[ext]&quot;,
+          },
+        }],
+      },
+    ],
+  },
+};
+</code></pre>
+<h4 id="注意事项"><a class="header" href="#注意事项">注意事项</a></h4>
+<blockquote>
+<p>使用了 md5 指纹之后发现每次打包还是会发生变化？答：这是由于 webpack 的处理机制导致的，webpack
+每次打包会把每个模块的配置信息，如文件名、文件顺序、文件 md5 等信息作为配置打入 js
+中，以便于其进行模块管理，而这部内容，每次打包都有可能发生变化，导致整个 js 文件名每次都会发生变化。webpack 提供了一个 manifest
+的机制来剥出这个配置文件。我们需要使用 CommonsChunkPlugin 来将其剥离，同时使用
+chunk-manifest-webpack-plugin 读取其 内容导出另外一个文件，防止其内容变化导致整个 js 文件指纹发生变化</p>
+</blockquote>
+<h4 id="bundle-splitting尽量减少资源变更"><a class="header" href="#bundle-splitting尽量减少资源变更">Bundle Splitting：尽量减少资源变更</a></h4>
+<p>把大 js 文件，分成小的文件，尽量减少缓存失效的范围
+<img src="https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202130126302.png" alt="" />
+此时我们可以对资源进行分层次缓存的打包方案，这是一个建议方案：</p>
+<ul>
+<li>webpack-runtime: 应用中的 webpack 的版本比较稳定，分离出来，保证长久的永久缓存</li>
+<li>react/react-dom: react 的版本更新频次也较低</li>
+<li>vendor: 常用的第三方模块打包在一起，如 lodash，- classnames
+基本上每个页面都会引用到，但是它们的更新频率会更高一些。另外对低频次使用的第三方模块不要打进来</li>
+<li>pageA: A 路由页面，当 A 页面的组件发生变更后，它的缓存将会失效</li>
+<li>pageB: B 路由页面</li>
+<li>echarts: 不常用且过大的第三方模块单独打包</li>
+<li>mathjax: 不常用且过大的第三方模块单独打包</li>
+<li>jspdf: 不常用且过大的第三方模块单独打包</li>
+</ul>
+<p>随着 <strong>http2</strong>
+的发展，特别是多路复用，初始页面的静态资源不受资源数量的影响。因此为了更好的缓存效果以及按需加载，也有很多方案建议把<strong>所有的第三方模块进行单模块打包</strong>。</p>
+<h3 id="永久缓存--强制缓存-带指纹"><a class="header" href="#永久缓存--强制缓存-带指纹">永久缓存 / 强制缓存 (带指纹)</a></h3>
+<pre><code>Cache-Control: public,max-age=31536000,immutable
+</code></pre>
+<p>max-age 表示缓存时间为 1 年，直接从缓存数据库 (浏览器的本地缓存) 拿到数据，下图中的 (disk cache) 就是
+<img src="https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202122312621.png" alt="" />
+而为了解决更新的问题，就需要在文件名 (或者路径) 中添加 hash，版本号等动态字符，之后更改动态字符，从而达到更改引用 URL 的目的，让之前的强制缓存失效
+(其实并未立即失效，只是不再使用了而已)。在线提供的类库 (如 jquery-3.3.1.min.js, lodash.min.js 等) 均采用这个模式。</p>
+<p><strong>默认的强制缓存时间</strong></p>
+<p>首先要明确两个响应头代表的含义：</p>
+<ul>
+<li>Date: 指源服务器响应报文生成的时间，差不多与发请求的时间等价</li>
+<li>Last-Modified: 指静态资源上次修改的时间，取决于 mtime</li>
+</ul>
+<p>LM factor 算法认为当请求服务器时，如果没有设置 Cache-Control，如果距离上次的 Last-Modified
+越远，则生成的强制缓存时间越长。</p>
+<pre><code class="language-js">// 用公式表示如下，其中 factor 介于 0 与 1 之间：
+MaxAge = (Date - LastModified) * factor;
+</code></pre>
+<p><img src="https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202130123289.png" alt="" /></p>
+<h3 id="协商缓存--对比缓存-不带指纹"><a class="header" href="#协商缓存--对比缓存-不带指纹">协商缓存 / 对比缓存 (不带指纹)</a></h3>
+<p>第一次请求会缓存<code>数据，Etag，Last-Modified</code>，之后请求都要发出请求携带<code>If-Modified-Since, If-None-Match</code>判断缓存的时效性，如果是
+304，就表示缓存可用，浏览器就直接用缓存数据
+<img src="https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202122321204.png" alt="" /></p>
+<h3 id="etag-和-last-modified-的区别"><a class="header" href="#etag-和-last-modified-的区别">Etag 和 Last-Modified 的区别</a></h3>
+<p>Etag 优先级更高，服务前先比较 Etag，同时存在时会以 ETag 为准。</p>
+<h4 id="last-modified--if-modified-since"><a class="header" href="#last-modified--if-modified-since">Last-Modified / If-Modified-Since</a></h4>
+<ol>
+<li>精确到秒：<code>Last-Modify: Thu,31 Dec 2037 23:59:59 GMT</code></li>
+<li>使用<code>stat ./xxx.txt</code>获取文件 (夹) 信息</li>
+</ol>
+<p>服务器响应请求时，会告诉浏览器一个告诉浏览器资源的最后修改时间：Last-Modified，浏览器之后再请求的时候，会带上一个头：If-Modified-Since，这个值就是服务器上一次给的
+Last-Modified 的时间，服务器会比对资源当前最后的修改时间，如果大于
+If-Modified-Since，则说明资源修改过了，浏览器不能再使用缓存，否则浏览器可以继续使用缓存，并返回 304 状态码。</p>
+<h4 id="etag--if-none-match"><a class="header" href="#etag--if-none-match">Etag / If-None-Match</a></h4>
+<ol>
+<li>Etag/If-None-Match 是“实体标签”（Entity Tag）的缩写</li>
+<li>优先级高于 Last-Modified / If-Modified-Since）</li>
+<li>优势</li>
+</ol>
+<ul>
+<li>解决内容并不改变，仅仅改改变修改时间的问题</li>
+<li>解决只就精确到秒的问题：某些文件修改非常频繁，比如在秒以下的时间内进行修改，(比方说 1s 内修改了 N 次)，If-Modified-Since
+能检查到的粒度是 s 级的，这种修改无法判断 (或者说 UNIX 记录 MTIME 只能精确到秒)；</li>
+<li>某些服务器不能精确的得到文件的最后修改时间。</li>
+</ul>
+<p>服务器响应请求时，通过 Etag 头部告诉浏览器当前资源在服务器的唯一标识（生成规则由服务器决定），浏览器再次请求时，就会带上一个头
+If-None-Match，这个值就是服务器上一次给的 Etag 的值，服务器比对一下资源当前的 Etag 是否跟 If-None-Match
+一致，不一致则说明资源修改过了，浏览器不能再使用缓存，否则浏览器可以继续使用缓存，并返回 304 状态码。</p>
+<p><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#etag">nginx 配置 etag</a>
+由文件内容的 hash 或者 mtime/size 生成</p>
+<h3 id="最佳缓存策略"><a class="header" href="#最佳缓存策略">最佳缓存策略</a></h3>
+<h4 id="缓存位置"><a class="header" href="#缓存位置">缓存位置</a></h4>
+<p>请求一个资源时，会按照优先级（Service Worker - Memory Cache - Disk Cache - Push
+Cache）依次查找缓存，如果命中则使用缓存，否则发起请求。</p>
+<ol>
+<li>service walker</li>
+</ol>
+<p>浏览器背后的独立线程，Service Worker 中涉及到请求拦截，所以必须使用 HTTPS 协议来保障安全</p>
+<p>当 Service Worker 没有命中缓存的时候，我们需要去调用 fetch 函数获取数据。也就是说，如果我们没有在 Service Worker
+命中缓存的话，会根据缓存查找优先级去查找数据。但是不管我们是从 Memory Cache 中还是从网络请求中获取的数据，浏览器都会显示我们是从 Service
+Worker 中获取的内容。</p>
+<ol start="2">
+<li>200 from memory cache</li>
+</ol>
+<p>主要包含的是当前中页面中已经抓取到的资源，会随着进程的释放而释放，一旦我们关闭 Tab 页面，内存中的缓存也就被释放了。
+一般来说，系统不会给内存分配较大的容量，因此内存缓存一般用于存储较小文件。同时内存缓存在有时效性要求的场景下也很有用（比如浏览器的隐私模式）。当前系统内存使用率高的话，文件优先存储进硬盘</p>
+<blockquote>
+<p>还保存着 preload/prefetch 相关的资源，preloader 的相关指令已经是页面优化的常见手段之一，它可以一边解析 js/css
+文件，一边网络请求下一个资源。200 from prefetch cache 在 preload 或 prefetch 的资源加载时，两者也是均存储在
+http cache，当资源加载完成后，如果资源是可以被缓存的，那么其被存储在 http cache
+中等待后续使用；如果资源不可被缓存，那么其在被使用前均存储在 memory cache。</p>
+</blockquote>
+<ol start="3">
+<li>
+<p>200 from disk cache
+表示不访问服务器，直接从硬盘中读取缓存。与内存相比，硬盘的读取速度相对较慢，但硬盘缓存持续的时间更长，关闭进程之后，缓存的资源仍然存在。由于硬盘的容量较大，因此一般用于存储大文件。
+对于大文件来说，大概率是不存储在内存中的，反之优先</p>
+</li>
+<li>
+<p>Push cache</p>
+</li>
+</ol>
+<p>Push Cache（推送缓存）是 HTTP/2
+中的内容，当以上三种缓存都没有命中时，它才会被使用。它只在会话（Session）中存在，一旦会话结束就被释放，并且缓存时间也很短暂，在 Chrome
+浏览器中只有 5 分钟左右，同时它也并非严格执行 HTTP 头中的缓存指令。</p>
+<ul>
+<li>可以推送 no-cache 和 no-store 的资源</li>
+<li>一旦连接被关闭，Push Cache 就被释放</li>
+<li>多个页面可以使用同一个 HTTP/2 的连接，可以使用同一个 Push Cache，有的浏览器会对相同域名但不同的 tab 标签使用同一个 HTTP 连接。</li>
+<li>Push Cache 中的缓存只能被使用一次</li>
+<li>浏览器可以拒绝接受已经存在的资源推送</li>
+<li>你可以给其他域名推送资源</li>
+</ul>
+<p>其他</p>
+<ol>
+<li>CDN Cache</li>
+</ol>
+<p>以腾讯 CDN 为例：X-Cache-Lookup:Hit From MemCache 表示命中 CDN 节点的内存；X-Cache-Lookup:Hit
+From Disktank 表示命中 CDN 节点的磁盘；X-Cache-Lookup:Hit From Upstream 表示没有命中 CDN。</p>
+<ol start="2">
+<li>其他的不展开了，具体参考下面的 所有缓存机制的解读</li>
+</ol>
+<p>IndexDB(浏览器本地存储)，Service Worker，LocalStorage，SessionStorage</p>
+<h4 id="用户行为如何触发缓存策略"><a class="header" href="#用户行为如何触发缓存策略">用户行为如何触发缓存策略</a></h4>
+<ol>
+<li>
+<p>打开网页，地址栏输入地址：查找 disk cache 中是否有匹配。如有则使用；如没有则发送网络请求。</p>
+</li>
+<li>
+<p>普通刷新 (F5)：跳过强缓存，但是会检查协商缓存 (因为 TAB 并没有关闭，因此 memory cache 是可用的，会被优先使用
+(如果匹配的话)。其次才是 disk cache)。</p>
+</li>
+</ol>
+<ul>
+<li>当你点“刷新”按钮的时候，浏览器会在请求头里加一个“Cache-Control: maxage=0”。因为 max-age
+是“生存时间”，而本地缓存里的数据至少保存了几秒钟，所以浏览器就不会使用缓存，而是向服务器发请求。服务器看到
+max-age=0，也就会用一个最新生成的报文回应浏览器。</li>
+</ul>
+<ol start="3">
+<li>强制刷新 (Ctrl + F5)：浏览器不使用缓存 (跳过强缓存和协商缓存)，直接从服务器加载，因此发送的请求头部均带有 Cache-control:
+no-cache(为了兼容，还带了 Pragma: no-cache),服务器直接返回 200 和最新内容。</li>
+</ol>
+<ul>
+<li>“Cache-Control: no-cache”，含义和“max-age=0”基本一样，就看后台的服务器怎么理解，通常两者的效果是相同的。</li>
+</ul>
+<h4 id="最佳缓存策略-1"><a class="header" href="#最佳缓存策略-1">最佳缓存策略</a></h4>
+<p>定义最优缓存策略</p>
+<ul>
+<li>
+<p>更新频繁的应该提取为单文件：有些资源的更新比其他资源频繁。如果资源的特定部分（例如 JS 函数或一组 CSS
+样式）会经常更新，应考虑将其代码作为单独的文件提供。这样，每次获取更新时，剩余内容（例如不会频繁更新的库代码）可以从缓存中获取，确保下载的内容量最少；</p>
+</li>
+<li>
+<p>确保服务器配置或移除 ETag：因为 Etag 跟服务器配置有关，每台服务器的 Etag 都是不同的；其他</p>
+</li>
+<li>
+<p>确定中继缓存可以缓存哪些资源：对所有用户的响应完全相同的资源很适合由 CDN 或其他中继缓存进行缓存；</p>
+</li>
+<li>
+<p>使用一致的网址：如果您在不同的网址上提供相同的内容，将会多次获取和存储该内容。注意：URL 区分大小写！</p>
+</li>
+<li>
+<p>确定每个资源的最优缓存周期：不同的资源可能有不同的更新要求。审查并确定每个资源适合的 max-age；</p>
+</li>
+<li>
+<p>确定网站的最佳缓存层级：对 HTML 文档组合使用包含内容特征码的资源网址以及短时间或 no-cache 的生命周期，可以控制客户端获取更新的速度；</p>
+</li>
+<li>
+<p>善用 HTML5 的缓存机制：合理设计启用 LocalStorage、SessionStorage、IndexDB、SW 等存储，会给页面性能带来明显提升；</p>
+</li>
+<li>
+<p>用好本地缓存</p>
+</li>
+</ul>
+<p><img src="https://trdthg-img-for-md-1306147581.cos.ap-beijing.myqcloud.com/img/202202130038910.png" alt="" /></p>
+<h3 id="参考资料"><a class="header" href="#参考资料">参考资料</a></h3>
+<ul>
+<li><a href="https://www.jiqizhixin.com/articles/2020-07-24-12">所有缓存机制的解读</a></li>
+<li><a href="https://developer.huawei.com/consumer/cn/forum/topic/0202357360658600848">前端学习之浏览器缓存机制</a></li>
+<li><a href="https://cloud.tencent.com/developer/news/588770">资料</a></li>
+<li><a href="https://shanyue.tech/frontend-engineering/http-cache.html">山月</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching">MDN-caching</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/111190645">缓存策略：强缓存&amp;协商缓存</a></li>
+<li><a href="https://www.kancloud.cn/cyyspring/webpack/1836682">文件指纹</a></li>
+</ul>
+<h2 id="cookie-和-session-的区别"><a class="header" href="#cookie-和-session-的区别">cookie 和 session 的区别</a></h2>
+<p>1.使用方式</p>
+<p>cookie 机制：如果不在浏览器中设置过期事件，cookie 被保存在内存中，生命周期随浏览器的关闭而结束，这种 cookie 简称为会话
+cookie。如果在浏览器中设置了 cookie 的过期事件，cookie 会被保存在硬盘中，关闭浏览器后，cookie
+数据仍然存在，直到过期事件结束才消失。cookie 是服务端发给客户端的特殊信息，cookie 是以文本的方式保存在客户端，每次请求时都带上它</p>
+<p>session 机制：当服务器收到请求需要创建 session 对象时，首先会检查客户端请求中是否包含 sessionid。如果有
+sessionid，服务器将根据该 id 返回对应 session 对象。如果客户端请求中没有 sessionid，服务器会创建新的 session 对象，并把
+sessionid 在本次响应中返回给客户端。通常使用 cookie 方式存储 sessionid 到客户端，在交互中浏览器按照规则将 sessionid
+发送给服务器。如果用户禁用 cookie，则要使用 URL 重写，可以通过 response.encodeURL(url) 进行实现；API 对
+encodeURL 的结束为，当浏览器支持 cookie 时，url 不做任何处理；当浏览器不支持 cookie 的时候，将会重写 URL 将
+sessionid 拼接到访问地址后。</p>
+<p>2.保持状态</p>
+<p>cookie 保存在浏览器端，session 保存在服务器端</p>
+<p>3.存储的大小</p>
+<p>单个 cookie 保存的数据不能超过 4kb；session 大小没有限制。</p>
+<p>4.存储内容</p>
+<p>cookie 只能保存字符串类型，以文本的方式。session 通过类似与 Hashtable 的数据结构来保存，能支持任何类型的对象（session
+中可含有多个对象）</p>
+<p>5.安全性</p>
+<p>session 的安全性大于 cookie。原因如下：</p>
+<p>① sessionid 存储在 cookie 中，若要攻破 session 首先要攻破 cookie； ② sessionid 是要有人登录，或者启动
+session_start 才会有，所以攻破 cookie 也不一定能得到 sessionid； ③ 第二次启动 session_start 后，前一次的
+sessionid 就是失效了，session 过期后，sessionid 也随之失效。 ④ sessionid 是加密的。</p>
+<p>综上所述，攻击者必须在短时间内攻破加密的 sessionid，这很难。</p>
+<p>6.应用场景</p>
+<p>cookie：（1）判断用户是否登录过网站，以便下次登录时能够实现自动登录（或者记住密码）。（2）保存上次登录的事件等信息。（3）保存上次查看的页面
+（4）浏览计数</p>
+<p>session：</p>
+<p>（1）网上商城中的购物车（2）保存用户登录信息（3）将某些数据放入 session 中，供同一用户的不同页面使用（4）防止用户非法登录</p>
+<h3 id="localstorage-和-sessionstorage-的区别"><a class="header" href="#localstorage-和-sessionstorage-的区别">localStorage 和 sessionStorage 的区别</a></h3>
+<p>1.生命周期</p>
+<p>localStorage 的生命周期是永久的，关闭页面或浏览器之后 localStorage 中的数据也不会消失。localStorage
+除非主动删除数据，否则数据永远不会消失。</p>
+<p>sessionStorage 的生命周期是仅在当前会话下有效。sessionStorage 引入了一个“浏览器窗口”的概念，sessionStorage
+是在同源的窗口中始终存在的数据。只要这个浏览器窗口没有关闭，即使刷新页面或者进入同源另一个页面，数据依然存在。但是 sessionStorage
+在关闭了浏览器窗口后就会被销毁。同时独立的打开同一个窗口同一个页面，sessionStorage 也是不一样的。</p>
+<p>2.存储大小</p>
+<p>localStorage 和 sessionStorage 的存储数据大小一般都是：5MB</p>
+<p>3.存储位置</p>
+<p>localStorage 和 sessionStorage 都保存在客户端，不与服务器进行交互通信</p>
+<p>4.存储内容类型</p>
+<p>localStorage 和 sessionStorage 只能存储字符串类型，对于复杂的对象可以使用 ECMAScript 提供的 JSON 对象的
+stringify 和 parse 来处理</p>
+<p>5.应用场景</p>
+<p>localStorage：常用于长期登录（+ 判断用户是否已登录），适合长期保存在本地的数据</p>
+<p>sessionStorage：敏感账号一次性登录</p>
+<h3 id="cookie-中的-httponly-的属性和作用"><a class="header" href="#cookie-中的-httponly-的属性和作用">Cookie 中的 httponly 的属性和作用</a></h3>
+<p>1.什么是 HttpOnly?</p>
+<p>如果 cookie 中设置了 HttpOnly 属性，那么，这样能有效的防止 XSS 攻击，窃取 cookie 内容，这样就增加了 cookie
+的安全性，即便是这样，也不要将重要信息存入 cookie。XSS 全称 Cross SiteScript，跨站脚本攻击，是 Web 程序中常见的漏洞，XSS
+属于被动式且用于客户端的攻击方式，所以容易被忽略其危害性。其原理是攻击者向有 XSS 漏洞的网站中输入 (传入) 恶意的 HTML
+代码，当其它用户浏览该网站时，这段 HTML 代码会自动执行，从而达到攻击的目的。如，盗取用户 Cookie、破坏页面结构、重定向到其它网站等。</p>
+<p>2.HttpOnly 的设置样例</p>
+<p>response.setHeader(&quot;Set-Cookie&quot;,
+&quot;cookiename=httponlyTest;Path=/;Domain=domainvalue;Max-Age=seconds;HTTPOnly&quot;);
+例如： //设置 cookie</p>
+<p>response.addHeader(&quot;Set-Cookie&quot;, &quot;uid=112; Path=/; HttpOnly&quot;)</p>
+<p>//设置多个 cookie</p>
+<p>response.addHeader(&quot;Set-Cookie&quot;, &quot;uid=112; Path=/; HttpOnly&quot;);</p>
+<p>response.addHeader(&quot;Set-Cookie&quot;, &quot;timeout=30; Path=/test; HttpOnly&quot;);</p>
+<p>//设置 https 的 cookie</p>
+<p>response.addHeader(&quot;Set-Cookie&quot;, &quot;uid=112; Path=/; Secure; HttpOnly&quot;);</p>
+<p>具体参数的含义再次不做阐述，设置完毕后通过 js 脚本是读不到该 cookie 的，但使用如下方式可以读取。</p>
+<p>Cookie cookies[]=request.getCookies();</p>
+<h3 id="参考资料-1"><a class="header" href="#参考资料-1">参考/资料</a></h3>
+<ul>
+<li><a href="https://github.com/xuexueq/blog/issues/5">浏览器存储方案（Cookie、LocalStorage、SessionStorage）</a></li>
+</ul>
+<h2 id="packagejson"><a class="header" href="#packagejson">package.json</a></h2>
+<h3 id="dependencies-与-devdependencies-有何区别"><a class="header" href="#dependencies-与-devdependencies-有何区别">dependencies 与 devDependencies 有何区别</a></h3>
+<ul>
+<li>对于业务代码，打包时依靠的是 bundle 的依赖分析，与 dev 无关</li>
+<li>对于库而言，当库被引入时，dev 中的依赖不会被下载</li>
+</ul>
+<h3 id="cjsesumd"><a class="header" href="#cjsesumd">cjs、es、umd</a></h3>
+<ol>
+<li>cjs 是动态加载模块，可以直接 require 一个变量</li>
+</ol>
+<pre><code class="language-js">require(`./${a}`);
+</code></pre>
+<ol start="2">
+<li>esm 是语言上的规范，因此在 Node 及 浏览器中均会支持</li>
+</ol>
+<ul>
+<li>esm 是静态导入，可以在编译期进行 Tree shaking，减少 js 体积</li>
+<li>如果要动态导入，可以
+<pre><code class="language-js">const ms = await import(&quot;https://cdn.skypack.dev/ms@latest&quot;);
+ms.default(1000);
+</code></pre>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../../note/frontend/list.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../../note/frontend/flutter.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../../note/frontend/list.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../../note/frontend/flutter.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>
