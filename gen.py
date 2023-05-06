@@ -37,7 +37,10 @@ def gen(dirname) -> str:
             sections = dirs
             break
 
+    ret += "# Blog\n\n"
+    ret += "- [About]()\n\n"
     for section in sections:
+
         ret += "---"
         ret += "\n"
         ret += "\n"
@@ -49,7 +52,7 @@ def gen(dirname) -> str:
                 for file in files:
                     if file.endswith(".md"):
                         ret += (
-                            "* ["
+                            "- ["
                             + file[:-3]
                             + "](./"
                             + os.path.join(section, file)
@@ -58,7 +61,7 @@ def gen(dirname) -> str:
                         ret += "\n"
             else:
                 ret += (
-                    "* ["
+                    "- ["
                     + os.path.basename(root)
                     + "](./"
                     + os.path.join(section, os.path.basename(root), "README.md")
@@ -68,7 +71,7 @@ def gen(dirname) -> str:
                 for file in files:
                     if file.endswith(".md"):
                         ret += (
-                            "    * ["
+                            "    - ["
                             + file[:-3]
                             + "](./"
                             + os.path.join(section, os.path.basename(root), file)
