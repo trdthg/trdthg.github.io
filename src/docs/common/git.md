@@ -1,24 +1,39 @@
 # Git
 
+## 认证
+
+- <https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%87%AD%E8%AF%81%E5%AD%98%E5%82%A8#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%AD%E8%AF%81%E7%BC%93%E5%AD%98>
+- <https://blog.csdn.net/onTheRoadToMine/article/details/79029331>
+- <https://www.panyanbin.com/article/ff4e1f85.html>
+- <https://www.fournoas.com/posts/the-principle-of-git-credentials/#%E7%BB%99%E5%87%BA%E7%AD%94%E6%A1%88>
+
 ## 远程仓库
+
+### 重命名
+
+```shell
+git remote rename origin upstream
+
+git remote set-url origin xxxxxxxxx
+```
 
 ### 本地创建远程仓库
 
 [hub-git 命令行插件](https://hub.github.com/)
 
-```
+```shell
 hub create
 ```
 
 ### 添加远程仓库
 
-```
+```shell
 git remote add origin(远程仓库名，随意) git@github.com:trdthg/trdthg.github.io.git
 ```
 
 ### 追踪远程分支
 
-```
+```shell
 本地分支名可省略，默认为当前分支
 git branch -u origin/remote_branch_name  <local_branch_name>
 
@@ -33,20 +48,20 @@ git branch --set-upstream-to=origin/remote_branch_name  local_branch_name
 
 ### 删除远程分支
 
-```
+```shell
 git push origin --delete xxx
 ```
 
 ### 删除本地分支
 
-```
+```bash
 git branch -d xxx
 git branch -D xxx
 ```
 
 ### 缓存当前修改
 
-```
+```bash
 git stash
 
 git stash list
@@ -60,22 +75,22 @@ git stash pop
 
 1. 将 src/locale 目录拆分到一个新分支里
 
-```
-git subtree split -P src/locale -b my-locale
-```
+    ```bash
+    git subtree split -P src/locale -b my-locale
+    ```
 
-> 必须从仓库根目录下执行
+    必须从仓库根目录下执行
 
 2. 从另一个仓库里拉取上面的分支
 
-```
-cd ..
-mkdir repo
-cd repo
-git init
+  ```bash
+  cd ..
+  mkdir repo
+  cd repo
+  git init
 
-git pull ../dayjs my-locale
-```
+  git pull ../dayjs my-locale
+  ```
 
 ## 打标签
 
@@ -84,13 +99,13 @@ git pull ../dayjs my-locale
 默认情况下，git push 命令并不会传送标签到远程仓库服务器上。在创建完标签后你必须显式地推送标签到共享服务器上。
 这个过程就像共享远程分支一样——你可以运行 git push origin tagname。
 
-```
+```bash
 git push origin v1.5
 ```
 
 如果想要一次性推送很多标签，也可以使用带有 --tags 选项的 git push 命令。这将会把所有不在远程仓库服务器上的标签全部传送到那里。
 
-```
+```bash
 git push origin --tags
 ```
 
@@ -98,7 +113,7 @@ git push origin --tags
 
 Git 支持两种标签：轻量标签（lightweight）与附注标签（annotated）。
 
-```
+```bash
 附注标签
 在 Git 中创建附注标签十分简单。 最简单的方式是当你在运行 tag 命令时指定 -a 选项
 -m 选项指定了一条将会存储在标签中的信息。
@@ -115,13 +130,13 @@ git tag v1.4-lw
 
 加上分支即可
 
-```
+```bash
 git tag -a v1.2 9fceb02
 ```
 
 ### 删除标签
 
-```
+```bash
 git tag -d v1.4-lw
 ```
 
@@ -129,7 +144,7 @@ git tag -d v1.4-lw
 
 git hook 的所有类型都在`.git/hooks`文件夹下
 
-```
+```bash
 applypatch-msg.sample      post-update.sample     pre-merge-commit.sample    pre-rebase.sample        update.sample
 commit-msg.sample          pre-applypatch.sample  prepare-commit-msg.sample  pre-receive.sample
 fsmonitor-watchman.sample  pre-commit.sample      pre-push.sample            push-to-checkout.sample
@@ -143,23 +158,23 @@ npm install husky -D
 
 ### 生成 ./husky 配置文件夹
 
-```
+```bash
 npm set-script prepare "husky install"
 npm run prepare
 ```
 
-### Add a hook:
+### Add a hook
 
 下面可以直接把要执行的脚本写在 `./husky/pre-commit` 中
 
-```
+```bash
 npx husky add .husky/pre-commit "npm test"
 git add .husky/pre-commit
 ```
 
-### 测试：
+### 测试
 
-```
+```bash
 git commit -m "Keep calm and commi
 ```
 
@@ -167,7 +182,7 @@ git commit -m "Keep calm and commi
 
 ### 基本规则
 
-```
+```bash
 .idea/          # 忽略仓库中所有.idea (目录)
 /.idea/         # 忽略仓库中 (根) 目录下的.idea (目录)
 /.settings      # 忽略仓库中 (根) 目录下的 .settings (文件或目录)
@@ -178,7 +193,7 @@ git commit -m "Keep calm and commi
 
 ### glob 模式 (正则)
 
-```
+```bash
 doc/*.txt           # 忽略 doc 目录下一级的所有 (以 `.txt` 结尾) 的 (文件或目录)
 doc/**/*.pdf        # 忽略 doc (目录下所有的) .pdf 文件或目录
 
@@ -193,7 +208,8 @@ debug[!01].log      # 不忽略 debug0.log、debug1.log
 
 - 从上到下，后面覆盖前面的
 - 以上规则仅适用于未被缓存或加入版本控制的文件 如果忽略失效，可以尝试
-  ```
+
+  ```bash
   .gitignore 只能忽略那些原来没有被 track 的文件，如果某些文件已经被纳入了版本管理中，则修改.gitignore 是无效的。
   那么解决方法就是先把本地缓存删除（改变成未 track 状态），然后再提交。
 
@@ -210,7 +226,7 @@ debug[!01].log      # 不忽略 debug0.log、debug1.log
 [菜鸟](https://www.runoob.com/git/git-pull.html) git pull 其实就是 git fetch 和 git
 merge FETCH_HEAD 的简写。命令格式如下：
 
-```
+```bash
 git pull <远程主机名> <远程分支名>:<本地分支名>
 ```
 
@@ -218,6 +234,6 @@ git pull <远程主机名> <远程分支名>:<本地分支名>
 
 覆盖最近一次 commit 信息
 
-```
+```bash
 git commit --amend  -m ":bug: Fix: xxx" -s
 ```
