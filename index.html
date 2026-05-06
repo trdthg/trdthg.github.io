@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            max-width: 640px;
+            margin: 2em auto;
+            padding: 0 1em;
+            font-family: -apple-system, sans-serif;
+
+            /* 阅读友好的底色 */
+            background-color: #f5f0e8;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.004 0.008' numOctaves='5' seed='12'/%3E%3CfeDiffuseLighting lighting-color='%23f9f3e0' surfaceScale='1.8'%3E%3CfeDistantLight azimuth='45' elevation='50'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
+
+            a {
+                color: #0366d6;
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+            h1,
+            h2,
+            h3 {
+                color: #111;
+            }
+
+            h1 {
+                border-bottom: 1px solid #eee;
+                padding-bottom: 0.3em;
+            }
+
+            code {
+                background: #f0f0f0;
+                padding: 0.2em 0.4em;
+                border-radius: 3px;
+                font-size: 0.9em;
+            }
+
+            pre {
+                background: #f6f8fa;
+                padding: 1em;
+                border-radius: 6px;
+                overflow-x: auto;
+            }
+
+            pre code {
+                background: none;
+                padding: 0;
+            }
+
+            .home-link {
+                margin-bottom: 2em;
+                font-size: 0.9em;
+                color: #666;
+            }
+
+            .post-list {
+                line-height: 0.618;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="home-link">
+        <a href="?">« 文章列表</a>
+    </div>
+
+    <main id="content">
+        <p>加载中…</p>
+    </main>
+
+    <script>
+        // 极简 Markdown 渲染器（仅处理标题、粗体、链接）
+        function renderMD(md) {
+            let html = md;
+
+            // 1. 链接 [text](url)
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+
+            // 2. 粗体 **text**
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+            // 3. 标题（行首 #、##、###）
+            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+            // 4. 代码块 ``` ... ``` (保持简单，直接包在 pre/code 里)
+            html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+
+            // 5. 行内代码 `code`
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+            // 6. 段落处理：将连续的换行转为段落
+            // 先把文本按双换行切分成段落，再处理每个段落内的单换行
+            const paragraphs = html.split(/\n\n+/);
+            html = html.split(/\n+/).map(line => {
+                line = line.trim();
+                if (!line) return '';
+                if (/^<(h[1-6]|pre|ul|ol|li|blockquote)/.test(line)) {
+                    return line;
+                }
+                return `<p>${line}</p>`;
+            }).join('\n');
+
+            return html;
+        }
+
+        // 解析 URL 参数，获取要加载的文章文件名
+        const params = new URLSearchParams(window.location.search);
+        const postFile = params.get('post');
+
+        const contentDiv = document.getElementById('content');
+
+        const titleName = "无关主题的随机思考"
+        if (postFile) {
+            // 加载并渲染指定文章
+            const postPath = 'posts/' + postFile;
+            fetch(postPath)
+                .then(response => {
+                    if (!response.ok) throw new Error('文章未找到');
+                    return response.text();
+                })
+                .then(md => {
+                    contentDiv.innerHTML = renderMD(md);
+                    document.title = postFile.replace('.md', '') + ' - 我的阅读笔记';
+                })
+                .catch(err => {
+                    contentDiv.innerHTML = '<p style="color:red;">文章加载失败：' + err.message + '</p>';
+                });
+        } else {
+            // 没指定文章 → 显示文章列表（手动维护）
+            contentDiv.innerHTML = `
+                <h1>${titleName}</h1>
+                <p>有时想把心中所想记录下来</p>
+
+                <div id="post-list">
+                </div>
+
+                <p style="margin-top:1.5em; color:#888; font-size:0.9em;">
+                    [给作者的 Note] 新文章只需在 <code>posts/</code> 下添加 .md 文件，并更新这里的链接即可。
+                </p>
+            `;
+            document.title = titleName;
+        }
+
+        fetch('posts/list.json')
+            .then(res => res.json())
+            .then(posts => {
+                const listDiv = document.getElementById('post-list');
+                if (posts.length === 0) {
+                    listDiv.innerHTML = '<p>暂无文章。</p>';
+                    return;
+                }
+                let html = '';
+                posts.forEach(post => {
+                    html += `<p><a href="?post=${encodeURIComponent(post.file)}">${post.title}</a></p>`;
+                });
+                listDiv.innerHTML = html;
+            })
+            .catch(() => {
+                document.getElementById('post-list').innerHTML = '<p style="color: #c0392b">列表加载失败，请检查 posts.json 是否存在。</p>';
+            });
+    </script>
+</body>
+
+</html>

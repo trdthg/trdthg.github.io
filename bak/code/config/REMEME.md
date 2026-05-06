@@ -1,0 +1,3 @@
+- [更换终端文件夹颜色](https://askubuntu.com/questions/466198/how-do-i-change-the-color-for-directories-with-ls-in-the-console)
+- [命令高亮]()
+- [cmd 提示](https://github.com/zsh-users/zsh-autosuggestions)
