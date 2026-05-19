@@ -63,6 +63,19 @@
             .post-list {
                 line-height: 0.618;
             }
+
+            .note-item {
+                color: #888;
+                font-size: 0.9em;
+                padding-left: 1.2em;
+                position: relative;
+            }
+            .note-item::before {
+                content: '✎';
+                position: absolute;
+                left: 0;
+                color: #bbb;
+            }
         }
     </style>
 </head>
@@ -167,7 +180,11 @@
                 }
                 let html = '';
                 posts.forEach(post => {
-                    html += `<p><a href="?post=${encodeURIComponent(post.file)}">${post.title}</a></p>`;
+                    if (post.note) {
+                        html += `<p class="note-item">${post.note}</p>`;
+                    } else {
+                        html += `<p><a href="?post=${encodeURIComponent(post.file)}">${post.title}</a></p>`;
+                    }
                 });
                 listDiv.innerHTML = html;
             })
