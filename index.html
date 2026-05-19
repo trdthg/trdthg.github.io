@@ -76,6 +76,8 @@
         <p>加载中…</p>
     </main>
 
+    <div id="giscus-container" style="margin-top: 2em;"></div>
+
     <script>
         // 极简 Markdown 渲染器（仅处理标题、粗体、链接）
         function renderMD(md) {
@@ -172,6 +174,23 @@
             .catch(() => {
                 document.getElementById('post-list').innerHTML = '<p style="color: #c0392b">列表加载失败，请检查 posts.json 是否存在。</p>';
             });
+    </script>
+
+    <!-- giscus 评论系统 -->
+    <script src="https://giscus.app/client.js"
+        data-repo="trdthg/trdthg.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkzNjQ4MzQ1ODY="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOFb7vGs4C9W1e"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
     </script>
 </body>
 
