@@ -160,7 +160,7 @@ function renderPosts() {
     // 文章列表
     currentEntry = null;
     return `
-        <h1>不知道要写点什么？</h1>
+        <h1>不知道要写点什么</h1>
         你知道吗？知道了请告诉我！🙇 trdthg47@gmail.com
         <p>把不适合放在我的 <a href="https://t.me/trdthg_group">telegram channel</a> 的单拎出来放这里</p>
 
