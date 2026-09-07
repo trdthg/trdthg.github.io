@@ -5,15 +5,15 @@ on:
     branches:
       - main
     paths:
-      - "posts/**"
-      - "posts/list.json"
+      - "posts.js"
       - "index.html"
       - "CNAME"
+      - ".github/workflows/**"
   pull_request:
     paths:
-      - "posts/**"
-      - "posts/list.json"
+      - "posts.js"
       - "index.html"
+      - ".github/workflows/**"
 
 jobs:
   deploy:
