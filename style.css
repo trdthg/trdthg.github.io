@@ -1,0 +1,64 @@
+:root {
+    --bg: #f5f0e8;
+    /* 页面底色 */
+    --bg-code: #efe6d8;
+    /* 代码块底色 */
+    --border: #e0d5c4;
+    /* 边框 */
+}
+
+body {
+    font-family: "SF Mono", "Fira Code", "Fira Mono", -apple-system, sans-serif;
+
+    /* 阅读友好的底色 */
+    background-color: var(--bg);
+}
+
+/* 顶部导航：滚动时固定在页面最顶部 */
+.home-link {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+}
+
+.home-link a {
+    margin-right: 1.2em;
+}
+
+/* 导航栏当前页高亮（header.js 条件渲染时自动加上） */
+.home-link a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* 代码块 */
+pre {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.8em 1em;
+    overflow-x: auto;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+/* 行内代码 */
+code {
+    font-family: "SF Mono", "Fira Code", "Fira Mono", monospace;
+    background: var(--bg-code);
+    border-radius: 3px;
+    padding: 0.15em 0.4em;
+    font-size: 0.9em;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    font-size: 1em;
+}
+
+/* 高亮主题自带白色背景，这里透明掉，用 pre 的暖色底 */
+pre code.hljs {
+    background: transparent;
+    padding: 0;
+}

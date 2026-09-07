@@ -4,129 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="posts.js"></script>
-    <style>
-        body {
-            font-family: "SF Mono", "Fira Code", "Fira Mono", -apple-system, sans-serif;
-
-            /* 阅读友好的底色 */
-            background-color: #f5f0e8;
-        }
-    </style>
+    <title>文章列表</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css">
 </head>
 
 <body>
-    <div class="home-link">
-        <a href="?">« 文章列表</a>
-    </div>
+    <div class="home-link"></div>
 
     <main id="content">
         <p>加载中…</p>
     </main>
 
+    <!-- giscus 评论（由 posts.js 的 setupGiscus 在文章页注入） -->
     <div id="giscus-container" style="margin-top: 2em;"></div>
 
-    <script>
-        // 极简 Markdown 渲染器（仅处理标题、粗体、链接）
-        function renderMD(md) {
-            let html = md;
-
-            // 1. 链接 [text](url)
-            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
-
-            // 2. 粗体 **text** / 斜体 _text_
-            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            html = html.replace(/_(.*?)_/g, '<i>$1</i>');
-
-            // 3. 标题（行首 #、##、###）
-            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
-            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
-            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-
-            // 4. 代码块 ``` ... ```
-            html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
-
-            // 5. 行内代码 `code`
-            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-            // 6. 段落处理
-            html = html.split(/\n+/).map(line => {
-                line = line.trim();
-                if (!line) return '';
-                if (/^<(h[1-6]|pre|ul|ol|li|blockquote)/.test(line)) {
-                    return line;
-                }
-                return `<p>${line}</p>`;
-            }).join('\n');
-
-            return html;
-        }
-
-        const params = new URLSearchParams(window.location.search);
-        const postId = params.get('post');
-
-        const contentDiv = document.getElementById('content');
-        const titleName = "我也不知道要写点什么？";
-
-        // 取文章标题：正文第一行的 # 标题
-        function postTitle(md) {
-            const m = md.match(/^#\s+(.+)$/m);
-            return m ? m[1].trim() : '(无标题)';
-        }
-
-        // 按 date 倒序排列（稳定排序，同日期保持数组顺序）
-        const sorted = [...POSTS].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
-
-        // 渲染列表：note 显示「日期 全文」，post 显示「日期 标题」链接
-        function renderList() {
-            return sorted.map(entry => {
-                if (entry.note) {
-                    return `<p>${entry.date} ${entry.note}</p>`;
-                }
-                const title = postTitle(entry.post);
-                return `<p><a href="?post=${encodeURIComponent(title)}">${entry.date} ${title}</a></p>`;
-            }).join('');
-        }
-
-        if (postId) {
-            // 显示指定文章（postId 就是文章标题）
-            const post = POSTS.find(e => e.post && postTitle(e.post) === postId);
-            if (!post) {
-                contentDiv.innerHTML = '<p style="color:red;">文章未找到。</p>';
-            } else {
-                contentDiv.innerHTML = renderMD(post.post);
-                document.title = postTitle(post.post) + ' - 我的阅读笔记';
-            }
-        } else {
-            // 显示列表
-            contentDiv.innerHTML = `
-                <h1>${titleName}</h1>
-                <p> 2026-09-07: 网站还是要做，可能需要一些创意，或者别的什么 </p>
-                <p>把不适合放在 <a href="https://t.me/trdthg_group">tg 群</a> 的单拎出来放这里</p>
-
-                <div id="post-list">
-                    ${renderList()}
-                </div>
-
-                <p>
-                    [给 Hermes 的 Note]
-                    <br/>
-                    - 新内容只需在 <i>posts.js</i> 里加一条记录：{ date, note } 或 { date, post }，会自动按日期排序。
-                    <br/>
-                    - 快速跳转到代码 <a href="https://github.com/trdthg/trdthg.github.io">https://github.com/trdthg/trdthg.github.io</a>
-                </p>
-            `;
-            document.title = titleName;
-        }
-    </script>
-
-    <!-- giscus 评论系统 -->
-    <script src="https://giscus.app/client.js" data-repo="trdthg/trdthg.github.io"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzNjQ4MzQ1ODY=" data-category="Announcements"
-        data-category-id="DIC_kwDOFb7vGs4C9W1e" data-mapping="url" data-strict="0" data-reactions-enabled="1"
-        data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="zh-CN"
-        crossorigin="anonymous" async>
-        </script>
+    <!-- 顺序固定：旧文数据 → 各页面组件 → 渲染器 → 路由 -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script src="old-posts.js"></script>
+    <script src="posts.js"></script>
+    <script src="game.js"></script>
+    <script src="music.js"></script>
+    <script src="photo.js"></script>
+    <script src="about.js"></script>
+    <script src="render-md.js"></script>
+    <script src="router.js"></script>
 </body>
 
 </html>
