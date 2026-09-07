@@ -10,6 +10,13 @@
 body {
     font-family: "SF Mono", "Fira Code", "Fira Mono", -apple-system, sans-serif;
 
+    margin: 2em;
+    line-height: 1.3em;
+
+    word-wrap: break-word;
+
+    font-size: 9.5pt;
+
     /* 阅读友好的底色 */
     background-color: var(--bg);
 }
