@@ -7,6 +7,16 @@
     /* 边框 */
 }
 
+/* 定义字体 */
+@font-face {
+    font-family: 'zpix';
+    src: url('./assets/fonts/zpix.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 body {
     font-family: "SF Mono", "Fira Code", "Fira Mono", -apple-system, sans-serif;
 
@@ -29,7 +39,8 @@ body {
 }
 
 .home-link a {
-    margin-right: 1.2em;
+    color: rgb(181, 84, 84);
+    text-decoration: none;
 }
 
 /* 导航栏当前页高亮（header.js 条件渲染时自动加上） */
@@ -37,6 +48,9 @@ body {
     font-weight: bold;
     text-decoration: underline;
 }
+
+
+/* 通用 */
 
 /* 代码块 */
 pre {
@@ -68,4 +82,13 @@ pre code {
 pre code.hljs {
     background: transparent;
     padding: 0;
+}
+
+/* 页面特定样式 */
+#game {
+    font-family: "zpix", sans-serif;
+}
+
+:has(#game.active) #content {
+    font-family: "zpix", sans-serif;
 }

@@ -13,6 +13,9 @@
 <body>
     <div class="home-link"></div>
 
+    <!-- TODO 背景有若隐若现的流星划过 -->
+    <div id="background"></div>
+
     <main id="content">
         <p>加载中…</p>
     </main>
@@ -20,15 +23,21 @@
     <!-- giscus 评论（由 posts.js 的 setupGiscus 在文章页注入） -->
     <div id="giscus-container" style="margin-top: 2em;"></div>
 
-    <!-- 顺序固定：旧文数据 → 各页面组件 → 渲染器 → 路由 -->
+    <!-- 第三方库：代码高亮 -->
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+
+    <!-- 顺序固定：各页面组件 (以及依赖的组件) → 渲染器 → 路由 -->
+    <script src="background.js"></script>
+
+    <script src="render-md.js"></script>
     <script src="old-posts.js"></script>
     <script src="posts.js"></script>
+
     <script src="game.js"></script>
     <script src="music.js"></script>
     <script src="photo.js"></script>
     <script src="about.js"></script>
-    <script src="render-md.js"></script>
+
     <script src="router.js"></script>
 </body>
 

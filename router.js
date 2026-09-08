@@ -14,9 +14,9 @@
 
     // 导航栏：[路由，显示文字]，当前页加 .active 高亮
     const NAV = [['posts', 'POST'], ['game', 'GAME'], ['music', 'MUSIC'], ['photo', 'PHOTO'], ['about', 'ABOUT']];
-    nav.innerHTML = NAV.map(([id, label]) =>
-        `<a href="?page=${id}"${id === page ? ' class="active"' : ''}>${label}</a>`
-    ).join('') + '🦊';
+    nav.innerHTML = [...NAV.map(([id, label]) =>
+        `<a id="${id}" href="?page=${id}"${id === page ? ' class="active"' : ''}>${label}</a>`
+    ), '🦊'].join(' | ');
 
     // 条件渲染：?page= → 页面组件
     let html, title, after = null;
