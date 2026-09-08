@@ -15,6 +15,28 @@
 const POSTS = [
     // —— 新文章（内联）——
     {
+        date: "2026-09-08",
+        post: `# 雪
+
+        关于博客的若干想法
+
+        1. 希望左下角有一团篝火
+        2. 希望能随春夏秋冬昼夜交替展现青草，日光，落叶与雪
+
+        ![雪](assets/images/2025-12-13-snow.webp)
+
+        bgm: Madoka 的迷你钢琴辑 https://downloads.khinsider.com/game-soundtracks/album/kimagure-orange-road-madoka-piano-files
+
+        - - - - - - - - -
+
+        好看的 homepage 太多了，翻了几天也没看完
+        - https://keningzhu.com/
+        - https://www.minkyu.me/page/website/links
+
+        刚刚给 GAME PAGE 添加了单独的像素字体，真不错
+        `
+    },
+    {
         date: "2026-09-07",
         post: `# 烦，近期总结
 
