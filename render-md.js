@@ -1,4 +1,4 @@
-// 极简 Markdown 渲染器（标题、粗体/斜体、链接、代码块、行内代码、段落）
+// 极简 Markdown 渲染器（标题、粗体/斜体、链接、图片、代码块、行内代码、段落）
 // 供 index.html 使用：escapeHTML / renderMD 都挂到全局。
 
 function escapeHTML(s) {
@@ -18,19 +18,22 @@ function renderMD(md) {
         return '\u0000I' + (codeBlocks.length - 1) + '\u0000';
     });
 
-    // 2. 链接 [text](url)
+    // 2. 图片 ![alt](url)（要放在链接之前，避免被链接规则吃掉）
+    html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
+
+    // 3. 链接 [text](url)
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 
-    // 3. 粗体 **text** / 斜体 _text_
+    // 4. 粗体 **text** / 斜体 _text_
     html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/(?<![\w])_([^_\n]+)_(?![\w])/g, '<i>$1</i>');
 
-    // 4. 标题（行首 #、##、###）
+    // 5. 标题（行首 #、##、###）
     html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
     html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
     html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
 
-    // 5. 段落处理（代码块占位符单独成行，不会被拆开）
+    // 6. 段落处理（代码块占位符单独成行，不会被拆开）
     html = html.split(/\n+/).map(line => {
         line = line.trim();
         if (!line) return '';
@@ -39,7 +42,7 @@ function renderMD(md) {
         return `<p>${line}</p>`;
     }).join('\n');
 
-    // 6. 还原代码
+    // 7. 还原代码
     html = html.replace(/\u0000[BI](\d+)\u0000/g, (m, i) => codeBlocks[i]);
 
     return html;
