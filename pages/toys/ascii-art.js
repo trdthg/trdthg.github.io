@@ -13,9 +13,9 @@ const ASCII_ART_OPTIONS = {
 const DEFAULT_STAGES = new Set(['whitePoint', 'highlightInk']);
 
 const TOY_EXAMPLES = [
-    { src: 'assets/images/portrait-1027.jpg', label: '人像特写' },
-    { src: 'assets/images/portrait-64.jpg',   label: '高对比' },
-    { src: 'assets/images/portrait-338.jpg',  label: '低对比' }
+    { src: 'assets/images/youmu2.png', label: 'https://en.touhouwiki.net/wiki/Youmu_Konpaku' },
+    { src: 'assets/images/portrait-64.jpg',   label: '测试示例' },
+    { src: 'assets/images/portrait-338.jpg',  label: '测试示例' },
 ];
 
 async function renderToyAsciiArt() {
@@ -34,7 +34,9 @@ async function renderToyAsciiArt() {
             .toy-page .toy-stage-row input[type=range] { width: 110px; }
             .toy-page .toy-stage-val { font-size: 0.85em; opacity: 0.65; min-width: 2.8em; }
             .toy-page .toy-upload { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 1.2em; }
-            .toy-page .toy-compare, .toy-page .toy-example { display: flex; gap: 12px; align-items: flex-start; }
+            .toy-page .toy-compare { display: flex; gap: 12px; align-items: flex-start; }
+            .toy-page .toy-example-label { font-weight: bold; margin-bottom: 8px; }
+            .toy-page .toy-example-row { display: flex; gap: 12px; align-items: flex-start; }
             .toy-page .toy-compare { margin-bottom: 1.2em; }
             .toy-page .toy-example { margin-bottom: 24px; }
             .toy-page figure { margin: 0; flex: 1; min-width: 0; }
@@ -50,7 +52,6 @@ async function renderToyAsciiArt() {
             .toy-page .toy-dropzone.dragover { opacity: 1; border-color: #4a90d9; color: #4a90d9; }
         </style>
         <h1>图片转字符画</h1>
-        <p>照片会被转成点阵字符画：采样灰度 → 管线阶段变换（勾选哪些走哪些，轴可调强度）→ Bayer 抖动量化。全部在你的浏览器本地完成，图片不会被上传。</p>
         <div class="toy-main">
             <div class="toy-left">
                 <div class="toy-upload">
@@ -217,7 +218,7 @@ async function renderToyAsciiArt() {
     });
     origImg.addEventListener('load', () => fitPair(origImg.closest('.toy-compare')));
 
-    // —— 显示尺寸：内容 = min(原图自然宽, 格子宽)，原图与渲染图永远一样大。
+    // —— 显示尺寸：内容 = min(原图自然宽，格子宽)，原图与渲染图永远一样大。
     // 字符画本体宽度由字号/字体环境决定，不硬编码：先按上次 zoom 粗设，再用实测宽度校正一次（线性，一步收敛）
     const fitPair = (pair) => {
         const slot = pair?.querySelector('.toy-ascii-slot');
@@ -243,6 +244,10 @@ async function renderToyAsciiArt() {
     for (const item of TOY_EXAMPLES) {
         const example = document.createElement('div');
         example.className = 'toy-example';
+        example.append(Object.assign(document.createElement('div'),
+            { className: 'toy-example-label', textContent: item.label }));
+        const row = document.createElement('div');
+        row.className = 'toy-example-row';
         const photoFig = document.createElement('figure');
         const img = new Image();
         img.className = 'toy-photo';
@@ -255,7 +260,8 @@ async function renderToyAsciiArt() {
         slot.className = 'toy-ascii-slot';
         slot.dataset.src = item.src;
         asciiFig.append(slot);
-        example.append(photoFig, asciiFig);
+        row.append(photoFig, asciiFig);
+        example.append(row);
         gallery.append(example);
         renderAscii(item.src, slot).then(() => fitPair(example)).catch(() => { /* 示例加载失败就跳过 */ });
     }
