@@ -75,6 +75,7 @@ const STAGES = [
  * @param {number} [options.letterSpacing=0.65] - 字间距（em）
  * @param {number} [options.lineHeight=1.25] - 行高（em）
  * @param {string} [options.outline='#000'] - 叠印印章颜色
+ * @param {string} [options.background='#fff'] - 透明背景合成色（透明贴图不合成会整片变黑）
  * @param {boolean|number} [options.<stage>] - 各管线阶段开关；传 true 用 def 默认强度，传数字自定义
  * @returns {Promise<HTMLElement>}
  */
@@ -87,7 +88,8 @@ async function createBlockArtComponent(img, doc, options = {}) {
     scale = 0.5,
     letterSpacing = 0.65,
     lineHeight = 1.25,
-    outline = '#000'
+    outline = '#000',
+    background = '#fff'
   } = options;
 
   const levels = charMap.length - 1;
@@ -127,6 +129,10 @@ async function createBlockArtComponent(img, doc, options = {}) {
   canvas.width = width;
   canvas.height = height;
   const ctx = canvas.getContext('2d');
+  // 先铺底色再画图：透明背景贴图的透明像素 RGB 通常是 0（黑），
+  // 采样只看 RGB，不合成的话整张贴图会渲染成全黑
+  ctx.fillStyle = background;
+  ctx.fillRect(0, 0, width, height);
   ctx.drawImage(imageObj, 0, 0, width, height);
 
   const data = ctx.getImageData(0, 0, width, height).data;
