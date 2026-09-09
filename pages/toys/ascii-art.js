@@ -14,8 +14,9 @@ const DEFAULT_STAGES = new Set(['whitePoint', 'highlightInk']);
 
 const TOY_EXAMPLES = [
     { src: 'assets/images/youmu2.png', label: 'https://en.touhouwiki.net/wiki/Youmu_Konpaku' },
-    { src: 'assets/images/portrait-64.jpg',   label: '测试示例' },
-    { src: 'assets/images/portrait-338.jpg',  label: '测试示例' },
+    { src: 'assets/images/madoka_small.jpg', label: '红色帽子' },
+    { src: 'assets/images/portrait-64.jpg',   label: '高对比测试示例，太阳照到额头太亮了，很难描出来边缘' },
+    { src: 'assets/images/portrait-338.jpg',  label: '低对比度测试示例，无中生有出太阳，但是颜色确实微微不一样' },
 ];
 
 async function renderToyAsciiArt() {
@@ -50,6 +51,12 @@ async function renderToyAsciiArt() {
                 border: 2px dashed #999; border-radius: 4px;
             }
             .toy-page .toy-dropzone.dragover { opacity: 1; border-color: #4a90d9; color: #4a90d9; }
+
+            /* 移动端：改纵向，示例排到上传对照下面；fitAll 会在 resize 时按新格宽重新适配 */
+            @media (max-width: 768px) {
+                .toy-page .toy-main { flex-direction: column; }
+                .toy-page .toy-left, .toy-page .toy-right { width: 100%; }
+            }
         </style>
         <h1>图片转字符画</h1>
         <div class="toy-main">
