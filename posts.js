@@ -42,16 +42,16 @@ const POSTS = [
 
 网站还是要做，前几天看了好多 finger 博客，他们的都好有意思，我也得想写有意思的东西放这个网站上
 
-这次干脆把 css 样式表也删了，只留了个背景颜色
+这次干脆把居中对齐也删了
 
 加上了 GAME / MUSIC / PHOTO 三个板块，希望未来能填充的满满的
 
 ---------
 
-感觉还是要写一些技术博客 (也许是 game dev 相关)...倒不是为了分享，或者叫做稿子
+感觉还是要写一些技术博客 (可能是 game dev 相关)... 或者应该叫做稿子
 不一定只是读的，也许是要做视频的，向外输出一些东西
 
-但是读的和说的稿子风格一定也是不一样的
+但是用来读的和用来说的稿子风格一定也是不一样的
 . . . . .
 
 怎么做呢？
@@ -70,13 +70,11 @@ const POSTS = [
 
 配着 https://www.bilibili.com/video/BV1is4y1z7Wy 单曲循环很舒服
 
-(虽然这部剧我没看多，连歌剧魅影也没看太懂)
-
 ---------
 
 买了个电钢琴，... 写点啥呢？弹会个两三首再说吧
 
-总之，现在就是，调式好烦
+总之，现在就是，调式好麻烦
 
 `
     },
@@ -141,7 +139,8 @@ function entryTitle(entry) {
     return '(无标题)';
 }
 
-// giscus 评论：只在文章页注入
+// giscus 评论：全站共用一个讨论串（mapping=specific），router 在每次渲染后调用；
+// childElementCount 守卫保证 iframe 只注入一次，之后跨页面持久存在
 function setupGiscus() {
     const container = document.getElementById('giscus-container');
     if (!container || container.childElementCount) return;
@@ -152,7 +151,8 @@ function setupGiscus() {
     s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkzNjQ4MzQ1ODY=');
     s.setAttribute('data-category', 'Announcements');
     s.setAttribute('data-category-id', 'DIC_kwDOFb7vGs4C9W1e');
-    s.setAttribute('data-mapping', 'url');
+    s.setAttribute('data-mapping', 'specific');
+    s.setAttribute('data-term', 'All');
     s.setAttribute('data-strict', '0');
     s.setAttribute('data-reactions-enabled', '1');
     s.setAttribute('data-emit-metadata', '0');
@@ -220,14 +220,12 @@ function afterPosts(content) {
                 .catch(err => {
                     content.innerHTML = '<p style="color:red;">文章加载失败：' + err.message + '</p>';
                 });
-            setupGiscus();
             return;
         }
         // 内联短文
         document.title = postTitle(currentEntry.post) + ' - 我的阅读笔记';
         if (window.hljs) hljs.highlightAll();
     }
-    setupGiscus();
 }
 
 // —— 文章页组件 ——
