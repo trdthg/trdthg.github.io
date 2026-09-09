@@ -168,7 +168,7 @@ function setupGiscus() {
 
 let currentEntry = null; // render 时记住当前文章，after 里用
 
-function renderPosts() {
+async function renderPosts() {
     const postId = new URLSearchParams(location.search).get('post');
 
     if (postId) {
