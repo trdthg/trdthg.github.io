@@ -16,6 +16,15 @@
     font-display: swap;
 }
 
+/* JetBrains Mono Bold（拉丁子集，仅 22KB），字符画用 —— 锁定渲染，不依赖系统字体 */
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('./assets/fonts/jetbrains-mono-700.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
 
 body {
     font-family: "SF Mono", "Fira Code", "Fira Mono", -apple-system, sans-serif;
@@ -36,6 +45,7 @@ body {
     position: sticky;
     top: 0;
     background: var(--bg);
+    font-family: 'JetBrains Mono';
 }
 
 .home-link a {
@@ -48,7 +58,6 @@ body {
     font-weight: bold;
     text-decoration: underline;
 }
-
 
 /* 通用 */
 
@@ -92,13 +101,4 @@ pre code.hljs {
     height: auto;
     border-radius: 4px;
     display: block;
-}
-
-/* 页面特定样式 */
-#game {
-    font-family: "zpix", sans-serif;
-}
-
-:has(#game.active) #content {
-    font-family: "zpix", sans-serif;
 }
