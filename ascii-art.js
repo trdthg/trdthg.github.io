@@ -1,12 +1,67 @@
 // 图片转 Unicode 字符画组件（about 页 / toy 页共用）。
 //
-// 管线（所有增强步骤默认关闭，基线 = 采样 → Bayer 抖动量化）：
-//   采样 luma → 反色 invert → 盒式模糊 blur → 对比度拉伸 autoContrast
-//   → 白场 whitePoint → gamma → 饱和度加墨 saturation → 量化（direct / dither）
+// 渲染管线拆成一组可独立开关的「阶段」函数（STAGES），按顺序原地变换灰度矩阵：
+//   反相 → 去噪模糊 → 饱和度 → 白场 → 伽马 → Bayer 抖动量化
+// 每个阶段 = { key(选项名), label(中文名), def(开启时的默认强度), slider(轴范围), fn(grays, opt, sats) }。
+// STAGES 同时是 toy 页控件列表的数据源——核心与 UI 共用一份清单。
 //
 // 渲染：微字号 + transform scale 绕过浏览器最小字号限制；
 //       text-shadow 叠印印章（颜色 outline）负责点阵融合。
 // 旧版实现备份在 bak/ascii-art.backup.js。
+
+const mapInPlace = (g, f) => { for (const row of g) for (let i = 0; i < row.length; i++) row[i] = f(row[i]); };
+const clamp01 = (v) => v < 0 ? 0 : v > 1 ? 1 : v;
+
+const STAGES = [
+  { key: 'invert', label: '反相',
+    fn: (g) => mapInPlace(g, v => 1 - v) },
+
+  // 去噪模糊：抹平源图 JPEG 块状量化噪声（8px 块在采样后仍成组跳动），
+  // 避免白场压缩把皮肤渐变里的小块噪声放大成可见的矩形密度斑块
+  { key: 'blur', label: '去噪模糊', def: { blur: 1 }, slider: { min: 1, max: 3, step: 1 },
+    fn: (g, o) => {
+      const h = g.length, w = g[0].length, r = o.blur;
+      const out = g.map((row, y) => row.map((_, x) => {
+        let sum = 0, n = 0;
+        for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
+          const yy = y + dy, xx = x + dx;
+          if (yy < 0 || yy >= h || xx < 0 || xx >= w) continue;
+          sum += g[yy][xx]; n++;
+        }
+        return sum / n;
+      }));
+      for (let y = 0; y < h; y++) g[y] = out[y];
+    } },
+
+  // 饱和度（黑白转换语义：饱和度越高墨越重）：给「亮且饱和」的像素加墨
+  //（如逆光暖肤被白场推成空格的额头边缘红晕）。
+  // 必须排在白场之前：加墨把亮部中较暗、饱和的额头压到白场阈值之下留住墨点，
+  // 而更亮的天空加墨后仍被钳成纯白——靠白场把两者分开
+  { key: 'highlightInk', label: '饱和度', def: { highlightInk: 0.5 }, slider: { min: 0, max: 1, step: 0.05 },
+    fn: (g, o, sats) => {
+      for (let y = 0; y < g.length; y++) for (let x = 0; x < g[y].length; x++)
+        g[y][x] *= 1 - clamp01((g[y][x] - 0.6) / 0.3) * sats[y][x] * o.highlightInk;
+    } },
+
+  // 白场：灰度砍断轴。≥ w 的像素直接归为纯白（抖动极值短路后零墨，真正的留白）；
+  // [w-0.08, w) 用 smoothstep 平滑渐白——硬砍在平滑渐变上会切出「点阵↔纯白」的假轮廓
+  //（雾面出「假太阳」、海面出「一坨空白」），软坡让砍断线两侧密度接近到不可分辨。
+  // 大面积白通常不是真白（JPEG 噪点、雾的起伏都在 0.7~0.8 挡），w 就是「什么亮度算白」的轴
+  { key: 'whitePoint', label: '白场', def: { whitePoint: 0.75 }, slider: { min: 0.55, max: 0.95, step: 0.01 },
+    fn: (g, o) => {
+      const w = o.whitePoint, a = w - 0.08;
+      mapInPlace(g, v => {
+        if (v >= w) return 1;
+        if (v <= a) return v;
+        const t = (v - a) / 0.08;
+        return v + (1 - v) * t * t * (3 - 2 * t);
+      });
+    } },
+
+  // 伽马校正：<1 提亮中间调，>1 压暗；纯黑纯白不动，只弯中间
+  { key: 'gamma', label: '伽马', def: { gamma: 0.6 }, slider: { min: 0.4, max: 2, step: 0.05 },
+    fn: (g, o) => mapInPlace(g, v => Math.pow(v, o.gamma)) },
+];
 
 /**
  * @param {HTMLImageElement|string} img - 图片对象或 URL
@@ -19,13 +74,8 @@
  * @param {number} [options.scale=0.5] - 整体缩放（越小越融成点阵）
  * @param {number} [options.letterSpacing=0.65] - 字间距（em）
  * @param {number} [options.lineHeight=1.25] - 行高（em）
- * @param {boolean} [options.invert=false] - 反色
- * @param {number} [options.blur=0] - 采样后盒式模糊半径（格），去源图噪声
- * @param {boolean} [options.autoContrast=false] - 满幅对比度拉伸（低对比窄区间图用）
- * @param {number} [options.whitePoint=1] - 白场（0~1），≥该值视为纯白
- * @param {number} [options.gamma=1] - gamma 校正
- * @param {number} [options.saturation=0] - 饱和度加墨（0~1）
  * @param {string} [options.outline='#000'] - 叠印印章颜色
+ * @param {boolean|number} [options.<stage>] - 各管线阶段开关；传 true 用 def 默认强度，传数字自定义
  * @returns {Promise<HTMLElement>}
  */
 async function createBlockArtComponent(img, doc, options = {}) {
@@ -37,12 +87,6 @@ async function createBlockArtComponent(img, doc, options = {}) {
     scale = 0.5,
     letterSpacing = 0.65,
     lineHeight = 1.25,
-    invert = false,
-    blur = 0,
-    autoContrast = false,
-    whitePoint = 1,
-    gamma = 1,
-    saturation = 0,
     outline = '#000'
   } = options;
 
@@ -53,6 +97,10 @@ async function createBlockArtComponent(img, doc, options = {}) {
     [ 3, 11,  1,  9],
     [15,  7, 13,  5]
   ].map(row => row.map(v => (v + 0.5) / 16.0));
+
+  // 0. 生效参数：勾选的阶段补上各自的默认强度（显式传参优先；true = 用默认强度）
+  const opt = { ...options };
+  for (const s of STAGES) if (opt[s.key]) for (const k in s.def) if (opt[k] === undefined || opt[k] === true) opt[k] = s.def[k];
 
   // 1. 加载图片
   const imageObj = await new Promise((resolve, reject) => {
@@ -95,56 +143,10 @@ async function createBlockArtComponent(img, doc, options = {}) {
     sats.push(srow);
   }
 
-  // 3. 反色
-  if (invert) {
-    for (const row of grays) for (let i = 0; i < row.length; i++) row[i] = 1 - row[i];
-  }
+  // 3. 跑管线：按 STAGES 顺序执行所有开启的阶段
+  for (const s of STAGES) if (opt[s.key]) s.fn(grays, opt, sats);
 
-  // 4. 盒式模糊：抹掉源图噪声，避免抖动出现盐椒斑点
-  if (blur > 0) {
-    const out = grays.map((row, y) => row.map((_, x) => {
-      let sum = 0, n = 0;
-      for (let dy = -blur; dy <= blur; dy++) {
-        for (let dx = -blur; dx <= blur; dx++) {
-          const yy = y + dy, xx = x + dx;
-          if (yy < 0 || yy >= height || xx < 0 || xx >= width) continue;
-          sum += grays[yy][xx]; n++;
-        }
-      }
-      return sum / n;
-    }));
-    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) grays[y][x] = out[y][x];
-  }
-
-  // 5. 对比度拉伸：把实际灰度范围映射到 0~1（窄区间低对比图才需要）
-  if (autoContrast) {
-    let min = 1, max = 0;
-    for (const row of grays) for (const v of row) { if (v < min) min = v; if (v > max) max = v; }
-    const range = (max - min) || 1;
-    for (const row of grays) for (let i = 0; i < row.length; i++) row[i] = (row[i] - min) / range;
-  }
-
-  // 6. 白场：≥ whitePoint 的都算纯白（亮背景照片的 JPEG 噪点会让人到不了 1.0，用它扳回来）
-  if (whitePoint < 1) {
-    for (const row of grays) for (let i = 0; i < row.length; i++) row[i] = Math.min(1, row[i] / whitePoint);
-  }
-
-  // 7. gamma 校正：<1 提亮中间调，>1 压暗
-  if (gamma !== 1) {
-    for (const row of grays) for (let i = 0; i < row.length; i++) row[i] = Math.pow(row[i], gamma);
-  }
-
-  // 8. 饱和度加墨：放在色调管线之后，彩色区域从最终档位上直接加墨
-  if (saturation > 0) {
-    for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        const ink = Math.max(0, Math.min(1, (sats[y][x] - 0.2) * 2.5)) * saturation;
-        grays[y][x] *= 1 - ink;
-      }
-    }
-  }
-
-  // 9. 量化
+  // 4. 量化
   const escapeHTML = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const quantizeDirect = () => grays.map(row =>
     row.map(v => charMap[Math.min(Math.floor(v * levels), levels)]).join('')
@@ -163,7 +165,7 @@ async function createBlockArtComponent(img, doc, options = {}) {
              : mode === 'dither' ? quantizeDither()
              : quantizeDirect() + quantizeDither();
 
-  // 10. 渲染：scale 缩放后的视觉尺寸用来约束布局盒（transform 不改变布局）
+  // 5. 渲染：scale 缩放后的视觉尺寸用来约束布局盒（transform 不改变布局）
   const rootFontPx = parseFloat(doc.defaultView.getComputedStyle(doc.documentElement).fontSize) || 16;
   const fontPx = /rem|em$/.test(fontSize) ? parseFloat(fontSize) * rootFontPx : (parseFloat(fontSize) || 10);
   const boxW = +(width * pitchX * fontPx * scale).toFixed(1);

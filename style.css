@@ -45,6 +45,7 @@ body {
     position: sticky;
     top: 0;
     background: var(--bg);
+    font-family: 'JetBrains Mono';
 }
 
 .home-link a {
@@ -57,7 +58,6 @@ body {
     font-weight: bold;
     text-decoration: underline;
 }
-
 
 /* 通用 */
 

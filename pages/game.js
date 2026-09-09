@@ -4,9 +4,7 @@ async function renderGame() {
     container.innerHTML = `
         <style>
             /* GAME 页局部样式：像素字体（导航高亮时切换正文字体） */
-            #game {
-                font-family: "zpix", sans-serif;
-            }
+
             :has(#game.active) #content {
                 font-family: "zpix", sans-serif;
             }
