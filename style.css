@@ -96,7 +96,6 @@ pre code.hljs {
 /* 文章里的图片 */
 #content img {
     max-width: min(480px, 100%);
-    max-height: 480px;
     width: auto;
     height: auto;
     border-radius: 4px;
