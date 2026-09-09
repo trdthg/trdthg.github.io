@@ -14,8 +14,9 @@ const DEFAULT_STAGES = new Set(['whitePoint', 'highlightInk']);
 
 const TOY_EXAMPLES = [
     { src: 'assets/images/youmu2.png', label: 'https://en.touhouwiki.net/wiki/Youmu_Konpaku' },
-    { src: 'assets/images/portrait-64.jpg',   label: '测试示例' },
-    { src: 'assets/images/portrait-338.jpg',  label: '测试示例' },
+    { src: 'assets/images/madoka_small.jpg', label: '红色帽子' },
+    { src: 'assets/images/portrait-64.jpg',   label: '高对比测试示例' },
+    { src: 'assets/images/portrait-338.jpg',  label: '低对比度测试示例 (无中生有出太阳，但是颜色确实微微不一样)' },
 ];
 
 async function renderToyAsciiArt() {
@@ -41,7 +42,8 @@ async function renderToyAsciiArt() {
             .toy-page .toy-example { margin-bottom: 24px; }
             .toy-page figure { margin: 0; flex: 1; min-width: 0; }
             .toy-page figcaption { font-size: 0.9em; opacity: 0.7; margin-bottom: 4px; }
-            .toy-page .toy-photo { display: block; background: #fff; max-width: 100%; }
+            /* max-height 必须顶掉全局 #content img 的 480px 限制，否则瘦高图会被压扁变形 */
+            .toy-page .toy-photo { display: block; background: #fff; max-width: 100%; max-height: none !important; }
             /* 上传框：3:2 横向比例的拖拽/点击上传区 */
             .toy-page .toy-dropzone {
                 width: 100%; aspect-ratio: 3 / 2; box-sizing: border-box;
@@ -50,6 +52,12 @@ async function renderToyAsciiArt() {
                 border: 2px dashed #999; border-radius: 4px;
             }
             .toy-page .toy-dropzone.dragover { opacity: 1; border-color: #4a90d9; color: #4a90d9; }
+
+            /* 移动端：改纵向，示例排到上传对照下面；fitAll 会在 resize 时按新格宽重新适配 */
+            @media (max-width: 768px) {
+                .toy-page .toy-main { flex-direction: column; }
+                .toy-page .toy-left, .toy-page .toy-right { width: 100%; }
+            }
         </style>
         <h1>图片转字符画</h1>
         <div class="toy-main">
