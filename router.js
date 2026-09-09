@@ -18,7 +18,7 @@
     const NAV = [['posts', 'POST'], ['toy', 'TOY'], ['game', 'GAME'], ['music', 'MUSIC'], ['photo', 'PHOTO'], ['about', 'ABOUT']];
     nav.innerHTML = [...NAV.map(([id, label]) =>
         `<a id="${id}" href="?page=${id}"${id === page ? ' class="active"' : ''}>${label}</a>`
-    ), '🦊'].join(' | ');
+    ), 'ᗜ˰ᗜ'].join(' | ');
 
     // 条件渲染：?page= → 页面组件
     // render 函数可以返回：字符串、Node/DocumentFragment、或它们的 Promise

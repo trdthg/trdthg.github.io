@@ -33,13 +33,13 @@ function renderMD(md) {
     html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
     html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
 
-    // 6. 段落处理（代码块占位符单独成行，不会被拆开）
-    html = html.split(/\n+/).map(line => {
-        line = line.trim();
-        if (!line) return '';
-        if (/^<(h[1-6]|pre|ul|ol|li|blockquote)/.test(line)) return line;
-        if (/^\u0000B\d+\u0000$/.test(line)) return line;
-        return `<p>${line}</p>`;
+    // 6. 段落处理：空行分块（块 = 段落），块内单换行 → <br>（标准 Markdown 软换行语义，
+    //    这样空行和单换行就有了区别：前者分段，后者仅换行）
+    html = html.split(/\n\s*\n/).map(block => {
+        block = block.trim();
+        if (!block) return '';
+        if (/^<(h[1-6]|pre|ul|ol|li|blockquote)/.test(block) || /^\u0000B\d+\u0000$/.test(block)) return block;
+        return `<p>${block.split('\n').map(l => l.trim()).join('<br>')}</p>`;
     }).join('\n');
 
     // 7. 还原代码
