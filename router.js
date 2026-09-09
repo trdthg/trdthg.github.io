@@ -46,6 +46,7 @@
     mount(content, html);
     document.title = title;
     if (after) after(content);
+    setupGiscus();   // 全站共用一个 giscus 讨论串，守卫保证只注入一次
 
     // 挂载：字符串走 innerHTML，Node/DocumentFragment 走 append
     function mount(container, result) {
