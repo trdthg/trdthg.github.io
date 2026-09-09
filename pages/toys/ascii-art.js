@@ -52,7 +52,6 @@ async function renderToyAsciiArt() {
             .toy-page .toy-dropzone.dragover { opacity: 1; border-color: #4a90d9; color: #4a90d9; }
         </style>
         <h1>图片转字符画</h1>
-        <p>照片会被转成点阵字符画：采样灰度 → 管线阶段变换（勾选哪些走哪些，轴可调强度）→ Bayer 抖动量化。全部在你的浏览器本地完成，图片不会被上传。</p>
         <div class="toy-main">
             <div class="toy-left">
                 <div class="toy-upload">
