@@ -1,7 +1,6 @@
 // ABOUT 页面组件。
 
 async function renderAbout() {
-    const container = document.createElement('div');
     // 正文：内联 Markdown，想混 HTML 就再拆一段出来自己拼
     const md = `
 # ABOUT
@@ -22,9 +21,5 @@ async function renderAbout() {
 感谢您的随意浏览，祝您上午好，中午好，下午好，晚安
 `;
 
-    const body = document.createElement('div');
-    body.innerHTML = renderMD(md);
-    container.append(body);
-
-    return container;
+    return html`<div>${raw(renderMD(md))}</div>`;
 }

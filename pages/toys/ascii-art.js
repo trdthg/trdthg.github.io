@@ -1,4 +1,4 @@
-// TOY：图片转字符画。字符画渲染核心在根目录 ascii-art.js（createBlockArtComponent + STAGES）。
+// TOY：图片转字符画。字符画渲染核心在 lib/ascii-art.js（createBlockArtComponent + STAGES）。
 // 文件尾把本页注册进 TOYS 列表（见 pages/toy.js）。
 
 const ASCII_ART_OPTIONS = {
@@ -20,69 +20,69 @@ const TOY_EXAMPLES = [
 ];
 
 async function renderToyAsciiArt() {
-    const container = document.createElement('div');
-    container.className = 'toy-page';
-    container.innerHTML = `
-        <style>
-            /* TOY 页局部样式：所有选择器都限定在 .toy-page 下 */
-            .toy-page .toy-main { display: flex; gap: 28px; align-items: flex-start; margin: 1em 0; }
-            .toy-page .toy-left, .toy-page .toy-right { flex: 1 1 0; min-width: 0; }
-            .toy-page .toy-controls { display: flex; flex-direction: column; gap: 7px; margin-bottom: 1.2em; }
-            .toy-page .toy-buttons { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
-            .toy-page .toy-reset-btn { cursor: pointer; }
-            .toy-page .toy-stage-row { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
-            .toy-page .toy-stage-name { min-width: 4.5em; }
-            .toy-page .toy-stage-row input[type=range] { width: 110px; }
-            .toy-page .toy-stage-val { font-size: 0.85em; opacity: 0.65; min-width: 2.8em; }
-            .toy-page .toy-upload { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 1.2em; }
-            .toy-page .toy-compare { display: flex; gap: 12px; align-items: flex-start; }
-            .toy-page .toy-example-label { font-weight: bold; margin-bottom: 8px; }
-            .toy-page .toy-example-row { display: flex; gap: 12px; align-items: flex-start; }
-            .toy-page .toy-compare { margin-bottom: 1.2em; }
-            .toy-page .toy-example { margin-bottom: 24px; }
-            .toy-page figure { margin: 0; flex: 1; min-width: 0; }
-            .toy-page figcaption { font-size: 0.9em; opacity: 0.7; margin-bottom: 4px; }
-            .toy-page .toy-photo { display: block; background: #fff; max-width: 100%; }
-            /* 上传框：3:2 横向比例的拖拽/点击上传区 */
-            .toy-page .toy-dropzone {
-                width: 100%; aspect-ratio: 3 / 2; box-sizing: border-box;
-                display: flex; align-items: center; justify-content: center;
-                text-align: center; opacity: 0.55; cursor: pointer;
-                border: 2px dashed #999; border-radius: 4px;
-            }
-            .toy-page .toy-dropzone.dragover { opacity: 1; border-color: #4a90d9; color: #4a90d9; }
+    const container = html`
+        <div class="toy-page">
+            <style>
+                /* TOY 页局部样式：所有选择器都限定在 .toy-page 下 */
+                .toy-page .toy-main { display: flex; gap: 28px; align-items: flex-start; margin: 1em 0; }
+                .toy-page .toy-left, .toy-page .toy-right { flex: 1 1 0; min-width: 0; }
+                .toy-page .toy-controls { display: flex; flex-direction: column; gap: 7px; margin-bottom: 1.2em; }
+                .toy-page .toy-buttons { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
+                .toy-page .toy-reset-btn { cursor: pointer; }
+                .toy-page .toy-stage-row { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+                .toy-page .toy-stage-name { min-width: 4.5em; }
+                .toy-page .toy-stage-row input[type=range] { width: 110px; }
+                .toy-page .toy-stage-val { font-size: 0.85em; opacity: 0.65; min-width: 2.8em; }
+                .toy-page .toy-upload { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 1.2em; }
+                .toy-page .toy-compare { display: flex; gap: 12px; align-items: flex-start; }
+                .toy-page .toy-example-label { font-weight: bold; margin-bottom: 8px; }
+                .toy-page .toy-example-row { display: flex; gap: 12px; align-items: flex-start; }
+                .toy-page .toy-compare { margin-bottom: 1.2em; }
+                .toy-page .toy-example { margin-bottom: 24px; }
+                .toy-page figure { margin: 0; flex: 1; min-width: 0; }
+                .toy-page figcaption { font-size: 0.9em; opacity: 0.7; margin-bottom: 4px; }
+                .toy-page .toy-photo { display: block; background: #fff; max-width: 100%; }
+                /* 上传框：3:2 横向比例的拖拽/点击上传区 */
+                .toy-page .toy-dropzone {
+                    width: 100%; aspect-ratio: 3 / 2; box-sizing: border-box;
+                    display: flex; align-items: center; justify-content: center;
+                    text-align: center; opacity: 0.55; cursor: pointer;
+                    border: 2px dashed #999; border-radius: 4px;
+                }
+                .toy-page .toy-dropzone.dragover { opacity: 1; border-color: #4a90d9; color: #4a90d9; }
 
-            /* 移动端：改纵向，示例排到上传对照下面；fitAll 会在 resize 时按新格宽重新适配 */
-            @media (max-width: 768px) {
-                .toy-page .toy-main { flex-direction: column; }
-                .toy-page .toy-left, .toy-page .toy-right { width: 100%; }
-            }
-        </style>
-        <h1>图片转字符画</h1>
-        <div class="toy-main">
-            <div class="toy-left">
-                <div class="toy-upload">
-                    <button class="toy-upload-btn">选一张图片 🖼️</button>
-                    <button type="button" class="toy-reset-btn">重置 ↺</button>
-                    <span class="toy-file-name"></span>
-                    <input type="file" accept="image/*" hidden>
+                /* 移动端：改纵向，示例排到上传对照下面；fitAll 会在 resize 时按新格宽重新适配 */
+                @media (max-width: 768px) {
+                    .toy-page .toy-main { flex-direction: column; }
+                    .toy-page .toy-left, .toy-page .toy-right { width: 100%; }
+                }
+            </style>
+            <h1>图片转字符画</h1>
+            <div class="toy-main">
+                <div class="toy-left">
+                    <div class="toy-upload">
+                        <button class="toy-upload-btn">选一张图片 🖼️</button>
+                        <button type="button" class="toy-reset-btn">重置 ↺</button>
+                        <span class="toy-file-name"></span>
+                        <input type="file" accept="image/*" hidden />
+                    </div>
+                    <div class="toy-controls"></div>
+                    <div class="toy-compare">
+                        <figure>
+                            <figcaption>原图（拖拽 / 点击上传）</figcaption>
+                            <div class="toy-dropzone">拖拽图片到这里<br />或点击上传</div>
+                            <img class="toy-photo toy-orig-img" style=${{ display: 'none' }} alt="上传的原图" />
+                        </figure>
+                        <figure>
+                            <figcaption>渲染</figcaption>
+                            <div class="toy-ascii-slot toy-ascii-output"></div>
+                        </figure>
+                    </div>
                 </div>
-                <div class="toy-controls"></div>
-                <div class="toy-compare">
-                    <figure>
-                        <figcaption>原图（拖拽 / 点击上传）</figcaption>
-                        <div class="toy-dropzone">拖拽图片到这里<br>或点击上传</div>
-                        <img class="toy-photo toy-orig-img" style="display:none" alt="上传的原图">
-                    </figure>
-                    <figure>
-                        <figcaption>渲染</figcaption>
-                        <div class="toy-ascii-slot toy-ascii-output"></div>
-                    </figure>
+                <div class="toy-right">
+                    <h2>示例</h2>
+                    <div class="toy-gallery"></div>
                 </div>
-            </div>
-            <div class="toy-right">
-                <h2>示例</h2>
-                <div class="toy-gallery"></div>
             </div>
         </div>
     `;
@@ -95,22 +95,22 @@ async function renderToyAsciiArt() {
 
     // —— 控件列表行 ——
     const controls = container.querySelector('.toy-controls');
-    controls.insertAdjacentHTML('beforeend', STAGES.map(s => {
-        if (!s.slider) return `
+    controls.append(html`${STAGES.map(s => {
+        if (!s.slider) return html`
             <label class="toy-stage-row">
-                <input type="checkbox" data-stage="${s.key}" ${stageOn[s.key] ? 'checked' : ''}>
+                <input type="checkbox" data-stage=${s.key} checked=${stageOn[s.key]} />
                 <span class="toy-stage-name">${s.label}</span>
             </label>`;
         const dec = s.slider.step < 1 ? 2 : 0;
-        return `
+        return html`
             <label class="toy-stage-row">
-                <input type="checkbox" data-stage="${s.key}" ${stageOn[s.key] ? 'checked' : ''}>
+                <input type="checkbox" data-stage=${s.key} checked=${stageOn[s.key]} />
                 <span class="toy-stage-name">${s.label}</span>
-                <input type="range" data-stage="${s.key}" min="${s.slider.min}" max="${s.slider.max}"
-                       step="${s.slider.step}" value="${stageVal[s.key]}">
-                <span class="toy-stage-val" data-stage="${s.key}">${(+stageVal[s.key]).toFixed(dec)}</span>
+                <input type="range" data-stage=${s.key} min=${s.slider.min} max=${s.slider.max}
+                       step=${s.slider.step} value=${stageVal[s.key]} />
+                <span class="toy-stage-val" data-stage=${s.key}>${(+stageVal[s.key]).toFixed(dec)}</span>
             </label>`;
-    }).join(''));
+    })}`);
 
     // —— 图片缓存：同一张图只解码一次。调轴重渲时不再重新建 Image/解码，消除闪烁的关键 ——
     const imgCache = new Map();
@@ -148,8 +148,7 @@ async function renderToyAsciiArt() {
         try {
             await renderAscii(currentURL, output);
         } catch (err) {
-            output.replaceChildren(Object.assign(document.createElement('p'),
-                { textContent: `渲染失败：${err.message}`, style: 'color:red' }));
+            output.replaceChildren(html`<p style="color:red;">渲染失败：${err.message}</p>`);
         }
     };
 
@@ -249,27 +248,21 @@ async function renderToyAsciiArt() {
     // —— 示例画廊：从上到下三张，每张 = 原图 | 渲染图 ——
     const gallery = container.querySelector('.toy-gallery');
     for (const item of TOY_EXAMPLES) {
-        const example = document.createElement('div');
-        example.className = 'toy-example';
-        example.append(Object.assign(document.createElement('div'),
-            { className: 'toy-example-label', textContent: item.label }));
-        const row = document.createElement('div');
-        row.className = 'toy-example-row';
-        const photoFig = document.createElement('figure');
-        const img = new Image();
-        img.className = 'toy-photo';
-        img.src = item.src;
-        img.alt = item.label;
-        img.addEventListener('load', () => fitPair(example));
-        photoFig.append(img);
-        const asciiFig = document.createElement('figure');
-        const slot = document.createElement('div');
-        slot.className = 'toy-ascii-slot';
-        slot.dataset.src = item.src;
-        asciiFig.append(slot);
-        row.append(photoFig, asciiFig);
-        example.append(row);
+        const example = html`
+            <div class="toy-example">
+                <div class="toy-example-label">${item.label}</div>
+                <div class="toy-example-row">
+                    <figure>
+                        <img class="toy-photo" src=${item.src} alt=${item.label} onload=${() => fitPair(example)} />
+                    </figure>
+                    <figure>
+                        <div class="toy-ascii-slot" data-src=${item.src}></div>
+                    </figure>
+                </div>
+            </div>
+        `;
         gallery.append(example);
+        const slot = example.querySelector('.toy-ascii-slot');
         renderAscii(item.src, slot).then(() => fitPair(example)).catch(() => { /* 示例加载失败就跳过 */ });
     }
 

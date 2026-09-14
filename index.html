@@ -35,20 +35,23 @@
     <!-- 第三方库：代码高亮 -->
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
 
-    <!-- 顺序固定：各页面组件 (以及依赖的组件) → 渲染器 → 路由 -->
-    <script src="background.js"></script>
+    <!-- 第三方库：htm（无构建版 JSX），配合 lib/html.js 里的 h 函数直接产出 DOM -->
+    <script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
 
-    <script src="render-md.js"></script>
-    <script src="old-posts.js"></script>
-    <script src="posts.js"></script>
+    <script src="lib/render-md.js"></script>
+    <script src="lib/html.js"></script>
+    <script src="lib/ascii-art.js"></script>
+    <script src="lib/background.js"></script>
 
-    <script src="ascii-art.js"></script>
+    <script src="pages/old-posts.js"></script>
+
     <script src="pages/toys/ascii-art.js"></script>
-    <script src="pages/game.js"></script>
     <script src="pages/toy.js"></script>
+    <script src="pages/game.js"></script>
     <script src="pages/music.js"></script>
     <script src="pages/photo.js"></script>
     <script src="pages/about.js"></script>
+    <script src="pages/posts.js"></script>
 
     <script src="router.js"></script>
 </body>

@@ -12,12 +12,14 @@ const TOYS = [
 ];
 
 function renderToyList() {
-    return `
+    return html`
         <h1>TOY</h1>
         <p>一些小玩意儿。</p>
 
         <div id="toy-list">
-            ${TOYS.map(t => `<p><a href="?page=toy&toy=${t.id}">${t.title}</a> — ${t.desc}</p>`).join('')}
+            ${TOYS.map(t => html`
+                <p><a href=${'?page=toy&toy=' + t.id}>${t.title}</a> — ${t.desc}</p>
+            `)}
         </div>
     `;
 }
