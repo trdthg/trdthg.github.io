@@ -6,9 +6,9 @@
 //   { date: "YYYY-MM-DD", title: "标题", file: "xxx.md" } —— 长文：内容在 .md 文件里，点开时才加载
 //   { divider: "---" }                                    —— 分割线：原样显示，不用日期
 //
-// 页面：每个页面一个 <页面名>.js，里面放 render 函数（返回 HTML 模板字符串）。
+// 页面：每个页面一个 <页面名>.js，里面放 render 函数（返回 html`` 节点）。
 // 挂载后的副作用（语法高亮、giscus、异步加载）写在对应 after 函数里。
-// innerHTML / document.title 由 router.js 统一设置。
+// 挂载与 document.title 由 router.js 统一处理。
 
 // —— 数据 ——
 
@@ -145,23 +145,24 @@ function setupGiscus() {
     const container = document.getElementById('giscus-container');
     if (!container || container.childElementCount) return;
 
-    const s = document.createElement('script');
-    s.src = 'https://giscus.app/client.js';
-    s.setAttribute('data-repo', 'trdthg/trdthg.github.io');
-    s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkzNjQ4MzQ1ODY=');
-    s.setAttribute('data-category', 'Announcements');
-    s.setAttribute('data-category-id', 'DIC_kwDOFb7vGs4C9W1e');
-    s.setAttribute('data-mapping', 'specific');
-    s.setAttribute('data-term', 'All');
-    s.setAttribute('data-strict', '0');
-    s.setAttribute('data-reactions-enabled', '1');
-    s.setAttribute('data-emit-metadata', '0');
-    s.setAttribute('data-input-position', 'bottom');
-    s.setAttribute('data-theme', 'preferred_color_scheme');
-    s.setAttribute('data-lang', 'zh-CN');
-    s.crossOrigin = 'anonymous';
-    s.async = true;
-    container.appendChild(s);
+    container.append(html`
+        <script src="https://giscus.app/client.js"
+            data-repo="trdthg/trdthg.github.io"
+            data-repo-id="MDEwOlJlcG9zaXRvcnkzNjQ4MzQ1ODY="
+            data-category="Announcements"
+            data-category-id="DIC_kwDOFb7vGs4C9W1e"
+            data-mapping="specific"
+            data-term="All"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-theme="preferred_color_scheme"
+            data-lang="zh-CN"
+            crossorigin="anonymous"
+            async
+        ></script>
+    `);
 }
 
 // —— 文章列表 / 文章正文 ——
@@ -174,32 +175,32 @@ async function renderPosts() {
     if (postId) {
         // 显示指定文章（postId 就是文章标题）
         currentEntry = ALL_POSTS.find(e => (e.post || e.file) && entryTitle(e) === postId) || null;
-        if (!currentEntry) return '<p style="color:red;">文章未找到。</p>';
-        if (currentEntry.file) return '<p>加载中…</p>'; // 长文/旧文，after 里异步加载
-        return renderMD(currentEntry.post);              // 内联短文，直接出模板
+        if (!currentEntry) return html`<p style="color:red;">文章未找到。</p>`;
+        if (currentEntry.file) return html`<p>加载中…</p>`;   // 长文/旧文，after 里异步加载
+        return raw(renderMD(currentEntry.post));              // 内联短文，直接出模板
     }
 
     // 文章列表
     currentEntry = null;
-    return `
+    return html`
         <h1>不知道要写点什么</h1>
         你知道吗？知道了请告诉我！🙇 trdthg47@gmail.com
         <p>把不适合放在我的 <a href="https://t.me/trdthg_group">telegram channel</a> 的单拎出来放这里</p>
 
         <div id="post-list">
             ${SORTED_POSTS.map(entry => {
-                if (entry.divider) return `<div class="divider">${entry.divider}</div>`;
-                if (entry.note) return `<p>${entry.date} ${entry.note}</p>`;
+                if (entry.divider) return html`<div class="divider">${entry.divider}</div>`;
+                if (entry.note) return html`<p>${entry.date} ${entry.note}</p>`;
                 const title = entryTitle(entry);
-                return `<p><a href="?post=${encodeURIComponent(title)}">${entry.date} ${title}</a></p>`;
-            }).join('')}
+                return html`<p><a href=${'?post=' + encodeURIComponent(title)}>${entry.date} ${title}</a></p>`;
+            })}
         </div>
 
         <p>
             [给 Hermes 或者我自己的 Note]
-            <br/>
+            <br />
             - 新内容只需在 <i>posts.js</i> 里加一条记录：{ date, note }、{ date, post }（内联）、{ date, title, file }（长文）或 { divider: "..." }（分割线，原样显示、不用日期），会自动按日期排序。
-            <br/>
+            <br />
             - 快速跳转到代码 <a href="https://github.com/trdthg/trdthg.github.io">https://github.com/trdthg/trdthg.github.io</a>
         </p>
     `;
@@ -214,11 +215,11 @@ function afterPosts(content) {
             fetch(currentEntry.file)
                 .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
                 .then(md => {
-                    content.innerHTML = renderMD(md);
+                    content.replaceChildren(raw(renderMD(md)));
                     if (window.hljs) hljs.highlightAll();
                 })
                 .catch(err => {
-                    content.innerHTML = '<p style="color:red;">文章加载失败：' + err.message + '</p>';
+                    content.replaceChildren(html`<p style="color:red;">文章加载失败：${err.message}</p>`);
                 });
             return;
         }

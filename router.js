@@ -1,7 +1,7 @@
 // 极简「条件渲染」路由 —— 就是一个 switch case：
 //   1. 从 URL 取 ?page=，缺省或写错时走 default（文章列表）
-//   2. switch 到对应页面组件（各 <页面名>.js 里的 render 函数），拿到 HTML 字符串或 DOM 节点
-//   3. 统一挂载：字符串走 innerHTML，节点走 append
+//   2. switch 到对应页面组件（各 <页面名>.js 里的 render 函数），拿到 DOM 节点（html`` / DocumentFragment）
+//   3. 统一挂载到 #content（replaceChildren）
 //   4. 统一设置 document.title
 //   4. 页面有挂载后的副作用（高亮、异步加载等）就调对应的 after 函数
 // 用法：index.html 里放 <div class="home-link"></div> 和 <main id="content"></main>，
@@ -16,45 +16,39 @@
 
     // 导航栏：[路由，显示文字]，当前页加 .active 高亮
     const NAV = [['posts', 'POST'], ['toy', 'TOY'], ['game', 'GAME'], ['music', 'MUSIC'], ['photo', 'PHOTO'], ['about', 'ABOUT']];
-    nav.innerHTML = [...NAV.map(([id, label]) =>
-        `<a id="${id}" href="?page=${id}"${id === page ? ' class="active"' : ''}>${label}</a>`
-    ), 'ᗜ˰ᗜ'].join(' | ');
+    nav.replaceChildren(html`
+        ${NAV.map(([id, label], i) => [
+            i ? ' | ' : '',
+            html`<a id=${id} href=${'?page=' + id} class=${id === page ? 'active' : null}>${label}</a>`,
+        ])}
+        ${' | ᗜ˰ᗜ'}
+    `);
 
     // 条件渲染：?page= → 页面组件
-    // render 函数可以返回：字符串、Node/DocumentFragment、或它们的 Promise
+    // render 函数返回 Node/DocumentFragment（html`` 或 raw()）或它们的 Promise
     // 统一 await 解包，所以同步和 async 的 render 都能用
-    let html, title, after = null;
+    let view, title, after = null;
     switch (page) {
-        case 'game':  html = await renderGame();  title = 'GAME';  break;
+        case 'game':  view = await renderGame();  title = 'GAME';  break;
         case 'toy': {
             const toy = TOYS.find(t => t.id === params.get('toy'));
             if (toy) {
-                html = await toy.render();
+                view = await toy.render();
                 title = toy.title;
             } else {
-                html = renderToyList();
+                view = renderToyList();
                 title = 'TOY';
             }
             break;
         }
-        case 'music': html = await renderMusic(); title = 'MUSIC'; break;
-        case 'photo': html = await renderPhoto(); title = 'PHOTO'; break;
-        case 'about': html = await renderAbout(); title = 'ABOUT'; break;
-        default:      html = await renderPosts(); title = '不知道要写点什么？'; after = afterPosts; break;
+        case 'music': view = await renderMusic(); title = 'MUSIC'; break;
+        case 'photo': view = await renderPhoto(); title = 'PHOTO'; break;
+        case 'about': view = await renderAbout(); title = 'ABOUT'; break;
+        default:      view = await renderPosts(); title = '不知道要写点什么？'; after = afterPosts; break;
     }
 
-    mount(content, html);
+    content.replaceChildren(view);
     document.title = title;
     if (after) after(content);
     setupGiscus();   // 全站共用一个 giscus 讨论串，守卫保证只注入一次
-
-    // 挂载：字符串走 innerHTML，Node/DocumentFragment 走 append
-    function mount(container, result) {
-        if (typeof result === 'string') {
-            container.innerHTML = result;
-        } else {
-            container.innerHTML = '';
-            container.append(result);
-        }
-    }
 })();
