@@ -19,3 +19,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: . # 发布仓库根目录
+          # 每次部署只保留一个提交（orphan 分支）：
+          # 1) 部署分支不需要历史；2) 源码里一旦误提交大文件/测试产物，不会跟着部署历史一直留在仓库里
+          force_orphan: true
