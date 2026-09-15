@@ -1,0 +1,21 @@
+{
+    // 让 VS Code / TS 语言服务把整个仓库当成「一个项目」。
+    //
+    // 没有这个文件时，VS Code 会给每个文件建「推断项目」，只认识同目录/少量文件，
+    // 于是 photo.js 里的 renderMD（定义在 lib/render-md.js）就跳不过去。
+    //
+    // 本项目是经典 <script> + 全局函数，没有 import/export，所以每个文件都是
+    // TS 意义上的 script，顶层声明进入全局作用域 —— 同一个项目内即可跨文件互相跳转。
+    "compilerOptions": {
+        "target": "ES2022",
+        "lib": ["ES2022", "DOM"],
+        "allowJs": true,
+        // 关掉类型检查：只想要跳转/重命名/找引用，不想被隐式 any 之类的波浪线打扰
+        "checkJs": false
+    },
+    // 站点脚本
+    "include": ["**/*.js"],
+    // bak/ 里有同名全局（ascii-art.backup.js 也声明了 createBlockArtComponent），
+    // 一起纳入会导致「候选定义有 2 个」，跳转变成让你二选一
+    "exclude": ["bak", "node_modules", "assets"]
+}

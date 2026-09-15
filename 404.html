@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>跳转中…</title>
+    <script>
+        // 全站唯一壳是 index.html。这里兜住所有老链接（GitHub Pages 找不到的路径
+        // 都会落到本文件），把 ?post= / ?page= 等参数原样带过去。
+        location.replace('index.html' + location.search + location.hash);
+    </script>
+</head>
+
+<body>
+    <p>正在跳转到 <a href="index.html">index.html</a>…</p>
+</body>
+
+</html>

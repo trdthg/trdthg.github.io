@@ -1,0 +1,301 @@
+' 类图
+' 字符	图标(属性)	图标(方法)	可访问性
+' -			private 私有
+' #			protected 受保护
+' ~			package private 包内可见
+' +			public 公有
+
+```
+@startuml 类图 3
+class Teacher {}
+class OnlineUser {}
+class Grades {
+  RecordGrades()
+  UpdateGrades()
+  Distribute()
+  SaveGrades()
+  LoadGrades()
+}
+class ReportCard {
+  Generate()
+}
+class Administrator {
+  UserName: String=""
+  Password: String=""
+}
+class WebSite {
+  Logon()
+  View()
+}
+
+Teacher "1" -> "n" Grades
+ReportCard "1" <-> "n" Grades
+Administrator "1" -> "n" ReportCard
+WebSite "1" <-> "1" Grades
+WebSite "1" <-> "1" OnlineUser
+
+@enduml
+```
+
+```
+@startuml 类图 2
+
+class Form {
+  root_click()
+  show()
+}
+
+class Root_1_2 {
+  a: float = 0
+  b: float = 0
+  c: float = 0
+  x1: string
+  inputABC()
+  b24ac()
+  root__1_2()
+  get_1()
+  get_2()
+}
+
+class ANullException {
+
+}
+
+Root_1_2 --> ANullException
+Root_1_2 --> Form
+
+class Root_1_2 implements Root_1_2Interface接口
+
+interface Root_1_2Interface接口 {
+
+}
+
+@enduml
+```
+```
+@startuml 类图 1
+
+class Item {
+ +id: int
+ +find_on_title()
+ +create()
+ +destory()
+ +find()
+ +check()
+ +update()
+ +reserve()
+}
+
+class Title {
+  +name: String
+  +author: String
+  +isbn: String
+  +total_number: int
+  +borrowed_number: int
+  +type: String
+  +isAllowForBorrow: Boolean
+  +find()
+  +create()
+  +destory()
+  +borrow()
+  +return_back()
+  +reserve()
+}
+
+class Borrower {
+  +name: String
+  +address: String
+  +state: String
+  +zip: String
+  +maxbook: int
+  +maxday: int
+  +userID: String
+  +borrow_number: int
+  +find()
+  +create()
+  +destory()
+  +borrow()
+  +return_back()
+  +check_if_max()
+}
+
+class Loan {
+  +date: Date = current Date
+  +ISBN: String
+  +money: double
+  +isPay: Boolean
+  +create()
+  +destory()
+  +pay()
+}
+
+
+class Reservation {
+  +date: Date = current Date
+  +Title_ISBN: String
+  +UserID: String
+  +number: int
+  +create()
+  +destory()
+  +find()
+}
+
+
+
+Item "1..n" - "1" Title: copy of
+Title "1" - "0..n" Reservation
+Borrower "1" - "0..n" Loan
+Reservation "0..n" - "1" Borrower: has
+
+@enduml
+```
+
+```
+@startuml 求一元二次方程的根 2
+
+object ":求根者" as o1
+object ":系统" as o2
+object ":方程根" as o3
+object ":异常" as o4
+object ":验证" as o5
+
+o1 --> o2: 1. 求根者打开主界面()
+o2 --> o1: 2. 系统展示页面()
+o1 --> o2: 3. 求根者发出“求根”命令()
+o2 --> o1: 4. 系统要求输入系数()
+o1 --> o2: 5. 求根者输入系数()
+o2 --> o5: 6. 系统验证系数是否合法()
+o2 --> o4: 7. [不合法]系统显示异常信息()
+o2 --> o3: 8. 系统计算出解()
+o2 --> o1: 9. 系统显示结果()
+
+@enduml
+```
+
+```
+@startuml 教师评分系统 2
+
+object ":教师" as o1
+object ":站点" as o2
+object ":验证" as o3
+object ":数据库" as o4
+object ":学生" as o5
+object ":成绩" as o6
+
+o1 --> o2: 1. 教师登陆系统()
+o2 --> o3: 2. 系统验证教师身份()
+o3 --> o2: 3. 系统登录成功()
+o1 --> o2: 4. 教师获取学生信息和分数信息()
+o2 --> o4: 5. 系统访问数据库()
+o4 --> o5: 6. 查询学生信息()
+o4 --> o6: 7. 查询成绩信息()
+o4 --> o2: 9. 数据库返回学生信息和分数信息()
+o2 --> o1: 10. 系统显示学生和分数信息()
+
+@enduml
+```
+
+```
+@startuml 图书 2
+
+object ":管理员" as o1
+object ":借书界面" as o2
+object ":借书处理管理器" as o3
+object ":读者" as o4
+object ":借书记录" as o5
+object ":图书" as o6
+object ":借书证" as o7
+
+o1 --> o2: 1: 输入读者编号()
+o2 --> o3: 2: 显示读者及借书信息()
+o3 --> o7: 3: 检查合法性()
+o3 --> o2: 4: [非法]显示非法信息()
+o3 --> o4: 5: 取读着信息()
+o3 --> o2: 6: 显示读着信息()
+o3 --> o5: 7: 取借书信息()
+o3 --> o2: 8: 显示借书信息()
+o1 --> o2: 9: 输入图书编号()
+o2 --> o3: 10: 记录借书()
+o3 --> o6: 11: 取图书信息()
+o3 --> o2: 12: 显示图书信息()
+o3 --> o5: 13: 登记借书记录()
+
+
+@enduml
+```
+
+```
+@startuml 图书
+
+actor Libranian
+  activate Libranian
+  activate LendWindow
+  Libranian -> LendWindow: 1:find title()
+  activate Title
+  LendWindow -> Title: 2: find(String)
+  deactivate Title
+
+  Libranian -> LendWindow: 3:find term()
+  activate Term
+  LendWindow -> Term : 4: find on title(Title)
+  deactivate Term
+
+  Libranian -> LendWindow: 5:identify borrower()
+  activate Borrower
+  LendWindow -> Borrower : 6: find (String)
+  deactivate Borrower
+  activate Loan
+  LendWindow -> Loan: 7: dreate(Borrower, Term)
+  deactivate Loan
+  deactivate LendWindow
+  deactivate Libranian
+
+participant Brorrower
+participant Loan
+participant Term
+
+@enduml
+```
+
+```
+@startuml 教师评分系统”中的“浏览成绩”顺序图
+
+actor 教师 as T
+participant "WebSite（站点）" as W
+participant "Security（验证）" as Se
+' participant "OnlineUser（学生）" as St
+' participant "Grades（分数）" as Sc
+participant "Database（数据库）" as DB
+
+T -> W: 1:登录系统()
+W -> Se: 2:系统验证教师身份()
+W --> T: 3.登录成功()
+T -> W: 3: 教师获取学生信息和分数信息()
+W -> DB: 4:系统在数据库查询学生信息()
+W --> T: 5. 系统显示学生和分数信息()
+
+@enduml
+```
+
+
+
+```
+@startuml 求一元二次方程的根
+
+actor 求根者 as User
+participant "Form（主界面）" as Form
+participant "Root_1_2（方程根）" as Root
+participant "ANullException（异常）" as Exception
+
+
+User -> Form: 1:打开界面()
+Form --> User: 2:展示界面()
+User -> Form: 3: 发出求根命令()
+Form --> User: 4: 系统要求输入系数()
+User -> Form: 5: 求根者输入系数()
+Form -> Form: 6: 系统验证系数是否合法()
+Form -> Exception: 6: 系统显示异常()
+Form -> Root: 6: 系统返回结果()
+
+@enduml
+```

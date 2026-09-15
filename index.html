@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4TM86KZ83J"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-4TM86KZ83J');
+    </script>
+</head>
+
+<body>
+    <div class="home-link"></div>
+
+    <!-- TODO 背景有若隐若现的流星划过 -->
+    <div id="background"></div>
+
+    <main id="content">
+        <p>加载中…</p>
+    </main>
+
+    <!-- giscus 评论（由 posts.js 的 setupGiscus 在文章页注入） -->
+    <div id="giscus-container" style="margin-top: 2em;"></div>
+
+    <!-- 第三方库：代码高亮 -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+
+    <!-- 第三方库：htm（无构建版 JSX），配合 lib/html.js 里的 h 函数直接产出 DOM -->
+    <script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+
+    <script src="lib/render-md.js"></script>
+    <script src="lib/html.js"></script>
+    <script src="lib/ascii-art.js"></script>
+    <script src="lib/background.js"></script>
+
+    <script src="pages/old-posts.js"></script>
+
+    <script src="pages/toys/ascii-art.js"></script>
+    <script src="pages/toy.js"></script>
+    <script src="pages/game.js"></script>
+    <script src="pages/music.js"></script>
+    <script src="pages/photo.js"></script>
+    <script src="pages/about.js"></script>
+    <script src="pages/posts.js"></script>
+
+    <script src="router.js"></script>
+</body>
+
+</html>
