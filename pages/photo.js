@@ -54,7 +54,8 @@ async function renderPhoto() {
     return html`
         <h1>PHOTO</h1>
         <p>我不太爱拍照或者是看照片，不过它们还是挺珍贵的，所以勉强记录一下</p>
-        <p>所有的图片都不是原图，都是原图使用 imageMagick 缩小到 720p 并使用 75 的质量压缩成 webp 保存，最后每张照片基本都 <100k, 我不喜欢大大的仓库</p>
+        <p>所有的图片都不是原图，都是原图使用 imageMagick 缩小到 720p 并使用 75 的质量压缩成 webp 保存，最后每张照片基本都 ${"<100k"}, 我不喜欢大大的仓库</p>
+        <p>> 另外，这里只会发布我拍摄的照片，在 https://x.com/trdthg 有一些我绘制的画 或者 视频</p>
         <div id="gallery">
             ${cards.length ? cards : html`<p>还没想好做什么，先占个位。</p>`}
         </div>
