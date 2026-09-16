@@ -177,7 +177,7 @@ async function renderPosts() {
         currentEntry = ALL_POSTS.find(e => (e.post || e.file) && entryTitle(e) === postId) || null;
         if (!currentEntry) return html`<p style="color:red;">文章未找到。</p>`;
         if (currentEntry.file) return html`<p>加载中…</p>`;   // 长文/旧文，after 里异步加载
-        return raw(renderMD(currentEntry.post));              // 内联短文，直接出模板
+        return renderMD(currentEntry.post);                   // 内联短文，直接出节点
     }
 
     // 文章列表
@@ -215,7 +215,7 @@ function afterPosts(content) {
             fetch(currentEntry.file)
                 .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
                 .then(md => {
-                    content.replaceChildren(raw(renderMD(md)));
+                    content.replaceChildren(renderMD(md));
                     if (window.hljs) hljs.highlightAll();
                 })
                 .catch(err => {

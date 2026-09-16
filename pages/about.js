@@ -21,5 +21,5 @@ async function renderAbout() {
 感谢您的随意浏览，祝您上午好，中午好，下午好，晚安
 `;
 
-    return html`<div>${raw(renderMD(md))}</div>`;
+    return html`<div>${renderMD(md)}</div>`;
 }

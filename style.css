@@ -63,6 +63,7 @@ body {
 
 /* 代码块 */
 pre {
+    position: relative;
     background: var(--bg-code);
     border: 1px solid var(--border);
     border-radius: 4px;
@@ -70,6 +71,37 @@ pre {
     overflow-x: auto;
     font-size: 0.9em;
     line-height: 1.5;
+}
+
+/* 代码块右上角的复制按钮（见 lib/code-copy.js） */
+.code-copy {
+    position: absolute;
+    top: 0.4em;
+    right: 0.4em;
+    font: inherit;
+    font-size: 0.75em;
+    line-height: 1;
+    padding: 0.35em 0.6em;
+    color: #6b6155;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    /* 平时淡一点，鼠标移上去或聚焦时变清楚；不写成 hover 才显示，触屏设备也要能点到 */
+    opacity: 0.45;
+    transition: opacity 0.15s;
+}
+
+pre:hover .code-copy,
+.code-copy:focus {
+    opacity: 1;
+}
+
+.code-copy.is-ok {
+    color: #3d7a3d;
+    border-color: #3d7a3d;
+    opacity: 1;
 }
 
 /* 行内代码 */

@@ -45,7 +45,7 @@ async function renderPhoto() {
         ${name && html`<h3>${name}</h3>`}
         ${images.map(({ url, note }) => html`
             <figure>
-                ${note && html`<figcaption innerHTML=${renderMD(note)}></figcaption>`}
+                ${note && html`<figcaption>${renderMD(note)}</figcaption>`}
                 <img src=${url} alt=${note || ''} loading="lazy" />
             </figure>
         `)}
