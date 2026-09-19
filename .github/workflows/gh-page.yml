@@ -46,24 +46,19 @@ jobs:
       - name: 构建 wasm
         run: make -C pages/games/jump web
 
-      # peaceiris 的流程是：把 publish_dir 整个拷进它自己的临时仓库，再在那里 `git add --all`。
-      # 那份拷贝里也带着 .gitignore，于是 `/**/build/` 会把刚编出来的 build/web/ 一并跳过。
-      # 所以先 rsync 出一份「工作区快照」当发布目录：要发布的是产物快照，本来就不该受
-      # .gitignore 约束，也就不需要再去改 .gitignore 了。
-      # （CI 只跑 `make web`，所以 build/desktop/ 根本不存在，不会被发出去）
-      - name: 组装发布目录
+      # peaceiris 的发布流程是：先把 publish_dir 整个拷走，再在拷贝里 `git add --all`。
+      # `.gitignore` 也在拷贝里，所以它会跳过 build/web/ —— 必须先把那条规则删掉。
+      - name: 允许发布构建产物
         run: |
-          mkdir -p .deploy
-          rsync -a \
-            --exclude .git --exclude .github --exclude .gitignore --exclude .deploy \
-            ./ .deploy/
+          grep -qxF '/**/build/' .gitignore # 先确认这行还在，免得哪天改了名静默发不出 wasm
+          sed -i '\#^/\*\*/build/$#d' .gitignore
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.ref == 'refs/heads/main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./.deploy # 上面 rsync 出来的快照（不带 .gitignore）
+          publish_dir: . # 发布仓库根目录（.gitignore 已在上一步处理）
           # 每次部署只保留一个提交（orphan 分支）：
           # 1) 部署分支不需要历史；2) 源码里一旦误提交大文件/测试产物，不会跟着部署历史一直留在仓库里
           force_orphan: true

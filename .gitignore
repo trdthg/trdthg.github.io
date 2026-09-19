@@ -8,6 +8,9 @@
 __pycache__/
 *.py[cod]
 node_modules/
+# setup-emsdk 的缓存：gh-page.yml 里 actions-cache-folder 是相对路径，落在工作区里，
+# 里面是几百 MB 的工具链（clang 140MB / node 120MB），既不能提交也不能发布
+emsdk-cache/
 
 # ---------- 老博客 ----------
 # mdbook 的构建输出
@@ -23,6 +26,7 @@ assets/images/photos/raw/
 # 编译产物一律不入库：
 #   build/desktop/  桌面版可执行文件
 #   build/web/      web 版站点内容（Odin + emscripten），不入库，但每次部署由 CI 现编
-# CI 发布时不会读这个文件（见 .github/workflows/gh-page.yml 的「组装发布目录」），
-# 所以这里可以安心忽略整个 build/，不需要给 web 开特例。
+# 发布时 peaceiris/actions-gh-pages 会先拷 publish_dir 再 `git add --all`，也就是会遵守
+# 这个文件，所以 gh-page.yml 会在发布前把下面这行删掉，否则刚编出来的 build/web/ 发不出去。
+# （CI 只跑 `make web`，不存在 build/desktop/ 可执行文件，整条删掉是安全的）
 /**/build/
