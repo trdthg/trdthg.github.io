@@ -14,8 +14,8 @@ const GAMES = [
         id: 'jump',
         title: '[WIP] 跳跳乐',
         desc: '目前只是 Odin + raylib 编译成 WebAssembly 的测试',
-        // 由 make -C pages/games/jump web 生成
-        page: './pages/games/jump/build/web/index.html',
+        // 由 make -C pages/games/jump web 生成。以 / 开头：URL 可能是 /game/jump 这种深层路径
+        page: '/pages/games/jump/build/web/index.html',
         width: 800,
         height: 450,
     },
@@ -29,8 +29,7 @@ function renderGameList() {
         <div id="game-list">
             ${GAMES.map(game => html`
                 <p>
-                    <a href=${'?page=game&game=' + game.id}
-                       onclick=${event => { event.preventDefault(); openGame(game); }}>${game.title}</a>
+                    <a href=${'/game/' + game.id}>${game.title}</a>
                     — ${game.desc}
                 </p>
             `)}
@@ -43,7 +42,7 @@ function renderGameList() {
 // 打开游戏。iframe 每次重新创建：关闭时整个移除，游戏就停了，不占 CPU/GPU。
 function openGame(game) {
     const dialog = document.getElementById('game-dialog');
-    if (!dialog) return;
+    if (!dialog || dialog.open) return;
 
     // iframe 要被控制栏上几个按钮引用，所以先建出来
     // 尺寸由 GAMES 里的 width/height 通过 CSS 变量传给 .game-dialog / .game-frame（见 style.css）
@@ -77,14 +76,12 @@ function openGame(game) {
 
     dialog.showModal();
     document.title = game.title;
-
-    // 同步 URL 成 ?page=game&game=<id>：分享链接、刷新都还能直接回到这个游戏
-    history.replaceState(null, '', `?page=game&game=${game.id}`);
+    // URL 由 router.js 的链接拦截推到 /game/<id>，这里不用再动 history
 }
 
 // router 的 after 钩子（见 router.js）：
-// 挂载完成后绑定模态事件，并支持直接访问 ?page=game&game=<id> 自动打开
-function afterGame() {
+// 挂载完成后绑定模态事件，并支持直接访问 /game/<id> 自动打开
+function afterGame(content, route) {
     const dialog = document.getElementById('game-dialog');
     if (!dialog) return;
 
@@ -100,11 +97,9 @@ function afterGame() {
     dialog.addEventListener('close', () => {
         dialog.replaceChildren();
         document.title = 'GAME';
-        if (new URLSearchParams(location.search).has('game')) {
-            history.replaceState(null, '', '?page=game');
-        }
+        if (route.game) history.replaceState(null, '', '/game');
     });
 
-    const game = GAMES.find(g => g.id === new URLSearchParams(location.search).get('game'));
+    const game = GAMES.find(g => g.id === route.game);
     if (game) openGame(game);
 }

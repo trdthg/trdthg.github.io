@@ -3,16 +3,62 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>跳转中…</title>
+    <!-- 相对 URL 一律以站点根为基准：路由是 /game、/post/xxx 这种 path 风格，
+         深链接页面（比如 /post/雪）下相对路径会解析成 /post/xxx/assets/... 而 404。
+         脚本、图片、fetch 的 .md 都靠它定位。 -->
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4TM86KZ83J"></script>
     <script>
-        // 全站唯一壳是 index.html。这里兜住所有老链接（GitHub Pages 找不到的路径
-        // 都会落到本文件），把 ?post= / ?page= 等参数原样带过去。
-        location.replace('index.html' + location.search + location.hash);
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4TM86KZ83J');
     </script>
 </head>
 
 <body>
-    <p>正在跳转到 <a href="index.html">index.html</a>…</p>
+    <div class="home-link"></div>
+
+    <!-- TODO 背景有若隐若现的流星划过 -->
+    <div id="background"></div>
+
+    <main id="content">
+        <p>加载中…</p>
+    </main>
+
+    <!-- giscus 评论（由 posts.js 的 setupGiscus 注入，SPA 导航下只注入一次、跨页面持久存在） -->
+    <div id="giscus-container" style="margin-top: 2em;"></div>
+
+    <!-- 第三方库：代码高亮 -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+
+    <!-- 第三方库：htm（无构建版 JSX），配合 lib/html.js 里的 h 函数直接产出 DOM -->
+    <script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+
+    <script src="lib/html.js"></script>
+    <script src="lib/code-copy.js"></script>
+    <script src="lib/render-md.js"></script>
+    <script src="lib/ascii-art.js"></script>
+    <script src="lib/background.js"></script>
+
+    <script src="pages/old-posts.js"></script>
+
+    <script src="pages/toys/ascii-art.js"></script>
+    <script src="pages/toy.js"></script>
+    <script src="pages/game.js"></script>
+    <script src="pages/music.js"></script>
+    <script src="pages/photo.js"></script>
+    <script src="pages/about.js"></script>
+    <script src="pages/posts.js"></script>
+
+    <script src="router.js"></script>
 </body>
 
 </html>

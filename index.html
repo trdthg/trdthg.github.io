@@ -3,6 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
+    <!-- 相对 URL 一律以站点根为基准：路由是 /game、/post/xxx 这种 path 风格，
+         深链接页面（比如 /post/雪）下相对路径会解析成 /post/xxx/assets/... 而 404。
+         脚本、图片、fetch 的 .md 都靠它定位。 -->
+    <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文章列表</title>
     <link rel="stylesheet" href="style.css">
@@ -29,7 +33,7 @@
         <p>加载中…</p>
     </main>
 
-    <!-- giscus 评论（由 posts.js 的 setupGiscus 在文章页注入） -->
+    <!-- giscus 评论（由 posts.js 的 setupGiscus 注入，SPA 导航下只注入一次、跨页面持久存在） -->
     <div id="giscus-container" style="margin-top: 2em;"></div>
 
     <!-- 第三方库：代码高亮 -->

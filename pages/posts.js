@@ -166,7 +166,8 @@ function entryTitle(entry) {
 }
 
 // giscus 评论：全站共用一个讨论串（mapping=specific），router 在每次渲染后调用；
-// childElementCount 守卫保证 iframe 只注入一次，之后跨页面持久存在
+// childElementCount 守卫保证 iframe 只注入一次，SPA 导航下跨页面持久存在。
+// data-loading="lazy"：评论区在首屏之下，不滚到那里就不初始化这个跨域 iframe。
 function setupGiscus() {
     const container = document.getElementById('giscus-container');
     if (!container || container.childElementCount) return;
@@ -185,6 +186,7 @@ function setupGiscus() {
             data-input-position="bottom"
             data-theme="preferred_color_scheme"
             data-lang="zh-CN"
+            data-loading="lazy"
             crossorigin="anonymous"
             async
         ></script>
@@ -195,8 +197,8 @@ function setupGiscus() {
 
 let currentEntry = null; // render 时记住当前文章，after 里用
 
-async function renderPosts() {
-    const postId = new URLSearchParams(location.search).get('post');
+async function renderPosts(route) {
+    const postId = route.post;
 
     if (postId) {
         // 显示指定文章（postId 就是文章标题）
@@ -218,7 +220,7 @@ async function renderPosts() {
                 if (entry.divider) return html`<div class="divider">${entry.divider}</div>`;
                 if (entry.note) return html`<p>${entry.date} ${entry.note}</p>`;
                 const title = entryTitle(entry);
-                return html`<p><a href=${'?post=' + encodeURIComponent(title)}>${entry.date} ${title}</a></p>`;
+                return html`<p><a href=${'/post/' + encodeURIComponent(title)}>${entry.date} ${title}</a></p>`;
             })}
         </div>
 
@@ -236,15 +238,19 @@ async function renderPosts() {
 function afterPosts(content) {
     if (currentEntry) {
         if (currentEntry.file) {
-            // 长文/旧文：内容在单独 .md 文件里，点击时才加载
-            document.title = currentEntry.title + ' - 我的阅读笔记';
-            fetch(currentEntry.file)
+            // 长文/旧文：内容在单独 .md 文件里，点击时才加载。
+            // entry 先存下来：SPA 导航很快，fetch 回来时可能已经换页了，那就别往 content 里塞了
+            const entry = currentEntry;
+            document.title = entry.title + ' - 我的阅读笔记';
+            fetch(entry.file)
                 .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
                 .then(md => {
+                    if (currentEntry !== entry) return;
                     content.replaceChildren(renderMD(md));
                     if (window.hljs) hljs.highlightAll();
                 })
                 .catch(err => {
+                    if (currentEntry !== entry) return;
                     content.replaceChildren(html`<p style="color:red;">文章加载失败：${err.message}</p>`);
                 });
             return;

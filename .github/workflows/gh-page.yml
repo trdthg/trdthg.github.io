@@ -46,6 +46,12 @@ jobs:
       - name: 构建 wasm
         run: make -C pages/games/jump web
 
+      # 深链接（/game、/post/xxx）在 GitHub Pages 上会落到 404.html ——
+      # 它必须是 index.html 的副本，SPA 才能按 location.pathname 把页面渲染出来。
+      # 由 CI 现拷，保证不会和 index.html 走神。
+      - name: 生成 404 兜底页
+        run: cp index.html 404.html
+
       # peaceiris 的发布流程是：先把 publish_dir 整个拷走，再在拷贝里 `git add --all`。
       # `.gitignore` 也在拷贝里，所以它会跳过 build/web/ —— 必须先把那条规则删掉。
       - name: 允许发布构建产物
