@@ -8,14 +8,23 @@
     // TS 意义上的 script，顶层声明进入全局作用域 —— 同一个项目内即可跨文件互相跳转。
     "compilerOptions": {
         "target": "ES2022",
-        "lib": ["ES2022", "DOM"],
+        "lib": [
+            "ES2022",
+            "DOM"
+        ],
         "allowJs": true,
-        // 关掉类型检查：只想要跳转/重命名/找引用，不想被隐式 any 之类的波浪线打扰
-        "checkJs": false
     },
     // 站点脚本
-    "include": ["**/*.js"],
+    "include": [
+        "**/*.js",
+    ],
     // bak/ 里有同名全局（ascii-art.backup.js 也声明了 createBlockArtComponent），
     // 一起纳入会导致「候选定义有 2 个」，跳转变成让你二选一
-    "exclude": ["bak", "node_modules", "assets"]
+    "exclude": [
+        "bak",
+        "node_modules",
+        "assets",
+        // 游戏的构建产物（emscripten 生成的 index.js 有 370KB，别让语言服务去解析）
+        "pages/games/*/build"
+    ]
 }

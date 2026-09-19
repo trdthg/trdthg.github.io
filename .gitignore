@@ -1,5 +1,28 @@
-book
-.vscode
+# ---------- 编辑器 ----------
+# 只共享 settings.json，其余本机配置不提交
+.vscode/*
+!.vscode/settings.json
 
-# 相册原图（含 EXIF/GPS）不入库，只提交 scripts/convert_webp.py 生成的 webp
+# ---------- 杂项 ----------
+.DS_Store
+__pycache__/
+*.py[cod]
+node_modules/
+
+# ---------- 老博客 ----------
+# mdbook 的构建输出
+book/
+# 老一代 mdbook 博客：已归档到 old 分支，主分支不再跟踪；本地保留一份但不提交
+bak/
+
+# ---------- 相册 ----------
+# 原图（含 EXIF/GPS）不入库，只提交 scripts/convert_webp.py 生成的 webp
 assets/images/photos/raw/
+
+# ---------- Odin 游戏 ----------
+# 编译产物一律不入库：
+#   build/desktop/  桌面版可执行文件
+#   build/web/      web 版站点内容（Odin + emscripten），不入库，但每次部署由 CI 现编
+# CI 发布时不会读这个文件（见 .github/workflows/gh-page.yml 的「组装发布目录」），
+# 所以这里可以安心忽略整个 build/，不需要给 web 开特例。
+/**/build/

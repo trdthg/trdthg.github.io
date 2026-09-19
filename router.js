@@ -29,7 +29,7 @@
     // 统一 await 解包，所以同步和 async 的 render 都能用
     let view, title, after = null;
     switch (page) {
-        case 'game':  view = await renderGame();  title = 'GAME';  break;
+        case 'game': view = renderGameList(); title = 'GAME'; after = afterGame; break;
         case 'toy': {
             const toy = TOYS.find(t => t.id === params.get('toy'));
             if (toy) {

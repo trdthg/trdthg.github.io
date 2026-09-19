@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -11,14 +12,58 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+
+      # ---------- GAME 页的 wasm 构建（Odin + raylib → emscripten） ----------
+      # 产物 pages/games/jump/web/ 不入库，每次部署由 CI 现编。
+      # 本地开发时跑 `make -C pages/games/jump web` 生成同样一套。
+
+      - name: 安装 Odin
+        # 用官方 release（不是源码编译）：release 包里自带 raylib 的 wasm 静态库
+        # libraylib.web.a / libraygui.a，源码仓库里那两个是 git-lfs 指针，拿不到真文件
+        uses: laytan/setup-odin@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release: dev-2026-09
+
+      - name: 安装 Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: 6.0.9
+          actions-cache-folder: emsdk-cache
+
+      - name: 安装 wasm-ld
+        # Odin 编译到 wasm 时调用 wasm-ld，官方 release 包不带，Ubuntu 上由 lld 提供
+        run: sudo apt-get update && sudo apt-get install -y lld
+
+      - name: 检查工具链
+        run: |
+          odin version
+          emcc --version | head -1
+          wasm-ld --version
+          ls "$(odin root)/vendor/raylib/wasm/"
+
+      - name: 构建 wasm
+        run: make -C pages/games/jump web
+
+      # peaceiris 的流程是：把 publish_dir 整个拷进它自己的临时仓库，再在那里 `git add --all`。
+      # 那份拷贝里也带着 .gitignore，于是 `/**/build/` 会把刚编出来的 build/web/ 一并跳过。
+      # 所以先 rsync 出一份「工作区快照」当发布目录：要发布的是产物快照，本来就不该受
+      # .gitignore 约束，也就不需要再去改 .gitignore 了。
+      # （CI 只跑 `make web`，所以 build/desktop/ 根本不存在，不会被发出去）
+      - name: 组装发布目录
+        run: |
+          mkdir -p .deploy
+          rsync -a \
+            --exclude .git --exclude .github --exclude .gitignore --exclude .deploy \
+            ./ .deploy/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.ref == 'refs/heads/main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: . # 发布仓库根目录
+          publish_dir: ./.deploy # 上面 rsync 出来的快照（不带 .gitignore）
           # 每次部署只保留一个提交（orphan 分支）：
           # 1) 部署分支不需要历史；2) 源码里一旦误提交大文件/测试产物，不会跟着部署历史一直留在仓库里
           force_orphan: true
