@@ -1,0 +1,31 @@
+# ---------- 编辑器 ----------
+# 只共享 settings.json，其余本机配置不提交
+.vscode/*
+!.vscode/settings.json
+
+# ---------- 杂项 ----------
+.DS_Store
+__pycache__/
+*.py[cod]
+node_modules/
+# setup-emsdk 的缓存：gh-page.yml 里 actions-cache-folder 是相对路径，落在工作区里，
+# 里面是几百 MB 的工具链（clang 140MB / node 120MB），既不能提交也不能发布
+emsdk-cache/
+
+# ---------- 老博客 ----------
+# mdbook 的构建输出
+book/
+# 老一代 mdbook 博客：已归档到 old 分支，主分支不再跟踪；本地保留一份但不提交
+bak/
+
+# ---------- 相册 ----------
+# 原图（含 EXIF/GPS）不入库，只提交 scripts/convert_webp.py 生成的 webp
+assets/images/photos/raw/
+
+# ---------- Odin 游戏 ----------
+# 编译产物一律不入库：
+#   build/desktop/  桌面版可执行文件
+#   build/web/      web 版站点内容（Odin + emscripten），不入库，但每次部署由 CI 现编
+# 发布时 peaceiris/actions-gh-pages 会先拷 publish_dir 再 `git add --all`，也就是会遵守
+# 这个文件，所以 gh-page.yml 会在发布前把下面这行删掉，否则刚编出来的 build/web/ 发不出去。
+# （CI 只跑 `make web`，不存在 build/desktop/ 可执行文件，整条删掉是安全的）
