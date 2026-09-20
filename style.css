@@ -7,6 +7,8 @@
     /* 边框 */
     --muted: #6b6155;
     /* 次要文字色（代码块复制按钮、游戏控制栏） */
+    --link: rgb(181, 84, 84);
+    /* 链接色（顶部导航、GAME 页的「更多」按钮） */
 }
 
 /* 定义字体 */
@@ -51,7 +53,7 @@ body {
 }
 
 .home-link a {
-    color: rgb(181, 84, 84);
+    color: var(--link);
     text-decoration: none;
 }
 
@@ -137,6 +139,24 @@ pre code.hljs {
 }
 
 /* ---------- GAME 页（见 pages/game.js）---------- */
+
+/* GAME 页的「更多」按钮：跟顶部导航一个调子（红字、无边框、悬停加下划线）。
+   font: inherit 是必须的 —— button 默认不继承字体，不写这句就不是 GAME 页的像素字体 */
+#game-list button {
+    font: inherit;
+    color: var(--link);
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* 还没做的游戏：没有 page 字段，渲染成不带 href 的 <a>（不可点） */
+#game-list a:not([href]) {
+    color: var(--muted);
+    cursor: default;
+}
 
 /* 整个 section 用像素字体 */
 :has(#game.active) #content {

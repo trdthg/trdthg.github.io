@@ -6,7 +6,7 @@
 
 ```
 index.html          唯一的 HTML 壳（也是 404.html 的来源）
-router.js           路由：pathname → 页面组件，并负责站内导航
+router.js           路由：URL query → 页面组件，并负责站内导航
 style.css
 lib/                通用工具（htm 的 h 函数、Markdown 渲染、代码块复制…）
 pages/              页面组件，一个页面一个文件，导出 renderXxx() / afterXxx()
@@ -21,27 +21,31 @@ scripts/            零散脚本（相册图片转 webp 等）
 | URL | 页面 |
 | --- | --- |
 | `/` | 文章列表 |
-| `/post/<标题>` | 某篇文章（标题就是 `entryTitle()` 的结果，URL 里 encodeURIComponent） |
-| `/toy`、`/toy/<id>` | 玩具列表 / 单个玩具 |
-| `/game`、`/game/<id>` | 游戏列表 / 打开某个游戏的模态 |
-| `/music`、`/photo`、`/about` | 对应页面 |
+| `/?post=<标题>` | 某篇文章（标题就是 `entryTitle()` 的结果，URL 里 encodeURIComponent） |
+| `/?page=toy`、`/?page=toy&toy=<id>` | 玩具列表 / 单个玩具 |
+| `/?page=game`、`/?page=game&game=<id>` | 游戏列表 / 打开某个游戏的模态 |
+| `/?page=music`、`/?page=photo`、`/?page=about` | 对应页面 |
 
-两条约束：
+三条约束：
 
 1. **导航是客户端路由**：站内 `<a>` 的点击被 `router.js` 拦下来走 `pushState`，只重渲染 `#content`，
-   不重新加载文档（脚本 / GA / giscus 一个会话只初始化一次）。所以新增链接直接写 `href="/xxx"` 就行，
+   不重新加载文档（脚本 / GA / giscus 一个会话只初始化一次）。所以新增链接直接写 `href="?page=xxx"` 就行，
    不需要 onclick，后退/前进由 `popstate` 处理。
-2. **`index.html` 里有 `<base href="/">`**：所有相对 URL（脚本、图片、fetch 的 `.md`）都以站点根为基准，
-   否则在 `/post/xxx` 这种深层路径下会解析错。新增资源路径时不用管层级。
-3. **深链接靠 `404.html` 兜底**：GitHub Pages 对不存在的路径返回 `404.html`，所以它必须是 `index.html`
-   的副本 —— 由 `.github/workflows/gh-page.yml` 在发布前 `cp index.html 404.html` 生成（仓库里也放了一份）。
-   本地预览深链接需要一个带 fallback 的静态服务器（`python3 -m http.server` 不行）。
+2. **URL 用 query 风格，不用 path 风格**（不要写成 `/music`）：path 风格在静态托管上没有对应文件，
+   刷新/直接访问会 404 —— GitHub Pages 只能靠 `404.html` 把内容换成 SPA，状态码仍是 404，
+   console 里会报一条 `Failed to load resource`。query 风格永远只请求 `/` 这个真实文件，刷新天然 200，
+   本地任何静态服务器都能用。URL 格式由 `router.js` 的 `parseRoute()` / `routeHref()` 定义，页面里按同样的
+   格式手写链接（`?page=<名字>[&<子参数>=<值>]`，文章是 `?post=<标题>`）。
+3. **`index.html` 里有 `<base href="/">`**：所有相对 URL（脚本、图片、fetch 的 `.md`）都以站点根为基准。
+   query 风格下路径永远是 `/`，本来是多余的，但 `404.html` 兜底页（拼错的路径）需要它，
+   所以保留。
 
 新增一篇文章：在 `pages/posts.js`（或 `pages/old-posts.js`）的数组里加一条记录即可，
 `{ date, note }` 便签、`{ date, post }` 内联短文、`{ date, title, file }` 长文（按需加载 .md）。
 
 新增一个页面：`pages/<名字>.js` 里写 `render<名字>()`（返回 `html\`\`` 节点）+ 可选的 `after<名字>(content, route)`，
-在 `index.html` 加 `<script>`，在 `router.js` 的 `parse()` / `NAV` / `buildPage()` 各加一行。
+在 `index.html` 加 `<script>`，然后在 `router.js` 的 `PAGES` 里加一行
+（导航文字、详情页子参数名、render / title / after 都在这张表里）。
 
 ## 游戏（Odin + raylib → WebAssembly）
 

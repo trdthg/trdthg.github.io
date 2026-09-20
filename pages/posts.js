@@ -15,6 +15,67 @@
 const POSTS = [
     // —— 新文章（内联）——
     {
+        date: "2026-09-20",
+        post:
+`# [WIP] C/Rust 实现热更新的若干方法
+
+> 也不知道什么时候能写完，有机会也应该写一个类似的 mini-jit
+
+就是说，大家都爱舒服的调试，完善的轻松的开发调试过程能让人心情舒畅，在 C 里面还有 Rust 里面很难让人心情舒畅
+
+这里总结了我看到的两种方法
+
+## dlopen
+
+把你的程序完全搞成库，外面包一层大概这样的东西就行了
+
+\`\`\`c
+InitWindow()
+var lib = ...
+while {
+    if changed(build/libyougame.so) // 自动检查库是否变了
+     | keyPressed("R")              // 或者如果你想手动触发的话
+    {
+        lib = dlopen("./build/libyougame.so");
+    }
+    lib.update()
+}
+\`\`\`
+
+    更多内容参考 Tosding 的这个视频 https://www.youtube.com/watch?v=Y57ruDOwH1g
+
+    另外在这里你可以找到 Tsoding 的非常风格化的企鹅桌面壁纸 https://penger.city/
+
+## Subsecond
+
+来自 Rust 一个叫做 [Dioxus](https://github.com/dioxuslabs/dioxus) 的跨平台 UI 框架提供了热重载功能
+我从这框架刚开源 2 个月就看到了，当时以为这个项目就跟大多数普通的开源项目一样，一段时间之后就会沉寂。
+没想到 3 4 年过去后，甚至还活的越来越好了，里面提供了一个叫做 Subsecond 的热重载框架，目前已经被 Rust 生态中的多个项目采用
+
+> 这里还有一些 开源项目理念 的争执 [iced 作者想要使用 subsecond 但是直接 fork 了整个仓库] https://github.com/bevyengine/bevy/issues/19296
+
+很遗憾的是，研究了几个小时，我认为这个东西与 dlopen 并没有什么本质上的区别，只不过 subsecond 做了更多工程化用于生产
+
+- 更自动化，更细粒度
+- 跨平台，subsecond 要面对不同操作系统的安全限制，甚至为 wasm 实现了动态链接器，因为 wasm 根本没有 dlopen
+
+## detour
+
+另外一种思路，修改运行时内存，在原函数的开头放一个 jmp 指令跳到新函数的位置
+
+(安卓的动态插装工具 frida 也采用了类似的技术)
+
+1. 创建一个函数
+
+2. 修改 jump
+
+## live++
+
+商业化工具解决的难点
+
+`
+    },
+    {
         date: "2026-09-16",
         post: `# V8 引擎作者搞的项目怎么也黄了
 
@@ -22,22 +83,22 @@ const POSTS = [
 
         非常优雅的演示视频，非常高的性能，非常独特的设计思路，使用了一个特定的语言
 
-        我觉得它没火起来的最大原因就是因为它自创了一个新语言
+        我猜想它没火起来的主要原因还是因为它自创了一个新语言
         - 新语言学习门槛太高
-        - 无法兼容硬件生态，开发板只是披萨饼皮，谁会到餐厅只吃饼皮呢？
+        - 无法兼容现有硬件生态，开发板只是披萨饼皮，谁会到餐厅只吃饼皮呢？
+
+        > “这里的比萨面皮尝起来不像我吃过的任何面皮，倒像是印度烤饼，柔软耐嚼，却特别薄……我一向认为谈到比萨饼皮，我们一生只有两种选择——薄而脆，或者厚而软。怎知这世上有一种薄而软的饼皮？神圣的上帝！薄、软、韧、黏、好吃、耐嚼、咸味的比萨天堂。”
 
         作者想要从语言，虚拟机层面优化嵌入式应用，没毛病，但看起来大家并不太关心这一点
 
-        我有一些让它能复活的想法
+        我有一些让它能复活的想法，但似乎也均不可行
 
         1. 在上面加一层 Python 子集的解释器
         - 但是这样可能会因为 python 的语言特性 (过于动态) 导致原本的设计思路无法起到很好的加速效果，最终沦落为跟 PyPy 对于 CPython 的情形
 
-        2. 放弃这个项目，把里面的设计思路引入 MicroPython, 加速 MicroPython, 打不过就加入.
+        2. 放弃这个项目，把里面的设计思路引入 MicroPython, 加速 MicroPython, 打不过就加入。
         - 但是 MicroPython 好像也在推进自己的加速方案，对添加了装饰器的函数，直接编译为原生代码
         - toit 的 VM, 沙箱等的内存占用过高？
-
-        技术强，有竞争力，但是不符合市场需求？
         `
     },
     {
@@ -220,7 +281,7 @@ async function renderPosts(route) {
                 if (entry.divider) return html`<div class="divider">${entry.divider}</div>`;
                 if (entry.note) return html`<p>${entry.date} ${entry.note}</p>`;
                 const title = entryTitle(entry);
-                return html`<p><a href=${'/post/' + encodeURIComponent(title)}>${entry.date} ${title}</a></p>`;
+                return html`<p><a href=${'?post=' + encodeURIComponent(title)}>${entry.date} ${title}</a></p>`;
             })}
         </div>
 

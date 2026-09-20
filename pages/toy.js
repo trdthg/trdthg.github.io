@@ -18,7 +18,7 @@ function renderToyList() {
 
         <div id="toy-list">
             ${TOYS.map(t => html`
-                <p><a href=${'/toy/' + t.id}>${t.title}</a> — ${t.desc}</p>
+                <p><a href=${'?page=toy&toy=' + encodeURIComponent(t.id)}>${t.title}</a> — ${t.desc}</p>
             `)}
         </div>
     `;

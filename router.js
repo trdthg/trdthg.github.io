@@ -1,12 +1,21 @@
-// 极简「条件渲染」路由 —— 就是一个 switch case：
-//   1. 从 location.pathname 解析出页面（/、/post/<标题>、/toy[/<id>]、/game[/<id>]、/music、/photo、/about）
-//   2. switch 到对应页面组件（各 <页面名>.js 里的 render 函数），拿到 DOM 节点（html`` / DocumentFragment）
+// 极简「条件渲染」路由 —— 就是一张页面表。
+//   1. 从 location.search 解析出路由（query 风格 URL，见下面 parseRoute）
+//   2. 查 PAGES 表，调对应页面组件的 render 函数，拿到 DOM 节点（html`` / DocumentFragment）
 //   3. 统一挂载到 #content（replaceChildren），统一设置 document.title
 //   4. 页面有挂载后的副作用（高亮、异步加载等）就调对应的 after 函数
 //
 // 导航是客户端路由：拦截站内 <a> 的点击 → pushState + 只重渲染 #content，不重新加载文档。
 // 所以脚本 / GA / giscus 一个会话里只初始化一次，切页面没有白屏；后退前进走 popstate。
-// 直接访问深链接（如 /game）由 404.html 兜住 —— 它就是 index.html 的副本（见 gh-page.yml）。
+//
+// URL 用 query 风格，格式统一：?page=<名字>[&<子参数>=<值>]
+//   ?page=posts、?page=posts&post=雪、?page=game&game=jump、?page=toy&toy=ascii-art
+// 站点根（无参数）也是首页，所以 / 和 ?page=posts 等价。
+// 不用 /music 这种 path 风格：静态托管上没有对应文件，刷新/直接访问会 404
+// （GitHub Pages 只能靠 404.html 把内容换成 SPA，状态码仍是 404，console 里会报一条
+//  Failed to load resource）。query 风格永远只请求 `/` 这个真实文件，刷新天然 200。
+// 页面里的链接按这个格式手写，不认识的 query 一律当首页。
+//
+// 新增一个页面：pages/<名字>.js 写 render/after → index.html 加 <script> → 下面 PAGES 加一行。
 //
 // 用法：index.html 里放 <div class="home-link"></div> 和 <main id="content"></main>，
 //       在 body 末尾按顺序引入数据脚本和本文件即可。
@@ -15,96 +24,88 @@
     const content = document.getElementById('content');
     if (!nav || !content) return;
 
-    // 导航栏：[路由，显示文字]，当前页加 .active 高亮
-    const NAV = [['posts', 'POST'], ['toy', 'TOY'], ['game', 'GAME'], ['music', 'MUSIC'], ['photo', 'PHOTO'], ['about', 'ABOUT']];
+    // 页面表：一个页面一行 —— 导航文字、详情页的子参数名、render(route)、title(route)、after(content, route)
+    // title 是函数是因为详情页的标题来自数据（比如某个 toy 的名字）
+    const PAGES = {
+        posts: {
+            label: 'POST', param: 'post',
+            render: renderPosts, title: () => '不知道要写点什么？', after: afterPosts,
+        },
+        toy: {
+            label: 'TOY', param: 'toy',
+            render: route => TOYS.find(t => t.id === route.toy)?.render() ?? renderToyList(),
+            title: route => TOYS.find(t => t.id === route.toy)?.title ?? 'TOY',
+        },
+        game: { label: 'GAME', param: 'game', render: renderGameList, title: () => 'GAME', after: afterGame },
+        music: { label: 'MUSIC', render: renderMusic, title: () => 'MUSIC' },
+        photo: { label: 'PHOTO', render: renderPhoto, title: () => 'PHOTO' },
+        about: { label: 'ABOUT', render: renderAbout, title: () => 'ABOUT' },
+    };
 
-    // —— 路径 ↔ 路由 ——
+    // —— URL ↔ 路由 ——
 
-    const decode = s => { try { return decodeURIComponent(s); } catch { return s; } };
+    // search → route；不是本站认的 URL 就返回 null（交给调用方/浏览器处理）
+    //   （空）                  → { page: 'posts' }   站点根就是首页
+    //   ?page=posts            → { page: 'posts' }
+    //   ?page=posts&post=雪     → { page: 'posts', post: '雪' }
+    //   ?page=game&game=jump   → { page: 'game', game: 'jump' }
+    function parseRoute(search) {
+        const p = new URLSearchParams(search);
+        if (!p.toString()) return { page: 'posts' };
 
-    // pathname → route；认不出来的路径返回 null（交给浏览器当普通链接处理）
-    //   /              → { page: 'posts' }                /post/雪       → { page: 'posts', post: '雪' }
-    //   /game/jump     → { page: 'game', game: 'jump' }   /toy/ascii-art → { page: 'toy', toy: 'ascii-art' }
-    function parse(pathname) {
-        const seg = pathname.split('/').filter(Boolean).map(decode);
-        if (!seg.length) return { page: 'posts' };
+        const page = p.get('page');
+        const def = PAGES[page];
+        if (!def) return null;
 
-        const [head, ...rest] = seg;
-        const arg = rest.join('/');
-
-        if (head === 'post') return arg ? { page: 'posts', post: arg } : null;
-        if (head === 'toy') return { page: 'toy', toy: arg };
-        if (head === 'game') return { page: 'game', game: arg };
-        if (arg) return null;
-        if (head === 'music' || head === 'photo' || head === 'about') return { page: head };
-        return null;
+        const route = { page };
+        const sub = def.param ? p.get(def.param) : '';   // 子参数缺省 = 列表页
+        if (sub) route[def.param] = sub;
+        return route;
     }
 
-    // 老链接（?page= / ?post= / &game= / &toy=）→ path 风格，启动时迁移一次
-    function migrateQuery() {
-        const p = new URLSearchParams(location.search);
-        const page = p.get('page');
-        const post = p.get('post');
-        if (!page && !post) return;
+    // route → 站内 URL，格式统一：?page=<名字>[&<子参数>=<值>]
+    function routeHref(route) {
+        const def = PAGES[route.page] || PAGES.posts;
+        const p = new URLSearchParams({ page: route.page });
+        if (def.param && route[def.param]) p.set(def.param, route[def.param]);
+        return '/?' + p;
+    }
 
-        const sub = p.get('game') || p.get('toy');
-        const target = post ? '/post/' + encodeURIComponent(post)
-            : !page || page === 'posts' ? '/'
-                : '/' + page + (sub ? '/' + encodeURIComponent(sub) : '');
-        history.replaceState(null, '', target);
+    // 站内 URL（location 或 <a href>）→ route；不是站内路由返回 null，交给浏览器当普通链接处理
+    function routeOf(url) {
+        if (url.origin !== location.origin) return null;
+        if (url.pathname !== '/' && url.pathname !== '/index.html') return null;
+        return parseRoute(url.search);
     }
 
     // —— 渲染 ——
 
     function renderNav(route) {
+        // 导航栏直接由 PAGES 生成（顺序就是表里的顺序），当前页加 .active
         nav.replaceChildren(html`
-            ${NAV.map(([id, label], i) => [
+            ${Object.keys(PAGES).map((id, i) => [
                 i ? ' | ' : '',
-                html`<a id=${id} href=${id === 'posts' ? '/' : '/' + id} class=${id === route.page ? 'active' : null}>${label}</a>`,
+                html`<a id=${id} href=${routeHref({ page: id })} class=${id === route.page ? 'active' : null}>${PAGES[id].label}</a>`,
             ])}
             ${' | ᗜ˰ᗜ'}
         `);
-    }
-
-    // 条件渲染：route → 页面组件
-    // render 函数返回 Node/DocumentFragment（html`` 或 raw()）或它们的 Promise
-    // 统一 await 解包，所以同步和 async 的 render 都能用
-    async function buildPage(route) {
-        let view, title, after = null;
-        switch (route.page) {
-            case 'game': view = renderGameList(); title = 'GAME'; after = afterGame; break;
-            case 'toy': {
-                const toy = TOYS.find(t => t.id === route.toy);
-                if (toy) {
-                    view = await toy.render();
-                    title = toy.title;
-                } else {
-                    view = renderToyList();
-                    title = 'TOY';
-                }
-                break;
-            }
-            case 'music': view = await renderMusic(); title = 'MUSIC'; break;
-            case 'photo': view = await renderPhoto(); title = 'PHOTO'; break;
-            case 'about': view = await renderAbout(); title = 'ABOUT'; break;
-            default: view = await renderPosts(route); title = '不知道要写点什么？'; after = afterPosts; break;
-        }
-        return { view, title, after };
     }
 
     let token = 0;   // 每次导航自增：异步 render 回来时用它判断「这中间有没有又导航」
 
     async function renderCurrent({ scroll = false } = {}) {
         const mine = ++token;
-        const route = parse(location.pathname) || { page: 'posts' };   // 认不出来的路径当文章列表
+        // 不是本站认的 URL（比如手输的旧地址、?page=nope）就当首页
+        const route = routeOf(new URL(location.href)) || { page: 'posts' };
+        const page = PAGES[route.page] || PAGES.posts;
 
-        const { view, title, after } = await buildPage(route);
+        const view = await page.render(route);
         if (mine !== token) return;   // 期间又导航了，这次结果丢掉
 
         renderNav(route);
         content.replaceChildren(view);
-        document.title = title;
-        if (after) after(content, route);
+        document.title = page.title(route);
+        if (page.after) page.after(content, route);
         setupGiscus();   // 全站共用一个 giscus 讨论串，守卫保证只注入一次
         if (scroll) window.scrollTo(0, 0);
 
@@ -130,8 +131,7 @@
         if (link.getAttribute('href').startsWith('#')) return;
 
         const url = new URL(link.href);          // link.href 已经被 <base href="/"> 解析过
-        if (url.origin !== location.origin) return;
-        if (!parse(url.pathname)) return;        // 不是路由（.md、图片…），按普通链接走
+        if (!routeOf(url)) return;               // 不是站内路由（.md、图片、外链…），按普通链接走
         event.preventDefault();
 
         const to = url.pathname + url.search;
@@ -140,6 +140,5 @@
 
     window.addEventListener('popstate', () => renderCurrent());
 
-    migrateQuery();
     renderCurrent();
 })();

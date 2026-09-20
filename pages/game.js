@@ -19,6 +19,26 @@ const GAMES = [
         width: 800,
         height: 450,
     },
+    {
+        id: 'upside-down-bar',
+        title: '[TODO] Upside Uʍop Bar',
+        desc: 'gamejam 构思',
+        more: `
+        颠倒酒吧，灵感来自颠倒的帕特玛，截取地上人底下人互相接纳并开始交流的生活场景
+        你的舅舅最近要去采购新型酒杯了，你将替你舅舅临时当几天酒吧老板，第一次接待地下人的你，究竟能预见多少离奇古怪的事情
+        - 场景
+            - 酒吧层高设计为 1 : 1 : 1, 人的身高为基准
+        - 玩什么
+            - 向顾客递杯子
+                - 一种可以封口的特殊杯子：按键蓄力向空中投去，中间蹦床用于投递较远的顾客
+                - 超长吸管：直接插上去，靠近就被按一次增加一根吸管
+                - 水泵管 (有人吸不上去): TODO
+                - 使用气球送：TODO
+        - 特殊事件
+            - 两高个碰头
+            - super fat guy 把屋顶压塌，人飞走，模板砸下
+        `,
+    }
 ];
 
 function renderGameList() {
@@ -27,12 +47,26 @@ function renderGameList() {
         <p>一些小游戏，都是 Odin 编译成 WebAssembly 跑在浏览器里的。</p>
 
         <div id="game-list">
-            ${GAMES.map(game => html`
-                <p>
-                    <a href=${'/game/' + game.id}>${game.title}</a>
-                    — ${game.desc}
-                </p>
-            `)}
+            ${GAMES.map(game => {
+                // 有 page 才能打开；没有的（还没做）渲染成不带 href 的 <a>：
+                // 不可点、不进 tab 顺序，router 也只拦截 a[href]，样式见 style.css
+                const title = game.page
+                    ? html`<a href=${'?page=game&game=' + encodeURIComponent(game.id)}>${game.title}</a>`
+                    : html`<a title="还没做">${game.title}</a>`;
+                // 「更多」只在有 more 时出现，默认收起；on* 的值必须是函数（见 lib/html.js）
+                const more = game.more && html`<div class="game-more" hidden>${renderMD(game.more)}</div>`;
+                return html`<div>
+                    <p>
+                        <strong>${title}</strong> — ${game.desc} ${game.more && html`<button onclick=${e => {
+                            const button = e.currentTarget;
+                            const box = button.closest('div').querySelector('.game-more');
+                            box.hidden = !box.hidden;
+                            button.textContent = box.hidden ? 'More' : 'Less';
+                        }}>More</button>`}
+                    </p>
+                    ${more}
+                </div>`;
+            })}
         </div>
 
         <dialog class="game-dialog" id="game-dialog"></dialog>
@@ -71,8 +105,10 @@ function openGame(game) {
 
     // 尺寸给到 dialog（而不是 iframe）：dialog 宽度 = 游戏宽度，iframe 就是 100%，
     // 不存在百分比互相依赖的循环问题
-    dialog.style.setProperty('--game-w', game.width + 'px');
-    dialog.style.setProperty('--game-ratio', `${game.width} / ${game.height}`);
+    const width = game.width || 800
+    const height = game.height || 450
+    dialog.style.setProperty('--game-w', width + 'px');
+    dialog.style.setProperty('--game-ratio', `${width / height}`);
 
     dialog.showModal();
     document.title = game.title;
@@ -101,5 +137,5 @@ function afterGame(content, route) {
     });
 
     const game = GAMES.find(g => g.id === route.game);
-    if (game) openGame(game);
+    if (game && game.page) openGame(game);   // 没 page 的还没做：直接访问 /game/<id> 也只停在列表页
 }
