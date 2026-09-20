@@ -11,13 +11,13 @@
 const MUSICS = [
     {
         name: '小小阴森片段',
-        desc: '模仿星露谷 overture 的左手和弦走向',
+        desc: '模仿星露谷 overture 的左手和弦随便摁出来的',
         abc: `X:1
 M:3/4
 L:1/8
 Q:1/4=76
-K:C
-F, ^A, ^C F ^C ^B, | F, B, ^D F ^D B, | ^D, ^G, B, ^D B, ^G, | ^D, ^F, ^A, ^C ^A, ^F, |`
+K:Ebm clef=bass
+F, B, D F D =C | F, C E F E C | E, A, C E C A, | E, G, B, D B, G, |`
     },
     {
         name: '生日快乐',
