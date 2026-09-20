@@ -8,7 +8,9 @@ async function renderAbout() {
 
 总之下面是一些我想做的项目
 
-- khinsider 客户端，支持安卓 tv 和 steamdeck 游戏模式，手柄支持，以及注意尊重托管服务器
+- khinsider 客户端，支持安卓 tv 和 steamdeck 游戏模式，手柄支持
+    - 做完了 [https://github.com/trdthg/khinsiderTV](https://github.com/trdthg/khinsiderTV)
+    - 感觉要加一下互联网档案馆作为数据源，里面好东西真多
 - 开源的舞力全开，可能类似 osu! 的运作方式，所有人都需要一颗舞动的灵魂
 - 更多游戏... 还没想好
 

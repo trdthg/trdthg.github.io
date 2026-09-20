@@ -10,7 +10,7 @@
 
 const imageCollections = [
     {
-        name: "出去转悠",
+        name: "和好朋友们出去转悠",
         images: [
             { url: "assets/images/photos/IMG_0928.webp", note: "2026-07-31 山梨・富士河口湖町 有人在爬山" },
             { url: "assets/images/photos/IMG_0935.webp", note: "2026-07-31 長野・諏訪市 爬错路了，还是要看导航" },

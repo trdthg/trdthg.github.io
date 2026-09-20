@@ -170,8 +170,10 @@ pre code.hljs {
    - border-radius 会把 iframe 的四个角切掉，跟画面本身的直角不一致 */
 dialog.game-dialog {
     width: min(var(--game-w, 800px), calc(100vw - 2em));
-    padding: 0;              /* 盖掉 UA 默认的 1em */
-    border: none;            /* 盖掉 UA 默认的 border: solid */
+    padding: 0;
+    /* 盖掉 UA 默认的 1em */
+    border: none;
+    /* 盖掉 UA 默认的 border: solid */
     box-shadow: 0 12px 32px rgba(0, 0, 0, .22);
     /* 只为裁掉 iframe 的 focus outline（画在 border box 外面）。
        不加的话焦点环会从 dialog 外面露出来 */
@@ -222,9 +224,12 @@ dialog.game-dialog {
    2) 不要写 height:auto —— 会覆盖 width/height 属性的表现，高度塌成 UA 默认的 150px。
       用 aspect-ratio 保持比例 */
 .game-frame {
-    display: block;          /* iframe 默认是 inline，会多出基线间隙 */
+    display: block;
+    /* iframe 默认是 inline，会多出基线间隙 */
     width: 100%;
     aspect-ratio: var(--game-ratio, 16 / 9);
-    border: 0;               /* 盖掉浏览器默认的 2px inset */
-    background: #000;        /* 加载期间的占位色，跟游戏页面底色一致 */
+    border: 0;
+    /* 盖掉浏览器默认的 2px inset */
+    background: #000;
+    /* 加载期间的占位色，跟游戏页面底色一致 */
 }

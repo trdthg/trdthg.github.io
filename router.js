@@ -37,7 +37,7 @@
             title: route => TOYS.find(t => t.id === route.toy)?.title ?? 'TOY',
         },
         game: { label: 'GAME', param: 'game', render: renderGameList, title: () => 'GAME', after: afterGame },
-        music: { label: 'MUSIC', render: renderMusic, title: () => 'MUSIC' },
+        music: { label: 'MUSIC', render: renderMusic, title: () => 'MUSIC', after: afterMusic },
         photo: { label: 'PHOTO', render: renderPhoto, title: () => 'PHOTO' },
         about: { label: 'ABOUT', render: renderAbout, title: () => 'ABOUT' },
     };

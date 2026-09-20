@@ -281,7 +281,7 @@ async function renderPosts(route) {
                 if (entry.divider) return html`<div class="divider">${entry.divider}</div>`;
                 if (entry.note) return html`<p>${entry.date} ${entry.note}</p>`;
                 const title = entryTitle(entry);
-                return html`<p><a href=${'?post=' + encodeURIComponent(title)}>${entry.date} ${title}</a></p>`;
+                return html`<p><a href=${'?page=posts&post=' + encodeURIComponent(title)}>${entry.date} ${title}</a></p>`;
             })}
         </div>
 
