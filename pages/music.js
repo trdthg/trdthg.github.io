@@ -12,6 +12,7 @@ const MUSICS = [
     {
         name: '小小阴森片段',
         desc: '模仿星露谷 overture 的左手和弦随便摁出来的',
+        program: 38,
         abc: `X:1
 M:3/4
 L:1/8
@@ -20,8 +21,9 @@ K:Ebm clef=bass
 F, B, D F D =C | F, C E F E C | E, A, C E C A, | E, G, B, D B, G, |`
     },
     {
-        name: '生日快乐',
-        desc: '🎂 提前祝您生日快乐！',
+        name: '生日快乐 😈',
+        desc: '提前祝您生日快乐！',
+        program: 97,   // GM 97 = FX 2 (soundtrack)
         abc: `X:1
 M:3/4
 L:1/4
@@ -145,12 +147,38 @@ function musicDivider() {
     return html`<div class="music-divider" aria-hidden="true">${'+---'.repeat(120)}+</div>`;
 }
 
-function createMusicPlayer({ name, desc, abc }) {
+// GM 音色表：abcjs 自带 0–127 的名字（下划线命名），按 GM 家族每 8 个一组做成 optgroup。
+// 播放实际用的是 TinySynth 的同号音色，两边都是标准 GM 编号，能对上。
+const GM_FAMILIES = [
+    'Piano', 'Chromatic Percussion', 'Organ', 'Guitar', 'Bass', 'Strings',
+    'Ensemble', 'Brass', 'Reed', 'Pipe', 'Synth Lead', 'Synth Pad',
+    'Synth Effects', 'Ethnic', 'Percussive', 'Sound Effects',
+];
+const prettyProgram = s => s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+function buildProgramSelect(selected) {
+    const names = ABCJS.synth.instrumentIndexToName;
+    const sel = html`
+        <select class="music-program" title="播放音色">
+            ${GM_FAMILIES.map((fam, g) => html`
+                <optgroup label=${fam}>
+                    ${Array.from({ length: 8 }, (_, k) => {
+                        const n = g * 8 + k;
+                        return html`<option value=${n}>${n} ${prettyProgram(names[n])}</option>`;
+                    })}
+                </optgroup>`)}
+        </select>`;
+    sel.value = String(selected);
+    return sel;
+}
+
+function createMusicPlayer({ name, desc, abc, program = 0 }) {
     const score = html`<div class="music-score" data-abc=${abc}></div>`;
     const playBtn = html`<button class="music-play" type="button">Play</button>`;
     const sheetBtn = html`<button class="music-sheet" type="button">Sheet</button>`;
     const bar = html`<input class="music-progress" type="range" min="0" max="1000" value="0" step="1" disabled />`;
     const timeEl = html`<span class="music-time">00:00 / 00:00</span>`;
+    const programSel = buildProgramSelect(program);
     const status = html`<p class="music-status"></p>`;
     const source = html`<pre class="music-source" hidden>${abc}</pre>`;
 
@@ -166,6 +194,7 @@ function createMusicPlayer({ name, desc, abc }) {
                 ${sheetBtn}
                 ${bar}
                 ${timeEl}
+                ${programSel}
             </div>
             ${status}
             ${source}
@@ -176,9 +205,16 @@ function createMusicPlayer({ name, desc, abc }) {
 
     const player = {
         node,
+        program,         // GM 音色号（下拉框选的就是它）
         midi: null,      // ABC 转出来的 MIDI 字节（Uint8Array）
         spTick: 0,       // 每 tick 多少秒
         duration: 0,
+
+        // 按当前 program 生成 MIDI 字节（覆盖缓存）
+        build() {
+            player.midi = ABCJS.synth.getMidiFile(abc, { midiOutputType: 'binary', program: player.program })[0];
+            player.spTick = midiSecondsPerTick(player.midi);
+        },
 
         // 只复位 UI，不碰合成器
         stopUI() {
@@ -194,11 +230,8 @@ function createMusicPlayer({ name, desc, abc }) {
             const start = () => {
                 if (!node.isConnected) return;   // 淡出这 30ms 里页面被路由切走了
                 try {
-                    if (loaded !== player) {
-                        if (!player.midi) {
-                            player.midi = ABCJS.synth.getMidiFile(abc, { midiOutputType: 'binary' })[0];
-                            player.spTick = midiSecondsPerTick(player.midi);
-                        }
+                    if (loaded !== player || !player.midi) {
+                        if (!player.midi) player.build();
                         s.loadMIDI(player.midi);
                         loaded = player;
                         player.duration = s.getPlayStatus().maxTick * player.spTick;
@@ -228,6 +261,30 @@ function createMusicPlayer({ name, desc, abc }) {
             }
         },
 
+        // 换音色：作废缓存；正在播的话淡出 → 按新音色重新生成 → 从原位续上
+        setProgram(n) {
+            if (player.program === n) return;
+            player.program = n;
+            player.midi = null;
+            if (current !== player) return;   // 没在播：下次 play() 自然用新音色
+            const tick = synth.getPlayStatus().curTick;
+            withFadeOut(synth, () => {
+                if (!node.isConnected) return;
+                try {
+                    player.build();
+                    synth.loadMIDI(player.midi);
+                    loaded = player;
+                    player.duration = synth.getPlayStatus().maxTick * player.spTick;
+                } catch (err) {
+                    status.textContent = `Error: ${err.message}`;
+                    return;
+                }
+                synth.locateMIDI(tick);   // 回到换音色前的位置
+                synth.playMIDI();
+                player.sync();
+            });
+        },
+
         // 暂停：淡出后再停，避开 stopMIDI 的硬切爆音
         pause() {
             player.stopUI();
@@ -249,6 +306,8 @@ function createMusicPlayer({ name, desc, abc }) {
         if (current === player) player.pause();
         else player.play();
     });
+
+    programSel.addEventListener('change', () => player.setProgram(Number(programSel.value)));
 
     // 拖动进度条 = 跳到对应 tick；TinySynth 会在播放中重新定位并继续
     bar.addEventListener('input', () => {
@@ -281,6 +340,11 @@ function renderMusic() {
                     display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px;
                 }
                 .music-page .music-progress { width: 200px; max-width: 100%; margin: 0; }
+                .music-page .music-program {
+                    max-width: 190px; font: inherit; font-size: 0.85em;
+                    background: var(--bg-code); color: inherit;
+                    border: 1px solid var(--border); border-radius: 4px; padding: 0.15em 0.3em;
+                }
                 .music-page .music-time {
                     font-variant-numeric: tabular-nums; font-size: 0.85em; opacity: 0.7;
                 }
