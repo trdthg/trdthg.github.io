@@ -19,7 +19,7 @@ const imageCollections = [
             { url: "assets/images/photos/IMG_1089.webp", note: "2026-08-08 韓国・仁川 海上的傍晚" },
         ]
     }, {
-        name: "家门口转悠",
+        name: "附近溜达",
         images: [
             { url: "assets/images/photos/IMG_0110.webp", note: "这是什么球球？" },
             { url: "assets/images/photos/IMG_0189.webp", note: "大水潭" },
@@ -27,10 +27,10 @@ const imageCollections = [
             { url: "assets/images/photos/IMG_0371.webp", note: "除雪机" },
             { url: "assets/images/photos/IMG_0372.webp", note: "除完的雪地" },
             { url: "assets/images/photos/a7e2cc26e3b2e04ba119e43d29c951b5.webp", note: "按照音阶排列的铁轨，但是工人并没有排列好" },
-            { url: "assets/images/photos/IMG_0479.webp", note: "猪猪" },
+            { url: "assets/images/photos/photo_2026-09-25_21-51-58.webp", note: "猪猪" },
             { url: "assets/images/photos/IMG_0481.webp", note: "桥下的藤蔓，长得好茂盛" },
             { url: "assets/images/photos/IMG_0802.webp", note: "现代建筑，看起来还不错" },
-
+            { url: "assets/images/photos/IMG_1401.webp", note: "月亮，难忘的中秋节，前一天晚上忘了看，只能补一下了" },
        ]
     }
 ]
@@ -53,7 +53,7 @@ async function renderPhoto() {
 
     return html`
         <h1>PHOTO</h1>
-        <p>既然拍了就还是挺珍贵的，也向你分享一下</p>
+        <p>既然拍了就还是挺珍贵的，也让你看一下 🤗</p>
         <p>所有的图片都不是原图，都使用 imageMagick 缩小到 720p 并使用 75 的质量压缩成 webp 保存，最后每张照片基本都 ${"<100k"}, 我不喜欢大大的仓库</p>
         <p>> 另外，这里只会发布我拍摄的照片，在 <a href="https://x.com/trdthg">x.com/trdthg</a> 有一些我绘制的画或者上传的视频</p>
         <div id="gallery">

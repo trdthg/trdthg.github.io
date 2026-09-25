@@ -13,7 +13,7 @@ const ASCII_ART_OPTIONS = {
 const DEFAULT_STAGES = new Set(['whitePoint', 'highlightInk']);
 
 const TOY_EXAMPLES = [
-    { src: 'assets/images/youmu2.png', label: 'https://en.touhouwiki.net/wiki/Youmu_Konpaku' },
+    { src: 'assets/images/youmu2.png', label: '红色尾巴' },
     { src: 'assets/images/madoka_small.jpg', label: '红色帽子' },
     { src: 'assets/images/portrait-64.jpg',   label: '高对比测试示例，太阳照到额头太亮了，很难描出来边缘' },
     { src: 'assets/images/portrait-338.jpg',  label: '低对比度测试示例，无中生有出太阳，但是颜色确实微微不一样' },
@@ -58,6 +58,7 @@ async function renderToyAsciiArt() {
                 }
             </style>
             <h1>图片转字符画</h1>
+            <p>注意：在部分平台似乎不太工作，目前测试过 红米手机 / 电脑端 chrome 浏览器可以正常渲染，IOS 浏览器渲染结果为空，而且不同平台渲染出来的效果也不一样</p>
             <div class="toy-main">
                 <div class="toy-left">
                     <div class="toy-upload">

@@ -40,6 +40,8 @@ const INTRO = `
 会放一些我临时起意的音乐片段。谱子用 [ABC notation](https://abcnotation.com/) 写，页面加载时用 [abcjs](https://www.abcjs.net/) 画成五线谱；点播放会先把 ABC 转成 MIDI，, 再交给 [webaudio-tinysynth](https://github.com/g200kg/webaudio-tinysynth) 合成，不会保存 mp3。
 - 也许之后还会有其他的语法
 - 还有其他的合成器音色
+
+注意：苹果手机播放没声音可能是开了勿扰模式
 `;
 
 const CUSTOM_DEFAULT_ABC = `X:1
