@@ -45,7 +45,10 @@ const POSTS = [
 
 2026-09-28
 
+永不毕业 https://www.recurse.com/apply/retreat
+
 都是幻觉 https://archive.org/details/kokyuu-lily_chou_chou?webamp=default
+
 
 `
     },
