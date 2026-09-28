@@ -62,5 +62,6 @@ CI 每次部署时现编 web 版。注意 `publish_dir` 是仓库根目录、发
 
 ## 相册
 
-原图（含 EXIF/GPS）放 `assets/images/photos/raw/`（已 gitignore），跑 `python scripts/convert_webp.py`
-生成 720p、已脱敏的 `.webp`，再把文件名填进 `pages/photo.js`。
+原图/原视频（含 EXIF/GPS）放 `assets/images/photos/raw/`（已 gitignore），跑 `python scripts/convert_webp.py`
+生成 720p 照片（webp）和 360p 视频（AV1/WebM + poster），都已脱敏；再把文件名填进 `pages/photo.js`
+（照片写 `url`，视频写 `video: [...]`，渲染成循环自动播的 `<video>`）。

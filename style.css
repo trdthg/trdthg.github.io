@@ -129,13 +129,48 @@ pre code.hljs {
     padding: 0;
 }
 
-/* 文章里的图片 */
-#content img {
+/* 文章里的图片／视频（相册里的视频见 pages/photo.js，同宽度同圆角） */
+#content img,
+#content video {
     max-width: min(480px, 100%);
     width: auto;
     height: auto;
     border-radius: 4px;
     display: block;
+}
+
+/* 相册里「一卡多图」：横向滑动条（pages/photo.js 里 url 写成数组时用）。
+   每项按「塞得进 卡片宽 × 这个高度」等比缩：不会变形，也不会宽到看不全 */
+#content .strip {
+    --strip-height: min(360px, 62vw);
+    display: flex;
+    align-items: center;
+    /* 矮一点的那项（比如 16:9 的视频）垂直居中，不贴在顶上 */
+    gap: 8px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    /* 滑到头不要触发浏览器的返回手势 */
+    scrollbar-width: none;
+    /* 滚动条藏起来：右边漏出半张图已经是「能滑」的提示了 */
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+}
+
+#content .strip::-webkit-scrollbar {
+    display: none;
+    /* Chrome / Safari / Edge */
+}
+
+/* 宽的上限（480px）上面的 #content img 已经有了，这里只再加个高度上限 ——
+   两个都是上限时，浏览器会等比缩到刚好塞进去（定死宽 + 高才会把比例夹坏） */
+#content .strip img,
+#content .strip video {
+    flex: 0 0 auto;
+    /* 不被 flex 压窄 */
+    width: auto;
+    height: auto;
+    max-height: var(--strip-height);
+    scroll-snap-align: start;
 }
 
 /* ---------- GAME 页（见 pages/game.js）---------- */
