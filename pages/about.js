@@ -6,6 +6,8 @@ async function renderAbout() {
 # ABOUT
 你好...
 
+不知道要写点什么
+
 总之下面是一些我想做的项目
 
 - khinsider 客户端，支持安卓 tv 和 steamdeck 游戏模式，手柄支持
@@ -21,6 +23,12 @@ async function renderAbout() {
 你可以在这里了解我喜欢的音乐类型
 
 感谢您的随意浏览，祝您上午好，中午好，下午好，晚安
+
+
+联系方式
+- t-r-d-t-h-g-4-7@gmail.com (删除所有的 '-')
+- tg channel: <a href="https://t.me/trdthg_group">https://t.me/trdthg_group</a>
+
 `;
 
     return html`<div>${renderMD(md)}</div>`;
