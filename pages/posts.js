@@ -5,19 +5,27 @@
 //   { date: "YYYY-MM-DD", post: `Markdown` }              —— 短文章内联：标题自动取第一行 #（标题要唯一）
 //   { date: "YYYY-MM-DD", title: "标题", file: "xxx.md" } —— 长文：内容在 .md 文件里，点开时才加载
 //   { divider: "---" }                                    —— 分割线：原样显示，不用日期
+//   disable: true                                       —— 任何条目都能加：正文藏起来只留标题，
+//                                                          自己看时在 URL 后面加 ?disable=false 就正常显示
+//                                                          （只是不在页面上露出来，正文仍在 posts.js / .md 里）
+//   pin: 1                                                —— 置顶：数字越小越靠前；没写 pin 的按日期排
 //
 // 页面：每个页面一个 <页面名>.js，里面放 render 函数（返回 html`` 节点）。
 // 挂载后的副作用（语法高亮、giscus、异步加载）写在对应 after 函数里。
-// 挂载与 document.title 由 router.js 统一处理。
+// 挂载由 router.js 统一处理；document.title 固定为「呼呼大睡」，不随页面变。
 
 // —— 数据 ——
 
 const POSTS = [
     // —— 新文章（内联）——
     {
-        date: "2026-09-27",
+        date: "xxxx-xx-xx",
+        disable: true,
+        pin: 1,
         post:
 `# 创造者之路
+
+2026-09-26
 
 失去了对技术的信仰后该做什么？退化为追逐感情的平庸的人？
 
@@ -25,13 +33,19 @@ const POSTS = [
 
 -----
 
+2026-09-27
+
 我可能发现了转变的契机，我是一个没有梦想的人，在失去了对技术的信仰后，只能沉沦
 
 但没有了信念，想法反而越来越多的涌现
 
 我正在处于这十分困难的过渡时期，我收获了最好的朋友！
 
-https://jvns.ca/categories/hackerschool/
+-----
+
+2026-09-28
+
+都是幻觉 https://archive.org/details/kokyuu-lily_chou_chou?webamp=default
 
 `
     },
@@ -228,9 +242,16 @@ MCP 相比 cli 或者 api 是一个有状态的环境？但是 MCP 现在也支�
     }
 ];
 
-// 合并新文章和旧文章，按 date 倒序（稳定排序，同日期保持数组顺序）
+// 合并新文章和旧文章；排序见下面 pinOf
 const ALL_POSTS = [...POSTS, { divider: "下面的是部分旧的博客文章，主要是 Rust 技术博客翻译" }, ...OLD_POSTS];
-const SORTED_POSTS = [...ALL_POSTS].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+
+// 置顶顺序：pin 数字小的在前，没写 pin 的算最后；pin 相同（或都没写）再按日期倒序。
+// 数组里有分割线那种没日期的条目：上面两条都比不出大小，靠 sort 的稳定性留在原位。
+const pinOf = entry => entry.pin ?? Infinity;
+const SORTED_POSTS = [...ALL_POSTS].sort((a, b) => {
+    if (pinOf(a) !== pinOf(b)) return pinOf(a) - pinOf(b);
+    return a.date < b.date ? 1 : a.date > b.date ? -1 : 0;
+});
 
 // —— 小工具 ——
 
@@ -245,6 +266,20 @@ function entryTitle(entry) {
     if (entry.post) return postTitle(entry.post);
     if (entry.title) return entry.title;
     return '(无标题)';
+}
+
+// 标记了 disable 的条目默认只露标题（未写完的草稿）。“?disable=false 就显示”是留给自己看的后门，
+// 不写在页面上——谁要是知道这个参数，也能看到草稿，这只是遮挡，不是保护。
+function isHidden(entry) {
+    return Boolean(entry.disable) && new URLSearchParams(location.search).get('disable') !== 'false';
+}
+
+// 藏起来的文章：只给标题，不加载正文
+function renderHidden(entry) {
+    return html`
+        <h1>${entryTitle(entry)}</h1>
+        如果你依然想触碰的话...
+    `;
 }
 
 // giscus 评论：全站共用一个讨论串（mapping=specific），router 在每次渲染后调用；
@@ -286,6 +321,7 @@ async function renderPosts(route) {
         // 显示指定文章（postId 就是文章标题）
         currentEntry = ALL_POSTS.find(e => (e.post || e.file) && entryTitle(e) === postId) || null;
         if (!currentEntry) return html`<p style="color:red;">文章未找到。</p>`;
+        if (isHidden(currentEntry)) return renderHidden(currentEntry);   // 草稿：只露标题
         if (currentEntry.file) return html`<p>加载中…</p>`;   // 长文/旧文，after 里异步加载
         return renderMD(currentEntry.post);                   // 内联短文，直接出节点
     }
@@ -316,14 +352,15 @@ async function renderPosts(route) {
     `;
 }
 
-// 渲染后的副作用：设置文章标题、语法高亮、异步加载长文、注入 giscus
+// 渲染后的副作用：语法高亮、异步加载长文、注入 giscus
 function afterPosts(content) {
     if (currentEntry) {
+        // 藏起来的草稿：正文压根不加载（file 的也不 fetch）
+        if (isHidden(currentEntry)) return;
         if (currentEntry.file) {
             // 长文/旧文：内容在单独 .md 文件里，点击时才加载。
             // entry 先存下来：SPA 导航很快，fetch 回来时可能已经换页了，那就别往 content 里塞了
             const entry = currentEntry;
-            document.title = entry.title + ' - 我的阅读笔记';
             fetch(entry.file)
                 .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
                 .then(md => {
@@ -338,7 +375,6 @@ function afterPosts(content) {
             return;
         }
         // 内联短文
-        document.title = postTitle(currentEntry.post) + ' - 我的阅读笔记';
         if (window.hljs) hljs.highlightAll();
     }
 }

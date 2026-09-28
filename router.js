@@ -1,7 +1,7 @@
 // 极简「条件渲染」路由 —— 就是一张页面表。
 //   1. 从 location.search 解析出路由（query 风格 URL，见下面 parseRoute）
 //   2. 查 PAGES 表，调对应页面组件的 render 函数，拿到 DOM 节点（html`` / DocumentFragment）
-//   3. 统一挂载到 #content（replaceChildren），统一设置 document.title
+//   3. 统一挂载到 #content（replaceChildren）；document.title 不随页面变，固定写在 index.html 里
 //   4. 页面有挂载后的副作用（高亮、异步加载等）就调对应的 after 函数
 //
 // 导航是客户端路由：拦截站内 <a> 的点击 → pushState + 只重渲染 #content，不重新加载文档。
@@ -24,22 +24,14 @@
     const content = document.getElementById('content');
     if (!nav || !content) return;
 
-    // 页面表：一个页面一行 —— 导航文字、详情页的子参数名、render(route)、title(route)、after(content, route)
-    // title 是函数是因为详情页的标题来自数据（比如某个 toy 的名字）
+    // 页面表：一个页面一行 —— 导航文字、详情页的子参数名、render(route)、after(content, route)
     const PAGES = {
-        posts: {
-            label: 'POST', param: 'post',
-            render: renderPosts, title: () => '不知道要写点什么？', after: afterPosts,
-        },
-        toy: {
-            label: 'TOY', param: 'toy',
-            render: route => TOYS.find(t => t.id === route.toy)?.render() ?? renderToyList(),
-            title: route => TOYS.find(t => t.id === route.toy)?.title ?? 'TOY',
-        },
-        game: { label: 'GAME', param: 'game', render: renderGameList, title: () => 'GAME', after: afterGame },
-        music: { label: 'MUSIC', render: renderMusic, title: () => 'MUSIC', after: afterMusic },
-        photo: { label: 'PHOTO', render: renderPhoto, title: () => 'PHOTO' },
-        about: { label: 'ABOUT', render: renderAbout, title: () => 'ABOUT' },
+        posts: { label: 'POST', param: 'post', render: renderPosts, after: afterPosts },
+        toy: { label: 'TOY', param: 'toy', render: renderToyList },
+        game: { label: 'GAME', param: 'game', render: renderGameList, after: afterGame },
+        music: { label: 'MUSIC', render: renderMusic, after: afterMusic },
+        photo: { label: 'PHOTO', render: renderPhoto },
+        about: { label: 'ABOUT', render: renderAbout },
     };
 
     // —— URL ↔ 路由 ——
@@ -104,7 +96,6 @@
 
         renderNav(route);
         content.replaceChildren(view);
-        document.title = page.title(route);
         if (page.after) page.after(content, route);
         setupGiscus();   // 全站共用一个 giscus 讨论串，守卫保证只注入一次
         if (scroll) window.scrollTo(0, 0);

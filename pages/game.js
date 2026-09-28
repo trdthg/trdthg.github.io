@@ -111,7 +111,6 @@ function openGame(game) {
     dialog.style.setProperty('--game-ratio', `${width / height}`);
 
     dialog.showModal();
-    document.title = game.title;
     // URL 由 router.js 的链接拦截推到 /game/<id>，这里不用再动 history
 }
 
@@ -132,7 +131,6 @@ function afterGame(content, route) {
     // 关闭时销毁 iframe（游戏停止运行），并把 URL 还原成列表页
     dialog.addEventListener('close', () => {
         dialog.replaceChildren();
-        document.title = 'GAME';
         if (route.game) history.replaceState(null, '', '/game');
     });
 
